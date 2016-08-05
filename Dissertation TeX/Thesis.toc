@@ -1,0 +1,20 @@
+\nobreakspace {}\hfill {{\bfseries Page}}
+\contentsline {front}{{Abstract}}{ii}
+\contentsline {front}{{Dedication}}{iii}
+\contentsline {front}{{Acknowledgments}}{iv}
+\contentsline {front}{{Vita}}{v}
+\contentsline {front}{{List of Tables}}{viii}
+\contentsline {front}{List of Figures}{ix}
+\contentsline {chapter}{\numberline {1.}Introduction}{1}
+\contentsline {chapter}{\numberline {2.}The Cholesky Decomposition: an unconstrained parameterization}{5}
+\contentsline {section}{\numberline {2.1}An autoregressive model for elements of the covariance}{5}
+\contentsline {section}{\numberline {2.2}Covariance estimation as bivariate function estimation}{6}
+\contentsline {subsection}{\numberline {2.2.1}Likelihood specification for $\phi $ and $\sigma ^2$}{6}
+\contentsline {subsection}{\numberline {2.2.2}Expressing the GARPs and IVs as functions}{6}
+\contentsline {subsection}{\numberline {2.2.3}Reparameterizing the Generalized Autoregressive Coefficient Function}{7}
+\contentsline {subsection}{\numberline {2.2.4}The Multicenter AIDS Cohort Study and a problem notation illustration}{9}
+\contentsline {section}{\numberline {2.3}A Structured Family of Nonparametric Models for the Covariance Structure}{10}
+\contentsline {section}{\numberline {2.4}Model Fitting via Penalized Maximum Likelihood}{16}
+\contentsline {part}{Appendices}{20}
+\contentsline {chapter}{\numberline {A.}The Data on Cows}{20}
+\contentsline {chapter}{\numberline {B.}Important commands defined in {\tt osudissert96}}{21}

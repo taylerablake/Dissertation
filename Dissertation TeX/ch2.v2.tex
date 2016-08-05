@@ -1,0 +1,427 @@
+
+\chapter{The Cholesky Decomposition: an unconstrained parameterization}
+\label{ch2.CholDecomposition}
+
+
+To present a comprehensive overview our estimation procedure, we begin with the representation of the inverse covariance matrix, $\Sigma^{-1}$, in terms of its Cholesky decomposition (see \citet{pourahmadi2007cholesky} for a detailed discussion). Decomposing the precision matrix in such a way allows for both an unconstrained parameterization and statistically meaningful interpretation of covariance parameters. For any positive definite matrix $\Sigma$, there exists a unique unit lower triangular matrix $\matT$ with diagonal entries equal to $1$ which diagonalizes $\Sigma$:
+
+\begin{equation}
+\nonumber \matT \Sigma \matT^T = \matD
+\end{equation}
+\noindent
+
+
+\section{An autoregressive model for elements of the covariance}
+
+
+We will begin a detailed problem formulation with an illustrative a data set that has been widely considered in the context of recent work in covariance estimation. We assume first that we have measurements on individual $i$, 
+
+\[
+\bfy_i = \left( y_{i1}, y_{i2}, \dots, y_{i,n_i} \right)^T
+\]
+
+at corresponding measurement times  $\mathbf{t}_i = \lbrace $t_{i1} < t_{i2} < \dots< t_{i,n_i}\rbrace$, with $i=1,2,\dots,N$ and without loss of generality, assume that the observation times have been scaled such that $0 \le t_{ij} < t_{ik} \le 1$ for $j < k$. Observation times may vary from subject to subject as in the Multicenter AIDS Cohort Study, which provides data collected on 283 homosexual males who were infected between 1984 and 1991.CD4 cells counts are a commonly used marker for measuring the progression of AIDS, as they are an integral assessment of immune system status.  Repeated measurements included CD4 cell percentages (CD4 cell counts divided by the total number of lymphocytes, a certain type of white blood cells.) All subjects were scheduled to have measurements taken at semi-annual visits, but there are different numbers of observations per individual and different observation times $t_{ij}$ for each subject due to many subjects missing appointments and the fact that infections arose at different times within the study period.  
+
+
+A total of $N_Y = \sum_{i=1}^N n_i = 2376$ measurements were taken on $N=283$ subjects, with the number of within-subject measurements, $\lbrace n_i \rbrace$, ranging from 1 to 14.  Denote the set of unique observations times by $ \mathcal{T} = \bigcup_{i=1}^N \bigcup_{j=1}^{n_i} \lbrace t_{ij} \rbrace$ and the number of unique observation times by $\cardT = N_T$. Relabel the elements so that $\mathcal{T} = \lbrace t_1, \dots, t_{N_T} \rbrace$ and define
+
+\[
+ = \left(Y\left(t_1\right) , \dots, Y\left(t_{N_T} \right)\right)^\prime\;\;\;\;\;\;\;\; Cov\left(Y\right) = \Sigma_{N_T \times N_T}
+\]
+
+
+, 
+The entries of $\matT$ and $\matD$ are easily interpretable if we consider regressing $y_{ij}$ on its predecessors: 
+
+\begin{equation}
+{y}_{ij}  = \sum_{k=1}^{j-1} \phi_{ijk} y_{ik} + \sigma_{ij}\epsilon_{ij} \label{data_ARmodel}
+\end{equation}
+\noindent
+for $j=2,\dots,n_i$; we define $y_{i1}=\epsilon_{i1}$. Standard regression theory gives us that if $\lbrace \phi_{ijk} \rbrace$ are the coefficients of the linear least squares predictor of $y_{ij}$ based on its predecessors, then the prediction residuals $\bfe_i =\left( e_{i1}, e_{i2},\dots, e_{i,n_i} \right)^T$ have diagonal covariance. Let $\matT_i$ be the unit lower triangular matrix with $jk^{th}$ below-diagonal entry given by $-\phi_{ijk}$. Let $\bfY_i$ denote the random vector giving rise to observed data $\bfy_i$, and let $\bfeps_i$ denote the associated vector of random errors. Then we may write the model \eqref{data_ARmodel} as follows: 
+
+\begin{equation}
+\bfeps_i = \matT_i \bfY_i \label{epsilon}
+\end{equation}
+
+We assume $\bfY_i$ centered to have mean $\bfo$ with covariance matrix $\Sigma_i$. Let $\matD_i$ be the diagonal matrix with $\lbrace \sigma_{ij} \rbrace$ down the diagonal, and taking covariances on both sides of \eqref{epsilon}, 
+
+\begin{equation}
+\nonumber
+\matD_i = \matT_i \Sigma_i \matT_i^T
+\end{equation} 
+\noindent
+and immediately, we have that $\Sigma_i^{-1} = \matT_i^T \matD_i^{-1} \matT_i$. The regression coefficients $\lbrace \phi_{ijk} \rbrace$ are referred to as the \emph{generalized autoregressive parameters} (GARPs), and the $\lbrace \sigma_{ij} \rbrace$ are referred to as the \emph{innovation variances} (IVs.) 
+
+%% Show that the elements of the inverse covariance matrix can be viewed as conditional covariances 
+
+Rather than a vector of longitudinal data points, we view the random vectors $\bfY_i$ and $\bfeps_i$ as discrete renditions of the stochastic processes: $Y\left(t\right)$ and $\epsilon\left(t\right)$.  We assume $Y\left(t\right)$ has corresponding covariance function $G\left(s,t\right)$ and that $\epsilon\left(s\right)$ follows a zero mean Gaussian white noise process with unit variance. It is reasonable to assume that if $\bfY$ is reasonably well-behaved, then $G\left(s,t\right)$ satisfies some smoothness conditions, where smoothness is defined in terms of square integrability of certain derivatives. We view the entries of $\Sigma_i$ as values of $G$ evaluated at the distinct pairs of observed time points on individual $i$. 
+
+Additionally, we treat the elements of the precision matrix $\Sigma_i^{-1}$ as the values of the smooth function, $\gamma\left(s,t\right)$ evaluated at observed time points. If we consider the Cholesky decomposition of $\Sigma^{-1}$, it is natural to extent the same notion to the elements of $\matT_i$ and $\matD_i$: view the GARPs $\lbrace \phi_{ijk} \rbrace$ and innovation variances as the evaluation of the smooth functions $\phi\left(s,t\right)$ and $\sigma^2\left(t\right)$ at observed time points and interpret $\phi_{ijk} = \phi\left(t_{ij},t_{ik}\right)$ and $\sigma_{ij}^2 = \sigma^2\left(t_{ij}\right)$. 
+
+Analogous to Pourahmadi's model \eqref{RV_ARmodel}, we model the continuous time process as follows: 
+\begin{equation}   
+y\left(t_{ij} \right)  = \sum_{k=1}^{j-1} \phi\left(t_{ij} ,t_{ik}\right) y\left(t_{ik}\right) + \sigma\left(t_{ij}\right)\epsilon\left({t_i}\right) \;\;\;\; i=1,\dots, N, 
+\label{eq:MyModel} 
+\end{equation}
+
+It is advantageous to estimate the smooth function $\gamma\left(s,t\right)$ rather than a covariance matrix at a predetermined set of pairs of observed time points since observed time points may be unevenly spaced and vary from individual to individual. Several approaches to function estimation have been utilized in this setting; \cite{wu2003nonparametric}, for example, used locally weighted polynomials to smooth down the sub-diagonals of $\matT$. \cite{huang2007estimation} smoothed the sub-diagonals of $\matT$ using univariate smoothing splines.  Within our formulation, the task of estimating a covariance matrix is equivalent to estimating the function $\phi\left(s,t\right)$ using bivariate smoothing. For ease of exposition, we assume that $\sigma^2\left(t\right)$ is fixed and known. Like other nonparametric situations, we make no assumption about the functional form of $\phi$ other than that $\phi$ is smooth, with smoothness defined in terms of square integrability of certain derivatives and let $\phi$ belong to a reproducing kernel Hilbert space, $\mathcal{H}$.
+
+%  Pooling the observed time points across subjects, we let $\mathcal{T}$ denote the set of all unique observed time points $\mathcal{T} = \bigcup \limits_{i=1}^{N} \bigcup\limits_{j=1}^{n_i}  \lbrace t_{ij} \rbrace$ and order them so that the elements of this set are given by $t_1 < t_2 < \dots < t_{p}$, $\vert \vert \mathcal{T} \vert \vert = p$. Let $\bfY = \left(Y_{t_1}, Y_{t_2}, \dots, Y_{t_p}\right)^T$ denote the vector of random variables corresponding to the process $Y$ at each of the unique 
+%
+%of pooled observations, and let $Cov\left(\bfY \right) = \Sigma$ where the $ij^{th}$ element of the $\Sigma$ is given by $\Sigma_{ij} = Cov\left(y_{t_i}, y_{t_j}\right)$. \\
+%
+% $\gamma$ is defined through $\phi$ and $\sigma$, which we also assume to be smooth functions.
+%\begin{equation}
+%{y}_{t_i}  = \sum_{j=1}^{i-1} \phi_{{t_i}{t_j}} y_{t_j} + \sigma_{t_j}\epsilon_{t_j} \label{RV_ARmodel}
+%\end{equation}
+%\noindent
+%where $\bfphi_{t_i} = \left( \phi_{{t_i}{t_1}}, \phi_{{t_i}{t_2}}, \dots, \phi_{{t_i},{t_{i-1}}}\right)^T$ is the coefficient vector corresponding to the best linear predictor of $y_{t_i}$ based on its predecessors; Let $\matT$ be the $p \times p$ lower triangular matrix with unit diagonal and $\left(ij\right)^{th}$ element $-\phi_{ij}$, $i > j$ and $D$ be the diagonal matrix with diagonal entries $\sigma_1^2, \sigma_2^2, \dots, \sigma_p^2$. Using this notation, we may write 
+%
+%
+%\noindent and letting $\text{L} = \matT^{-1}$, the modified Cholesky decomposition of $\Sigma^{-1}$ and $\Sigma$ are given by 
+%\[
+%\Sigma^{-1} = \matT^T \matD^{-1}\matT,\;\;\;\Sigma = \text{L} \matD \text{L}^T
+%\]
+
+%% begin discussion of estimation procedure, introduce data, replication
+% Analogous to Pourahmadi's model \eqref{RV_ARmodel}, we model the continuous time process as follows: 
+%\begin{equation}   
+%{y}\left(t_i\right)  = \sum_{j=1}^{i-1} \phi\left(t_i ,t_j\right) y\left({t_j}\right) + \sigma\left(t_i\right)\epsilon\left({t_i}\right) \;\;\;\; i=1,\dots, n 
+%\label{eq:MyModel} 
+%\end{equation}
+
+%The task of estimating a covariance matrix becomes the task of estimating the bivariate function $\phi\left(s,t\right)$ given noisy, discrete, and possibly unevenly spaced observations $Y_i= \left(Y\left(t_{i1}\right),Y\left(t_{i2}\right),\dots,Y\left(t_{i{n_i}}\right)  \right)^T$, $i=1,\dots,N$. The entries of the covariance matrix are viewed as the evaluation of this bivariate function at the unique observed pairs of time points. Like other nonparametric situations, we make no assumption about the functional form of $\phi$ other than that $\phi$ is smooth, with smoothness defined in terms of square integrability of certain derivatives.  
+Along with \citet{huang2006covariance}, \citet{levina2008sparse}, and \citet{pourahmadi2000maximum} we consider the normal log-likelihood as a loss function, though it is important to note that the derivation of the Cholesky decomposition did not rely on any distributional assumption on $\bfeps$. Under the Gaussian assumption on $\epsilon\left(t\right)$, the negative log-likelihood of the data $\bfy_1,\bfy_2,\dots, \bfy_N$ up to a constant is given by
+
+\begin{equation}
+-2\lmr{L}\left(\bfy_1, \bfy_2, \dots,\bfy_N ,\Phi \right) = \sum_{i=1}^N \sum_{j=2}^{n_i} \sigma\left({t_j}\right)^{-2} \left(y\left({t_{ij}}\right) - \sum_{k=1}^{j-1}\phi\left({t_{ij},t_{ik}}\right)y\left({t_{ik}}\right) \right)^2 \label{loglikelihood}
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Change this here to omit anything about second penalty
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+ We define our estimator $\hat{\phi}\left(s,t\right)$ to be the minimizer of the penalized log-likelihood. %We impose regularization in two stages: 
+
+
+%\begin{itemize}
+%\item {\bf Step 1:} Select $\hat{\lambda}_1$, where
+\begin{equation} 
+\hat{\phi} = \mathop{\mbox{arg min}}_{\phi} \left( -2\lmr{L} + \lambda_1 J_1\left(\phi\right) \right) \label{stage1obj}
+\end{equation}
+%\item {\bf Step 2:} Define $\hat{\phi}$ to the the minimizer of 
+%\begin{equation}
+%-2\lmr{L} + \hat{\lambda}_1 J_1\left(\phi^*\right) + \lambda_2 J_2\left(\phi\right) \label{stage2obj}
+%\end{equation}
+%\end{itemize}
+\noindent
+
+
+The first term in \eqref{stage1obj} discourages the lack of fit of $\phi$ to the data; $J_1$ is a penalty functional, and $\lambda_1$ is the smoothing parameter which controls the tradeoff between the lack of fit and amount of regularization imposed on $\hat{\phi}$ through $J_1$.  $J_1$ denotes the penalty assigned to the amount of ``non-stationarity'' in $\phi\left(s,t\right)$, or rather, any functional component that cannot be described in terms of the difference between the two argument values, $s-t$, $s \ge t$. %The second penalty term $J_2$ penalizes adjacent pairs of within-subject observed time differences that violate monotonicity in coefficient function magnitude, that is, $J_2$ softly enforces that the effect of past observations is monotonically decreasing as the difference between observations increases, as measured by the magnitude of certain functional components.
+
+
+Imposing structure on $\phi^*$ naturally leads to null models presented in earlier work on covariance estimation with appropriate choice of penalty in the smoothing spline problem formulation. 
+    
+    
+Several approaches to estimating the covariance parameters have been suggested, the simplest of which is the usual maximum likelihood estimation assuming a Normal distribution for $\epsilon$. Garcia, Kohli, and Pourahmadi (2001) make the heuristic argument that, for fixed $t$, $\phi_{t,t-l}$ should be small for large values of $l$, assuming that the linear relationship between $y_t$ and $y_{t-l}$ diminishes as lag increases. They enforce $\phi_{t,t-l}$ to be monotonically decreasing in $l$. 
+%% Need to include more shit here about shrinkage 
+To model $\phi$, they examine empirical regressograms: plots of $\hat{\phi}_{t,t-j}$ against lag, $j$ and use these to choose a parametric form for $\hat{\phi}\left(t,t-j\right)$. Similarly, they produce innovariograms, plots of the log estimated innovation variances $\hat{\sigma}_t^2$ versus $t$, and select an appropriate functional form. They choose to model the innovation variance function as polynomial function of $t$, so that model selection is equivalent to choosing the appropriate degree of polynomial, using ordinary least squares to fit model coefficients. Note that this approach 
+
+%% Go on about the nested lasso penalty for banding 
+
+Chen et. al. presented a semiparametric approach for simultaneously estimating a mean function and covariance structure, modeling $\phi\left(s,t\right)$ as a polynomial in $s-t$. By specifying the generalized autoregressive coefficient function to be a function of lag alone, they make the implicit assumption that the underlying stochastic process is stationary. This dramatically aids in dimension reduction, as the number of distinct entries in the covariance matrix decreases from $p\left(p-1\right)/2$ to $p$ as a result. 
+
+%Stuff about banding the covariance matrix and its relation to antedependence models of order, say, k...
+Huang et. al (2006) estimate the elements of $T$ via normal maximum likelihood with a Lasso penalty, which introduces sparsity in $T$ with zeros but in arbitrarily placed entries. Using the Cholesky decomposition to ensure positive-definiteness, Wu and Pourahmadi (2003) presented a $k-diagonal$ estimator which bands the inverse of the covariance matrix by smoothing down the first $k$ diagonals of $T$ and setting the rest to zero, choosing the number of nonzero diagonals by AIC using a normal likelihood. Huang et. al. use spline functions to smooth $\sigma_t^2\rbrace_{t=1}^p$ and $\lbrace \phi_{t,t-j} \rbrace_{j=1}^{t-1}$, the sub-diagonals of $T$ which hold the lag-$J$ regression coefficients and are closely related to time-varying autoregressive models. They use penalized maximum likelihood to estimate the spline coefficients, treating the $p-1$ sub-diagonals as $p-1$ separate smoothing spline problems. While computationally  does not make use of the potential information about the dependence structure lying in the direction orthogonal to the diagonal; we propose using bivariate smoothing to utilize information in both directions.
+
+
+\subsection{The Multicenter AIDS Cohort Study and a problem notation illustration}
+
+CD4 cells counts are a commonly used marker in the progression of AIDS, as they are an integral assessment of immune system status. Data from the Multicenter AIDS Cohort Study provides data collected on 283 homosexual males who were infected between 1984 and 1991. Repeated measurements included CD4 cell percentages (CD4 cell counts divided by the total number of lymphocytes, a certain type of white blood cells.) All subjects were scheduled to have measurements taken at semi-annual visits, but there are different numbers of observations per individual and different observation times $t_{ij}$ for each subject due to many subjects missing appointments and the fact that infections arose at different times within the study period.  Denote the vectors of measurements on individual $i$ by $Y_i = \left( y\left(t_{i1}\right), \dots, y\left(t_{i n_i}\right) \right)^T$ with corresponding measurement times  $T_i = \left(t_{i1},\dots, t_{i n_i}  \right)^T$, $0 \le t_{ij} < t_{ik} \le 1$ for $j < k$. A total of $N_Y = \sum_{i=1}^N n_i = 2376$ measurements were taken on $N=283$ subjects, with the number of within-subject measurements, $\lbrace n_i \rbrace$, ranging from 1 to 14.  Denote the set of unique observations times by $ \mathcal{T} = \bigcup_{i=1}^N \bigcup_{j=1}^{n_i} \lbrace t_{ij} \rbrace$ and the number of unique observation times by $\cardT = N_T$. Relabel the elements so that $\mathcal{T} = \lbrace t_1, \dots, t_{N_T} \rbrace$ and define
+
+\[
+Y = \left(Y\left(t_1\right) , \dots, Y\left(t_{N_T} \right)\right)^\prime\;\;\;\;\;\;\;\; Cov\left(Y\right) = \Sigma_{N_T \times N_T}
+\]
+\noindent
+where the $ij$th entry of $\Sigma$ is defined to be $\Sigma_{ij} = Cov\left(y\left(t_i\right), y\left(t_j\right)  \right) = \gamma\left(t_i,t_j\right)$. In other words, we view the entries of $\Sigma$ as the value of a smooth bivariate function $\gamma$ at $\lbrace \left(t_i,t_j\right) \rbrace$. Writing \eqref{eq:MyModel} in terms of the transformed coordinates, $\left(l_{ij}, m_{ij}\right)$, the autoregressive model arising from the Cholesky decomposition of $\Sigma$ becomes
+
+\begin{eqnarray}   
+\hat{y}\left(t_i\right)  &=& \sum_{j=1}^{i-1} \phi\left(t_i ,t_j\right) y\left({t_j}\right) + \epsilon\left({t_i}\right)\nonumber \\ 
+&=& \sum_{j=1}^{i-1} \phi^*\left(t_i - t_j, \frac{1}{2}\left(t_i - t_j\right)\right) y\left({t_j}\right) + \epsilon\left({t_i}\right) \nonumber \\
+&=& \sum_{j=1}^{i-1} \phi^*\left(l_{ij}, m_{ij}\right)  y\left({t_j}\right) + \epsilon\left({t_i}\right) \label{eq:MyTransformedModel}
+\end{eqnarray}  
+\noindent  
+where $\phi^*:\left(0,1\right)\times \left(0,1\right)\rightarrow \mathrm{R}^+$ is a smooth bivariate function, and the transformed design points have been scaled so that $l_{ij},m_{ij} \in \left(0,1\right)$.
+
+\section{A Structured Family of Nonparametric Models for the Covariance Structure}
+
+
+Let $\mathcal{H} = \mathcal{H}_{0} \oplus \mathcal{H}_{1}$ be the reproducing kernel Hilbert space (r.k.h.s) corresponding to the tensor product of the first-order and second-order Sobolev spaces:
+
+\[
+\mathcal{H} = \mathcal{H}_{l} \otimes \mathcal{H}_{m}, \;\; \mathcal{H}_{l} = W_2\left(0,1\right),\;\;\mathcal{H}_{m} = W_1\left(0,1\right)\;\mbox{where }
+\]
+
+\[W_m\left(0,1\right) \equiv \lbrace f: \;\;f^\prime, \dots, f^{\left( m-1 \right)} \mbox{absolutely continuous}, \int_0^1 \left(f^{\left( m \right)}\right)^2 dt < \infty \rbrace\]
+\noindent
+We seek $\phi^*\left(\cdot, \cdot \right) \in \mathcal{H}$ which minimizes
+\begin{equation}
+\frac{1}{2}\sum_{i=1}^N \sum_{j=2}^{n_i} {\sigma^{-2}_{ij}}\left( y\left(t_{ij}\right) - \sum_{k=1}^{n_i - 1}\phi^*\left(l^i_{jk},m^i_{jk} \right)y\left(t_{ik}\right) \right)^2 + \lambda J\left(\phi^*\right)  
+\label{eq:objectivefun}
+\end{equation}
+\noindent
+where $P_1 \phi^*$ is the projection of $\phi^*$ onto $\mathcal{H}_1$, $J\left(\phi^*\right) = \vert \vert P_1 \phi^* \vert \vert^2$. Define the differential operator $M_\nu f = \int_0^1 f^{\left( m \right)}\left(x\right) dx\;,\;\; \nu = 1, \dots, m$ and endow $W_m\left(0,1\right)$ with inner product
+%\begin{equation}
+%\left< f,g\right> = \underbrace{\sum_{\nu=0}^{m-1} M_\nu f M_\nu g}_{\left< f,g\right>_0} + \underbrace{\int_0^1 f^{\left( m \right)}\left(x\right)g^{\left( m \right)}\left(x\right)dx}_{\left< f,g\right>_1}
+%\end{equation}
+
+\begin{equation}
+\left< f,g\right> = \left< f,g\right>_0 + \left< f,g\right>_1 = \sum_{\nu=0}^{m-1} M_\nu f M_\nu g + \int_0^1 f^{\left( m \right)}\left(x\right)g^{\left( m \right)}\left(x\right)dx
+\end{equation}
+\noindent
+which induces norm 
+\[
+\vert \vert f \vert \vert^2 = \left< f,f\right> = \left< f,f\right>_0 + \left< f,f\right>_1 = \vert \vert P_0 f \vert \vert^2 + \vert \vert P_1 f \vert \vert^2
+\]
+\noindent
+Let $k_j\left(x\right) = B_j\left(x\right)/{j!}$ for $x \in \left[0,1\right]$, where $B_j\left(x\right)$ is the $j^{th}$ Bernoulli polynomial which can be defined according to the recursive relationship:
+
+\[
+B_0\left(x\right) = 1,\;\;\;\;\;\; \frac{d}{dx} B_r\left(x\right) = rB_{r-1}\left(x\right)
+\]
+\noindent
+Noting that $M_\nu B_r = \delta_{\nu-r}$, $W_m$ can be written as a direct sum of the $m$ orthogonal subspaces: $\lbrace k_r \rbrace_{r=0}^{m-1}$ and $W_m^1$.   Here, $\lbrace k_r \rbrace$ is the subspace spanned by $k_r$ and $W_m^1$ is the space orthogonal to $W_m^0 \equiv \lbrace 1 \rbrace \oplus \lbrace k_1 \rbrace \oplus \dots \oplus \lbrace k_{m-1} \rbrace$ which satisfies 
+\[
+W_m^1 = \lbrace f: M_\nu f = 0,\;\; \nu = 0,1,\dots, m-1\rbrace
+\]
+
+\noindent
+Writing $\mathcal{H}$ as the tensor product of the two decomposed Sobolev spaces, we have
+
+\begin{eqnarray}
+\mathcal{H} = \mathcal{H}_l  \otimes \mathcal{H}_m &=& W_2 \otimes W_1 \label{eq:HilbertDecomp} \\ 
+&=& \left[ W_2^0 \oplus W_2^1 \right] \otimes \left[ W_1^0 \oplus W_1^1 \right] \nonumber \\ 
+&=& \left[ \left[ \lbrace 1 \rbrace \oplus \lbrace k_1 \rbrace \right] \oplus W_2^1 \right] \otimes \left[ \lbrace 1 \rbrace \oplus W_1^1 \right] \nonumber \\ 
+&=&\left[ \lbrace 1 \rbrace  \oplus \lbrace k_1 \rbrace \right] \oplus W_2^1 \oplus W_1^1 \oplus  \left[ \lbrace k_1 \rbrace  \otimes  W_1^1 \right]  \oplus  \left[W_2^1 \otimes  W_1^1   \right] \nonumber \\
+&\equiv& \left[ \mathcal{H}_{\mu^*} \oplus \mathcal{H}_l^0 \right] \oplus \left[ \mathcal{H}_l^1 \oplus \mathcal{H}_m^1 \oplus \mathcal{H}_{lm}^{01} \oplus \mathcal{H}_{lm}^{11}\right]
+\nonumber\\
+&=& \mathcal{H}_0 \oplus \mathcal{H}_1
+\nonumber
+\end{eqnarray} 
+
+\noindent
+where the functional components corresponding to $\mathcal{H}_\mu$, $\mathcal{H}_l^0$, $\mathcal{H}_l^1$, $\mathcal{H}_m^1$, and $\left[ \mathcal{H}_{lm}^{01} \oplus \mathcal{H}_{lm}^{11}\right]$ are the overall mean, the nonparametric main effect of $l$, the parametric main effect of $l$, the parametric main effect of $m$, the nonparametric-parametric interaction, and the parametric-parametric interaction (between $l$ and $m$). Given this decomposition of the function space, any $\phi^* \in \mathcal{H}$ may be written as a sum of components from each of the 
+
+\begin{equation}
+\phi^*\left(l,m\right) = \mu^* + \phi_l^*\left(l\right) + \phi_m^*\left(m\right) + \phi_{lm}^*\left(l,m\right)  \label{eq:ANOVAdecomp}
+\end{equation} 
+\noindent
+where $\int_{0}^1 \phi^*_{l}\left(l\right)dl = \int_{0}^1 \phi^*_{m}\left(m\right)dm = 0$, $\int_{0}^1 \phi^*_{lm}\left(l,m\right)dl = \int_{0}^1 \phi^*_{lm}\left(l,m\right)dm = 0$. The reproducing kernel (r.k.) for $\lbrace k_r \rbrace$ is $k_r\left(x \right)k_r\left(x^\prime \right)$. It can be verified that the r.k. for $W_m^1$ (Craven and Wahba 1979) is given by $R^1\left(x,x^\prime\right) = k_m\left(x \right)k_m\left(x^\prime \right) + \left( -1 \right)^{m-1}k_{2m}\left(\left[ x-x^\prime \right] \right)$
+where $\left[ \alpha \right]$ is the fractional part of $\alpha$. The r.k. for $W_m$ is given by 
+\begin{eqnarray*}
+R\left(x,x^\prime\right) &=& R^0\left(x,x^\prime\right) + R^1\left(x,x^\prime\right) \\
+&=&\left[ \sum_{\nu=1}^{m-1} k_\nu\left(x \right)k_\nu\left(x^\prime \right) \right]+ \left[ k_m\left(x \right)k_m\left(x^\prime \right) + \left( -1 \right)^{m-1}k_{2m}\left(\left[ x-x^\prime \right] \right)\right] \label{eq:RKforH1}
+\end{eqnarray*}
+\noindent
+Using the fact that the r.k. for a tensor product space is the product of the corresponding reproducing kernels, the r.k. for $\mathcal{H}$ is given by 
+\begin{eqnarray}
+R\left( \left(l,m\right),\left(l^\prime,m^\prime\right)\right) &=&  R_l\left(l,l^\prime\right) \times R_m\left(m,m^\prime\right) \nonumber \\
+ &=& \left[  R_l^0\left(l,l^\prime\right) + R_l^1\left(l,l^\prime\right) \right] \times \left[  R_m^0\left(l,l^\prime\right) + R_m^1\left(l,l^\prime\right) \right] \nonumber \\
+ &=& R_l^0\left(l,l^\prime\right)R_m^0\left(m,m^\prime\right) + R_l^0\left(l,l^\prime\right) R_m^1\left(m,m^\prime\right) \nonumber \\
+&\mbox{ }&\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\; +  R_l^1\left(l,l^\prime\right) R_m^0\left(m,m^\prime\right)  + R_l^1\left(l,l^\prime\right) R_m^1\left(m,m^\prime\right) \nonumber \\
+&=& \left[ k_1\left(l \right)k_1\left(l^\prime \right)\right] + \left[ R_l^1\left(l,l^\prime\right)  + k_1\left(l,l^\prime\right) R_m^1\left(m,m^\prime\right) + R_l^1\left(l,l^\prime\right) R_m^1\left(m,m^\prime\right)\right] \nonumber \\
+&=& R^0\left( \left(l,m\right) , \left(l^\prime,m^\prime \right) \right) + R^1\left( \left(l,m\right) , \left(l^\prime,m^\prime \right) \right)
+\end{eqnarray}
+
+
+We must introduce some notation to simplify the following expression of the form of the elements in $\mathcal{H}$. Denote the set of unique pairs of observed within-subject time points and the corresponding set of unique transformed coordinates by $\mathcal{W}$ and $\mathcal{W}^*$, respectively:
+
+\begin{eqnarray*}
+\mathcal{W} &=& \bigcup_{i=1}^N \bigcup_{j>k}\left(t_{ij} ,t_{ik} \right)\\
+\mathcal{W}^* &=& \bigcup_{i=1}^N \bigcup_{j>k}\left(t_{ij}-t_{ik} ,\frac{1}{2}\left( t_{ij}+t_{ik} \right) \right) = \bigcup_{i=1}^N \bigcup_{j>k}\left(l^i_{jk},m^i_{jk} \right)\\
+\end{eqnarray*}
+\noindent
+with $\vert \mathcal{W}\vert = \vert \mathcal{W}^* \vert = N_{\phi^*}$. For simplicity of presentation, relabel the elements of $\mathcal{W}^*$ so that 
+\[
+\mathcal{W}^* = \lbrace \left( l_1,m_1 \right), \left( l_2,m_2 \right), \dots, \left( l_{N_{\phi^*}},m_{N_{\phi^*}} \right)  \rbrace
+\]
+\noindent
+Then we may verify that any $\phi^* \in \mathcal{H}$ can be written 
+\[
+\phi^*\left(l,m \right) = d_0 + d_1k_1\left(l\right) + \sum_{i=1}^n  c_i R_1\left( \left(l,m\right) , \left(l_i,m_i \right)\right) + \rho\left(l,m\right)
+\]
+\noindent
+where $\rho \perp \mathcal{H}_0 = \lbrace 1\rbrace \oplus \lbrace k_1\rbrace,\; span\lbrace R_1\left(\left(l_i, m_i \right),\cdot \right)  \rbrace$. We do so by demonstrating that  $\rho$ does not improve the first term in \eqref{eq:objectivefun} (the data fit functional) and only adds to the penalty term, $J\left(\phi^*\right)$. Consequently, if $\hat{\phi^*}$ is the minimizer of \eqref{eq:objectivefun}, then $\rho = 0$. Using the properties of reproducing kernels, we can rewrite $\phi^*$ as an inner product of itself with $R$:
+ 
+\begin{eqnarray*}
+\phi^*\left(l_j,m_j \right)  &=& \left< R\left(\left(l_j,m_j\right),\left(\cdot,\cdot\right) \right),\phi^*\left(\cdot,\cdot\right)\right>\\
+&=& \left<R_0\left( \left(l_j,m_j\right),\left(\cdot,\cdot\right) \right) + R_1\left(\left(l_j,m_j\right),\left(\cdot,\cdot\right) \right),d_0 + d_1k_1\left(\cdot \right)\right. \\ 
+&\mbox{ }&\left. \;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;+ \sum_{i=1}^{N_{\phi^*}}  c_i R_1\left( \left(l_i,m_i \right),\left(\cdot,\cdot\right) \right) + \rho\left(\left(\cdot,\cdot \right)\right)\right>\\
+&=& \left<R_0\left( \left(l_j,m_j\right),\left(\cdot,\cdot\right) \right) , d_0 + d_1k_1\left(\cdot\right)\right> + \left< R_0\left( \left(l_j,m_j\right),\left(\cdot,\cdot\right) \right),\sum_{i=1}^{N_{\phi^*}}  c_i R_1\left( \left(l_i,m_i \right),\left(\cdot,\cdot\right) \right)\right> \\
+&\mbox{ }& + \left<R_0\left( \left(l_j,m_j\right),\left(\cdot,\cdot\right) \right), \rho\left(\left(\cdot,\cdot \right)\right)\right> + \left<R_1\left(\left(l_j,m_j\right),\left(\cdot,\cdot\right) \right), d_0 + d_1k_1\left(\cdot \right)\right> \\
+&\mbox{ }& + \left<R_1\left(\left(l_j,m_j\right),\left(\cdot,\cdot\right) \right),\sum_{i=1}^{N_{\phi^*}}  c_i R_1\left( \left(l_i,m_i \right),\left(\cdot,\cdot\right) \right) \right> + \left<R_1\left(\left(l_j,m_j\right),\left(\cdot,\cdot\right) \right), \rho\left(\left(\cdot,\cdot \right)\right)\right>\\
+&=& \left<R_0\left( \left(l_j,m_j\right),\left(\cdot,\cdot\right) \right) , d_0 + d_1k_1\left(\cdot\right)\right> + \left<R_1\left(\left(l_j,m_j\right),\left(\cdot,\cdot\right) \right),\sum_{i=1}^{N_{\phi^*}}  c_i R_1\left( \left(l_i,m_i \right),\left(\cdot,\cdot\right) \right) \right> \\
+&\mbox{ }& + \underbrace{\left<R_0\left( \left(l_j,m_j\right),\left(\cdot,\cdot\right) \right)  , \rho\left(\cdot,\cdot\right) \right>}_{0} + \underbrace{\left<R_1\left( \left(l_j,m_j\right),\left(\cdot,\cdot\right) \right)  , \rho\left(\cdot,\cdot\right) \right>}_{0}\\
+&=& d_0 + d_1k_1\left(\cdot \right) + \sum_{i=1}^{N_{\phi^*}}  c_i R_1\left( \left(l_i,m_i \right),\left(l_j,m_j\right) \right)
+\end{eqnarray*}
+\noindent
+
+
+Rewriting the data fit functional, we have that  
+ \begin{eqnarray*}
+&\mbox{ }&\sum_{i=1}^N \sum_{j=1}^{n_i} \sigma_{ij}^{-2} \left(y\left(t_{ij}\right) - \sum_{k=1}^{j-1} \phi^*\left(t_{ij}, t_{ik}  \right) y\left(t_{ik}\right)  \right)^2  \\ 
+&=& \sum_{i=1}^N \sum_{j=1}^{n_i} \sigma_{ij}^{-2} \left(y\left(t_{ij}\right) - \sum_{k=1}^{j-1} \left< R\left(\left(l^i_{jk},m^i_{jk}\right),\left(\cdot,\cdot\right) \right),\phi^*\left(\cdot,\cdot\right)\right> y\left(t_{ik}\right)  \right)^2  \\
+ \end{eqnarray*}
+\noindent
+which is free of $\rho$. Consider the contribution of any nonzero $\rho$ to $J\left(\phi^*\right)$: 
+  
+ \begin{eqnarray*}
+ J\left(\phi^*\right) &=& \vert \vert  P_1\phi^* \vert \vert^2\\
+ &=& \left< \sum_{i=1}^{N_{\phi^*}}  c_i R_1\left( \left(l_i,m_i\right),\left(\cdot,\cdot\right) \right) + \rho\left(\cdot,\cdot \right), \sum_{j=1}^{N_{\phi^*}} c_j R_1\left( \left(l_j,m_j\right),\left(\cdot,\cdot\right) \right) + \rho\left(\cdot,\cdot\right)\right> \\
+ &=& \vert \vert \sum_{i=1}^{N_{\phi^*}}  c_i R_1\left(\left(l_i,m_i\right),\left(\cdot,\cdot\right) \right) \vert \vert^2 + \vert \vert  \rho \vert \vert^2 
+ \end{eqnarray*}
+\noindent
+Thus, including $\rho$ in $\phi^*$ only increases the penalty without improving (decreasing) the data fit functional, so we indeed have that the minimizer of \eqref{eq:objectivefun} has the form
+\begin{equation}
+ \phi^*\left(l,m\right) =  d_0 + d_1k_1\left(l\right) + \sum_{i=1}^{N_{\phi^*}} c_i R_1\left( \left(l,m\right) , \left(l_i,m_i \right)\right)
+ \label{eq:finitedimsolution}
+ \end{equation}
+ 
+ Consider moving along the entries of $\Sigma$ in the $l$ direction toward the diagonal. $T$ was explicitly constructed with unit diagonal so that $\phi_{tt} = \phi^*_{0t} = 1$. Considering this constraint when viewing $\phi^*$ as a continuous function,
+ 
+ \begin{equation}
+\lim_{l\to0} \phi^*\left(l,m\right) = 1\;\;for\; all\; m \in \left(0,1\right)
+\label{eq:unitconstraint}
+ \end{equation}
+ \noindent
+To obtain solutions satisfying \eqref{eq:unitconstraint}, we isolate the seach the minimizer of \eqref{eq:objectivefun}  to those belonging to the convex subspace of $\mathcal{H}$ given by
+ \[
+ \mathcal{C} = \lbrace \phi^*: \phi^*\left(0,m\right),\;\;m \in \left(0,1\right)  \rbrace
+ \]
+\noindent
+We approximate the set of functions $\phi^*$ satisfying the infinite set of linear constraints, $\mathcal{C}$, with functions satisfying the finite family of constraints, $\mathcal{C}_{N_m}$:
+
+\[
+ \mathcal{C}_{N_m} = \lbrace \phi^*: \phi^*\left(0,m_j \right),\;\;j = 1, \dots, N_m  \rbrace
+ \]
+\noindent where $N_m$ denotes the total number of unique observed values of $m$: $N_m = \vert \mathcal{M} \vert$, $\mathcal{M} = \bigcup_{i=1}^{N_{\phi^*}} m_i$. Using a similar argument to that presented above, Villalobos and Wahba have shown that if 
+\[
+L_1, \dots, L_{N_{\phi^*}}, C_1, \dots, C_{N_m}\]
+\noindent are linearly independent functionals with $L_i$ being the usual evaluation functional and $C_j$ defines the $j$th linear constraint in that $C_j \phi^* = \phi^*\left(0,m_j\right)$, then the unique minimizer of \eqref{eq:objectivefun} has the form
+
+\begin{equation}
+\phi^*\left(l,m\right) =  d_0 + d_1k_1\left(l\right) + \sum_{i=1}^{N_{\phi^*}} c_i R_1\left( \left(l,m\right) , \left(l_i,m_i \right)\right) + \sum_{j=1}^{N_{m}} b_j R_1\left( \left(l,m\right) , \left(0,m_j \right)\right)
+\end{equation}
+
+\noindent
+Expressing the components in the ANOVA decomposition of $\phi^*$ given by \eqref{eq:ANOVAdecomp} as expansions of $\lbrace 1 \rbrace, \lbrace k_1 \rbrace$, and $\lbrace R_1\left(\left(l_i,m_i \right), \left(\cdot,\cdot\right)\right) = R^l_1\left(l_i,\cdot \right) + R^m_1\left(m_i,\cdot \right) + R^{lm}_1\left(\left(l_i,m_i \right), \left(\cdot,\cdot\right)\right) \rbrace$, we can write
+
+\begin{eqnarray*}
+\phi^*\left(l,m\right) &=& \mu^* +  \phi_l^*\left(l\right) + \phi_m^*\left(m\right) + \phi_{lm}^*\left(l,m\right)\\
+&=& d_0 + \left[ d_1k_1\left(l\right) + \sum_{i=1}^{N_{\phi^*}}  c_i R^l_1\left( l,l_i\right) + \sum_{j=1}^{N_{m}}  b_j R^l_1\left( l,0\right) \right]\\
+&\mbox{ }& \;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\; +\left[ \sum_{i=1}^{N_{\phi^*}}  c_i R^m_1\left( m,m_i\right) + \sum_{j=1}^{N_{m}}  b_j R^m_1\left( m,m_j\right)\right] \\
+&\mbox{ }& \;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;+\left[  \sum_{i=1}^{N_{\phi^*}} c_i R^{lm}_1\left(\left( l,l_i\right), \left( m,m_i\right)\right) +  \sum_{i=1}^{N_m} b_j R^{lm}_1\left(\left( l,0\right), \left( m,m_j\right)\right) \right]
+\end{eqnarray*}
+\noindent
+With this decomposition of $\phi^*$, it is easy to see that any non-stationarity of $y\left(t\right)$ is captured by the main effect of $m$, $\phi^*_m$ and the $l-m$ interaction, $\phi^*_{lm}$. The function spaces corresponding to $\phi^*_m$ and $\phi^*_{lm}$ belong entirely to $\mathcal{H}_1$, so that any functional component representing non-stationarity is penalized, including those belonging to the span of linear functions. 
+
+\section{Model Fitting via Penalized Maximum Likelihood}
+
+
+
+Let $\Phi^*$ be the $N_{\phi^*} \times 1$ vector of regression coefficients given by \eqref{eq:MyTransformedModel} corresponding to $\phi^*$ evaluated at the elements of $\mathcal{W}^*$, $\Phi^* = \left(\phi^*_1,\phi^*_2, \dots, \phi^*_{N_{\phi^*}}  \right)^T$. Let $d = \left(d_0, d_1\right)^T$, $c = \left(c_1, \dots, c_{N_{\phi^*}}  \right)^T$, and $b = \left(b_1, \dots, b_{N_m}  \right)^T$.   Define $K_{11}$, $K_{12}$, $K_{22}$, $B_{1}$, and $B_2$ as follows: 
+
+\[
+\begin{array}{ll}
+{K_{11}}\left[i,j\right] = R_1\left(\left(l_i,m_i\right),\left(l_j,m_j\right)\right) &  i,j = 1, \dots, N_{\phi^*}\\
+{K_{12}}\left[i,j\right] = R_1\left(\left(l_i,m_i\right),\left(0,m_j\right)\right) &  i = 1, \dots, N_{\phi^*},\;j = 1, \dots, N_m \\
+{K_{22}}\left[i,j\right] = R_1\left(\left(0,m_i\right),\left(0,m_j\right)\right) &  i,j = 1, \dots, N_m\\
+B_1\left[i , j\right] = k_j\left(l_i\right) &  i = 1, \dots, N_{\phi^*},\;j = 1, 2\\
+B_2\left[i , j\right] = k_j\left(0\right) &  i = 1, \dots, N_m,\;j = 1, 2\\
+\end{array}
+\]
+\[
+K = \left[\begin{array}{cc}
+		K_{11} & K_{12}\\
+		K_{12}^T & K_{22}
+		\end{array}\right] = \left[\begin{array}{c}
+		K_1\\
+		K_2
+		\end{array}\right]\\;\;\;\; B = \left[ \begin{array}{c}B_1\\
+										       B_2\end{array}\right] \]
+
+
+\noindent
+In matrix notation:
+\[
+\Phi^* = B_1 d + K_1a							
+\]
+\noindent
+where $a$ is the $\left( N_{\phi^*}+ N_m \right) \times 1$ vector $a = \left(c^T \; b^T  \right)^T$. Let $Y_{i,\left(-1\right)}$ denote the vector of the last $n_i - 1$ responses for individual $i$: 
+\[
+Y_{i,\left(-1\right)} = \left(y\left(t_{i2}\right), y\left(t_{i3}\right), \dots, y\left(t_{i,n_i}\right)\right)^T
+\]
+\noindent
+and concatenate these to construct the $\left(n-N\right)\times 1$ vector $Y_{\left(-1\right)} = \left( Y_{1,\left(-1\right)}^T, Y_{2,\left(-1\right)}^T, \dots, Y_{N,\left(-1\right)} \right)^T$ where $n = \sum_{i=1}^N n_i$. Let $D = diag\left(\sigma^2_{12},\dots,\sigma^2_{1,n_1},\dots,\sigma^2_{N2},\dots,\sigma^2_{N,n_N}\right)$. For appropriate specification of $\left(n-N\right) \times N_{\phi^*}$ design matrix, $Z_Y$, our goal is to minimize:
+
+\begin{equation}
+Q\left(a , d \right) =  \frac{1}{2}\left(Y_{\left(-1\right)} - Z_Y\left(B_1d + Ka \right) \right)^T D^{-1} \left(Y_{\left(-1\right)} -  Z\left(Bd + Ka \right)\right) + \lambda a^T K c\\ 
+\label{eq:matrixobjfun}
+\end{equation} 
+\noindent
+subject to $B_2 d + K_2 a - \mathbf{1} = 0$, where $Q\left(a , d \right)$ is the log-likelihood of $e  = Y_{\left(-1\right)} - \hat{Y}_{\left(-1\right)} \sim \mathcal{N}\left(0,D\right)$ Augmenting the $\left(n-N\right) \times 1$ residual vector $Y_{\left(-1\right)} - Z_Y\left(B_1d + Rc \right)$ with the $N_m \times 1$ vector of zeros corresponding to these constraints leaves the data fit functional in \eqref{eq:matrixobjfun} unchanged. Let 
+\begin{eqnarray*}
+Z_{\left(n-N\right) \times \left(N_{\phi^*} + N_m\right)} = \left[Z_Y \; \mathrm{I}_{N_m} \right]\\
+Y_{aug} = \left( Y_{\left(-1\right)}^T \;\; \mathbf{1}^T \right)^T
+\end{eqnarray*}
+\noindent
+and augment the diagonal entries of $D$ with $\mathbf{1}_{N_m}$. Define
+\begin{equation}
+Q^*\left(a,d\right) = \left[Y_{aug} - Z\left(Bd + Ka\right) \right]^T D^{-1} \left[Y_{aug} - Z\left(Bd + Ka\right) \right] + \lambda a^T K a
+\label{objectivefunaug}
+\end{equation}
+\noindent
+We obtain the following normal equations by differentiation with respect to $a$ and $d$:
+\begin{eqnarray}
+\frac{\partial Q^*}{\partial a} &=& - \left(ZK\right)^T D^{-1}\left[Y_{aug} - Z\left(Bd + Ka\right) \right] + \lambda Ka= 0 \label{eq:normaleq1} \\
+\frac{\partial Q^*}{\partial d} &=& - \left(ZB\right)^T D^{-1}\left[Y_{aug} - Z\left(Bd + Ka\right) \right] = 0 \label{eq:normaleq2} 
+\end{eqnarray}
+
+\noindent
+Using the QR decomposition of $B$, we may write $B = \left[ Q_1 \; Q_2\right]\left[ \begin{array}{c} R \\ 0 \end{array}\right] = Q_1 R$,  $Q$ othogonal. Premultiplying \eqref{eq:normaleq2} by $K^{-1}$, we have 
+\begin{eqnarray}
+ \lambda a &=& Z^T D^{-1}\left[Y_{aug} - Z\left(Bd + Ka\right)\right] \label{eq:solnconst1}  \\
+\Longrightarrow 0 =  \eqref{eq:normaleq2} &=&  - B^T\left[ Z^TD^{-1}\left(Y_{aug} - Z\left(Bd + Ka\right) \right) \right] \nonumber\\
+ &=& -\lambda B^T a \nonumber \\
+ \Longrightarrow a &=& Q_2 e\;for\; e \in \mathcal{R}^{N_{\phi^*} + N_m - 2} \nonumber
+\end{eqnarray}
+
+Multiplying \eqref{eq:solnconst1} by $\left(Z^T D^{-1}Z\right)^{-1}$, (which we note is full rank as long as $N_Y \ge N_{\phi^*}$) we have 
+\begin{eqnarray}
+\left( Z^T D^{-1} Z \right)^{-1}Z^T D^{-1} Y_{aug} &=& Bd + \left[K + \lambda\left( Z^T D^{-1} Z \right)^{-1}\right] a \label{eq:need_for_d}\\
+\left( Z^T D^{-1} Z \right)^{-1}Z^T D^{-1} Y_{aug} &=& Bd + \left[K + \lambda\left( Z^T D^{-1} Z \right)^{-1}\right] Q_2 e \nonumber\\
+\Longrightarrow Q_2^T\left( Z^T D^{-1} Z \right)^{-1}Z^T D^{-1} Y_{aug} &=&  Q_2^T\left[K + \lambda\left( Z^T D^{-1} Z \right)^{-1}\right] Q_2 e \nonumber \\
+\Longrightarrow e &=&  \left[ Q_2^T\left[K + \lambda\left( Z^T D^{-1} Z \right)^{-1}\right] Q_2 \right]^{-1}Q_2^T\left( Z^T D^{-1} Z \right)^{-1}Z^T D^{-1} Y_{aug} \nonumber\\
+\Longrightarrow a &=&  Q_2\left[ Q_2^T\left[K + \lambda\left( Z^T D^{-1} Z \right)^{-1}\right] Q_2 \right]^{-1}Q_2^T\left( Z^T D^{-1} Z \right)^{-1}Z^T D^{-1} Y_{aug} \nonumber
+\end{eqnarray}
+
+Solving for $d$ using \eqref{eq:need_for_d} and the $QR$ decomposition of $B$, we obtain
+\begin{eqnarray*}
+Bd = Q_1R& &= \left( Z^T D^{-1} Z \right)^{-1}Z^T D^{-1} Y_{aug} -  \left[K + \lambda\left( Z^T D^{-1} Z \right)^{-1}\right] a\\
+\Longrightarrow d &=& R^{-1}Q_1^T\left[ \left( Z^T D^{-1} Z \right)^{-1}Z^T D^{-1} Y_{aug} -  \left[K + \lambda\left( Z^T D^{-1} Z \right)^{-1}\right] a \right]
+\end{eqnarray*}
+
+By the construction of $\mathcal{H}$ as defined in \eqref{eq:HilbertDecomp}, $J\left(\phi^*\right) = \vert \vert {\phi_l^*}^{\prime \prime} \vert \vert^2  + \vert \vert  \phi_m^* \vert \vert^2 + \vert \vert \phi^*_{lm} \vert \vert^2$. The null space of $J\left(\cdot\right)$, $\mathcal{H}_0$, is the set of functions $\lbrace \phi \in \mathcal{H}: J\left(\phi\right) = 0 \rbrace$:
+
+\[
+\mathcal{H}_0 = \mathcal{H}_\mu \oplus \mathcal{H}_l^0 = \lbrace 1 \rbrace  \oplus \lbrace k_1 \rbrace
+\]
+\noindent
+
+	The null space is comprised of functions of the form $\phi^*_0\left(l,m\right) = d_0 + d_1 k_1\left(l\right)$ which obey stationarity in the autoregressive process defined by \eqref{eq:MyModel}, belonging to the class of linear functions of the continuous time lag only. While the solution defined as the minimizer of 
+
+

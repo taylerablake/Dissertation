@@ -1,0 +1,117 @@
+\chapter{Introduction}
+\label{intro.ch}
+
+\section{Overview}
+
+An innumerable list of statistical techniques depend on a the estimation of a covariance matrix or its inverse, including Gaussian graphical models, dimensionality reduction methods such as principle components analysis or the singular value decomposition and factor analysis, multivariate regression, geospatial prediction - or Kriging, as well as methods for clustering and classification such as linear discriminant analysis and quadratic discriminant analysis. It is perhaps arguable that the list of methods requiring an estimate of a covariance matrix or its inverse is so extensive that it may perhaps be easier to enumerate the techniques that don't require one or the other, making covariance estimation an obviously important statistical issue. While covariance estimation has been an integral part of multivariate analysis for a long time, estimation of large covariance matrices has gained more attention recently. In the era of `Big Data,' it is common to encounter very high dimensional data due to the advances made in the automated generation, collection, and storage of data. 
+
+It is well known that the sample covariance matrix exhibits many undesirable properties in high dimensions, as the number of parameters necessary for describing a covariance matrix of arbitrary structure is quadratic in the parameter dimension of the data. Imposing constraints ensuring that estimates are positive definite adds further complexity to the already potentially computationally demanding problem. Furthermore, it is possible that the data be sparsely sampled or sampled on an irregular grid, and, particularly in the context of longitudinal studies, observations may not share a common set of design points.  
+
+
+
+There is an exhaustive body of literature on the estimation of covariance structures in the context of time series and longitudinal data analysis. However, many of the traditional techniques assume that the data have been observed on some evenly-spaced, regular grid, and these approaches aren't applicable when data have been irregularly or sparsely sampled, or when the design points vary from one subject to another. Additional complexity is presented in the case that the number of observations per subject is small relative to classical functional data or time series analysis, where it is assumed that there is a large number of equally-spaced observations on each subject. 
+
+This dissertation will present my work to improve the estimation of potentially large covariance matrices in the presence of sparse or irregularly-sampled data. We propose decomposing the covariance matrix according to a modified Cholesky decomposition,  allowing for unconstrained parameterisation. We estimate these parameters by viewing them as the evaluation of a continuous bivariate function at specific design points, and estimation is performed within a regularized function estimation framework. We present intuitive penalties which induce null models that are common in existing covariance literature, yielding an extremely flexible class of models for the covariance structure. The remainder of the chapter will provide an overview of the problem, briefly reviewing relevant prior works and introducing our proposed approach and improvements on existing methodology. 
+
+\subsection{A survey of existing approaches}
+
+
+Being an unbiased estimator of the covariance matrix, the sample covariance matrix is a natural starting point when considering possible estimators. A number of statistical methods require an estimate of the covariance matrix, but there are many that require an estimate of the precision matrix, including multivariate regression, conditional independence analysis, and However, in high dimensions, it is well known that the widely-used sample covariance matrix is highly unstable. 
+
+
+When we assume the covariance matrix to be unstructured, the number of unknown parameters grows quadratically in the dimensionality of the data, say $p$. This is currently of particular concern, as technological advances have made densely-sampled functional data and even real-time data streaming somewhat of a commonality. To address this issue, many impose structure and reduce the number of free parameters using parsimonious parametric models to characterize the covariance structure in the longitudinal data setting. Simple models depending on a small number of parameters, such as those corresponding to compound symmetry and autoregressive models of some small order, $k$ are commonly found in the literature. While reducing variance of parameter estimates, model misspecification is of potential concern, and we may trade any gain associated with variance reduction for potential bias. 
+
+ Alternatively, several have proposed nonparametric models and applying shrinkage methods directly to elements of the sample covariance matrix or a function of the sample covariance matrix. Diggle and Verbyla (1998) introduced a nonparametric estimator obtained by kernel smoothing the sample variogram and squared residuals.  Yao, Mueller, and Wang applied a local linear smoother to the sample covariance matrix in the direction of the diagonal and a local quadratic smoother in the direction orthogonal to the diagonal to account for the presence of additional variation due to measurement error. Others attempt to reduce the dimension of the problem by ``banding'' the covariance matrix. Bickel and Levina (2008) directly band the sample covariance matrix $S = \left(\left( s_{ij}\right) \right)$, defining the $k$-banded sample covariance matrix $S_k = $. The estimates yielded by these approaches, however, are not guaranteed to be positive definite. 
+
+It is a natural desire to enforce a covariance estimator $\hat{\Sigma}$ to exhibit the same properties that define a true covariance matrix, $\Sigma$, requiring $\hat{\Sigma}$ to be symmetric and positive-definite with non-negative determinant. Many consider reparameterizing the covariance matrix according to some decomposition and carrying out estimation on the components of the decomposition so that, by construction, the estimate is guaranteed to be a symmetric, positive-definite matrix. 
+
+
+Rice and Silverman are responsible for early work in non-parametric estimation of both a mean function and covariance function when it is assumed that the longitudinal vectors of observations are discretized realizations of a stochastic process. They consider the eigenvalue-eigenvector decomposition of the covariance function, estimating the eigenfunctions via penalized least squares. Using the projection of the data onto the space spanned by the largest eigenfunction will have maximal variance, they obtain estimates of eigenfunctions by maximizing variance of the projection subject to the estimated eigenfunction have unit length and the eigenfunctions being mutually orthogonal.  
+
+
+Chiu, Leonard, and Tsui modeled the matrix logarithm of the covariance matrix. Early nonparametric work using the Spectral decomposition of the covariance matrix included that of Rice and Silverman (1991) which discussed smoothing and smoothing parameter choice for eigenfunction estimation for regularly-spaced data. Staniswalis and Lee (1998) extended kernel-based smoothing of eigenfunctions to functional data observed on irregular grids. However, when the data are sparse in the sense that there are few repeated within-subject measurements and measurement times are quite different from subject-to-subject, approximation of the functional principal component scores defined by the Karhunen-Loeve expansion of the stochastic process by usual integration is unsatisfactory and requires numerical quadrature. Many have explored regression-based approaches using the Spectral decomposition, framing principal components analysis as a least-squares optimization problem. Among many others, Zou, Hastie and Tibshirani (2006), imposed penalties on regression coefficients to induce sparse loadings. 
+
+\section{The modified Cholesky decomposition} 
+
+To satisfy the positive-definiteness constraint, methods have been developed and applied to certain reparameterizations of the covariance structure. 
+
+
+Recently, many have considered a modified Cholesky decomposition (MCD) of the inverse of the covariance matrix. This decomposition also ensures positive-definite covariance estimates, and, unlike the Spectral decomposition whose parameters follow an orthogonality constraint, the entries in the MCD of the covariance matrix are unconstrained and have an attractive statistical interpretation as particular regression coefficients and variances.  One drawback we might note, however, is that the interpretation of  the regression model induced by the MCD assumes a natural (time) ordering among the variables in $Y$, which we henceforth assume to have mean $0$, whereas other decompositions are permutation-invariant.
+
+
+
+
+
+  
+
+This document is split into several files.  If you have not compiled
+it yet or had difficulty compiling it, you should make sure you have
+the following files:
+%
+\begin{center}3
+\begin{tabular}{l l}
+{\tt Thesis.tex} & The main document. Run \LaTeX\ on this file\\
+{\tt abstract.tex} & The Abstract for the thesis.\\
+{\tt ack.tex} & The Acknowledgement for the thesis.\\
+{\tt vita.tex} & The Vita for the author of the thesis.\\
+{\tt ch1.intro.tex} & Chapter 1 of the thesis.\\
+{\tt ch2.problem.tex} & Chapter 2 of the thesis.\\
+{\tt ch3.implem.tex} & Chapter 3 of the thesis.\\
+{\tt ch4.end.tex} & Chapter 4 of the thesis.\\
+{\tt app1.tex} & The first appendix of the thesis.\\
+{\tt app2.tex} & The second appendix of the thesis.\\
+{\tt bibfile.bib} & The sample bibliography database.
+\end{tabular}
+\end{center}
+%
+
+To fully compile this example, you should do the following:
+%
+\begin{enumerate}
+\item Run \LaTeX\ on {\tt Thesis}.  This will do the inital
+compilation of the document and will create a list of the labels and
+references made.
+%
+\item Run \BibTeX\ on {\tt Thesis}.  This will go into {\tt
+bibfile.bib} and extract the appropriate bibliography for the
+references  cited in the dissertation.
+%
+\item Run \LaTeX\ on {\tt Thesis} {\em two} more times.  
+The first time, \LaTeX\ will go through and (at the end) will
+recognize the references made in the citations and will set up the
+table of contents. However, the table of contents will probably be off
+since the table of contents will grow.  The second time through,
+\LaTeX\ will get the page numbers correct in the table of contents.
+\end{enumerate}
+%
+You will need to perform the above steps on your own
+dissertation/thesis as well.
+
+
+
+\section{Organization of this Thesis}
+
+Chapter 2 will describe my contributions to the topic, providing a rigorous formulation of covariance estimation as an optimization problem. Implementation and algorithmic details will be presented in Chapter 3, and simulation studies and numerical results follow in Chapter 4. We conclude with discussion of results, additional questions, and future work.
+
+
+The rest of this thesis is organized as follows. 
+
+Chapter~\ref{prob.ch} will introduce the problems with cows, and what
+all has been done by other researchers about it.  In reality,
+Chapter~\ref{prob.ch} discusses \LaTeX\ and provides pointers to
+advice and examples of how to use the {\tt osudissert96} class.
+
+Chapter~\ref{implem.ch} describes the details of the implementation
+method used in having a cow, and how it does solve all the world's
+problems. In reality, Chapter~\ref{implem.ch} discusses figures and
+tables and how to create them ``easily'' using \LaTeX.
+
+Chapter~\ref{end.ch} summarizes the results of the thesis, and gives
+pointers to future research that can be based on this exemplary work.
+It has no real bearing on reality.
+
+Appendix~\ref{data.app} explains some of the data used to create
+Table~\ref{example-table}. It also has little to do with reality.
+
+Appendix~\ref{allcommands:app} lists all the commands defined in
+{\tt osudissert96}.
