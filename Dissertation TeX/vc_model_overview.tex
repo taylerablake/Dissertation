@@ -1,7 +1,49 @@
-\chapter{Grouped regularization via the Non-negative Garrote}
-\label{groupedRegNNGarrote.ch}
+\documentclass[12pt]{article}
+\usepackage{graphicx,psfrag, natbib,amsfonts,float,mathbbol,natbib,amsmath}
+\usepackage[letterpaper, left=1in, top=1in, right=1in, bottom=1in,nohead,includefoot, verbose, ignoremp]{geometry}
+
+\newcommand{\bfeps}{\mbox{\boldmath $\epsilon$}}
+\newcommand{\bfgamma}{\mbox{\boldmath $\gamma$}}
+\newcommand{\bflam}{\mbox{\boldmath $\lambda$}}
+\newcommand{\bfphi}{\mbox{\boldmath $\phi$}}
+\newcommand{\bfsigma}{\mbox{\boldmath $\sigma$}}
+\newcommand{\bfbeta}{\mbox{\boldmath $\beta$}}
+\newcommand{\bfe}{\mbox{\boldmath $e$}}
+\newcommand{\bft}{\mbox{\boldmath $t$}}
+\newcommand{\bfo}{\mbox{\boldmath $0$}}
+\newcommand{\bfx}{\mbox{\boldmath $x$}}
+\newcommand{\bfX}{\mbox{\boldmath $X$}}
+\newcommand{\bfz}{\mbox{\boldmath $z$}}
+
+
+\newcommand{\bfm}{\mbox{\boldmath $m}}
+\newcommand{\bfy}{\mbox{\boldmath $y$}}
+\newcommand{\bfd}{\mbox{\boldmath $d$}}
+\newcommand{\bfc}{\mbox{\boldmath $c$}}
+\newcommand{\bfa}{\mbox{\boldmath $a$}}
+\newcommand{\bfb}{\mbox{\boldmath $b$}}
+\newcommand{\bfY}{\mbox{\boldmath $Y$}}
+\newcommand{\bfS}{\mbox{\boldmath $S$}}
+\newcommand{\bfZ}{\mbox{\boldmath $Z$}}
+\newcommand{\cardT}{\vert \mathcal{T} \vert}
+\newenvironment{theorem}[1][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{corollary}[1][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{proposition}[1][Proposition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\def\bL{\mathbf{L}}
+ \begin{document}
+
+
+%\chapter{Varying Coefficient Models for Longitudinal Data}
+%\label{VCmodelsForLongitudinalData.ch}
 
 \section{Estimation in functional varying-coefficient models}
+\subsection{Overview}
 
 The classical linear model expresses the influence of covariates $X_1, X_2, \dots, X_p$ on the response variable $Y$ via 
 
@@ -11,23 +53,26 @@ Y = \beta_0 + beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p \label{classical_li
 
 Blah blah blah, motivate extending classical linear models to VC models by elaborating the demands of longitudinal data encountered in natural and life sciences, biomedicine, and other social and life sciences, particularly clinical trials, like the AIDS cohort CD4 data. Varying coefficient models extend \eqref{classical_linear_model}, allowing the effect of covariates as specified by model parameters to change with the value of the covariates themselves.  
 
-Zeger and Diggle (1994) consider the partially linear model 
+Zeger and Diggle (1994) present a partially linear model motivated by the MACS data. They consider data of the form $\lbrace \left(x_{ij},y_{ij}\left(t_{ij}\right)\right): \;\; j=1,\dots,m_i;\;\;i=1,\dots,n \rbrace$, where $x_{ij}$ denotes a $p \times 1$ vector of covariates corresponding to $y_{ij}\left(t_{ij}\right)$, the $j$th measurement on the $i$th subject at time $t_{ij}$.  They propose the semiparametric model 
 
+\begin{equation}
+Y_{ij}\left(t\right) =  x_{ij}^T\beta + \mu\left(t\right) + W_i\left(t\right) + \epsilon_{ij} \label{zeger_diggle_VC_model}
+\end{equation}
 
+where $\mu\left(t\right)$ is a smooth function of time, and $\beta$ is a $p \times 1$ vector of regression coefficients. The $\lbrace W_i\left(t\right):\;i=1,\dots,n \rbrace$ capture the within-subject dependency structure, defined to be independent replicates of a stationary Gaussian process with mean zero and covariance function $\gamma\left(v\right) = \sigma_w^2\rho\left(v, \theta \right)$. The $\lbrace Z_{ij}:\;j=1,\dots,m_i\;i=1,\dots,n \rbrace$ are mutually independent Normally distributed error terms with mean zero and variance $\sigma_z^2$.
 
-
-Hoover, RIce, Wu and Yang (1998) considered the following model:
+For fixed $t$, this is equivalent to a linear model in $\bfX$, and when linearity does not hold, it is equivalent to projecting $Y$ onto the linear space spanned by the components of $\bfX$. They carry out estimation of $\mu\left(t\right)$ and $\beta$ iteratively via kernel smoothing and generalized least squares. While more flexible than the classical linear model, this still forces the impact of the covariates to be constant over time.  Hoover, Rice, Wu and Yang (1998) further generalized \eqref{classical_linear_model} and considered the following model:
 
 \begin{equation}
 Y\left(t\right) =  \bfX^T\left(t\right)\bfbeta \left(t\right) + \epsilon\left(t\right) \label{hoover_rice_wu_VC_model}
 \end{equation}
 
-They propose smoothing splines and local polynomials for estimating the coefficient functions, $\bfbeta\left(t\right) = \left( \beta_0\left(t\right), \beta_1\left(t\right),\dots,\beta_p\left(t\right) \right)^T$. 
+They propose smoothing splines and local polynomials for estimating the coefficient functions, $\bfbeta\left(t\right) = \left( \beta_0\left(t\right), \beta_1\left(t\right),\dots,\beta_p\left(t\right) \right)^T$, which they assume to be smooth functions of $t$. $\epsilon\left(t\right)$ is defined as in \eqref{zeger_diggle_VC_model} and is assumed to be independent of $\bfX\left(t\right)$. Hoover et al (1998) propose the same model, using smoothing splines and kernel smoothing to estimate  the components of $\bfbeta\left(t\right)$ and develop asymptotic properties of kernel estimators. 
 
 Hastie and Tibshirani generalize this concept to the case that each of the coefficient functions may depend on different influencer variables. They assume that we observe predictors $\boldmath{R} = \left(R_1, R_2, \dots, R_p\right)^T$ in addition to $X_1, X_2, \dots, X_p$, and suppose that the distribution of the response $Y$ depends on some parameter $\eta$. Hastie and Tibshirani  varying-coefficient model has the form
 
 \begin{equation}
-\eta = \beta_0 + \beta_1\left(R_1\right) \label{hastie_tibshiran_VC_model}
+\eta = \beta_0 + \beta_1\left(R_1\right) \label{hastie_tibshirani_VC_model}
 \end{equation}
 
 
