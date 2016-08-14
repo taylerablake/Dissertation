@@ -51,7 +51,7 @@ The classical linear model expresses the influence of covariates $X_1, X_2, \dot
 Y = \beta_0 + beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p \label{classical_linear_model}
 \end{equation}
 
-Blah blah blah, motivate extending classical linear models to VC models by elaborating the demands of longitudinal data encountered in natural and life sciences, biomedicine, and other social and life sciences, particularly clinical trials, like the AIDS cohort CD4 data. Varying coefficient models extend \eqref{classical_linear_model}, allowing the effect of covariates as specified by model parameters to change with the value of the covariates themselves.  
+Blah blah blah, motivate extending classical linear models to VC models by elaborating the demands of longitudinal data encountered in natural and life sciences, biomedicine, and other social and life sciences, particularly clinical trials, like the AIDS cohort CD4 data. 
 
 Zeger and Diggle (1994) present a partially linear model motivated by the MACS data. They consider data of the form $\lbrace \left(x_{ij},y_{ij}\left(t_{ij}\right)\right): \;\; j=1,\dots,m_i;\;\;i=1,\dots,n \rbrace$, where $x_{ij}$ denotes a $p \times 1$ vector of covariates corresponding to $y_{ij}\left(t_{ij}\right)$, the $j$th measurement on the $i$th subject at time $t_{ij}$.  They propose the semiparametric model 
 
@@ -61,18 +61,33 @@ Y_{ij}\left(t\right) =  x_{ij}^T\beta + \mu\left(t\right) + W_i\left(t\right) + 
 
 where $\mu\left(t\right)$ is a smooth function of time, and $\beta$ is a $p \times 1$ vector of regression coefficients. The $\lbrace W_i\left(t\right):\;i=1,\dots,n \rbrace$ capture the within-subject dependency structure, defined to be independent replicates of a stationary Gaussian process with mean zero and covariance function $\gamma\left(v\right) = \sigma_w^2\rho\left(v, \theta \right)$. The $\lbrace Z_{ij}:\;j=1,\dots,m_i\;i=1,\dots,n \rbrace$ are mutually independent Normally distributed error terms with mean zero and variance $\sigma_z^2$.
 
-For fixed $t$, this is equivalent to a linear model in $\bfX$, and when linearity does not hold, it is equivalent to projecting $Y$ onto the linear space spanned by the components of $\bfX$. They carry out estimation of $\mu\left(t\right)$ and $\beta$ iteratively via kernel smoothing and generalized least squares. While more flexible than the classical linear model, this still forces the impact of the covariates to be constant over time.  Hoover, Rice, Wu and Yang (1998) further generalized \eqref{classical_linear_model} and considered the following model:
+They carry out estimation of $\mu\left(t\right)$ and $\beta$ iteratively via kernel smoothing and generalized least squares. While more flexible than the classical linear model, this still limiting as it does not allow us to explain any dynamic effect of the covariates over time.  
+
+Varying coefficient models extend \eqref{classical_linear_model}, allowing the effect of covariates as specified by model parameters to change with the value of the covariates themselves.  They adopt the same easy of interpretability of the classical linear model and are inherently nonparametric; the general class of varying coefficient models is very flexible, including generalized additive models as a special case. Two general methods of constructing varying coefficient models have been employed in previous work; the first of which specifies a model such that all coefficients are dependent on a single common covariate. The mean function of the response $Y$ take the form
+
+\begin{equation}
+E\left(Y \vert \bfX=\bfx,\;Z = z \right) = \beta_0\left(z\right) + x_1\beta_1\left(z\right) + \dots  + x_p\beta_p\left(z\right) \label{VC_mean_function_single_smoothing_covariate}
+\end{equation}
+
+where $\bfX = \left(X_1, X_2, \dots, X_p\right)^T$ and $Z$ are covariates and $\bfbeta\left(z\right) = \left( \beta_0\left(z\right), \beta_1\left(z\right),\dots,\beta_p\left(z\right) \right)^T$ are unknown coefficient functions, assumed to be smooth functions of $Z$. Hoover, Rice, Wu and Yang (1998) considered the following model:
 
 \begin{equation}
 Y\left(t\right) =  \bfX^T\left(t\right)\bfbeta \left(t\right) + \epsilon\left(t\right) \label{hoover_rice_wu_VC_model}
 \end{equation}
 
-They propose smoothing splines and local polynomials for estimating the coefficient functions, $\bfbeta\left(t\right) = \left( \beta_0\left(t\right), \beta_1\left(t\right),\dots,\beta_p\left(t\right) \right)^T$, which they assume to be smooth functions of $t$. $\epsilon\left(t\right)$ is defined as in \eqref{zeger_diggle_VC_model} and is assumed to be independent of $\bfX\left(t\right)$. Hoover et al (1998) propose the same model, using smoothing splines and kernel smoothing to estimate  the components of $\bfbeta\left(t\right)$ and develop asymptotic properties of kernel estimators. 
+proposing estimation of the coefficient functions via smoothing splines and local polynomials. $\epsilon\left(t\right)$ is defined as in \eqref{zeger_diggle_VC_model} and is assumed to be independent of $\bfX\left(t\right)$. Hoover et al (1998) propose the same model, using smoothing splines and kernel smoothing to estimate  the components of $\bfbeta\left(t\right)$ and develop asymptotic properties of kernel estimators. 
 
-Hastie and Tibshirani generalize this concept to the case that each of the coefficient functions may depend on different influencer variables. They assume that we observe predictors $\boldmath{R} = \left(R_1, R_2, \dots, R_p\right)^T$ in addition to $X_1, X_2, \dots, X_p$, and suppose that the distribution of the response $Y$ depends on some parameter $\eta$. Hastie and Tibshirani  varying-coefficient model has the form
+
+The second approach in specifying varying coefficient models is by generalizing \eqref{VC_mean_function_single_covariate} to allow each covariate's coefficient function to depend on different covariates, $\boldmath{Z} = \left(Z_1, Z_2, \dots, Z_p\right)^T$. This leads to modeling the mean response as follows:
 
 \begin{equation}
-\eta = \beta_0 + \beta_1\left(R_1\right) \label{hastie_tibshirani_VC_model}
+E\left(Y \vert \bfX=\bfx,\;Z = z \right) = \beta_0\left(z_0\right) + x_1\beta_1\left(z_1\right) + \dots  + x_p\beta_p\left(z_p\right) \label{VC_mean_function_multiple_smoothing_covariates}
 \end{equation}
 
+There are many proposed extensions of \eqref{VC_mean_function_single_smoothing_covariate} and \eqref{VC_mean_function_multiple_smoothing_covariates}, including models that allow a covariate to play both the roles of the linear effect covariate ($X_j$) in addition to the roles of the \textit{smoothing variables} ($Z_j$). One can see that by letting the $\lbrace  \beta_j \rbrace$ be constant for $j=1, \dots, p$, this reduces to \eqref{hoover_rice_wu_VC_model} proposed by Hoover, Rice, Wu and Yang. 
 
+\section{Kernel estimation with a single smoothing variable}
+
+\section{Kernel estimation with multiple smoothing variables}
+
+\section{Smoothing spline estimation and penalized likelihood techniques}
