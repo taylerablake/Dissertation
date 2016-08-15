@@ -86,8 +86,25 @@ E\left(Y \vert \bfX=\bfx,\;Z = z \right) = \beta_0\left(z_0\right) + x_1\beta_1\
 
 There are many proposed extensions of \eqref{VC_mean_function_single_smoothing_covariate} and \eqref{VC_mean_function_multiple_smoothing_covariates}, including models that allow a covariate to play both the roles of the linear effect covariate ($X_j$) in addition to the roles of the \textit{smoothing variables} ($Z_j$). One can see that by letting the $\lbrace  \beta_j \rbrace$ be constant for $j=1, \dots, p$, this reduces to \eqref{hoover_rice_wu_VC_model} proposed by Hoover, Rice, Wu and Yang. 
 
-\section{Kernel estimation with a single smoothing variable}
+\section{Model estimation}
 
-\section{Kernel estimation with multiple smoothing variables}
+In the case of a single common smoothing variable, estimation of \eqref{VC_mean_function_single_smoothing_covariate} via kernel smoothing is quite straightforward. Since the space of the smoothing variable is of only one dimension, smoothing of the $p$ coefficient functions reduces to finding the local least squares fit using a single smoothing bandwidth. This approach, however, may lead to inadequate estimators since the functions $\beta_0\left(z\right), \beta_1\left(z\right), \dots, \beta_p\left(z\right)$ may need varying degrees of smoothing in the $z$ dimension.
 
-\section{Smoothing spline estimation and penalized likelihood techniques}
+\subsection{Kernel estimation with a single smoothing variable}
+
+Suppose we have a random sample of data, consisting of $\lbrace \left(x_1, y_1\right),\dots, \left(x_n, y_n\right)\rbrace$, for $i=1,\dots,n$. In classical univariate nonparametric regression, we model 
+
+\begin{equation}
+Y_i = f\left(x_i\right) + \epsilon_i,\;\;i\;i=1,\dots, n \label{classical_NP_regression_model}
+\end{equation} 
+
+where $f$ is the unknown smooth regression function of interest, and the $\lbrace \epsilon_i \rbrace$ are mutually independent mean-zero errors, with $Var\left(\epsilon_i\right)=\sigma_\epsilon^2$. To derive the form of the estimator of the mean function, we consider expressing $f$ in terms of the joint probability distribution of $X$ and $Y$:
+
+\begin{eqnarray}
+f\left(x\right) = E\left(Y \vert X=x\right) = \int yp(y \vert x)\;dy = \frac{ \int yp(y \vert x)\;dy }{ \int p(y \vert x)\;dy }
+\end{eqnarray}
+ 
+
+\subection{Kernel estimation with multiple smoothing variables}
+
+\subsection{Smoothing spline estimation and penalized likelihood techniques}

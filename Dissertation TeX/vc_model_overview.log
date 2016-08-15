@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  12 AUG 2016 22:45
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  15 AUG 2016 13:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -174,7 +174,7 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen121
 \Gm@dimlist=\toks23
 )
-No file vc_model_overview.aux.
+(./vc_model_overview.aux)
 \openout1 = `vc_model_overview.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 39.
@@ -189,6 +189,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 39.
 LaTeX Font Info:    ... okay on input line 39.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 39.
 LaTeX Font Info:    ... okay on input line 39.
+
 (/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count107
@@ -228,4 +229,4 @@ Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
 Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
 
 (/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
-Package: kvsetk
+Package: kvsetkeys 
