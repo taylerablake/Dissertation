@@ -47,64 +47,117 @@
 
 The classical linear model expresses the influence of covariates $X_1, X_2, \dots, X_p$ on the response variable $Y$ via 
 
-\begin{equation}
-Y = \beta_0 + beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p \label{classical_linear_model}
+\begin{equation} \label{eq:classical_linear_model}
+Y = \beta_0 + beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p 
 \end{equation}
 
 Blah blah blah, motivate extending classical linear models to VC models by elaborating the demands of longitudinal data encountered in natural and life sciences, biomedicine, and other social and life sciences, particularly clinical trials, like the AIDS cohort CD4 data. 
 
 Zeger and Diggle (1994) present a partially linear model motivated by the MACS data. They consider data of the form $\lbrace \left(x_{ij},y_{ij}\left(t_{ij}\right)\right): \;\; j=1,\dots,m_i;\;\;i=1,\dots,n \rbrace$, where $x_{ij}$ denotes a $p \times 1$ vector of covariates corresponding to $y_{ij}\left(t_{ij}\right)$, the $j$th measurement on the $i$th subject at time $t_{ij}$.  They propose the semiparametric model 
 
-\begin{equation}
-Y_{ij}\left(t\right) =  x_{ij}^T\beta + \mu\left(t\right) + W_i\left(t\right) + \epsilon_{ij} \label{zeger_diggle_VC_model}
+\begin{equation} \label{eq:zeger_diggle_VC_model}
+Y_{ij}\left(t\right) =  x_{ij}^T\beta + \mu\left(t\right) + W_i\left(t\right) + \epsilon_{ij}
 \end{equation}
 
 where $\mu\left(t\right)$ is a smooth function of time, and $\beta$ is a $p \times 1$ vector of regression coefficients. The $\lbrace W_i\left(t\right):\;i=1,\dots,n \rbrace$ capture the within-subject dependency structure, defined to be independent replicates of a stationary Gaussian process with mean zero and covariance function $\gamma\left(v\right) = \sigma_w^2\rho\left(v, \theta \right)$. The $\lbrace Z_{ij}:\;j=1,\dots,m_i\;i=1,\dots,n \rbrace$ are mutually independent Normally distributed error terms with mean zero and variance $\sigma_z^2$.
 
 They carry out estimation of $\mu\left(t\right)$ and $\beta$ iteratively via kernel smoothing and generalized least squares. While more flexible than the classical linear model, this still limiting as it does not allow us to explain any dynamic effect of the covariates over time.  
 
-Varying coefficient models extend \eqref{classical_linear_model}, allowing the effect of covariates as specified by model parameters to change with the value of the covariates themselves.  They adopt the same easy of interpretability of the classical linear model and are inherently nonparametric; the general class of varying coefficient models is very flexible, including generalized additive models as a special case. Two general methods of constructing varying coefficient models have been employed in previous work; the first of which specifies a model such that all coefficients are dependent on a single common covariate. The mean function of the response $Y$ take the form
+Varying coefficient models extend \ref{eq:classical_linear_model}, allowing the effect of covariates as specified by model parameters to change with the value of the covariates themselves.  They adopt the same easy of interpretability of the classical linear model and are inherently nonparametric; the general class of varying coefficient models is very flexible, including generalized additive models as a special case. Two general methods of constructing varying coefficient models have been employed in previous work; the first of which specifies a model such that all coefficients are dependent on a single common covariate. The mean function of the response $Y$ take the form
 
-\begin{equation}
-E\left(Y \vert \bfX=\bfx,\;Z = z \right) = \beta_0\left(z\right) + x_1\beta_1\left(z\right) + \dots  + x_p\beta_p\left(z\right) \label{VC_mean_function_single_smoothing_covariate}
+\begin{equation} \label{eq:VC_mean_function_single_smoothing_covariate}
+E\left(Y \vert \bfX=\bfx,\;Z = z \right) = \beta_0\left(z\right) + x_1\beta_1\left(z\right) + \dots  + x_p\beta_p\left(z\right)
 \end{equation}
 
 where $\bfX = \left(X_1, X_2, \dots, X_p\right)^T$ and $Z$ are covariates and $\bfbeta\left(z\right) = \left( \beta_0\left(z\right), \beta_1\left(z\right),\dots,\beta_p\left(z\right) \right)^T$ are unknown coefficient functions, assumed to be smooth functions of $Z$. Hoover, Rice, Wu and Yang (1998) considered the following model:
 
-\begin{equation}
-Y\left(t\right) =  \bfX^T\left(t\right)\bfbeta \left(t\right) + \epsilon\left(t\right) \label{hoover_rice_wu_VC_model}
+\begin{equation} \label{eq:hoover_rice_wu_VC_model}
+Y\left(t\right) =  \bfX^T\left(t\right)\bfbeta \left(t\right) + \epsilon\left(t\right) 
 \end{equation}
 
-proposing estimation of the coefficient functions via smoothing splines and local polynomials. $\epsilon\left(t\right)$ is defined as in \eqref{zeger_diggle_VC_model} and is assumed to be independent of $\bfX\left(t\right)$. Hoover et al (1998) propose the same model, using smoothing splines and kernel smoothing to estimate  the components of $\bfbeta\left(t\right)$ and develop asymptotic properties of kernel estimators. 
+proposing estimation of the coefficient functions via smoothing splines and local polynomials. $\epsilon\left(t\right)$ is defined as in \ref{eq:zeger_diggle_VC_model} and is assumed to be independent of $\bfX\left(t\right)$. Hoover et al (1998) propose the same model, using smoothing splines and kernel smoothing to estimate  the components of $\bfbeta\left(t\right)$ and develop asymptotic properties of kernel estimators. 
 
 
-The second approach in specifying varying coefficient models is by generalizing \eqref{VC_mean_function_single_covariate} to allow each covariate's coefficient function to depend on different covariates, $\boldmath{Z} = \left(Z_1, Z_2, \dots, Z_p\right)^T$. This leads to modeling the mean response as follows:
+The second approach in specifying varying coefficient models is by generalizing \ref{eq:VC_mean_function_single_covariate} to allow each covariate's coefficient function to depend on different covariates, $\boldmath{Z} = \left(Z_1, Z_2, \dots, Z_p\right)^T$. This leads to modeling the mean response as follows:
 
-\begin{equation}
-E\left(Y \vert \bfX=\bfx,\;Z = z \right) = \beta_0\left(z_0\right) + x_1\beta_1\left(z_1\right) + \dots  + x_p\beta_p\left(z_p\right) \label{VC_mean_function_multiple_smoothing_covariates}
+\begin{equation} \label{eq:VC_mean_function_multiple_smoothing_covariates}
+E\left(Y \vert \bfX=\bfx,\;Z = z \right) = \beta_0\left(z_0\right) + x_1\beta_1\left(z_1\right) + \dots  + x_p\beta_p\left(z_p\right)
 \end{equation}
 
-There are many proposed extensions of \eqref{VC_mean_function_single_smoothing_covariate} and \eqref{VC_mean_function_multiple_smoothing_covariates}, including models that allow a covariate to play both the roles of the linear effect covariate ($X_j$) in addition to the roles of the \textit{smoothing variables} ($Z_j$). One can see that by letting the $\lbrace  \beta_j \rbrace$ be constant for $j=1, \dots, p$, this reduces to \eqref{hoover_rice_wu_VC_model} proposed by Hoover, Rice, Wu and Yang. 
+There are many proposed extensions of \ref{eq:VC_mean_function_single_smoothing_covariate} and \ref{eq:VC_mean_function_multiple_smoothing_covariates}, including models that allow a covariate to play both the roles of the linear effect covariate ($X_j$) in addition to the roles of the \textit{smoothing variables} ($Z_j$). One can see that by letting the $\lbrace  \beta_j \rbrace$ be constant for $j=1, \dots, p$, this reduces to \ref{eq:hoover_rice_wu_VC_model} proposed by Hoover, Rice, Wu and Yang. 
 
 \section{Model estimation}
 
-In the case of a single common smoothing variable, estimation of \eqref{VC_mean_function_single_smoothing_covariate} via kernel smoothing is quite straightforward. Since the space of the smoothing variable is of only one dimension, smoothing of the $p$ coefficient functions reduces to finding the local least squares fit using a single smoothing bandwidth. This approach, however, may lead to inadequate estimators since the functions $\beta_0\left(z\right), \beta_1\left(z\right), \dots, \beta_p\left(z\right)$ may need varying degrees of smoothing in the $z$ dimension.
+In the case of a single common smoothing variable, estimation of \ref{VC_mean_function_single_smoothing_covariate} via kernel smoothing is quite straightforward. Since the space of the smoothing variable is of only one dimension, smoothing of the $p$ coefficient functions reduces to finding the local least squares fit using a single smoothing bandwidth. This approach, however, may lead to inadequate estimators since the functions $\beta_0\left(z\right), \beta_1\left(z\right), \dots, \beta_p\left(z\right)$ may need varying degrees of smoothing in the $z$ dimension.
 
 \subsection{Kernel estimation with a single smoothing variable}
 
-Suppose we have a random sample of data, consisting of $\lbrace \left(x_1, y_1\right),\dots, \left(x_n, y_n\right)\rbrace$, for $i=1,\dots,n$. In classical univariate nonparametric regression, we model 
+Suppose we have a random sample of data, consisting of $\left\{ \left(x_1, y_1\right),\dots, \left(x_n, y_n\right)\right\}$, for $i=1,\dots,n$. In classical univariate nonparametric regression, we model 
 
 \begin{equation}
-Y_i = f\left(x_i\right) + \epsilon_i,\;\;i\;i=1,\dots, n \label{classical_NP_regression_model}
+Y_i = f\left(x_i\right) + \epsilon_i,\;\;\;i=1,\dots, n \label{eq:classical_NP_regression_model}
 \end{equation} 
 
 where $f$ is the unknown smooth regression function of interest, and the $\lbrace \epsilon_i \rbrace$ are mutually independent mean-zero errors, with $Var\left(\epsilon_i\right)=\sigma_\epsilon^2$. To derive the form of the estimator of the mean function, we consider expressing $f$ in terms of the joint probability distribution of $X$ and $Y$:
 
-\begin{eqnarray}
-f\left(x\right) = E\left(Y \vert X=x\right) = \int yp(y \vert x)\;dy = \frac{ \int yp(y \vert x)\;dy }{ \int p(y \vert x)\;dy }
+\begin{eqnarray} 
+f\left(x\right) = E\left(Y \vert X=x\right) &=& \int yp(y \vert x)\;dy \nonumber \\
+&=& \frac{ \int yp(y \vert x)\;dy }{ \int p(y \vert x)\;dy } \label{eq:conditional_mean_y_given_x}
 \end{eqnarray}
  
+Let $K$ denote a kernel function corresponding to a probability density, $h$ denote the smoothing bandwidth, and let 
 
-\subection{Kernel estimation with multiple smoothing variables}
+\[
+K_h\left(t\right) = h^{-1} K\left(h^{-1} t \right)
+\] 
+
+The Nadaraya-Watson estimator of the joint density of $x$ and $y$ has form
+
+\begin{eqnarray} 
+\hat{p}\left(x,y\right) &=& \frac{1}{nh_x h_y}\sum_{i=1}^{n} K_{h_x}\left(\frac{x-x_i}{h_x}\right) K_{h_y}\left(\frac{y-y_i}{h_y}\right)  \nonumber \\ 
+&=& \frac{1}{n}\sum_{i=1}^{n} K_{h_x}\left(x-x_i\right) K_{h_y}\left(y-y_i\right) \label{eq:NW_joint_pdf_estimator} 
+\end{eqnarray}
+
+Then, substituting \ref{eq:NW_joint_pdf_estimator} for $p\left(x,y\right)$ in the numerator of \ref{eq:conditional_mean_y_given_x}, we can write 
+
+\begin{equation} \nonumber 
+\int y \hat{p}\left(x,y\right)\;dy = \frac{1}{n} \int y K_{h_x}\left(x-x_i\right) K_{h_y}\left(y-y_i\right)
+\end{equation} 
+
+Since $\int yK_{h_y}\left(y-y_i\right)dy = y_i$, we have that 
+\begin{equation} \label{eq:num_est}
+\int y \hat{p}\left(x,y\right)\;dy = \frac{1}{n}\sum_{i=1}^n K_{h_x}\left(x-x_i\right) y_i 
+\end{equation} 
+
+Estimating the denominator of \ref{eq:conditional_mean_y_given_x} in similar fashion, we have 
+
+\begin{eqnarray}
+\int \hat(p)\left(x,y\right)\;dy &=& \frac{1}{n}\sum_{i=1}^{n} K_{h_x}\left(x-x_i\right) \int K_{h_y}\left(y-y_i\right)\;dy \nonumber \\
+&=& \frac{1}{n}\sum_{i=1}^{n} K_{h_x}\left(x-x_i\right) \nonumber \\
+&=& \hat{f}_x\left(x\right) \label{eq:den_est} 
+\end{eqnarray}
+
+Using \ref{eq:num_est} and \ref{eq:den_est} as plug-in estimators in \ref{eq:conditional_mean_y_given_x}, then 
+
+\begin{equation} 
+\hat{f}\left(x\right) = \sum_{i=1}^n W_{h_x}\left(x,x_i\right)y_i
+\end{equation}
+
+where 
+
+\begin{equation} \label{eq:NW_weights} 
+W_{h_x}\left(x,x_i\right) = \frac{K_{h_x}\left(x-x_i\right) }{\sum_{i=1}^{n} K_{h_x}\left(x-x_i\right)}
+\end{equation}
+
+and $\sum_{i=1}^n W_{h_x}\left(x,x_i\right) = 1$. 
+
+
+
+
+\subsection{Kernel estimation with multiple smoothing variables}
 
 \subsection{Smoothing spline estimation and penalized likelihood techniques}
+
+
+\end{document}
+
