@@ -8,9 +8,11 @@
 \newcommand{\bfphi}{\mbox{\boldmath $\phi$}}
 \newcommand{\bfsigma}{\mbox{\boldmath $\sigma$}}
 \newcommand{\bfbeta}{\mbox{\boldmath $\beta$}}
+\newcommand{\bfalpha}{\mbox{\boldmath $\alpha$}}
 \newcommand{\bfe}{\mbox{\boldmath $e$}}
 \newcommand{\bft}{\mbox{\boldmath $t$}}
 \newcommand{\bfo}{\mbox{\boldmath $0$}}
+\newcommand{\bfO}{\mbox{\boldmath $O$}}
 \newcommand{\bfx}{\mbox{\boldmath $x$}}
 \newcommand{\bfX}{\mbox{\boldmath $X$}}
 \newcommand{\bfz}{\mbox{\boldmath $z$}}
@@ -48,7 +50,7 @@
 The classical linear model expresses the influence of covariates $X_1, X_2, \dots, X_p$ on the response variable $Y$ via 
 
 \begin{equation} \label{eq:classical_linear_model}
-Y = \beta_0 + beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p 
+Y = beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p 
 \end{equation}
 
 Blah blah blah, motivate extending classical linear models to VC models by elaborating the demands of longitudinal data encountered in natural and life sciences, biomedicine, and other social and life sciences, particularly clinical trials, like the AIDS cohort CD4 data. 
@@ -66,10 +68,10 @@ They carry out estimation of $\mu\left(t\right)$ and $\beta$ iteratively via ker
 Varying coefficient models extend \ref{eq:classical_linear_model}, allowing the effect of covariates as specified by model parameters to change with the value of the covariates themselves.  They adopt the same easy of interpretability of the classical linear model and are inherently nonparametric; the general class of varying coefficient models is very flexible, including generalized additive models as a special case. Two general methods of constructing varying coefficient models have been employed in previous work; the first of which specifies a model such that all coefficients are dependent on a single common covariate. The mean function of the response $Y$ take the form
 
 \begin{equation} \label{eq:VC_mean_function_single_smoothing_covariate}
-E\left(Y \vert \bfX=\bfx,\;Z = z \right) = \beta_0\left(z\right) + x_1\beta_1\left(z\right) + \dots  + x_p\beta_p\left(z\right)
+E\left(Y \vert \bfX=\bfx,\;Z = z \right) = x_1\beta_1\left(z\right) + \dots  + x_p\beta_p\left(z\right)
 \end{equation}
 
-where $\bfX = \left(X_1, X_2, \dots, X_p\right)^T$ and $Z$ are covariates and $\bfbeta\left(z\right) = \left( \beta_0\left(z\right), \beta_1\left(z\right),\dots,\beta_p\left(z\right) \right)^T$ are unknown coefficient functions, assumed to be smooth functions of $Z$. Hoover, Rice, Wu and Yang (1998) considered the following model:
+where $\bfX = \left(X_1, X_2, \dots, X_p\right)^T$ and $Z$ are covariates and $\bfbeta\left(z\right) = \left( \beta_0\left(z\right), \beta_1\left(z\right),\dots,\beta_p\left(z\right) \right)^T$ are unknown coefficient functions, assumed to be smooth functions of $Z$. It is worth noting that by taking $X_1 \equiv 1$, this model allows for a varying intercept term. Hoover, Rice, Wu and Yang (1998) considered the following model:
 
 \begin{equation} \label{eq:hoover_rice_wu_VC_model}
 Y\left(t\right) =  \bfX^T\left(t\right)\bfbeta \left(t\right) + \epsilon\left(t\right) 
@@ -77,18 +79,17 @@ Y\left(t\right) =  \bfX^T\left(t\right)\bfbeta \left(t\right) + \epsilon\left(t\
 
 proposing estimation of the coefficient functions via smoothing splines and local polynomials. $\epsilon\left(t\right)$ is defined as in \ref{eq:zeger_diggle_VC_model} and is assumed to be independent of $\bfX\left(t\right)$. Hoover et al (1998) propose the same model, using smoothing splines and kernel smoothing to estimate  the components of $\bfbeta\left(t\right)$ and develop asymptotic properties of kernel estimators. 
 
-
 The second approach in specifying varying coefficient models is by generalizing \ref{eq:VC_mean_function_single_covariate} to allow each covariate's coefficient function to depend on different covariates, $\boldmath{Z} = \left(Z_1, Z_2, \dots, Z_p\right)^T$. This leads to modeling the mean response as follows:
 
 \begin{equation} \label{eq:VC_mean_function_multiple_smoothing_covariates}
-E\left(Y \vert \bfX=\bfx,\;Z = z \right) = \beta_0\left(z_0\right) + x_1\beta_1\left(z_1\right) + \dots  + x_p\beta_p\left(z_p\right)
+E\left(Y \vert \bfX=\bfx,\;Z = z \right) = x_1\beta_1\left(z_1\right) + \dots  + x_p\beta_p\left(z_p\right)
 \end{equation}
 
 There are many proposed extensions of \ref{eq:VC_mean_function_single_smoothing_covariate} and \ref{eq:VC_mean_function_multiple_smoothing_covariates}, including models that allow a covariate to play both the roles of the linear effect covariate ($X_j$) in addition to the roles of the \textit{smoothing variables} ($Z_j$). One can see that by letting the $\lbrace  \beta_j \rbrace$ be constant for $j=1, \dots, p$, this reduces to \ref{eq:hoover_rice_wu_VC_model} proposed by Hoover, Rice, Wu and Yang. 
 
 \section{Model estimation}
 
-In the case of a single common smoothing variable, estimation of \ref{VC_mean_function_single_smoothing_covariate} via kernel smoothing is quite straightforward. Since the space of the smoothing variable is of only one dimension, smoothing of the $p$ coefficient functions reduces to finding the local least squares fit using a single smoothing bandwidth. This approach, however, may lead to inadequate estimators since the functions $\beta_0\left(z\right), \beta_1\left(z\right), \dots, \beta_p\left(z\right)$ may need varying degrees of smoothing in the $z$ dimension.
+In the case of a single common smoothing variable, estimation of \ref{eq:VC_mean_function_single_smoothing_covariate} via kernel smoothing is quite straightforward. Since the space of the smoothing variable is of only one dimension, smoothing of the $p$ coefficient functions reduces to finding the local least squares fit using a single smoothing bandwidth. This approach, however, may lead to inadequate estimators since the functions $\beta_0\left(z\right), \beta_1\left(z\right), \dots, \beta_p\left(z\right)$ may need varying degrees of smoothing in the $z$ dimension. To address this, 
 
 \subsection{Kernel estimation with a single smoothing variable}
 
@@ -97,7 +98,7 @@ Suppose we have a random sample of data, consisting of $\left\{ \left(x_1, y_1\r
 \begin{equation}
 Y_i = f\left(x_i\right) + \epsilon_i,\;\;\;i=1,\dots, n \label{eq:classical_NP_regression_model}
 \end{equation} 
-
+\noindent
 where $f$ is the unknown smooth regression function of interest, and the $\lbrace \epsilon_i \rbrace$ are mutually independent mean-zero errors, with $Var\left(\epsilon_i\right)=\sigma_\epsilon^2$. To derive the form of the estimator of the mean function, we consider expressing $f$ in terms of the joint probability distribution of $X$ and $Y$:
 
 \begin{eqnarray} 
@@ -117,22 +118,22 @@ The Nadaraya-Watson estimator of the joint density of $x$ and $y$ has form
 \hat{p}\left(x,y\right) &=& \frac{1}{nh_x h_y}\sum_{i=1}^{n} K_{h_x}\left(\frac{x-x_i}{h_x}\right) K_{h_y}\left(\frac{y-y_i}{h_y}\right)  \nonumber \\ 
 &=& \frac{1}{n}\sum_{i=1}^{n} K_{h_x}\left(x-x_i\right) K_{h_y}\left(y-y_i\right) \label{eq:NW_joint_pdf_estimator} 
 \end{eqnarray}
-
+\noindent
 Then, substituting \ref{eq:NW_joint_pdf_estimator} for $p\left(x,y\right)$ in the numerator of \ref{eq:conditional_mean_y_given_x}, we can write 
 
 \begin{equation} \nonumber 
 \int y \hat{p}\left(x,y\right)\;dy = \frac{1}{n} \int y K_{h_x}\left(x-x_i\right) K_{h_y}\left(y-y_i\right)
 \end{equation} 
-
+\noindent
 Since $\int yK_{h_y}\left(y-y_i\right)dy = y_i$, we have that 
 \begin{equation} \label{eq:num_est}
 \int y \hat{p}\left(x,y\right)\;dy = \frac{1}{n}\sum_{i=1}^n K_{h_x}\left(x-x_i\right) y_i 
 \end{equation} 
-
+\noindent
 Estimating the denominator of \ref{eq:conditional_mean_y_given_x} in similar fashion, we have 
 
 \begin{eqnarray}
-\int \hat(p)\left(x,y\right)\;dy &=& \frac{1}{n}\sum_{i=1}^{n} K_{h_x}\left(x-x_i\right) \int K_{h_y}\left(y-y_i\right)\;dy \nonumber \\
+\int \hat{p}\left(x,y\right)\;dy &=& \frac{1}{n}\sum_{i=1}^{n} K_{h_x}\left(x-x_i\right) \int K_{h_y}\left(y-y_i\right)\;dy \nonumber \\
 &=& \frac{1}{n}\sum_{i=1}^{n} K_{h_x}\left(x-x_i\right) \nonumber \\
 &=& \hat{f}_x\left(x\right) \label{eq:den_est} 
 \end{eqnarray}
@@ -142,17 +143,53 @@ Using \ref{eq:num_est} and \ref{eq:den_est} as plug-in estimators in \ref{eq:con
 \begin{equation} 
 \hat{f}\left(x\right) = \sum_{i=1}^n W_{h_x}\left(x,x_i\right)y_i
 \end{equation}
-
+\noindent
 where 
-
-\begin{equation} \label{eq:NW_weights} 
+\begin{equation} \nonumber
 W_{h_x}\left(x,x_i\right) = \frac{K_{h_x}\left(x-x_i\right) }{\sum_{i=1}^{n} K_{h_x}\left(x-x_i\right)}
 \end{equation}
+\noindent
+and $\sum_{i=1}^n W_{h_x}\left(x,x_i\right) = 1$. One can extend this to the case where the regression function is defined as in \ref{eq:VC_mean_function_single_smoothing_covariate}; the Nadaraya-Watson (NW) estimator of $\bfbeta\left(z_0\right) = \left(\beta_0\left(z_0,\right), \beta_1\left(z_0,\right),\dots,\beta_p\left(z_0,\right)\right)^T$ minimizes
 
-and $\sum_{i=1}^n W_{h_x}\left(x,x_i\right) = 1$. 
+\begin{equation} \nonumber 
+\sum_{i=1}^n \left(Y_i - \left(\sum_{j=1}^p \alpha_j X_{ij}\right)\right)^2 K_{h_z}\left(z_0,Z_i\right)
+\end{equation} 
+\noindent
+with respect to $\bfalpha = \left( \alpha_1, \dots, \alpha_p\right)^T$ for each target point $z_0$. Let $\mathcal{X}$ denote the $n \times p$ matrix having $i-j^{th}$ element $X_{ij}$, $\mathcal{W}$ denote the $n \times n$ diagonal matrix with $i^{th}$ diagonal entry $K_{h_z}\left(z_0, Z_i\right)$, and let $\bfZ = \left(Z_1, \dots, Z_n\right)^T$. Further, let $\bfY = \left(Y_1, \dots, Y_n\right)^T$, then the NW estimator has form
+
+\begin{equation} \nonumber
+\hat{\bfbeta}\left(z_0\right) = \big[\mathcal{X}^T\mathcal{W}\mathcal{X}\big]^{-1} \mathcal{X}^T\mathcal{W} \bfY
+\end{equation} 
 
 
+It is well known that locally weighted averages can exhibit high bias near the boundaries of the smoothing variable domain, due to the asymmetry of the kernel in that region. This bias can also be present on the interior of the domain when the observed values of $Z$ are irregularly sampled, though it is typically less severe in the interior than near the boundaries. To remedy this, one may consider fitting local linear smoothers, which will correct this bias to first order. The local linear smoother minimizes 
 
+\begin{equation} \label{local_linear_smoother_obj_fun} 
+\sum_{i=1}^n \Big[Y_i - \sum_{j=1}^p \left(\alpha_{0j}+\alpha_{1j}\left(Z_i - z_0 \right)\right)X_{ij}\Big]^2 K_{h_z}\left(z_0,Z_i\right)
+\end{equation} 
+ 
+ \noindent
+ with respect to $\bfalpha_0 = \left( \alpha_{01}, \dots, \alpha_{0p}\right)^T$, and $\bfalpha_1 = \left( \alpha_{11}, \dots, \alpha_{1p}\right)^T$. Let $\mathcal{X}$ denote the $n \times 2p$ matrix having $i-j^{th}$ element $X_{ij}$ and $i-\left(j+p\right)^{th}$ element $\left(Z_i - z_0\right)X_{ij}$ for $1 \le  j \le p$, then the minimizer of \ref{eq:local_linear_smoother_obj_fun} is given by 
+ 
+\begin{equation} \nonumber
+\hat{\bfbeta}\left(z_0\right) = \big[ \mathcal{I}_p, \bfO_p \big]\big[\mathcal{X}^T\mathcal{W}\mathcal{X}\big]^{-1} \mathcal{X}^T\mathcal{W} \bfY
+\end{equation}   
+
+\noindent
+where $\mathcal{I}_p$ is the $p \times p$ identity matrix, and $\bfO_p$ is the $p \times p$ zero matrix. Extensions to the case of a single multivariate smoothing variable $\bfZ$, where the mean function is given by 
+
+\[
+E\left(Y \vert \bfX=\bfx, \bfZ=\bfz \right) = x_1\beta_1\left(\bfz\right) + \dots  + x_p\beta_p\left(\bfz\right)
+\]
+\noindent
+However, while boundary effects associated with the NW estimator are a concern in one dimension, the curse of dimensionality makes these effects much more problematic in two or more dimensions. The fraction of points close to the boundary of the domain approaches one as the dimensionality of the input space grows, and simultaneously maintaining locality (and low bias) as well as sizable number of observations in the neighborhood of the target point, $z_0$ (low variance) becomes an increasingly tall order. 
+
+\subsubsection{Kernel bandwidth selection with a single smoothing variable} \label{single_smoothing_var_bandwidth_selection}
+\subsubsection{Asymptotic properties of kernel estimators with a single smoothing variable}
+
+\subsubsection{Two-step estimation for multiple bandwidths}
+
+Model selection as described in \ref{single_smoothing_var_bandwidth_selection} assumes a single smoothing bandwidth $h_z$ as well as a single common kernel function $K$ for every coefficient function $\beta_j$. While convenient and straightforward, in practice, the assumption that each coefficient function should receive the same degree of smoothing is likely to be an erroneous one. 
 
 \subsection{Kernel estimation with multiple smoothing variables}
 
