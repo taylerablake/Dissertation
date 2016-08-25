@@ -1,5 +1,8 @@
 \documentclass[12pt]{article}
-\usepackage{graphicx,psfrag, natbib,amsfonts,float,mathbbol,natbib,amsmath}
+\usepackage{graphicx,psfrag, natbib,amsfonts,float,mathbbol,natbib}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{IEEEtrantools}
 \usepackage[letterpaper, left=1in, top=1in, right=1in, bottom=1in,nohead,includefoot, verbose, ignoremp]{geometry}
 
 \newcommand{\bfeps}{\mbox{\boldmath $\epsilon$}}
@@ -10,6 +13,7 @@
 \newcommand{\bfbeta}{\mbox{\boldmath $\beta$}}
 \newcommand{\bfalpha}{\mbox{\boldmath $\alpha$}}
 \newcommand{\bfe}{\mbox{\boldmath $e$}}
+\newcommand{\bff}{\mbox{\boldmath $f$}}
 \newcommand{\bft}{\mbox{\boldmath $t$}}
 \newcommand{\bfo}{\mbox{\boldmath $0$}}
 \newcommand{\bfO}{\mbox{\boldmath $O$}}
@@ -79,7 +83,7 @@ Y\left(t\right) =  \bfX^T\left(t\right)\bfbeta \left(t\right) + \epsilon\left(t\
 
 proposing estimation of the coefficient functions via smoothing splines and local polynomials. $\epsilon\left(t\right)$ is defined as in \ref{eq:zeger_diggle_VC_model} and is assumed to be independent of $\bfX\left(t\right)$. Hoover et al (1998) propose the same model, using smoothing splines and kernel smoothing to estimate  the components of $\bfbeta\left(t\right)$ and develop asymptotic properties of kernel estimators. 
 
-The second approach in specifying varying coefficient models is by generalizing \ref{eq:VC_mean_function_single_covariate} to allow each covariate's coefficient function to depend on different covariates, $\boldmath{Z} = \left(Z_1, Z_2, \dots, Z_p\right)^T$. This leads to modeling the mean response as follows:
+The second approach in specifying varying coefficient models is by generalizing \ref{eq:VC_mean_function_single_smoothing_covariate} to allow each covariate's coefficient function to depend on different covariates, $\boldmath{Z} = \left(Z_1, Z_2, \dots, Z_p\right)^T$. This leads to modeling the mean response as follows:
 
 \begin{equation} \label{eq:VC_mean_function_multiple_smoothing_covariates}
 E\left(Y \vert \bfX=\bfx,\;Z = z \right) = x_1\beta_1\left(z_1\right) + \dots  + x_p\beta_p\left(z_p\right)
@@ -189,11 +193,113 @@ However, while boundary effects associated with the NW estimator are a concern i
 
 \subsubsection{Two-step estimation for multiple bandwidths}
 
-Model selection as described in \ref{single_smoothing_var_bandwidth_selection} assumes a single smoothing bandwidth $h_z$ as well as a single common kernel function $K$ for every coefficient function $\beta_j$. While convenient and straightforward, in practice, the assumption that each coefficient function should receive the same degree of smoothing is likely to be an erroneous one. 
+Model selection as described in \ref{single_smoothing_var_bandwidth_selection} assumes a single smoothing bandwidth $h_z$ as well as a single common kernel function $K$ for every coefficient function $\beta_j$. While convenient and straightforward, in practice, the assumption that each coefficient function should receive the same degree of smoothing is likely to be an erroneous one. Fan and Zhang (1999) present an intuitive formulation of their proposed two-stage estimation procedure that allows for each coefficient function to have its own smoothing bandwidth. Assume that $\beta_p\left(z\right)$ is smoother than the other $p-1$ coefficient functions, and can be locally approximated by a cubic polynomial:
+
+\[
+\beta_p\left(z\right) \approx b_{0p} + b_{1p} \left(z-z_0\right) + b_{2p} \left(z-z_0\right)^2 + b_{3p} \left(z-z_0\right)^3
+\] 
+\noindent 
+for any $z_0$ close to $z$. Let $\lbrace \tilde{b}_{0j}, \tilde{b}_{1j} \rbrace$, $j=1,\dots, p-1$ and $\tilde{b}_{0p}, \tilde{b}_{1p}, \tilde{b}_{2p}, \tilde{b}_{3p}$ be the minimizers of the weighted sums of squares:
+
+\begin{IEEEeqnarray*}{lll}
+\sum_{i=1}^n \Big[ Y_i &-& \sum_{j=1}^{p-1}\lbrace b_{0j} + b_{1j}\left(Z_i-z_0\right) \rbrace X_{ij} \\ 
+&-& \lbrace b_{0p} + b_{1p} \left(z-z_0\right) + b_{2p} \left(z-z_0\right)^2 + b_{3p} \left(z-z_0\right)^3 \rbrace X_{ip} \Big]^2 \times\> K_{h_1}\left(Z_i-z_0\right)
+\end{IEEEeqnarray*}
+
+If we take $\tilde{\beta}^{os}_p\left(z_0\right) = \tilde{b}_{0p}$, then they show that the bias of the the \textit{one-step estimator} is $O\left(h_0^2\right)$ and the variance is $O\left( \left(nh_0 \right)^{-1} \right)$. Fan and Zhang (1999) propose a two-step estimation procedure that allows for individual degrees of smoothing of each of the coefficient functions; Cai (2000) further investigated this two-step approach. In the first step, to estimate $\beta_j\left(z_0\right)$, a preliminary estimate, $\tilde{\beta}_j$, is obtained by applying a local cubic smoother to $\beta_j$ and local linear smoothing to the remaining $p-1$ functions with a single common bandwidth, $h_0$, for every $j$. In the second step, a local cubic smoother is again applied to the residuals $Y_i-\sum_{j\ne k} X_{ik} \tilde{\beta}\left( z_0 \right)$ using function-specific bandwidth to obtain the final estimate of $\beta_j\left(z_0\right)$. They present the asymptotic mean-squared error of the estimates obtained by this procedure, and further show  that the estimates achieve optimal convergence rates. Cai (2000) demonstrated that even when every coefficient function exhibits the same degree of smoothness, the two-step estimates exhibit the same asymptotic properties as the usual one-step local smoother.  
 
 \subsection{Kernel estimation with multiple smoothing variables}
 
-\subsection{Smoothing spline estimation and penalized likelihood techniques}
+A proposed extension of model \ref{eq:VC_mean_function_single_smoothing_covariate} permits each coefficient function to depend on its own smoothing variable: 
+
+\begin{equation} \nonumber
+E\left(Y \vert \bfX=\bfx,\;Z = z \right) = x_1\beta_1\left(z_1\right) + \dots  + x_p\beta_p\left(z_p\right)
+\end{equation}
+
+While the expression of the model itself does not make this obvious, estimation of this model is significantly different than the estimation of the model assuming a single common smoothing parameter for every coefficient function. Xue \& Yang (2006a) further generalized this model where each coefficient function is replaced by a multivariate function with additive structure:
+
+\begin{equation} \label{eq:VC_mean_MV_function_multiple_smoothing_covariates}
+E\left(Y \vert \bfX=\bfx,\;\bfZ = \bfz \right) = x_1\sum_{j=1}^q \beta_{1j}\left(z_1\right) + \dots  + x_p\sum_{j=1}^q \beta_{pj}\left(z_p\right)
+\end{equation}
+\noindent
+which allows for inclusion of all interaction terms $X_j \beta_{jk}\left(Z_k\right)$, $j=1,\dots,p$, $k=1,\dots, q$. Applying multivariate kernel smoothing locally to each point $\bfz = \left(z_1,\dots,z_p \right)^T$ results in multivariate functions of the entire covariate vector, losing the structure of model \ref{eq:VC_mean_function_multiple_smoothing_covariates}. To extract proper estimates of the $\lbrace  \beta_j \rbrace$, two primary methodologies have been proposed: marginal integration and smooth backfitting. Linton and Nielsen (1995) employ local kernel smoothing to estimate the multivariate coefficient functions $\lbrace \beta_j\left( \bfz\right) \rbrace$, minimizing
+
+\[
+n^{-1} \sum_{i=1}^n \left( Y_i  - \sum_{j=1}^q \alpha_j X_{ij} \right)^2 K_{h_1}\left(z_1,Z_{i1}\right) \times \dots \times K_{h_p}\left(z_p,Z_{ip}\right)
+\]
+\noindent
+for each value of $\bf$. Integrating the multivariate coefficient functions over the support of the smoothing variables gives marginal estimates of $\beta_j$. This approach, however, suffers from the curse of dimensionality, as the attractive statistical properties of the estimators $\hat{\beta}_j$ depend heavily on the consistency of the $\lbrace \alpha_j \rbrace$, which requires $n\times h_1\times \dots \times h_p \rightarrow \infty$, thus losing the attractive qualities of local methods. The smooth backfitting method initially introduced by Mammen et al. (1999) for additive regression models enjoys both theoretical and numerical advantages over the integration method, and is free of the curse of dimensionality. To estimate $\lbrace \alpha_j \rbrace$, one minimizes the integrated weighted sum of squares
+
+\[
+\int n^{-1} \sum_{i=1}^n \left( Y_i - \sum_{j=1}^p \alpha_j\left(z_j\right) \right)^2 K_{h_1}\left(z_1,Z_{i1}\right) \times \dots \times K_{h_p}\left(z_p,Z_{ip}\right) \;d\bfz
+\]
+\noindent
+over the space of function tuples $\mathcal{H} = \lbrace \bfalpha = \left(\alpha_1,\dots, \alpha_p\right):\alpha_j\left(\bfz\right) = \alpha_j\left(z_j\right) \rbrace$, so that the optimization must not be performed for every $\bfz$. For a detailed discussion of these methods, we refer the reader to Linton and Nielsen (1995) and Mammen \& Park (2005). 
+
+\subsection{Basis expansions and penalized likelihood techniques}
+
+A general representation of models \ref{eq:VC_mean_function_single_smoothing_covariate}, \ref{eq:VC_mean_function_multiple_smoothing_covariates}, and \ref{eq:VC_mean_MV_function_multiple_smoothing_covariates} may be represented as follows:
+
+\begin{equation} \label{eq:general_VC_model}
+E\left(Y \vert \bfX, \bfZ\right) = \sum_{i=1}^q \bfX_i^T \bfbeta_i\left(Z_i\right)
+\end{equation}
+\noindent
+where $\bfX_i$ is a $d_i \times 1$ vector, $d_i \ge 1$; $\bfX$ is the collection of all covariates contained in $\lbrace \bfX_i \rbrace$, $i=1,\dots,q$. For example, model \ref{eq:VC_mean_MV_function_multiple_smoothing_covariates} may be written as above by letting $\bfX_i \equiv \bfX = \left(X_1,\dots, X_p\right)^T$ for every $j$. In classical nonparametric regression problems, $m\left(x\right) = E\left(Y\vert X\right)$ is represented by a linear basis expansion in $X$, so that
+
+\[
+E\left(Y \vert X\right) = sum{j=1}^M \beta_m b_m\left(X\right)
+\]
+\noindent
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Smoothing methods with longitudinal data}
+
+Models \ref{eq:VC_mean_function_single_smoothing_covariate}, \ref{eq:VC_mean_function_multiple_smoothing_covariates}, and \ref{eq:VC_mean_MV_function_multiple_smoothing_covariates} can be written as follows:
+
+\begin{equation} \label{eq:functional_VC_model}
+Y\left(t\right) = \sum_{j=1}^q \bfX_j^T \bff \left(T\right) + \epsilon\left(T\right)
+\end{equation}
+
+where $\bff = \left(f_1,\dots, f_q \right)^T$ is the vector of coefficient functions of interest and $\epsilon\left(t\right)$ is a mean zero stochastic process. Both the response and covariates are assumed to be observed at subject-specific times, which may be irregularly spaced. Let $\bfX_{ij} = \bfX_i\left(T_{ij}\right)$ and $Y_{ij} = Y_i\left(T_{ij}\right)$ denote the observed covariates and responses on subject $i$ at random time points $\lbrace T_{ij} \rbrace$, $j=1,\dots,n_i$. Given this structure, model  \ref{eq:functional_VC_model} can be written 
+   
+\begin{equation} \label{longitudinal_VC_model}
+Y_{ij} = \bff\left(T_{ij}\right)^T\bfX_{ij} + \epsilon_{ij}
+\end{equation}
+\noindent
+where $\epsilon_{ij} = \epsilon\left(T_{ij}\right)$. The $\lbrace T_{ij} \rbrace$ are assumed to be independent for all $i,j$; $\bfX_{ij}$ and $\epsilon_{ij}$ are assumed to be independent across values of $i$, but may exhibit within-subject dependency structure.  A simple avenue of model estimation for model \ref{eq:longitudinal_VC_model} is to apply local smoothing, where the Nadaraya-Watson estimator minimizes 
+
+\begin{equation} \label{eq:longitudinal_NW_objective_function}
+N^{-1} \sum_{i=1}^{n} \sum_{j=1}^{n_i} \left(Y_{ij} - \sum_{k=1}^q \alpha_k X_{ijk} \right)^2 K_h\left(t,T_{ij}\right)
+\end{equation}
+\noindent
+
+with respect to $\alpha = \left(\alpha_1,\dots, \alpha_q \right)^T$, where $N = \sum_{i=1}^n n_i$. The specification in \ref{eq:longitudinal_NW_objective_function} places equal weights on all subjects; to assign individual weights to each subject's contribution to the loss function, one may instead minimize
+
+\begin{equation} \label{eq:longitudinal_NW_objective_function}
+n^{-1} \sum_{i=1}^{n} w_i \sum_{j=1}^{n_i} \left(Y_{ij} - \sum_{k=1}^q \alpha_k X_{ijk} \right)^2 K_h\left(t,T_{ij}\right)
+\end{equation}
+\noindent 
+where one may specify, for example, $w_i = n_i^{-1}$. Hoover et al. (1998) proposed kernel estimation using local polynomial smoothing, of which the minimization of \ref{eq:longitudinal_NW_objective_function} is a special case. Wu et al present the construction of both point-wise confidence intervals as well as simultaneous confidence regions based on the asymptotic normality of the local kernel smoother.
+
+
+
+
 
 
 \end{document}
