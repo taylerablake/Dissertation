@@ -238,19 +238,23 @@ over the space of function tuples $\mathcal{H} = \lbrace \bfalpha = \left(\alpha
 
 \subsection{Basis expansions and penalized likelihood techniques}
 
+In classical nonparametric regression problems, $m\left(x\right) = E\left(Y\vert X\right)$ is represented by a linear basis expansion in $X$, so that
+
+\[
+E\left(Y \vert X\right) = sum{j=1}^M \beta_m b_m\left(X\right)
+\]
+\noindent
+with $M \rightarrow \infty$. There are numerous choices for the particular type of basis functions such as logarithms, power functions, or wavelets; there is, however, disadvantages to using basis functions with unrestricted support. Piecewise polynomials and splines are families of functions, each member of which having bounded support, so as to allow for local representations of $m\left(x\right)$, though remain very easy to implement, as their estimation is carried out through the global optimization of a loss function. These methods in the classical setting have been explored extensively; Chen (2007) provides an extensive review of the asymptotic theory of these estimators. Zhou, Shen, and Wolfe (1998) establish asymptotic normality of regression splines; they present explicit expressions for the asymptotic pointwise bias and variance of the estimator, providing a method of constructing confidence intervals and confidence regions.
+
 A general representation of models \ref{eq:VC_mean_function_single_smoothing_covariate}, \ref{eq:VC_mean_function_multiple_smoothing_covariates}, and \ref{eq:VC_mean_MV_function_multiple_smoothing_covariates} may be represented as follows:
 
 \begin{equation} \label{eq:general_VC_model}
 E\left(Y \vert \bfX, \bfZ\right) = \sum_{i=1}^q \bfX_i^T \bfbeta_i\left(Z_i\right)
 \end{equation}
 \noindent
-where $\bfX_i$ is a $d_i \times 1$ vector, $d_i \ge 1$; $\bfX$ is the collection of all covariates contained in $\lbrace \bfX_i \rbrace$, $i=1,\dots,q$. For example, model \ref{eq:VC_mean_MV_function_multiple_smoothing_covariates} may be written as above by letting $\bfX_i \equiv \bfX = \left(X_1,\dots, X_p\right)^T$ for every $j$. In classical nonparametric regression problems, $m\left(x\right) = E\left(Y\vert X\right)$ is represented by a linear basis expansion in $X$, so that
+where $\bfX_i$ is a $d_i \times 1$ vector, $d_i \ge 1$; $\bfX$ is the collection of all covariates contained in $\lbrace \bfX_i \rbrace$, $i=1,\dots,q$. For example, model \ref{eq:VC_mean_MV_function_multiple_smoothing_covariates} may be written as above by letting $\bfX_i \equiv \bfX = \left(X_1,\dots, X_p\right)^T$ for every $j$. The majority of the work in this area has been for the case where $q=1$.  
 
-\[
-E\left(Y \vert X\right) = sum{j=1}^M \beta_m b_m\left(X\right)
-\]
-\noindent
-
+Within the framework of varying  
 
 
 
