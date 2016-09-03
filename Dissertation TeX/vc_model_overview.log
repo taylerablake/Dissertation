@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  24 AUG 2016 13:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  3 SEP 2016 17:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -88,6 +88,23 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 (/usr/local/texlive/2015/texmf-dist/tex/latex/jknapltx/mathbbol.sty
 Package: mathbbol 1995/01/01
 \symbbold=\mathgroup6
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
 )
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2013/01/14 v2.14 AMS math features
@@ -347,51 +364,50 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 54.
+
+Overfull \hbox (10.9068pt too wide) in paragraph at lines 51--51
+[]\OT1/cmr/bx/n/17.28 Nonparametric ex-ten-sions of the clas-si-cal lin-ear mod
+el 
+ []
+
+LaTeX Font Info:    Try loading font information for U+msa on input line 53.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 54.
+LaTeX Font Info:    Try loading font information for U+msb on input line 53.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+bbold on input line 54.
+LaTeX Font Info:    Try loading font information for U+bbold on input line 53.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/bbold/Ubbold.fd)
-Overfull \hbox (6.11191pt too wide) in paragraph at lines 78--79
-[]\OT1/cmr/m/n/12 where $[] = [][]$ and $\OML/cmm/m/it/12 Z$ \OT1/cmr/m/n/12 ar
-e co-vari-ates and $[] [] = [][]$
+Overfull \hbox (16.75104pt too wide) in paragraph at lines 61--62
+[]\OT1/cmr/m/n/12 An im-me-di-ate prob-lem of de-part-ing from lin-ear-ity is t
+he need for a class of well-parameterized
  []
 
 [1
 Non-PDF special ignored!
 
-{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
 
-LaTeX Font Warning: Command \boldmath invalid in math mode on input line 86.
-
-
-LaTeX Font Warning: Command \mathversion invalid in math mode on input line 86.
-
-
-[2]
-Overfull \hbox (14.88255pt too wide) in paragraph at lines 154--157
-\OT1/cmr/m/n/12 fined as in 3[]; the Nadaraya-Watson (NW) es-ti-ma-tor of $[] [
+Overfull \hbox (14.88255pt too wide) in paragraph at lines 166--169
+\OT1/cmr/m/n/12 fined as in 2[]; the Nadaraya-Watson (NW) es-ti-ma-tor of $[] [
 ] = [][]$
  []
 
-[3]
+[4]
 
-LaTeX Warning: Reference `eq:local_linear_smoother_obj_fun' on page 4 undefined
- on input line 176.
+LaTeX Warning: Reference `eq:local_linear_smoother_obj_fun' on page 5 undefined
+ on input line 188.
 
-[4] [5] [6]
+[5] [6] [7] [8]
 
-LaTeX Warning: Reference `eq:longitudinal_VC_model' on page 7 undefined on inpu
-t line 262.
+LaTeX Warning: Reference `eq:longitudinal_VC_model' on page 9 undefined on inpu
+t line 314.
 
-[7] (./vc_model_overview.aux)
+[9] (./vc_model_overview.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -400,13 +416,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4156 strings out of 493089
- 61583 string characters out of 6134842
- 144006 words of memory out of 5000000
- 7563 multiletter control sequences out of 15000+600000
+ 4627 strings out of 493089
+ 66959 string characters out of 6134842
+ 154212 words of memory out of 5000000
+ 8027 multiletter control sequences out of 15000+600000
  13163 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,9n,24p,1340b,153s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,10n,35p,1511b,153s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
@@ -419,10 +435,10 @@ l/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/t
 exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/te
 xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texl
 ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on vc_model_overview.pdf (7 pages, 156112 bytes).
+Output written on vc_model_overview.pdf (9 pages, 165482 bytes).
 PDF statistics:
- 76 PDF objects out of 1000 (max. 8388607)
- 54 compressed objects within 1 object stream
+ 82 PDF objects out of 1000 (max. 8388607)
+ 58 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
