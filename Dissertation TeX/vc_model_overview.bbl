@@ -1,0 +1,347 @@
+\begin{thebibliography}{}
+
+\bibitem[Anderson, 1973]{anderson1973asymptotically}
+Anderson, T. (1973).
+\newblock Asymptotically efficient estimation of covariance matrices with
+  linear structure.
+\newblock {\em The Annals of Statistics}, pages 135--141.
+
+\bibitem[Banerjee et~al., 2008]{banerjee2008model}
+Banerjee, O., El~Ghaoui, L., and d'Aspremont, A. (2008).
+\newblock Model selection through sparse maximum likelihood estimation for
+  multivariate gaussian or binary data.
+\newblock {\em The Journal of Machine Learning Research}, 9:485--516.
+
+\bibitem[Bickel and Levina, 2008]{bickel2008regularized}
+Bickel, P.~J. and Levina, E. (2008).
+\newblock Regularized estimation of large covariance matrices.
+\newblock {\em The Annals of Statistics}, pages 199--227.
+
+\bibitem[Cai and Yuan, 2010]{cai2010nonparametric}
+Cai, T. and Yuan, M. (2010).
+\newblock Nonparametric covariance function estimation for functional and
+  longitudinal data.
+\newblock {\em university of Pennsylvania and Georgia inistitute of
+  technology}.
+
+\bibitem[Cai, 2002]{cai2002two}
+Cai, Z. (2002).
+\newblock Two-step likelihood estimation procedure for varying-coefficient
+  models.
+\newblock {\em Journal of Multivariate Analysis}, 82(1):189--209.
+
+\bibitem[Cai et~al., 2000]{cai2000functional}
+Cai, Z., Fan, J., and Yao, Q. (2000).
+\newblock Functional-coefficient regression models for nonlinear time series.
+\newblock {\em Journal of the American Statistical Association},
+  95(451):941--956.
+
+\bibitem[Cai and Tiwari, 2000]{cai2000application}
+Cai, Z. and Tiwari, R.~C. (2000).
+\newblock Application of a local linear autoregressive model to bod time
+  series.
+\newblock {\em Environmetrics}, 11(3):341--350.
+
+\bibitem[Chen and Tsay, 1993a]{chen1993functional}
+Chen, R. and Tsay, R.~S. (1993a).
+\newblock Functional-coefficient autoregressive models.
+\newblock {\em Journal of the American Statistical Association},
+  88(421):298--308.
+
+\bibitem[Chen and Tsay, 1993b]{chen1993nonlinear}
+Chen, R. and Tsay, R.~S. (1993b).
+\newblock Nonlinear additive arx models.
+\newblock {\em Journal of the American Statistical Association},
+  88(423):955--967.
+
+\bibitem[Chen, 2007]{chen2007large}
+Chen, X. (2007).
+\newblock Large sample sieve estimation of semi-nonparametric models.
+\newblock {\em Handbook of econometrics}, 6:5549--5632.
+
+\bibitem[Chen et~al., 2011]{chen2011semiparametric}
+Chen, Z., Shi, M., W., G., and Tang, M. (2011).
+\newblock Efficient semiparametric estimation via cholesky decomposition for
+  longitudinal data.
+\newblock {\em Computational Statistics and Data Analysis}, 55:677--690.
+
+\bibitem[Cheng and Wei, 2000]{cheng2000inferences}
+Cheng, S. and Wei, L. (2000).
+\newblock Inferences for a semiparametric model with panel data.
+\newblock {\em Biometrika}, 87(1):89--97.
+
+\bibitem[Chiang et~al., 2001]{chiang2001smoothing}
+Chiang, C.-T., Rice, J.~A., and Wu, C.~O. (2001).
+\newblock Smoothing spline estimation for varying coefficient models with
+  repeatedly measured dependent variables.
+\newblock {\em Journal of the American Statistical Association},
+  96(454):605--619.
+
+\bibitem[Darroch et~al., 1980]{darroch1980markov}
+Darroch, J.~N., Lauritzen, S.~L., and Speed, T.~P. (1980).
+\newblock Markov fields and log-linear interaction models for contingency
+  tables.
+\newblock {\em The Annals of Statistics}, pages 522--539.
+
+\bibitem[Dempster, 1972]{dempster1972covariance}
+Dempster, A.~P. (1972).
+\newblock Covariance selection.
+\newblock {\em Biometrics}, pages 157--175.
+
+\bibitem[Eilers and Marx, 2003]{eilers2003multivariate}
+Eilers, P.~H. and Marx, B.~D. (2003).
+\newblock Multivariate calibration with temperature interaction using
+  two-dimensional penalized signal regression.
+\newblock {\em Chemometrics and intelligent laboratory systems},
+  66(2):159--174.
+
+\bibitem[Fan, 1993]{fan1993local}
+Fan, J. (1993).
+\newblock Local linear regression smoothers and their minimax efficiencies.
+\newblock {\em The Annals of Statistics}, pages 196--216.
+
+\bibitem[Fan et~al., 2007]{fan2007semiparametric}
+Fan, J., Huang, T., and Li, R. (2007).
+\newblock Analysis of longitudinal data with semiparametric estimation of
+  covariance function.
+\newblock {\em Journal of the American Statistical Association},
+  102(478):632--641.
+
+\bibitem[Fan and Wu, 2008]{fan2008semiparametric}
+Fan, J. and Wu, Y. (2008).
+\newblock Semiparametric estimation of covariance matrixes for longitudinal
+  data.
+\newblock {\em Journal of the American Statistical Association}, 103(484).
+
+\bibitem[Fan and Zhang, 2000]{fan2000two}
+Fan, J. and Zhang, J.-T. (2000).
+\newblock Two-step estimation of functional linear models with applications to
+  longitudinal data.
+\newblock {\em Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 62(2):303--322.
+
+\bibitem[Fan and Zhang, 1999]{fan1999statistical}
+Fan, J. and Zhang, W. (1999).
+\newblock Statistical estimation in varying coefficient models.
+\newblock {\em Annals of Statistics}, pages 1491--1518.
+
+\bibitem[Friedman et~al., 2008]{friedman2008sparse}
+Friedman, J., Hastie, T., and Tibshirani, R. (2008).
+\newblock Sparse inverse covariance estimation with the graphical lasso.
+\newblock {\em Biostatistics}, 9(3):432--441.
+
+\bibitem[Gabriel, 1962]{gabriel1962ante}
+Gabriel, K. (1962).
+\newblock Ante-dependence analysis of an ordered set of variables.
+\newblock {\em The Annals of Mathematical Statistics}, pages 201--212.
+
+\bibitem[Gu, 2013]{gu2013smoothing}
+Gu, C. (2013).
+\newblock {\em Smoothing spline ANOVA models}, volume 297.
+\newblock Springer Science \& Business Media.
+
+\bibitem[H{\"a}rdle and Liang, 2007]{hardle2007partially}
+H{\"a}rdle, W. and Liang, H. (2007).
+\newblock Partially linear models.
+\newblock In {\em Statistical methods for biostatistics and related fields},
+  pages 87--103. Springer.
+
+\bibitem[Hastie and Tibshirani, 1986]{hastie1986generalized}
+Hastie, T. and Tibshirani, R. (1986).
+\newblock Generalized additive models.
+\newblock {\em Statistical science}, pages 297--310.
+
+\bibitem[Hastie and Tibshirani, 1987]{hastie1987generalized}
+Hastie, T. and Tibshirani, R. (1987).
+\newblock Generalized additive models: some applications.
+\newblock {\em Journal of the American Statistical Association},
+  82(398):371--386.
+
+\bibitem[Hastie and Tibshirani, 1993]{hastie1993varying}
+Hastie, T. and Tibshirani, R. (1993).
+\newblock Varying-coefficient models.
+\newblock {\em Journal of the Royal Statistical Society. Series B
+  (Methodological)}, pages 757--796.
+
+\bibitem[Hastie and Tibshirani, 1990]{hastie1990generalized}
+Hastie, T.~J. and Tibshirani, R.~J. (1990).
+\newblock {\em Generalized additive models}, volume~43.
+\newblock CRC Press.
+
+\bibitem[Hoover et~al., 1998]{hoover1998nonparametric}
+Hoover, D.~R., Rice, J.~A., Wu, C.~O., and Yang, L.-P. (1998).
+\newblock Nonparametric smoothing estimates of time-varying coefficient models
+  with longitudinal data.
+\newblock {\em Biometrika}, 85(4):809--822.
+
+\bibitem[Huang, 1998]{huang1998functional}
+Huang, J.~Z. (1998).
+\newblock Functional anova models for generalized regression.
+\newblock {\em Journal of multivariate analysis}, 67(1):49--71.
+
+\bibitem[Huang, 2001]{huang2001concave}
+Huang, J.~Z. (2001).
+\newblock Concave extended linear modeling: a theoretical synthesis.
+\newblock {\em Statistica Sinica}, pages 173--197.
+
+\bibitem[Huang et~al., 1998]{huang1998projection}
+Huang, J.~Z. et~al. (1998).
+\newblock Projection estimation in multiple regression with application to
+  functional anova models.
+\newblock {\em The annals of statistics}, 26(1):242--272.
+
+\bibitem[Huang and Stone, 2003]{huang2003extended}
+Huang, J.~Z. and Stone, C.~J. (2003).
+\newblock Extended linear modeling with splines.
+\newblock In {\em Nonlinear Estimation and Classification}, pages 213--233.
+  Springer.
+
+\bibitem[Huang et~al., 2002]{huang2002varying}
+Huang, J.~Z., Wu, C.~O., and Zhou, L. (2002).
+\newblock Varying-coefficient models and basis function approximations for the
+  analysis of repeated measurements.
+\newblock {\em Biometrika}, 89(1):111--128.
+
+\bibitem[Huang et~al., 2004]{huang2004polynomial}
+Huang, J.~Z., Wu, C.~O., and Zhou, L. (2004).
+\newblock Polynomial spline estimation and inference for varying coefficient
+  models with longitudinal data.
+\newblock {\em Statistica Sinica}, pages 763--788.
+
+\bibitem[Kaslow et~al., 1987]{kaslow1987multicenter}
+Kaslow, R.~A., Ostrow, D.~G., Detels, R., Phair, J.~P., Polk, B.~F., and
+  Rinaldo, C.~R. (1987).
+\newblock The multicenter aids cohort study: rationale, organization, and
+  selected characteristics of the participants.
+\newblock {\em American journal of epidemiology}, 126(2):310--318.
+
+\bibitem[Lee et~al., 2012]{lee2012flexible}
+Lee, Y.~K., Mammen, E., Park, B.~U., et~al. (2012).
+\newblock Flexible generalized varying coefficient regression models.
+\newblock {\em The Annals of Statistics}, 40(3):1906--1933.
+
+\bibitem[Levina et~al., 2008]{levina2008sparse}
+Levina, E., Rothman, A., and Zhu, J. (2008).
+\newblock Sparse estimation of large covariance matrices via a nested lasso
+  penalty.
+\newblock {\em The Annals of Applied Statistics}, pages 245--263.
+
+\bibitem[Lin and Carroll, 2006]{lin2005semiparametric}
+Lin, X. and Carroll, R.~J. (2006).
+\newblock Semiparametric estimation in general repeated measures problems.
+\newblock {\em Journal of the Royal Statistical Society. Series B, statistical
+  methodology}, 68:69--88.
+
+\bibitem[Linton and Nielsen, 1995]{linton1995kernel}
+Linton, O. and Nielsen, J.~P. (1995).
+\newblock A kernel method of estimating structured nonparametric regression
+  based on marginal integration.
+\newblock {\em Biometrika}, pages 93--100.
+
+\bibitem[Mammen and Park, 2005]{mammen2005bandwidth}
+Mammen, E. and Park, B.~U. (2005).
+\newblock Bandwidth selection for smooth backfitting in additive models.
+\newblock {\em Annals of Statistics}, pages 1260--1294.
+
+\bibitem[Marx and Eilers, 2005]{marx2005multidimensional}
+Marx, B.~D. and Eilers, P.~H. (2005).
+\newblock Multidimensional penalized signal regression.
+\newblock {\em Technometrics}, 47(1):13--22.
+
+\bibitem[Meinhausen and Buhlmann, 2006]{Meinshausen2006highDimGraphs}
+Meinhausen, N. and Buhlmann, P. (2006).
+\newblock High-dimensional graphs and variable selection with the lasso.
+\newblock {\em Annals of Statistics}, 34(3):1436--1462.
+
+\bibitem[Peng et~al., 2012]{peng2012partial}
+Peng, J., Wang, P., Zhou, N., and Zhu, J. (2012).
+\newblock Partial correlation estimation by joint sparse regression models.
+\newblock {\em Journal of the American Statistical Association}.
+
+\bibitem[Pourahmadi, 1999]{pourahmadi1999joint}
+Pourahmadi, M. (1999).
+\newblock Joint mean-covariance models with applications to longitudinal data:
+  Unconstrained parameterisation.
+\newblock {\em Biometrika}, 86(3):677--690.
+
+\bibitem[Rothman et~al., 2008]{rothman2008sparse}
+Rothman, A.~J., Bickel, P.~J., Levina, E., and Zhu, J. (2008).
+\newblock Sparse permutation invariant covariance estimation.
+\newblock {\em Electronic Journal of Statistics}, 2:494--515.
+
+\bibitem[Stone et~al., 1997]{stone1997polynomial}
+Stone, C.~J., Hansen, M.~H., Kooperberg, C., Truong, Y.~K., et~al. (1997).
+\newblock Polynomial splines and their tensor products in extended linear
+  modeling: 1994 wald memorial lecture.
+\newblock {\em The Annals of Statistics}, 25(4):1371--1470.
+
+\bibitem[Stone and Huang, 2002]{stone2002free}
+Stone, C.~J. and Huang, J.~Z. (2002).
+\newblock Free knot splines in concave extended linear modeling.
+\newblock {\em Journal of Statistical Planning and Inference}, 108(1):219--253.
+
+\bibitem[Stone and Huang, 2003]{stone2003statistical}
+Stone, C.~J. and Huang, J.~Z. (2003).
+\newblock Statistical modeling of diffusion processes with free knot splines.
+\newblock {\em Journal of statistical planning and inference}, 116(2):451--474.
+
+\bibitem[Tong et~al., 1995]{tong1995personal}
+Tong, H., Chan, K., Cox, D., Cutler, C.~D., Gu{\'e}gan, D., Jensen, J.~L.,
+  Johansen, S., Lawrance, A., Lebaron, B., Ozaki, T., et~al. (1995).
+\newblock A personal overview of non-linear time series analysis from a chaos
+  perspective [with discussion and rejoinder].
+\newblock {\em Scandinavian Journal of Statistics}, pages 399--445.
+
+\bibitem[Wahba, 1990]{wahba1990spline}
+Wahba, G. (1990).
+\newblock {\em Spline models for observational data}, volume~59.
+\newblock Siam.
+
+\bibitem[Wu et~al., 1998]{wu1998asymptotic}
+Wu, C.~O., Chiang, C.-T., and Hoover, D.~R. (1998).
+\newblock Asymptotic confidence regions for kernel smoothing of a
+  varying-coefficient model with longitudinal data.
+\newblock {\em Journal of the American statistical Association},
+  93(444):1388--1402.
+
+\bibitem[Wu and Pourahmadi, 2003]{wu2003nonparametric}
+Wu, W.~B. and Pourahmadi, M. (2003).
+\newblock Nonparametric estimation of large covariance matrices of longitudinal
+  data.
+\newblock {\em Biometrika}, 90(4):831--844.
+
+\bibitem[Yao et~al., 2005]{yao2005functional}
+Yao, F., M{\"u}ller, H.-G., and Wang, J.-L. (2005).
+\newblock Functional data analysis for sparse longitudinal data.
+\newblock {\em Journal of the American Statistical Association},
+  100(470):577--590.
+
+\bibitem[Yuan and Lin, 2007]{yuan2007model}
+Yuan, M. and Lin, Y. (2007).
+\newblock Model selection and estimation in the gaussian graphical model.
+\newblock {\em Biometrika}, 94(1):19--35.
+
+\bibitem[Zeger and Diggle, 1994]{zeger1994semiparametric}
+Zeger, S.~L. and Diggle, P.~J. (1994).
+\newblock Semiparametric models for longitudinal data with application to cd4
+  cell numbers in hiv seroconverters.
+\newblock {\em Biometrics}, pages 689--699.
+
+\bibitem[Zhang and Leng, 2012]{zhang2012moving}
+Zhang, W. and Leng, C. (2012).
+\newblock A moving average cholesky factor model in covariance modelling for
+  longitudinal data.
+\newblock {\em Biometrika}, 99(1):141--150.
+
+\bibitem[Zhou et~al., 1998]{zhou1998local}
+Zhou, S., Shen, X., Wolfe, D., et~al. (1998).
+\newblock Local asymptotics for regression splines and confidence regions.
+\newblock {\em The annals of statistics}, 26(5):1760--1782.
+
+\bibitem[Zimmerman and Nunez-Anton, 1997]{zimmerman1997structured}
+Zimmerman, D.~L. and Nunez-Anton, V. (1997).
+\newblock Structured antedependence models for longitudinal data.
+\newblock In {\em Modelling Longitudinal and Spatially Correlated Data}, pages
+  63--76. Springer.
+
+\end{thebibliography}

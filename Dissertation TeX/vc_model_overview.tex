@@ -1,10 +1,11 @@
 \documentclass[12pt]{article}
-\usepackage{graphicx,psfrag, natbib,amsfonts,float,mathbbol,natbib,xcolor}
+\usepackage{graphicx,psfrag,amsfonts,float,mathbbol,xcolor}
 \usepackage{amsmath}
 \usepackage{mathtools}
 \usepackage{IEEEtrantools}
 \usepackage[letterpaper, left=1in, top=1in, right=1in, bottom=1in,nohead,includefoot, verbose, ignoremp]{geometry}
-\newcommand*\red{\color{red}}
+\newcommand*\needsparaphrased{\color{red}}
+\newcommand*\outlineskeleton{\color{green}}
 \newcommand{\bfeps}{\mbox{\boldmath $\epsilon$}}
 \newcommand{\bfgamma}{\mbox{\boldmath $\gamma$}}
 \newcommand{\bflam}{\mbox{\boldmath $\lambda$}}
@@ -42,9 +43,11 @@
 \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
 
 \def\bL{\mathbf{L}}
+
+
  \begin{document}
 
-
+\nocite{*}
 %\chapter{Varying Coefficient Models for Longitudinal Data}
 %\label{VCmodelsForLongitudinalData.ch}
 
@@ -56,18 +59,21 @@ The classical linear model expresses the influence of covariates $X_1, X_2, \dot
 Y = \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p 
 \end{equation}
 
-While linearity is a convenient artifact of specifying model \ref{eq:classical_linear_model}, the world is full of nonlinear phenomena such as limit cycles and jump resonance. Consequently, nonlinearity must be a modeling consideration to adequately characterize many of the natural underlying mechanisms that generate data. The nonparametric regression model has been widely used in various applications due to its ability to characterize structure in data that linear and other parametric models fail to adequately represent. However, a serious drawback to the general nonparametric model is the ?curse of dimensionality? phenomenon, a term which refers to the fact that the convergence rate of nonparametric smoothing estimators becomes rather slow when the estimation target is a general function of a large number of variables without additional structures. Many efforts have been made to impose structure on the regression function to alleviate this issue, which is broadly described as dimension reduction. Some approaches to restricting the general nonparametric model include: (generalized) additive models (Chen \& Tsay 1993a, Hastie \& Tibshirani 1990, Sperlich, Tjostheim \& Yang 2002, Stone 1985), partially linear models (Hardle, Liang \& Gao 2000, Zeger and Diggle 1994), varying coefficient models (Hastie \& Tibshirani 1993, Fan \& Zhang, 1999), and their hybrids  (Carroll et al., 1997; Fan et al., 1998; Heckman et al., 1998), among others.
+While linearity is a convenient artifact of specifying model \ref{eq:classical_linear_model}, the world is full of nonlinear phenomena such as limit cycles and jump resonance. Consequently, nonlinearity must be a modeling consideration to adequately characterize many of the natural underlying mechanisms that generate data. The nonparametric regression model has been widely used in various applications due to its ability to characterize structure in data that linear and other parametric models fail to adequately represent. However, a serious drawback to the general nonparametric model is the ?curse of dimensionality? phenomenon, a term which refers to the fact that the convergence rate of nonparametric smoothing estimators becomes rather slow when the estimation target is a general function of a large number of variables without additional structures. Many efforts have been made to impose structure on the regression function to alleviate this issue, which is broadly described as dimension reduction. Some approaches to restricting the general nonparametric model include: (generalized) additive models \cite{chen1993nonlinear}\cite{hastie1990generalized}, \cite{hastie1986generalized}, Sperlich, Tjostheim \& Yang 2002, Stone 1985), partially linear models \cite{hardle2007partially}, \cite{zeger1994semiparametric}, varying coefficient models \cite{hastie1993varying}, Fan \& Zhang, 1999), and their hybrids  (Carroll et al., 1997; Fan et al., 1998; Heckman et al., 1998), among others.
 
 An immediate problem of departing from linearity is the need for a class of well-parameterized nonlinear models that are simple yet sufficient in handling most nonlinear phenomena observed in practice. Because there is no unified theory applicable to all nonlinear models, this problem is a difficult one. The main difficulty is that unlike linear models where the functions involved can be treated fairly systematically, the set of all nonlinear models is so broad that systematic treatment is infeasible. The expansiveness of the class of nonlinear models is due to both the innumerable nonlinear functions as well as the different structures within a given class of functions. 
  
-Varying coefficient models are a particularly attractive extension of the classical linear model. The appeal of this model is that, by allowing regression coefficients to depend on a smoothing parameter $Z$, the modeling bias can significantly be reduced and the``curse of dimensionality'' can be avoided. Another advantage of this model is its interpretability. It arises naturally when one is interested in exploring how regression coefficients change over different groups, such as age. The mean function of the response $Y$ take the form
+Varying coefficient models are a particularly attractive extension of the classical linear model. The appeal of this model is that, by allowing regression coefficients to depend on a smoothing parameter $Z$, the modeling bias can significantly be reduced while avoiding the``curse of dimensionality''. Another advantage of this model is its interpretability, and this model structure arises naturally when one is interested in exploring how regression coefficients change over different groups, such as age. The mean function of the response $Y$ take the form
+
+\subsection{{\outlineskeleton VC Models with a Univariate Smoothing Variable}} \label{univariate_VC_models}
 
 \begin{equation} \label{eq:VC_mean_function_single_smoothing_covariate}
 E\left(Y \vert \bfX=\bfx,\;Z = z \right) = x_1\beta_1\left(z\right) + \dots  + x_p\beta_p\left(z\right)
 \end{equation}
 \noindent
-where $\bfX = \left(X_1, X_2, \dots, X_p\right)^T$ and $Z$ are covariates and $\bfbeta\left(z\right) = \left( \beta_0\left(z\right), \beta_1\left(z\right),\dots,\beta_p\left(z\right) \right)^T$ are unknown coefficient functions, assumed to be smooth functions of $Z$. The cases for which $Z$ is both univariate as well as multivariate have been considered. It is worth noting that by taking $X_1 \equiv 1$, this model allows for a varying intercept term. This class of models is particularly appealing in longitudinal studies where they allow us to examine the extent to which covariates affect responses over time (Hoover et al., 1998; Fan \& J. T. Zhang, 2000). 
+where $\bfX = \left(X_1, X_2, \dots, X_p\right)^T$ and $Z$ are covariates and $\bfbeta\left(z\right) = \left( \beta_0\left(z\right), \beta_1\left(z\right),\dots,\beta_p\left(z\right) \right)^T$ are unknown coefficient functions, assumed to be smooth functions of $Z$. It is worth noting that by taking $X_1 \equiv 1$, this model allows for a varying intercept term. This class of models is particularly appealing in longitudinal studies where they allow us to examine the extent to which covariates affect responses over time \cite{hoover1998nonparametric}, \cite{fan2000two}. 
 
+\subsection{{\outlineskeleton VC Models with a Multivariate Smoothing Variable}} \label{multivariate_VC_models}
 
 The second approach in specifying varying coefficient models is by generalizing model \ref{eq:VC_mean_function_single_smoothing_covariate} to allow each covariate's coefficient function to depend on different covariates, $\bfZ = \left(Z_1, Z_2, \dots, Z_p\right)^T$. This leads to modeling the mean response as follows:
 
@@ -75,9 +81,28 @@ The second approach in specifying varying coefficient models is by generalizing 
 E\left(Y \vert \bfX=\bfx,\;\bfZ = \bfz \right) = x_1\beta_1\left(z_1\right) + \dots  + x_p\beta_p\left(z_p\right)
 \end{equation}
 \noindent
-There are many proposed extensions of  model \ref{eq:VC_mean_function_single_smoothing_covariate} and model \ref{eq:VC_mean_function_multiple_smoothing_covariates}, including models that allow a covariate to play both the roles of the linear effect covariate ($X_j$) in addition to the roles of the \textit{smoothing variables} ($Z_j$). One can see that by letting the $\lbrace  \beta_j \rbrace$ be constant for $j=1, \dots, p$, this reduces to \ref{eq:hoover_rice_wu_VC_model} proposed by Hoover, Rice, Wu and Yang. The class of models having the form as specified in \ref{eq:VC_mean_function_multiple_smoothing_covariates} is quite extensive. To illustrate the flexibility of the varying coefficient model, we examine some models that may be expressed as special cases, first considering the general nonparametric modeling literature. 
+There are many proposed extensions of  model \ref{eq:VC_mean_function_single_smoothing_covariate} and model \ref{eq:VC_mean_function_multiple_smoothing_covariates}, including models that allow a covariate to play both the roles of the linear effect covariate ($X_j$) in addition to the roles of the \textit{smoothing variables} ($Z_j$). One can see that by letting the $\lbrace  \beta_j \rbrace$ be constant for $j=1, \dots, p$, this reduces to \ref{eq:hoover_rice_wu_VC_model} proposed by Hoover, Rice, Wu and Yang. The class of models having the form as specified in \ref{eq:VC_mean_function_multiple_smoothing_covariates} is quite extensive; however, imposing an additive structure on the multivariate coefficient functions does not permit explicitly modeling  interactions between the smoothing variables. 
 
-Zeger and Diggle (1994) present a partially linear model motivated by the MACS data. They consider data of the form $\lbrace \left(x_{ij},y_{ij}\left(t_{ij}\right)\right): \;\; j=1,\dots,m_i;\;\;i=1,\dots,n \rbrace$, where $x_{ij}$ denotes a $p \times 1$ vector of covariates corresponding to $y_{ij}\left(t_{ij}\right)$, the $j$th measurement on the $i$th subject at time $t_{ij}$.  They propose the semiparametric model 
+\subsection{{\outlineskeleton Extended VC Models and Functional VC ANOVA models}} \label{extended_VC_models}
+\subsubsection{{\outlineskeleton Smoothing Spline ANOVA models and the extended linear modeling framework of huang, stone}}
+
+{\outlineskeleton discuss the convergence results presented in \cite{huang1998functional} and \cite{huang1998projection}, pointing out the limitations of the conclusions due to the assumptions of the knots. }
+
+\cite{huang2003extended} proposed a general framework which further broadened the class of multivariate varying coefficient models defined by the structures for varying coefficient models which have already discussed. In their seminal work, they propose extensions of previously considered structures for multivariate coefficient functions by leveraging polynomials splines on tensor product spaces. This work was preceeded by \cite{huang1998projection} and \cite{huang1998projection}, which simplified and extended the theoretical approach 
+
+{\outlineskeleton Discuss the unified framework and corresponding theory presented in \cite{huang2001concave} and then introduce the tensor product models of \cite{eilers2003multivariate}, \cite{marx2005multidimensional}}
+
+\subsubsection{{\outlineskeleton Multidimensional }}
+
+
+
+\section{{\outlineskeleton Extensions of linear models which are special cases of models in \ref{univariate_VC_models},\ref{multivariate_VC_models},\ref{extended_VC_models}}}
+To illustrate the flexibility of the varying coefficient model, we examine some models that may be expressed as special cases, first considering the general nonparametric modeling literature. 
+
+
+
+
+Zeger and Diggle (1994) present a partially linear model motivated by the longitudinal data produced by the Multicenter AIDS Cohort Study. The data are of the form $\lbrace \left(x_{ij},y_{ij}\left(t_{ij}\right)\right): \;\; j=1,\dots,m_i;\;\;i=1,\dots,n \rbrace$, where $x_{ij}$ denotes a $p \times 1$ vector of covariates corresponding to $y_{ij}\left(t_{ij}\right)$, the $j$th measurement on the $i$th subject at time $t_{ij}$. They let 
 
 \begin{equation} \label{eq:zeger_diggle_VC_model}
 Y_{ij}\left(t\right) =  x_{ij}^T\beta + \mu\left(t\right) + W_i\left(t\right) + \epsilon_{ij}
@@ -97,7 +122,7 @@ proposing estimation of the coefficient functions via smoothing splines and loca
 \subsection{Nonparametric approaches to modeling nonlinear time series data}
 
 
-For nonlinear time series applications, Chen \& Tsay (1993) and Xia \& Li (1999) develop functional-coefficient autoregressive models. The common research in nonlinear time series analysis has focused on several classes of models, such as the threshold autoregressive (TAR) model of Tong (1983, 1990) and the exponential autoregressive (EXPAR) model of Haggan and Ozaki (1981). {\red In this article we are concerned with empirical modeling of nonlinear time series. In particular we focus on exploring the nonlinear feature of a time series in the process of model building. This is achieved by generalizing directly the linear autoregressive (AR) models and exploiting local characteristics of a given time series. The generalized model is referred to as the functional coefficient autoregressive (FAR) models. Most nonlinear AR models considered in the literature are special cases of the FAR model. It turns out that the FAR models are flexible enough to accommodate most nonlinear features considered in the literature while being simple enough to be treated with relative ease. }
+For nonlinear time series applications, Chen \& Tsay \cite{chen1993functional} and Xia \& Li (1999) develop functional-coefficient autoregressive models. The common research in nonlinear time series analysis has focused on several classes of models, such as the threshold autoregressive (TAR) model of Tong (1983, 1990) and the exponential autoregressive (EXPAR) model of Haggan and Ozaki (1981). {\needsparaphrased In this article we are concerned with empirical modeling of nonlinear time series. In particular we focus on exploring the nonlinear feature of a time series in the process of model building. This is achieved by generalizing directly the linear autoregressive (AR) models and exploiting local characteristics of a given time series. The generalized model is referred to as the functional coefficient autoregressive (FAR) models. Most nonlinear AR models considered in the literature are special cases of the FAR model. It turns out that the FAR models are flexible enough to accommodate most nonlinear features considered in the literature while being simple enough to be treated with relative ease. }
 
 
 \section{Model estimation}
@@ -326,9 +351,9 @@ n^{-1} \sum_{i=1}^{n} w_i \sum_{j=1}^{n_i} \left(Y_{ij} - \sum_{k=1}^q \alpha_k 
 \noindent 
 where one may specify, for example, $w_i = n_i^{-1}$. Hoover et al. (1998) proposed kernel estimation using local polynomial smoothing, of which the minimization of \ref{eq:longitudinal_NW_objective_function} is a special case. Wu et al present the construction of both point-wise confidence intervals as well as simultaneous confidence regions based on the asymptotic normality of the local kernel smoother.
 
-
-
-
+\bibliography{Master} 
+%\bibliographystyle{amsplain}
+\bibliographystyle{apalike}
 
 
 \end{document}
