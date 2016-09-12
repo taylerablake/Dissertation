@@ -1,0 +1,346 @@
+
+
+
+
+
+
+
+
+psp2dU <- function(y, S, S.index, t.var, Pars, ridge.adj = 0, S.pred = NULL,
+                   t.pred = NULL, y.predicted = NULL, R = 50, 
+                   x.lab = "X1", y.lab = "X2", z.lab = "A.hat",
+                   coef.plot = T, image.plot = T, se.bands = T,
+                   family = "gaussian", link = "default",
+                   m.binomial = NULL, wts = NULL,
+                   r.gamma = NULL, int = T){
+            # P-spline signal regression, with additional index t for 2-D coefficient surface
+            # Input:
+            #   y: response (of length m)
+            #   S: m x p Signal matrix 
+            #   S.index: p-vector for index of Signal (e.g. wavelength)
+            #   t.var: other (indexing) variable in Alpha surface (e.g. temperature)
+            #   Pars: 2 rows with P-spline parameters: [min max nseg deg lambda pdeg]
+            #   ridge.adj: small ridge penalty to stabilize estimation, can be zero
+            #   S.pred, t.pred: (qxp signal, q-vector t) for q new predictions
+            #   y.predicted= a vector of responses from a cv data set (assoc. with cv M.pred)
+            #   R: resolution of alpha surface (e.g. 20 or 100)
+            #   x.lab, y.lab, z.lab: "character" labels for estimated alpha coefficient surface
+            #   coef.plot: T or F for perspective plot of coefficient surface
+            #   image.plot: T or F for image plot of coefficent surface
+            #   se.bands: T or F for twice standard error surface plots
+            #   family: "gaussian", "binomial", "poisson", "Gamma"
+            #   link: "logit", "probit", "log", "sqrt", "loglog", "cloglog", "identity", "inverse"
+            #   wts: non-negative weights (can be zero)
+            #   m.binomial: number of trials associated with binomial r.v. (can vary)
+            #   r.gamma: gamma scale parameter
+            #   int: T or F for intercept column of ones
+            #  
+            #  Output: list with elements
+            #   coef: tensor product P-spline coefficients
+            #   summary.predicted: predicted value at new 2-D regressor locations (with 2 se bands)
+            #   cv: cross-validation statistic
+            #   aic, dev, df.residual
+            #   eff.dim: effective df of estimated 2-D estimated coefficient surface
+            #   perspective plot and image plot of estimated alpha coefficient surface
+            #
+            #  Support functions needed: bsplbase(), pspline2d.checker(), pspline.fitter()
+            #
+            #  Paul Eilers (2000) and Brian Marx (2001, 2002) (c)
+            # Prepare bases for estimation
+            m <- length(y)
+            if(missing(wts)) {
+                  wts <- rep(1, m)
+            }
+            if(missing(m.binomial)) {
+                  m.binomial <- rep(1, m)
+            }
+            if(missing(r.gamma)) {
+                  r.gamma <- rep(1, m)
+            }
+            parms <- pspline2d.checker(family, link, Pars[1, 4],
+                                       Pars[2, 4], Pars[1, 6],
+                                       Pars[2, 6], Pars[1,3],
+                                       Pars[2, 3], Pars[1, 5],
+                                       Pars[2, 5], ridge.adj,
+                                       wts)
+            family <- parms$family
+            link <- parms$link
+            ridge.adj <- parms$ridge.adj
+            wts <- parms$wts
+            Pars[1, 3:6] <- c(parms$ps.intervals1, parms$degree1, parms$lambda1, parms$order1)
+            Pars[2, 3:6] <- c(parms$ps.intervals2, parms$degree2, parms$lambda2, parms$order2)
+            S <- as.matrix(S)
+            Bx <- bsplbase(S.index, Pars[1,  ])
+            U <- S %*% Bx
+            By <- bsplbase(t.var, Pars[2,  ])
+            n1 <- ncol(Bx)
+            n2 <- ncol(By)# Compute tensor products
+            SB1 <- kronecker(U, t(rep(1, n2)))
+            
+            B1=kronecker(Bx,t(rep(1,n2)))
+            B2 <- kronecker(t(rep(1, n1)), By)
+            
+            Q <- SB1 * B2#-----
+            #B3 <- bsplbase(M1.index, Pars[1,  ])
+            #B4 <- bsplbase(M2.index, Pars[2,  ])
+            #V <- matrix(rep(0, m * n1 * n2), m, n1 * n2)
+            #for(i in 1:m) {
+            #V.in <- (t(B3) %*% M[((i - 1) * p1 + 1):(i * p1),  
+            #] %*% B4)
+            #V[i,  ] <- as.vector((V.in))
+            #}
+            d1 <- Pars[1, 6]
+            D1 <- diag(n1)
+            if(d1 != 0) {
+                  for(j in 1:d1) {
+                        D1 <- diff(D1)
+                  }
+            }
+            lambda1 <- Pars[1, 5]
+            P1 <- sqrt(lambda1) * kronecker(D1, diag(n2))
+            d2 <- Pars[2, 6]
+            D2 <- diag(n2)
+            if(d2 != 0) {
+                  for(j in 1:d2) {
+                        D2 <- diff(D2)
+                  }
+            }
+            lambda2 <- Pars[2, 5]
+            P2 <- sqrt(lambda2) * kronecker(diag(n1), D2)
+            Pen <- rbind(P1, P2)
+            p.ridge <- NULL
+            if(ridge.adj > 0) {
+                  nix.ridge <- rep(0, n1 * n2)
+                  p.ridge <- sqrt(ridge.adj) * diag(n1 * n2)
+            }
+            # Data augmentation and regression
+            z1 <- rep(0, n2 * (n1 - d1))
+            z2 <- rep(0, n1 * (n2 - d2))
+            n.col <- ncol(Q)
+            if(int) {
+                  Q <- cbind(rep(1, nrow(Q)), Q)
+                  Pen <- cbind(rep(0, nrow(Pen)), Pen)
+                  if(ridge.adj > 0) {
+                        p.ridge <- cbind(rep(0, nrow(p.ridge)), p.ridge)
+                  }
+            }
+            ps.fit <- pspline.fitter(family, link, n.col, m.binomial, r.gamma, y, b = Q, Pen, p.ridge,
+                                     nix=c(z1, z2), nix.ridge = rep(0, n1 * n2), ridge.adj, wts)
+            mu <- ps.fit$mu
+            pcoef <- ps.fit$coef
+            bin.percent.correct <- NULL
+            if(family == "binomial") {
+                  pcount <- 0
+                  p.hat <- mu/m.binomial
+                  for(ii in 1:m) {
+                        if(p.hat[ii] > 0.5) {
+                              count <- y[ii]
+                        }
+                        if(p.hat[ii] <= 0.5) {
+                              count <- m.binomial[ii] - y[ii]
+                        }
+                        count <- pcount + count
+                        pcount <- count
+                  }
+                  bin.percent.correct <- count/sum(m.binomial)
+            }
+            w <- ps.fit$w
+            e <- 1e-009
+            h <- hat(ps.fit$f$qr, intercept = F)[1:m]
+            trace <- eff.dim <- sum(h)
+            if(family == "binomial") {
+                  dev <- 2 * sum((y + e) * log((y + e)/mu) + (m.binomial - y + e) * log((m.binomial - y + e)/(m.binomial - mu)))
+                  dispersion.parm <- 1
+                  cv <- NULL
+            }
+            if(family == "poisson") {
+                  dev <- 2 * sum(y * log(y + e) - y - y * log(mu) + mu)
+                  dispersion.parm <- 1
+                  cv <- NULL
+            }
+            if(family == "Gamma") {
+                  dev <- -2 * sum(r.gamma * (log((y + e)/mu) - ((y - mu)/mu)))
+                  ave.dev <- dev/m
+                  dispersion.parm <- (ave.dev * (6 + ave.dev))/(6 + 2 * ave.dev)
+                  cv <- NULL
+            }
+            cv <- press.mu <- press.e <- NULL
+            if(family == "gaussian") {
+                  dev <- sum(ps.fit$f$residuals[1:m]^2)
+                  dispersion.parm <- dev/(m - trace)
+                  press.e <- ps.fit$f$residuals[1:m]/(1 - h)
+                  cv <- sqrt(sum((press.e)^2)/(m))
+                  press.mu <- y - press.e
+            }
+            aic <- dev + 2 * trace
+            w.aug <- c(w, (c(z1, z2) + 1))
+            A.hat <- "set coef.plot=T"
+            if(int) {
+                  yint <- ps.fit$coef[1]
+            }
+            if(!int) {
+                  yint <- NULL
+            }
+            if(coef.plot) {
+                  # Prepare bases for estimated alpha surface
+                  S.index. <- seq(from = Pars[1, 1], to = Pars[1, 2], length = R)
+                  oS <- outer(rep(1, R), S.index.)
+                  Bx. <- bsplbase(as.vector(oS), Pars[1,  ])
+                  t.index. <- seq(from = Pars[2, 1], to = Pars[2, 2], length = R)
+                  ot <- outer(t.index., rep(1, R))
+                  By. <- bsplbase(as.vector(ot), Pars[2,  ])
+                  
+                  # Compute tensor products for estimated alpha surface
+                  B1. <- kronecker(Bx., t(rep(1, n2)))
+                  B2. <- kronecker(t(rep(1, n1)), By.)
+                  B. <- B1. * B2.
+                  if(int) {
+                        A.hat <- B. %*% pcoef[2:(n.col + 1)]
+                  }
+                  if(!int) {
+                        A.hat <- B. %*% pcoef
+                  }
+                  A.hatm <- matrix(A.hat, R, R, byrow = T)
+                  par(mfrow = c(1, 1))
+                  persp(oS[1,  ], ot[, 1], A.hatm, xlab = x.lab, ylab = y.lab, zlab = z.lab)
+                  if(image.plot) {
+                        image(oS[1,  ], ot[, 1], A.hatm, xlab = x.lab, ylab = y.lab, sub = "A.hat")
+                        #, nlevels = 7)
+                  }
+                  if(se.bands) {
+                        half.meat <- sqrt(c(w)) * Q
+                        meat <- t(half.meat) %*% half.meat
+                        if(ridge.adj > 0) {
+                              bread <- solve(meat + t(Pen) %*% Pen + t(p.ridge) %*% p.ridge)
+                        }
+                        if(ridge.adj == 0) {
+                              bread <- solve(meat + t(Pen) %*% Pen)
+                        }
+                        half.sw <- half.meat %*% bread[, (1 + int):(n.col + int)]
+                        var.c <- t(half.sw) %*% half.sw
+                        half.lunch <- half.sw %*% t(B.)
+                        ones <- 0 * y + 1
+                        var.Ahat <- ones %*% (half.lunch * half.lunch)
+                        stdev.Ahat <- sqrt(dispersion.parm) * t(sqrt(var.Ahat))
+                        pivot <- 2 * stdev.Ahat
+                        upper <- A.hat + pivot
+                        lower <- A.hat - pivot
+                        L.hatm <- matrix(lower, R, R, byrow = T)
+                        U.hatm <- matrix(upper, R, R, byrow = T)
+                        persp(oS[1,  ], ot[, 1], U.hatm, xlab = x.lab, ylab = y.lab, 
+                              zlab = "2 se Upper Surface")
+                        if(image.plot) {
+                              image(oS[1,  ], ot[, 1], U.hatm, xlab = x.lab,
+                                    ylab = y.lab, sub = "2 se Upper Surface")#, nlevels = 7)
+                        }
+                        persp(oS[1,  ], ot[, 1], L.hatm, xlab = x.lab, 
+                              ylab = y.lab, zlab = "2 se Lower Surface")
+                        if(image.plot) {
+                              image(oS[1,  ], ot[, 1], L.hatm, xlab = x.lab,
+                                    ylab = y.lab, sub = "2 se Lower Surface")#, nlevels = 7)
+                        }
+                  }
+            }
+            # Prediction
+            summary.predicted <- NULL
+            cv.predicted <- eta.predicted <- avediff.pred <- NULL
+            if(!missing(t.pred)) {
+                  q <- length(t.pred)
+                  Up <- as.matrix(S.pred) %*% Bx
+                  Byp <- bsplbase(t.pred, Pars[2,  ])
+                  B1p <- kronecker(Up, t(rep(1, n2)))
+                  B2p <- kronecker(t(rep(1, n1)), Byp)
+                  Qp <- B1p * B2p
+                  if(!int) {
+                        eta.predicted <- Qp %*% pcoef
+                        var.pred <- Qp %*% var.c %*% t(Qp)
+                  }
+                  if(int) {
+                        var.c <- t(bread) %*% t(half.meat) %*% half.meat %*% bread
+                        one.xpred.b <- cbind(rep(1, q), Qp)
+                        eta.predicted <- Qp %*% pcoef[2:length(pcoef)] + yint
+                        var.pred <- one.xpred.b %*% var.c %*% t(one.xpred.b)
+                  }
+                  stdev.pred <- as.vector(sqrt(diag(var.pred)))
+                  stdev.pred <- sqrt(dispersion.parm) * stdev.pred
+                  pivot <- as.vector(2 * stdev.pred)
+                  upper <- eta.predicted + pivot
+                  lower <- eta.predicted - pivot
+                  summary.predicted <- cbind(lower, eta.predicted, upper)
+                  if(!missing(y.predicted)) {
+                        if(family == "gaussian") {
+                              cv.predicted <- sqrt(sum((y.predicted - eta.predicted)^2)/(length(y.predicted)))
+                              avediff.pred <- (sum(y.predicted - eta.predicted))/length(y.predicted)
+                        }
+                  }
+                  bin.percent.correct <- NULL
+                  if(link == "logit") {
+                        summary.predicted <- 1/(1 + exp( - summary.predicted))
+                        pcount <- 0
+                        p.hat <- exp(eta.predicted)/(1 + exp(eta.predicted))
+                        if(!missing(y.predicted)) {
+                              for(ii in 1:length(eta.predicted)) {
+                                    if(p.hat[ii] > 0.5) {
+                                          count <- y.predicted[ii]
+                                    }
+                                    if(p.hat[ii] <= 0.5) {
+                                          count <- 1 - y.predicted[ii]
+                                    }
+                                    count <- pcount + count
+                                    pcount <- count
+                              }
+                              bin.percent.correct <- count/length(y.predicted)
+                        }
+                  }
+                  if(link == "probit") {
+                        summary.predicted <- apply(summary.predicted, c(1, 2), pnorm)
+                  }
+                  if(link == "cloglog") {
+                        summary.predicted <- (1 - exp( - exp(summary.predicted)))
+                  }
+                  if(link == "loglog") {
+                        summary.predicted <- exp( - exp( - summary.predicted))
+                  }
+                  if(link == "sqrt") {
+                        summary.predicted <- summary.predicted^2
+                  }
+                  if(link == "log") {
+                        summary.predicted <- exp(summary.predicted)
+                  }
+                  if(link == "recipical") {
+                        summary.predd <- 1/(summary.predicted)
+                        summary.predicted[, 1] <- summary.predd[, 3]
+                        summary.predicted[, 3] <- summary.predd[, 1]
+                        summary.predd <- NULL
+                  }
+                  summary.predicted <- as.matrix(summary.predicted)
+                  dimnames(summary.predicted) <- list(NULL, c("-2std_Lower", "Predicted", "+2std_Upper"))
+            }
+            P <- list(coef = pcoef, Pars = Pars, 
+                      cv = cv, eff.dim = eff.dim, 
+                      yint = yint, int = int, 
+                      bin.percent.correct = bin.percent.correct, 
+                      family, link, aic = aic, dev = dev, 
+                      df.resid = m - trace, dispersion.parm = dispersion.parm, 
+                      mu = mu, press.mu = press.mu, 
+                      summary.predicted = summary.predicted, 
+                      cv.predicted = cv.predicted, 
+                      eta.predicted = eta.predicted,
+                      avediff.pred = avediff.pred,
+                      ridge.adj = ridge.adj,Q=Q,Bx=Bx,By=By)
+            P
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

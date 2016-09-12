@@ -1,0 +1,57 @@
+
+
+
+setwd(file.path("/Users","taylerblake","Documents","Dissertation"))
+source(file.path(getwd(),"code","aux","bsplbase.R"))
+
+library(plyr)
+library(dplyr)
+library(rlist)
+library(ggplot2)
+library(tidyr)
+
+## make a 3d surface plot of a handful of cubic b-spline functions
+
+B <- bsplbase(seq(0,1,by=0.01),bpars=c(0,1,12,3)) 
+plot(seq(0,1,by=0.01),B[,12],xlab="x",ylab="B(x)",type="l")
+B. <- data.frame(x=rep(seq(0,1,by=0.01),ncol(B)),b=matrix(B,nrow=ncol(B)*nrow(B),byrow = FALSE),knot=expand.grid(seq(0,1,by=0.01),n=1:ncol(B))$n)
+B. %>% ggplot(.,aes(x=x,y=b,group=knot)) + geom_line(aes(colour=factor(knot))) + guides(colour="none")
+
+
+p1 <- p2 <- 200
+M1.index <- M2.index <- seq(0,1,length.out=200)
+
+oM1 <- outer(rep(1, p2),M1.index)
+B1 <- bsplbase(as.vector(oM1), c(0,1,10,3))
+oM2 <- outer(M2.index, rep(1, p1))
+B2 <- bsplbase(as.vector(oM2), c(0,1,10,3))
+n1 <- ncol(B1)
+n2 <- ncol(B2)	# Compute tensor products for estimated alpha surface
+B1. <- kronecker(B1, t(rep(1, n2)))
+B2. <- kronecker(t(rep(1, n1)), B2)
+B. <- B1. * B2.
+
+
+# Create a function interpolating colors in the range of specified colors
+jet.colors <- colorRampPalette( c("lightpink","dodgerblue") )
+# Generate the desired number of colors from this palette
+nbcol <- 200
+color <- jet.colors(nbcol)
+# Compute the z-value at the facet centres
+
+ind <- c(43,43+3,43+6,ncol(B.)-43+1,ncol(B.)-(43+3)+1,ncol(B.)-(43+6)+1,82,85,88)
+z <- matrix(rowSums(B.[,ind]),nrow=length(M1.index),ncol=length(M1.index))
+
+nrz <- nrow(z)
+ncz <- ncol(z)
+
+zfacet <- z[-1, -1] + z[-1, -ncz] + z[-nrz, -1] + z[-nrz, -ncz]
+# Recode facet z-values into color indices
+facetcol <- cut(zfacet, nbcol)
+par(bg="white")
+
+
+png(filename = file.path(getwd(),,"bivariate_bs_basis.png"))
+persp(M2.index, M1.index, z,
+      xlab = "x", ylab = "y", zlab = "b",theta = 35, phi = 25,
+      shade = 0.1,col=color[facetcol],border=NA,box=TRUE,d=5)
