@@ -318,6 +318,7 @@ function(y, S, S.index, t.var, Pars, ridge.adj = 0, S.pred = NULL, t.pred =
 		avediff.pred, ridge.adj = ridge.adj)
 	P
 }
+
 "bsplbase"<-
 function(x, bpars)
 {
