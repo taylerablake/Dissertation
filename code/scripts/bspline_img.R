@@ -74,6 +74,16 @@ for(i in seq(0.2,1,by=0.2)){
 lines(trans3d(x=0, y = M2.index, z = b, pmat = res))
 lines(trans3d(x=M1.index, y = 1, z = b, pmat = res))
 dev.off()
+
+############################################################################################
+############################################################################################
+png(filename = file.path(getwd(),"Dissertation TeX","img","bicubic_bspline_contour.png"))
+contour(x=M1.index, y=M2.index, z, nlev = 8, method="edge", xlim=c(0,1),ylim=c(0,1))
+for(i in seq(0.2,0.8,by=0.2)){
+      abline(v=i,lty=3,col="lightgray")
+      abline(h=i,lty=3,col="lightgray")
+}
+dev.off()
 ############################################################################################
 ############################################################################################
 ## make a 3d surface plot of a handful of cubic b-spline functions

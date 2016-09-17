@@ -88,6 +88,11 @@ Dempster, A.~P. (1972).
 \newblock Covariance selection.
 \newblock {\em Biometrics}, pages 157--175.
 
+\bibitem[Eilers and Marx, 1996]{eilers1996flexible}
+Eilers, P.~H. and Marx, B.~D. (1996).
+\newblock Flexible smoothing with b-splines and penalties.
+\newblock {\em Statistical science}, pages 89--102.
+
 \bibitem[Eilers and Marx, 2003]{eilers2003multivariate}
 Eilers, P.~H. and Marx, B.~D. (2003).
 \newblock Multivariate calibration with temperature interaction using

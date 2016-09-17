@@ -65,7 +65,11 @@ An immediate problem of departing from linearity is the need for a class of well
  
 Varying coefficient models are a particularly attractive extension of the classical linear model. The appeal of this model is that, by allowing regression coefficients to depend on a smoothing parameter $Z$, the modeling bias can significantly be reduced while avoiding the``curse of dimensionality''. Another advantage of this model is its interpretability, and this model structure arises naturally when one is interested in exploring how regression coefficients change over different groups, such as age. The mean function of the response $Y$ take the form
 
-\subsection{{\outlineskeleton VC Models with a Univariate Smoothing Variable}} \label{univariate_VC_models}
+\subsection{{\outlineskeleton Extensions of linear models which are special cases of models in \ref{univariate_VC_models},\ref{multivariate_VC_models},\ref{extended_VC_models}}}
+To illustrate the flexibility of the varying coefficient model, we examine some models that may be expressed as special cases, first considering the general nonparametric modeling literature. 
+
+
+\section{{\outlineskeleton VC Models with a Univariate Smoothing Variable}} \label{univariate_VC_models}
 
 \begin{equation} \label{eq:VC_mean_function_single_smoothing_covariate}
 E\left(Y \vert \bfX=\bfx,\;Z = z \right) = x_1\beta_1\left(z\right) + \dots  + x_p\beta_p\left(z\right)
@@ -73,7 +77,7 @@ E\left(Y \vert \bfX=\bfx,\;Z = z \right) = x_1\beta_1\left(z\right) + \dots  + x
 \noindent
 where $\bfX = \left(X_1, X_2, \dots, X_p\right)^T$ and $Z$ are covariates and $\bfbeta\left(z\right) = \left( \beta_0\left(z\right), \beta_1\left(z\right),\dots,\beta_p\left(z\right) \right)^T$ are unknown coefficient functions, assumed to be smooth functions of $Z$. It is worth noting that by taking $X_1 \equiv 1$, this model allows for a varying intercept term. This class of models is particularly appealing in longitudinal studies where they allow us to examine the extent to which covariates affect responses over time \cite{hoover1998nonparametric}, \cite{fan2000two}. 
 
-\subsection{{\outlineskeleton VC Models with a Multivariate Smoothing Variable}} \label{multivariate_VC_models}
+\section{{\outlineskeleton VC Models with a Multivariate Smoothing Variable}} \label{multivariate_VC_models}
 
 The second approach in specifying varying coefficient models is by generalizing model \ref{eq:VC_mean_function_single_smoothing_covariate} to allow each covariate's coefficient function to depend on different covariates, $\bfZ = \left(Z_1, Z_2, \dots, Z_p\right)^T$. This leads to modeling the mean response as follows:
 
@@ -93,20 +97,71 @@ There are many proposed extensions of  model \ref{eq:VC_mean_function_single_smo
 {\outlineskeleton Discuss the unified framework and corresponding theory presented in \cite{huang2001concave} and then introduce the tensor product models of \cite{eilers2003multivariate}, \cite{marx2005multidimensional}}
 
 
-\subsubsection{{\outlineskeleton Multidimensional Penalized Signal Regression of Eilers, Marx}}
+\subsection{{\outlineskeleton Multidimensional Penalized Signal Regression of Eilers, Marx}}
+
 
 \subsubsection{{\outlineskeleton Univariate B-splines}}
 
-B-splines are 
+We first begin by establishing some notation: we choose to divide the function domain, the interval $\left[\nu_{min},\nu_{max} \right]$ into $n^\prime$ intervals of equal length using $n^\prime + 1$ interior knots.
+\needsparaphrased{B-splines are constructed from polynomial pieces, joined at certain values of x, the knots. Once the knots are given, it is easy to compute the B-splines recursively, for any desired degree of the polynomial; see de Boor (1977, 1978), Cox (1981) or Dierckx (1993).  A different track was chosen by O'Sullivan (1986, 1988). He proposed to use a relatively large number of knots. To prevent overfitting, a penalty on the second derivative restricts the flexibility of the fitted curve, similar to the penalty pioneered for smoothing splines by Reinsch (1967) and that has become the standard in much of the spline literature; see, for example, Eubank (1988),Wahba (1990) and Green and Silverman (1994). In this paper we simplify and generalize the approach of O'Sullivan, in such a way that it can be applied in any con- text where regression on B-splines is useful. Only small modifications of the regression equations are necessary.
+
+A B-spline consists of polynomial pieces, connected in a special way. A very simple example is shown at the left of Figure l(a): one B-spline of degree 1.It consists of two linear pieces; one piece from xl to x2, the other from x2to x3.The knots are xl, x2and x3. To the left of xl and to the right of x3 this B-spline is zero. In the right part of Figure l(a),three more B-splines of degree 1 are shown: each one based on three knots. Of course, we can construct as large a set of B-splines as we like, by introducing more knots.In the left part of Figure l(b), a B-spline of degree 2 is shown. It consists of three quadratic pieces, joined a t two knots. At the joining points not only the ordinates of the polynomial pieces match, but also their first derivatives are equal (but not their second derivatives). The B-spline is based on four adjacent knots: xl, ...,x4. In the right part Figure l(b), three more B-splines of degree 2 are shown.
+Note that the B-splines overlap each other. First-degree B-splines overlap with two neighbors, second-degree B-splines with four neighbors and so on. Of course, the leftmost and rightmost splines have less overlap. At a given x, two first-degree (or three second-degree) B-splines are nonzero.These examples illustrate the general properties of a B-spline of degree q:
+\begin{itemize}
+\item it consists of q + 1 polynomial pieces, each of degree q\\\item the polynomial pieces join at q inner knots\\\item at the joining points, derivatives up to order q - 1 are continuous\\\item the B-spline is positive on a domain spanned by q +2 knots; everywhere else it is zero\\\item except at the boundaries, it overlaps with 2q polynomial pieces of its neighbors\\\item at a given x, q +1B-splines are nonzero.
+\end{itemize}
+
+Let the domain from xmi, to x, be divided into n' equal intervals by n' +1knots. Each interval will be covered by q +1B-splines of degree q. The total number of knots for construction of the B-splines will be n' +2q +1. The number of B-splines in the regression is n = n' + q . This is easily verified by constructing graphs like those in Figure 1.B-splines are very attractive as base functions for ("nonparametric") univariate regression. A linear combination of (say)third-degree B-splines gives a smooth curve. Once one can compute the B-splines themselves, their application is no more difficult than polynomial regression.De Boor (1978) gave an algorithm to compute B- splines of any degree from B-splines of lower degree. Because a zero-degree B-spline is just a constant on one interval between two knots, it is simple to compute B-splines of any degree. In this paper we use only equidistant knots, but de Boor's algorithm also works for any placement of knots.
+
+Let Bj(x; q) denote the value at x of the jth B- spline of degree q for a given equidistant grid of knots. A fitted curve 5 to data (xi,y,) is the linear combination (x) = C5=lcijBj(x; q). When the de- gree of the B-splines is clear from the context, or immaterial, we use Bj(x) instead of Bj(x; q).The indexing of B-splines needs some care, especially when we are going to use derivatives. The indexing connects a B-spline to a knot; that is, it gives the index of the knot that characterizes the position of the B-spline. Our choice is to take the leftmost knot, the knot at which the B-spline starts to be- come nonzero. In Figure l(a), xl is the positioning knot for the first B-spline. This choice of indexing demands that we introduce q knots to the left of the domain of x. In the formulas that follow for derivatives, the exact bounds of the index in the sums are immaterial, so we have left them out.De Boor (1978) gives a simple formula for derivatives of B-splines:}
+\begin{eqnarray}
+h\sum_{j} \beta_j B_j^\prime \left(x,q\right) &=& \sum_{j} \beta_j B_j\left(x,q-1\right)-\sum_{j} \beta_{j+1} B_{j+1} \left(x,q-1\right) \nonumber \\ 
+&=& -\sum_{j} \Delta\beta_{j+1} B_{j} \left(x,q-1\right) \label{bspline_deriv}
+\end{eqnarray}
+\noindent
+where $h$ is the distance between knots and $\Delta \beta_j = \beta_j-\beta_{j-1}$. By induction, we have that the second derivative may be characterized as follows:
+\begin{equation}
+h^2\sum_{j} \beta_j B_j^{\prime \prime} \left(x,q\right) = \sum_{j} \Delta^2 \beta_{j} B_{j} \left(x,q-2\right) \label{bspline_2nd_deriv}
+\end{equation}
+\noindent
+where $h$ is the distance between knots and $\Delta^2 \beta_j = \Delta\Delta \beta_j = \beta_j - 2\beta_{j-1}+\beta_{j-2} $. \needsparaphrased{This fact will prove very useful when we compare continuous and discrete roughness penalties in the next section.}
 
 \subsubsection{{\outlineskeleton Tensor Product B-splines}}
 
 
-\section{{\outlineskeleton Extensions of linear models which are special cases of models in \ref{univariate_VC_models},\ref{multivariate_VC_models},\ref{extended_VC_models}}}
-To illustrate the flexibility of the varying coefficient model, we examine some models that may be expressed as special cases, first considering the general nonparametric modeling literature. 
+\begin{figure}[H]
+  \centering
+ \graphicspath{{img/}}
+  \includegraphics[width=4in, height=4in]{bicubic_bspline.png}
+  \caption{Tensor product of two cubic B-splines}\label{bicubic_bspline}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \graphicspath{{img/}}
+  \includegraphics[width=4in, height=4in]{bicubic_bspline_contour.png}
+  \caption{Tensor product of two cubic B-splines}\label{bicubic_bspline_contour}
+\end{figure}
+
+\subsubsection{{\outlineskeleton P-Splines Regularization}}
+
+\needsparaphrased{The choice of knots has been a subject of much research: too many knots lead to overfitting of the data, too few knots lead to underfitting. Some authors have proposed automatic schemes for optimizing the number and the positions of the knots (Friedman and Silverman, 1989; Kooperberg and Stone, 1991,1992). This is a difficult numerical problem and, to our knowledge, no attractive all-purpose scheme exists.
+
+A different track was chosen by O'Sullivan (1986, 1988). He proposed to use a relatively large number of knots. To prevent overfitting, a penalty on the second derivative restricts the flexibility of the fitted curve, similar to the penalty pioneered for smoothing splines by Reinsch (1967) and that has become the standard in much of the spline literature; see, for example, Eubank (1988), Wahba (1990) and Green and Silverman (1994). \cite{eilers1996flexible} simplify and generalize the approach of O'Sullivan, in such a way that it can be applied in any context where regression on B-splines is useful. Only small modifications of the regression equations are necessary.
+
+The basic idea is not to use the integral of a squared higher derivative of the fitted curve in the penalty, but instead to use a simple difference penalty on the coefficients themselves of adjacent B-splines. We show that both approaches are very similar for second-order differences. In some applications, however, it can be useful to use differences of a smaller or higher order in the penalty. With our approach it is simple to incorporate a penalty of any order in the (generalized)regression equations. A major problem of any smoothing technique is the choice of the optimal amount of smoothing, in our case the optimal weight of the penalty. We use cross-validation and the Akaike information criterion (AIC). In the latter the effective dimension, that is, the effective number of parameters, of a model plays a crucial role. We follow Hastie and Tibshirani (1990) in using the trace of the smoother matrix as the effective dimension. Because we use standard regression techniques, this quantity can be computed easily. We find the trace very useful to compare the effective amount of smoothing for different numbers of knots, different degrees of the B-splines and different orders of penalties.}
+
+\subsubsection{{\outlineskeleton P-Splines Penalties for Univariate B-Splines}}
+
+Consider the regression of m data points $\left(x_i,y_i\right)$ on a set of n B-splines Bj(.). The least squares objective function to minimize is
+
+Let the number of knots be relatively large, such that the fitted curve will show more variation than is justified by the data. To make the result less flexible, O'Sullivan (1986, 1988) introduced a penalty on the second derivative of the fitted curve and so formed the objective function
 
 
 
+The integral of the square of the second derivative of a fitted function has become common as a smoothness penalty, since the seminal work on smoothing splines by Reinsch (1967). There is nothing special about the second derivative; in fact, lower or higher orders might be used as well. In the context of smoothing splines, the first derivative leads to simple equations, and a piecewise linear fit, while higher derivatives lead to rather complex mathe-matics, systems of equations with a high bandwidth, and a very smooth fit. \cite{eilers1996flexible} propose to base the penalty on (higher-order) finite differences of the coefficients of adjacent B-splines:
+
+\subsection{Nonparametric approaches to modeling nonlinear time series data}
 
 Zeger and Diggle (1994) present a partially linear model motivated by the longitudinal data produced by the Multicenter AIDS Cohort Study. The data are of the form $\lbrace \left(x_{ij},y_{ij}\left(t_{ij}\right)\right): \;\; j=1,\dots,m_i;\;\;i=1,\dots,n \rbrace$, where $x_{ij}$ denotes a $p \times 1$ vector of covariates corresponding to $y_{ij}\left(t_{ij}\right)$, the $j$th measurement on the $i$th subject at time $t_{ij}$. They let 
 
@@ -124,8 +179,6 @@ Y\left(t\right) =  \bfX^T\left(t\right)\bfbeta \left(t\right) + \epsilon\left(t\
 \noindent
 proposing estimation of the coefficient functions via smoothing splines and local polynomials. $\epsilon\left(t\right)$ is defined as in \ref{eq:zeger_diggle_VC_model} and is assumed to be independent of $\bfX\left(t\right)$. Hoover et al (1998) propose the same model, using smoothing splines and kernel smoothing to estimate  the components of $\bfbeta\left(t\right)$ and develop asymptotic properties of kernel estimators. 
 
-
-\subsection{Nonparametric approaches to modeling nonlinear time series data}
 
 
 For nonlinear time series applications, Chen \& Tsay \cite{chen1993functional} and Xia \& Li (1999) develop functional-coefficient autoregressive models. The common research in nonlinear time series analysis has focused on several classes of models, such as the threshold autoregressive (TAR) model of Tong (1983, 1990) and the exponential autoregressive (EXPAR) model of Haggan and Ozaki (1981). {\needsparaphrased In this article we are concerned with empirical modeling of nonlinear time series. In particular we focus on exploring the nonlinear feature of a time series in the process of model building. This is achieved by generalizing directly the linear autoregressive (AR) models and exploiting local characteristics of a given time series. The generalized model is referred to as the functional coefficient autoregressive (FAR) models. Most nonlinear AR models considered in the literature are special cases of the FAR model. It turns out that the FAR models are flexible enough to accommodate most nonlinear features considered in the literature while being simple enough to be treated with relative ease. }
