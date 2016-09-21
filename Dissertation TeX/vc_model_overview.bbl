@@ -17,6 +17,11 @@ Bickel, P.~J. and Levina, E. (2008).
 \newblock Regularized estimation of large covariance matrices.
 \newblock {\em The Annals of Statistics}, pages 199--227.
 
+\bibitem[Buja et~al., 1989]{buja1989linear}
+Buja, A., Hastie, T., and Tibshirani, R. (1989).
+\newblock Linear smoothers and additive models.
+\newblock {\em The Annals of Statistics}, pages 453--510.
+
 \bibitem[Cai and Yuan, 2010]{cai2010nonparametric}
 Cai, T. and Yuan, M. (2010).
 \newblock Nonparametric covariance function estimation for functional and
