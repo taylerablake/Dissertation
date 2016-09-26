@@ -104,17 +104,29 @@ There are many proposed extensions of  model \ref{eq:VC_mean_function_single_smo
 \subsubsection{{\outlineskeleton Univariate B-splines}}
 
 We first begin by establishing some notation: we choose to divide the function domain, the interval $\left[\nu_{min},\nu_{max} \right]$ into $n^\prime$ intervals of equal length using $n^\prime + 1$ interior knots.
-\needsparaphrased{B-splines are constructed from polynomial pieces, joined at certain values of x, the knots. Once the knots are given, it is easy to compute the B-splines recursively, for any desired degree of the polynomial; see de Boor (1977, 1978), Cox (1981) or Dierckx (1993).  A different track was chosen by O'Sullivan (1986, 1988). He proposed to use a relatively large number of knots. To prevent overfitting, a penalty on the second derivative restricts the flexibility of the fitted curve, similar to the penalty pioneered for smoothing splines by Reinsch (1967) and that has become the standard in much of the spline literature; see, for example, Eubank (1988),Wahba (1990) and Green and Silverman (1994). In this paper we simplify and generalize the approach of O'Sullivan, in such a way that it can be applied in any context where regression on B-splines is useful. Only small modifications of the regression equations are necessary.
+B-splines are constructed from polynomial pieces, joined at certain values of x, the knots. Once the knots are given, it is easy to compute the B-splines recursively, for any desired degree of the polynomial; see de Boor (1977, 1978), Cox (1981) or Dierckx (1993).  A different track was chosen by O'Sullivan (1986, 1988). He proposed to use a relatively large number of knots. To prevent overfitting, a penalty on the second derivative restricts the flexibility of the fitted curve, similar to the penalty pioneered for smoothing splines by Reinsch (1967) and that has become the standard in much of the spline literature; see, for example, Eubank (1988),Wahba (1990) and Green and Silverman (1994). In this paper we simplify and generalize the approach of O'Sullivan, in such a way that it can be applied in any context where regression on B-splines is useful. Only small modifications of the regression equations are necessary.
 
-A B-spline consists of polynomial pieces, connected in a special way. A very simple example is shown at the left of Figure l(a): one B-spline of degree 1.It consists of two linear pieces; one piece from xl to x2, the other from x2to x3.The knots are xl, x2and x3. To the left of xl and to the right of x3 this B-spline is zero. In the right part of Figure l(a),three more B-splines of degree 1 are shown: each one based on three knots. Of course, we can construct as large a set of B-splines as we like, by introducing more knots.In the left part of Figure l(b), a B-spline of degree 2 is shown. It consists of three quadratic pieces, joined a t two knots. At the joining points not only the ordinates of the polynomial pieces match, but also their first derivatives are equal (but not their second derivatives). The B-spline is based on four adjacent knots: xl, ...,x4. In the right part Figure l(b), three more B-splines of degree 2 are shown.
-Note that the B-splines overlap each other. First-degree B-splines overlap with two neighbors, second-degree B-splines with four neighbors and so on. Of course, the leftmost and rightmost splines have less overlap. At a given x, two first-degree (or three second-degree) B-splines are nonzero.These examples illustrate the general properties of a B-spline of degree q:
+A B-spline consists of polynomial pieces, connected in a special way. A very simple example is shown at the left of Figure l(a): one B-spline of degree 1.It consists of two linear pieces; one piece from xl to x2, the other from x2to x3.The knots are xl, x2and x3. To the left of xl and to the right of x3 this B-spline is zero. In the right part of Figure l(a),three more B-splines of degree 1 are shown: each one based on three knots. Of course, we can construct as large a set of B-splines as we like, by introducing more knots.
+In the left part of Figure l(b), a B-spline of degree 2 is shown. It consists of three quadratic pieces, joined a t two knots. At the joining points not only the ordinates of the polynomial pieces match, but also their first derivatives are equal (but not their second derivatives). The B-spline is based on four adjacent knots: xl, ...,x4. In the right part Figure l(b), three more B-splines of degree 2 are shown.
+
+Note that the B-splines overlap each other. First-degree B-splines overlap with two neighbors, second-degree B-splines with four neighbors and so on. Of course, the leftmost and rightmost splines have less overlap. At a given x, two first-degree (or three second-degree) B-splines are nonzero.
+These examples illustrate the general properties of a B-spline of degree q:
 \begin{itemize}
-\item it consists of q + 1 polynomial pieces, each of degree q\\\item the polynomial pieces join at q inner knots\\\item at the joining points, derivatives up to order q - 1 are continuous\\\item the B-spline is positive on a domain spanned by q +2 knots; everywhere else it is zero\\\item except at the boundaries, it overlaps with 2q polynomial pieces of its neighbors\\\item at a given x, q +1B-splines are nonzero.
+\item it consists of q + 1 polynomial pieces, each of degree q\\
+\item the polynomial pieces join at q inner knots\\
+\item at the joining points, derivatives up to order q - 1 are continuous\\
+\item the B-spline is positive on a domain spanned by q +2 knots; everywhere else it is zero\\
+\item except at the boundaries, it overlaps with 2q polynomial pieces of its neighbors\\
+\item at a given x, q +1B-splines are nonzero.
 \end{itemize}
 
-Let the domain from xmi, to x, be divided into n' equal intervals by n' +1knots. Each interval will be covered by q +1B-splines of degree q. The total number of knots for construction of the B-splines will be n' +2q +1. The number of B-splines in the regression is n = n' + q . This is easily verified by constructing graphs like those in Figure 1.B-splines are very attractive as base functions for ("nonparametric") univariate regression. A linear combination of (say)third-degree B-splines gives a smooth curve. Once one can compute the B-splines themselves, their application is no more difficult than polynomial regression.De Boor (1978) gave an algorithm to compute B- splines of any degree from B-splines of lower degree. Because a zero-degree B-spline is just a constant on one interval between two knots, it is simple to compute B-splines of any degree. In this paper we use only equidistant knots, but de Boor's algorithm also works for any placement of knots.
+Let the domain from xmi, to x, be divided into n' equal intervals by n' +1knots. Each interval will be covered by q +1B-splines of degree q. The total number of knots for construction of the B-splines will be n' +2q +1. The number of B-splines in the regression is n = n' + q . This is easily verified by constructing graphs like those in Figure 1.
+B-splines are very attractive as base functions for ("nonparametric") univariate regression. A linear combination of (say)third-degree B-splines gives a smooth curve. Once one can compute the B-splines themselves, their application is no more difficult than polynomial regression.
+De Boor (1978) gave an algorithm to compute B- splines of any degree from B-splines of lower degree. Because a zero-degree B-spline is just a constant on one interval between two knots, it is simple to compute B-splines of any degree. In this paper we use only equidistant knots, but de Boor's algorithm also works for any placement of knots.
 
-Let Bj(x; q) denote the value at x of the jth B- spline of degree q for a given equidistant grid of knots. A fitted curve 5 to data (xi,y,) is the linear combination (x) = C5=lcijBj(x; q). When the de- gree of the B-splines is clear from the context, or immaterial, we use Bj(x) instead of Bj(x; q).The indexing of B-splines needs some care, especially when we are going to use derivatives. The indexing connects a B-spline to a knot; that is, it gives the index of the knot that characterizes the position of the B-spline. Our choice is to take the leftmost knot, the knot at which the B-spline starts to be- come nonzero. In Figure l(a), xl is the positioning knot for the first B-spline. This choice of indexing demands that we introduce q knots to the left of the domain of x. In the formulas that follow for derivatives, the exact bounds of the index in the sums are immaterial, so we have left them out.De Boor (1978) gives a simple formula for derivatives of B-splines:}
+Let Bj(x; q) denote the value at x of the jth B- spline of degree q for a given equidistant grid of knots. A fitted curve 5 to data (xi,y,) is the linear combination (x) = C5=lcijBj(x; q). When the de- gree of the B-splines is clear from the context, or immaterial, we use Bj(x) instead of Bj(x; q).
+The indexing of B-splines needs some care, especially when we are going to use derivatives. The indexing connects a B-spline to a knot; that is, it gives the index of the knot that characterizes the position of the B-spline. Our choice is to take the leftmost knot, the knot at which the B-spline starts to be- come nonzero. In Figure l(a), xl is the positioning knot for the first B-spline. This choice of indexing demands that we introduce q knots to the left of the domain of x. In the formulas that follow for derivatives, the exact bounds of the index in the sums are immaterial, so we have left them out.
+De Boor (1978) gives a simple formula for derivatives of B-splines:
 \begin{eqnarray}
 h\sum_{j} \beta_j B_j^\prime \left(x,q\right) &=& \sum_{j} \beta_j B_j\left(x,q-1\right)-\sum_{j} \beta_{j+1} B_{j+1} \left(x,q-1\right) \nonumber \\ 
 &=& -\sum_{j} \Delta\beta_{j+1} B_{j} \left(x,q-1\right) \label{bspline_deriv}
@@ -125,7 +137,7 @@ where $h$ is the distance between knots and $\Delta \beta_j = \beta_j-\beta_{j-1
 h^2\sum_{j} \beta_j B_j^{\prime \prime} \left(x,q\right) = \sum_{j} \Delta^2 \beta_{j} B_{j} \left(x,q-2\right) \label{bspline_2nd_deriv}
 \end{equation}
 \noindent
-where $h$ is the distance between knots and $\Delta^2 \beta_j = \Delta\Delta \beta_j = \beta_j - 2\beta_{j-1}+\beta_{j-2} $. \needsparaphrased{This fact will prove very useful when we compare continuous and discrete roughness penalties in the next section.}
+where $h$ is the distance between knots and $\Delta^2 \beta_j = \Delta\Delta \beta_j = \beta_j - 2\beta_{j-1}+\beta_{j-2} $. This fact is of particular utility when comparing continuous and discrete roughness penalties, which will follow in later discussion.
 
 \subsubsection{{\outlineskeleton Tensor Product B-splines}}
 
@@ -146,46 +158,48 @@ where $h$ is the distance between knots and $\Delta^2 \beta_j = \Delta\Delta \be
 
 \subsubsection{{\outlineskeleton P-Splines Regularization}}
 
-\needsparaphrased{The choice of knots has been a subject of much research: too many knots lead to overfitting of the data, too few knots lead to underfitting. Some authors have proposed automatic schemes for optimizing the number and the positions of the knots (Friedman and Silverman, 1989; Kooperberg and Stone, 1991,1992). This is a difficult numerical problem and, to our knowledge, no attractive all-purpose scheme exists.
+{ \needsparaphrased The choice of knots has been a subject of much research: too many knots lead to overfitting of the data, too few knots lead to underfitting. Some authors have proposed automatic schemes for optimizing the number and the positions of the knots (Friedman and Silverman, 1989; Kooperberg and Stone, 1991,1992). This is a difficult numerical problem and, to our knowledge, no attractive all-purpose scheme exists.}
 
-A different track was chosen by O'Sullivan (1986, 1988). He proposed to use a relatively large number of knots. To prevent overfitting, a penalty on the second derivative restricts the flexibility of the fitted curve, similar to the penalty pioneered for smoothing splines by Reinsch (1967) and that has become the standard in much of the spline literature; see, for example, Eubank (1988), Wahba (1990) and Green and Silverman (1994). \cite{eilers1996flexible} simplify and generalize the approach of O'Sullivan, in such a way that it can be applied in any context where regression on B-splines is useful. Only small modifications of the regression equations are necessary.
+{ \needsparaphrased A different track was chosen by O'Sullivan (1986, 1988). He proposed to use a relatively large number of knots. To prevent overfitting, a penalty on the second derivative restricts the flexibility of the fitted curve, similar to the penalty pioneered for smoothing splines by Reinsch (1967) and that has become the standard in much of the spline literature; see, for example, Eubank (1988), Wahba (1990) and Green and Silverman (1994). \cite{eilers1996flexible} simplify and generalize the approach of O'Sullivan, in such a way that it can be applied in any context where regression on B-splines is useful. Only small modifications of the regression equations are necessary.
 
 The basic idea is not to use the integral of a squared higher derivative of the fitted curve in the penalty, but instead to use a simple difference penalty on the coefficients themselves of adjacent B-splines. We show that both approaches are very similar for second-order differences. In some applications, however, it can be useful to use differences of a smaller or higher order in the penalty. With our approach it is simple to incorporate a penalty of any order in the (generalized)regression equations. A major problem of any smoothing technique is the choice of the optimal amount of smoothing, in our case the optimal weight of the penalty. We use cross-validation and the Akaike information criterion (AIC). In the latter the effective dimension, that is, the effective number of parameters, of a model plays a crucial role. We follow \cite{buja1989linear} in using the trace of the smoother matrix as the effective dimension. Because we use standard regression techniques, this quantity can be computed easily. We find the trace very useful to compare the effective amount of smoothing for different numbers of knots, different degrees of the B-splines and different orders of penalties.}
 
 \subsubsection{{\outlineskeleton P-Splines Penalties for Univariate B-Splines}}
 
-Consider the regression of m data points $\left(x_i,y_i\right)$ on a set of $n$ B-splines $B_j(.)$. The least squares objective function to minimize is
+Consider the regression of $m$ data points $\left(x_i,y_i\right)$ on a set of $n$ B-splines $B_j$. The least squares objective function to minimize is
 
-\begin{equation} \label{univariate_bspline_SSE}
+\begin{equation} \label{eq:univariate_bspline_SSE}
 \sum_{i=1}^m \left\{ y_i - \sum_{j=1}^n \beta_j B_j\left(x_i\right) \right\}^2
 \end{equation}
 \noindent
-Let the number of knots be relatively large, such that the fitted curve will show more variation than is justified by the data. To make the result less flexible, O'Sullivan (1986, 1988) introduced a penalty on the second derivative of the fitted curve and so formed the objective function
+{ \needsparaphrased Let the number of knots be relatively large, such that the fitted curve will show more variation than is justified by the data. To make the result less flexible, O'Sullivan (1986, 1988) introduced a penalty on the second derivative of the fitted curve and so formed the objective function}
 
-\begin{equation} \label{univariate_bspline_ridge_penalty}
+\begin{equation} \label{eq:univariate_bspline_ridge_penalty}
 \sum_{i=1}^m \left \{ y_i - \sum_{j=1}^n \beta_j B_j\left(x_i\right) \right \}^2 + \lambda \int_{x_{min}}^{x_{max}} \left\{  \sum_{j=1}^n \beta_j B^{\prime \prime}_j\left(x\right) \right\}^2 \; dx
 \end{equation}
 
+{ \needsparaphrased The integral of the square of the second derivative of a fitted function has become common as a smoothness penalty, since the seminal work on smoothing splines by Reinsch (1967). There is nothing special about the second derivative; in fact, lower or higher orders might be used as well. In the context of smoothing splines, the first derivative leads to simple equations, and a piecewise linear fit, while higher derivatives lead to rather complex mathematics, systems of equations with a high bandwidth, and a very smooth fit. \cite{eilers1996flexible} propose to base the penalty on (higher-order) finite differences of the coefficients of adjacent B-splines:}
 
-The integral of the square of the second derivative of a fitted function has become common as a smoothness penalty, since the seminal work on smoothing splines by Reinsch (1967). There is nothing special about the second derivative; in fact, lower or higher orders might be used as well. In the context of smoothing splines, the first derivative leads to simple equations, and a piecewise linear fit, while higher derivatives lead to rather complex mathematics, systems of equations with a high bandwidth, and a very smooth fit. \cite{eilers1996flexible} propose to base the penalty on (higher-order) finite differences of the coefficients of adjacent B-splines:
-
-\begin{equation} \label{univariate_pspline_diff_penalty}
+\begin{equation} \label{eq:univariate_pspline_diff_penalty}
 \sum_{i=1}^m \left \{ y_i - \sum_{j=1}^n \beta_j B_j\left(x_i\right) \right \}^2 + \lambda \sum_{j=k+1}^n \left( \Delta^k \beta_j  \right)^2
 \end{equation}
 
-This approach reduces the dimensionality of the problem to n, the number of B-splines, instead of m, the number of observations, with smoothing splines. We still have a parameter A for continuous control over smoothness of the fit. The difference penalty is a good discrete approximation to the integrated square of the $k^{th}$ derivative. What is more important: with this penalty moments of the data are conserved and polynomial regression models occur as limits for large values of A.See Section 5 for details. We will show below that there is a very strong connection between a penalty on second-order differences of the B-spline coefficients and O'Sullivan7s choice of a penalty on the second derivative of the fitted function. However, our penalty can be handled mechanically for any order of the differences.
-Difference penalties have a long history that goes back at least to Whittaker (1923); recent applications have been described by Green and Yandell (1985) and Eilers (1989, 1991a, b, 1995).The difference penalty is easily introduced into the regression equations. That makes it possible to experiment with different orders of the differences. In some cases it is useful to work with even the fourth or higher order. This stems from the fact that for high values of h the fitted curve approaches a parametric (polynomial) model, as will be shown below.\cite{o1986statistical} used third-degree B-splines and the following penalty:
+This approach reduces the dimensionality of the problem to the number of B-splines, $n$ instead of the number of observations, $m$ , as with smoothing splines. The tuning parameter $\lambda$ permits continuous control over smoothness of the fit. The difference penalty is a good discrete approximation to the integrated square of the $k^{th}$ derivative, as will be demonstrated below. { \needsparaphrased  What is more important: with this penalty moments of the data are conserved and polynomial regression models occur as limits for large values of $\lambda$. See Section 5 for details. We will show below that there is a very strong connection between a penalty on second-order differences of the B-spline coefficients and O'Sullivan's choice of a penalty on the second derivative of the fitted function. However, the difference penalty of \cite{eilers1996flexible} can be handled mechanically for any order of the differences.}
 
-\begin{equation} \label{osullivan_univariate_bspline_penalty}
+{ \needsparaphrased Difference penalties have a long history that goes back at least to Whittaker (1923); recent applications have been described by Green and Yandell (1985) and \cite{eilers1991penalized}, \cite{eilers1991nonparametric}, \cite{eilers1995indirect}. The difference penalty is easily introduced into the regression equations. That makes it possible to experiment with different orders of the differences. In some cases it is useful to work with even the fourth or higher order. This stems from the fact that for high values of h the fitted curve approaches a parametric (polynomial) model, as will be shown below.
+\cite{o1986statistical} used third-degree B-splines and the following penalty:}
+
+\begin{equation} \label{eq:osullivan_univariate_bspline_penalty}
 h^2 P = \lambda \int_{x_{min}}^{x_max} \left\{ \sum_{j}  \beta_j B_j^{\prime \prime} \left(x, q=3\right) \right\}^2\; dx
 \end{equation}
-\noindentFrom the derivative properties of B-splines it follows that
+\noindent
+From the derivative properties of B-splines, it follows that
 
 \begin{equation} \label{osullivan_univariate_bspline_penalty_via_deriv}
 h^2 P = \lambda \int_{x_{min}}^{x_max}  \sum_{j} \sum_{k} \Delta^2 \beta_j \Delta^2 \beta_k B_j\left(x,q=1\right)B_k\left(x,q=1\right) dx 
 \end{equation}
 \noindent
-Most of the cross products of $B_j(x; 1)$ and $B_k(x;1)$ vanish as B-splines of degree 1 only overlap when $j$ is $k-1$, $k$, or $k+1$.We thus have that
+Most of the cross products of $B_j(x; 1)$ and $B_k(x;1)$ vanish as B-splines of degree 1 only overlap when $j$ is $k-1$, $k$, or $k+1$. Thus, we have that
 
 \begin{align}
 h^2 P = {} & \lambda \int_{x_{min}}^{x_{max}} \bigg[ \left\{ \sum_{j}  \Delta^2 \beta_j  B_j\left(x,1\right)  \right\}^2  + 2 \sum_{j}\Delta^2 \beta_j\Delta^2 \beta_{j-1}B_j\left(x,1\right)B_{j-1}\left(x,1\right) \bigg] dx \nonumber \\ 
@@ -199,17 +213,76 @@ h^2 P = \lambda \sum_j \left( \Delta^2\beta_j \right)^2 \int_{x_{min}}^{x_{max}}
 \end{align}
 \noindent
 which can be written as
-\begin{equation}
+\begin{equation} \label{eq:osullivan_penalty_decomp}
 h^2 P = \lambda\left\{c_1 \sum_j\left( \Delta^2 \beta_j\right)^2 + c_2 \sum_j\Delta^2 \beta_j\Delta^2 \beta_{j-1} \right\}
 \end{equation}
 \noindent
 where, for given equidistant knots, $c_1$ and $c_2$ are constants given by
 \begin{equation}
 \begin{split}
-c_1 & =  \\ \int_{x_{min}}^{x_{max}} B_j^2\left(x,1\right) dx
+c_1 & =   \int_{x_{min}}^{x_{max}} B_j^2\left(x,1\right) dx\\
 c_2 & = \int_{x_{min}}^{x_{max}} B_j\left(x,1\right)B_{j-1}\left(x,1\right) dx
 \end{split}
 \end{equation}
+
+Thus, we see that O'Sullivan's ridge-like B-spline penalty \ref{eq:osullivan_univariate_bspline_penalty} can be written as a linear combination of Marx and Eilers' difference penalty \ref{eq:univariate_pspline_diff_penalty} and the sum of the cross products of neighboring second differences. The second term in \ref{eq:osullivan_penalty_decomp} leads to a complex objective function when minimizing the penalized likelihood, where seven adjacent spline coefficients occur, as opposed to five if only the first term in \ref{eq:osullivan_penalty_decomp} is used in the penalty. The added complexity is a consequence of overlapping B-splines, and these complexities grow quickly with higher order differences and B-splines of higher degree, which makes it difficult to construct a procedure for incorporating the penalty in the likelihood equations. Using a difference penalty allows us to sidestep this complexity.
+
+Using the sum of squared errors as the goodness of fit measure, we define $\hat{\beta} = \left(\beta_1, \beta_2, \dots, \beta_n \right)$ to be the minimizer of
+\begin{equation*}  
+L\left(Y, \beta \right) + \lambda J\left(\bfbeta\right) = \sum_{i=1}^m \left\{ y_i - \sum_{j=1}^n \beta_j B_j\left(x_i\right) \right\}^2 + \lambda \sum_{j=k+1}^n \left( \Delta^k\beta_j \right)^2
+\end{equation*}
+\noindent
+In vector notation, this may be written
+\begin{equation}\label{eq:uni_pspline_penalized_likelihood}
+L\left(Y, \beta \right) + \lambda J\left(\beta\right) = \left( Y- B\beta  \right)^T \left( Y-B \beta\right) + \lambda \left(D_k \beta\right)^T\left(D_k \beta\right)
+\end{equation}
+\noindent
+where where $D_k$ is the matrix representation of the difference operator Ak,and the elements of $B$ are $b_{ij} = B_j\left(x_i\right)$. Taking derivatives on both sides of \ref{eq:uni_pspline_penalized_likelihood} with respect to $\beta$ gives
+\begin{align}
+\frac{\partial}{\partial \beta}\left(L\left(Y, \beta \right) + \lambda J\left(\beta\right) \right) ={} & \frac{\partial}{\partial \beta}\left(\beta^TB^TB \beta -2Y^T B^T\beta+\lambda \beta^T D_k^T D_k \beta  \right) \nonumber \\
+= {} & 2B^TB \beta - 2B^T Y + 2\lambda D_k^TD_k\beta \nonumber\\
+= {} & \left(B^T B +  \lambda D_k^TD_k\right)\beta - B^T Y \label{eq:uni_penalized_lik_deriv}
+\end{align} 
+\noindent
+Setting \ref{eq:uni_penalized_lik_deriv} equal to zero yields the following normal equations:
+\begin{equation}\label{eq:uni_pspline_normal_eq}
+B^T Y = \left(B^T B +  \lambda D_k^TD_k\right)\beta
+\end{equation}
+When $\lambda = 0$, we have the standard normal equations of linear regression with a B-spline basis. With $k = 0$ we have a special case of ridge regression. When $\lambda > 0$, the penalty only influences the main diagonal and $k$ subdiagonals (on both sides of the main diagonal) of the system of equations. This system has a banded structure because of the limited overlap of the B-splines. It is seldom worth the trouble to exploit this special structure, as the number of equations is equal to the number of splines, which is generally moderate (10-20). 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

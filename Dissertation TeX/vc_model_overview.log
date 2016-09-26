@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  21 SEP 2016 15:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  26 SEP 2016 07:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -436,33 +436,35 @@ File: img/bicubic_bspline_contour.png Graphic file (type png)
 Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 155
 .
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
- [5 <./img/bicubic_bspline.png>] [6 <./img/bicubic_bspline_contour.png>] [7]
+ [5 <./img/bicubic_bspline.png>] [6 <./img/bicubic_bspline_contour.png>] [7] [8
+]
+Overfull \hbox (10.14629pt too wide) in paragraph at lines 230--231
+[]\OT1/cmr/m/n/12 Using the sum of squared er-rors as the good-ness of fit mea-
+sure, we de-fine $[] = []$
+ []
 
-LaTeX Warning: Citation `o1986statistical' on page 8 undefined on input line 19
-2.
 
-
-Overfull \hbox (141.34702pt too wide) in paragraph at lines 234--235
+Overfull \hbox (141.34702pt too wide) in paragraph at lines 291--292
 \OT1/cmr/m/n/12 pro-duced by the Mul-ti-cen-ter AIDS Co-hort Study. The data ar
 e of the form $[]$,
  []
 
-[8] [9] [10]
-Overfull \hbox (14.88255pt too wide) in paragraph at lines 318--321
+[9] [10] [11]
+Overfull \hbox (14.88255pt too wide) in paragraph at lines 375--378
 \OT1/cmr/m/n/12 fined as in 2[]; the Nadaraya-Watson (NW) es-ti-ma-tor of $[] [
 ] = [][]$
  []
 
 
-LaTeX Warning: Reference `eq:local_linear_smoother_obj_fun' on page 11 undefine
-d on input line 340.
+LaTeX Warning: Reference `eq:local_linear_smoother_obj_fun' on page 12 undefine
+d on input line 397.
 
-[11] [12] [13] [14]
+[12] [13] [14] [15]
 
-LaTeX Warning: Reference `eq:longitudinal_VC_model' on page 15 undefined on inp
-ut line 466.
+LaTeX Warning: Reference `eq:longitudinal_VC_model' on page 16 undefined on inp
+ut line 523.
 
-[15] (./vc_model_overview.bbl [16] [17] [18] [19]) [20]
+[16] (./vc_model_overview.bbl [17] [18] [19] [20]) [21]
 (./vc_model_overview.aux)
 
 LaTeX Warning: There were undefined references.
@@ -472,13 +474,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4412 strings out of 493089
- 65380 string characters out of 6134842
- 150043 words of memory out of 5000000
- 7806 multiletter control sequences out of 15000+600000
+ 4420 strings out of 493089
+ 65600 string characters out of 6134842
+ 150173 words of memory out of 5000000
+ 7814 multiletter control sequences out of 15000+600000
  13163 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,16n,35p,1553b,250s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,16n,35p,1553b,248s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
@@ -491,10 +493,10 @@ l/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/t
 exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/te
 xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texl
 ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on vc_model_overview.pdf (20 pages, 310390 bytes).
+Output written on vc_model_overview.pdf (21 pages, 314905 bytes).
 PDF statistics:
- 122 PDF objects out of 1000 (max. 8388607)
- 83 compressed objects within 1 object stream
+ 125 PDF objects out of 1000 (max. 8388607)
+ 85 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

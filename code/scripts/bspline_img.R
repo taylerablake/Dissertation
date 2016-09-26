@@ -13,11 +13,25 @@ library(splines)
 
 
 
+
+bSpline <- spline.des(knots=seq(0,1,by=.05), x=seq(0,1,length.out = 200), ord = 4,outer.ok = TRUE)
+bS <- data.frame(expand.grid(x=seq(0,1,length.out = 200),j=1:ncol(bSpline$design)),B=matrix(bSpline$design,nrow=200*ncol(bSpline$design),ncol=1))
+
+bSpline <- spline.des(knots=seq(0,1,by=.05), x=seq(0,1,length.out = 200), ord = 2,outer.ok = TRUE)
+bS <- rbind(data.frame(bS,k=3),data.frame(expand.grid(x=seq(0,1,length.out = 200),j=1:ncol(bSpline$design)),B=matrix(bSpline$design,nrow=200*ncol(bSpline$design),ncol=1),k=1))
+ggplot(subset(bS,((j == 2 | j %in% (13:16))&k==3) | ((j == 3 | j %in% (14:17))&k==1) ),aes(x=x,y=B,group=j)) + geom_line() + facet_wrap(~ k,nrow=2) + guides(colour="none") + ylab("") + xlab("") + theme_minimal() + xlim(-0.1,1.1)
+
+############################################################################################
+############################################################################################
+
+
 p1 <- p2 <- 200
 M1.index <- M2.index <- seq(0,1,length.out=200)
 
 oM1 <- outer(rep(1, p2),M1.index)
 B1 <- bsplbase(as.vector(oM1), c(0,1,4,3))
+
+
 oM2 <- outer(M2.index, rep(1, p1))
 B2 <- bsplbase(as.vector(oM2), c(0,1,4,3))
 n1 <- ncol(B1)
