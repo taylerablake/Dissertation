@@ -251,22 +251,49 @@ B^T Y = \left(B^T B +  \lambda D_k^TD_k\right)\beta
 When $\lambda = 0$, we have the standard normal equations of linear regression with a B-spline basis. With $k = 0$ we have a special case of ridge regression. When $\lambda > 0$, the penalty only influences the main diagonal and $k$ subdiagonals (on both sides of the main diagonal) of the system of equations. This system has a banded structure because of the limited overlap of the B-splines. It is seldom worth the trouble to exploit this special structure, as the number of equations is equal to the number of splines, which is generally moderate (10-20). 
 
 
+\subsubsection{{\outlineskeleton Properties of P-Splines}}
 
+{\needsparaphrased P-splines have a number. of useful properties, partially inherited from B-splines. We give a short overview, with somewhat informal proofs. In the first place: P-splines show no boundary effects, as many types of kernel smoothers do. By this, we mean the spreading of a fitted curve or density outside of the (physical) domain of the data, generally accompanied by bending toward zero. In Section 8 this aspect is considered in some detail, in the context of density smoothing. P-splines can fit polynomial data exactly. Let data $\left(x_i,y_i\right)$ be given. If the $y_i$ are a polynomial in $x$ of degree $k$, then B-splines of degree $k$ or higher will exactly fit the data (de Boor, 1977).The same is true for P-splines, if the order of the penalty is $k +1$ or higher, whatever the value of $\lambda$. To see that this is true, take the case of a first-order penalty and the fit to data y that are constant (a polynomial of degree 0). Because Cy=ldjBj(x) = c, we have that C)=,Ci B)(xi)= 0, for all x. Then it follows from the relationship between differences and derivatives in (1)that all $\Delta \beta_j$ are zero, and thus that C)=2Aaj = 0. Consequently, the penalty has no effect and the fit is the same as for unpenalized B-splines. This reasoning can easily be extended by induction to data with a linear relationship between x and y, and a second order difference penalty.P-splines can conserve moments of the data. For a linear model with P-splines of degree k +1 and a penalty of order k +1,or higher, it holds that }
 
+{\needsparaphrased  for all values of A, where 5i= C)=lbUfj are the fit- ted values. For GLM's with canonical links it holds that }
 
+{\needsparaphrased This property is especially useful in the context of density smoothing: the mean and variance of the estimated density will be equal to mean and variance of the data, for any amount of smoothing. This is an advantage compared to kernel smoothers: these inflate the variance increasingly with stronger smoothing. The limit of a P-splines fit with strong smoothing is a polynomial. For large values of $h$ and a penalty of order $k$, the fitted series will approach a polynomial of degree $k-1$, if the degree of the B-splines is equal to, or higher than, $k$. Once again, the relationships between derivatives of a B-spline fit and differences of coefficients, as in (1) and (2), are the key. Take the example of a second-order difference penalty: when $h$ is large, Cy=3(A2aj ) 2 has to be very near zero. Thus each of the second differences has to be near zero, and thus the second derivative of the fit has to be near zero everywhere. In view of these very useful results, it seems that B-splines and difference penalties are the ideal marriage.
+It is important to focus on the linearized smoothing problem that is solved at each iteration, because we will make use of properties of the smoothing matrix. From (16) follows for the hat matrix $H$:}
 
+{\needsparaphrased The trace of $H$ approaches $k$ as $\lambda$ increases. A proof goes as follows: let...}
 
+\subsubsection{{\outlineskeleton Model Selection and Tuning}}
+{\needsparaphrased  Now that we can easily influence the smoothness of a fitted curve with A, we need some way to choose an "optimal" value for it. We propose to use the Akaike information criterion (AIC). The basic idea.of AIC is to correct the log- likelihood of a fitted model for the effective number of parameters. An extensive discussion and appli- cations can be found in Sakamoto, Ishiguro and Kitagawa (1986). Instead of the log-likelihood, the deviance is easier to use. The definition of AIC is equivalent to}
 
+{\needsparaphrased where dim(a, A) is the (effective) dimension of the vector of parameters, a , and dev(y; a , A) is the deviance.Computation of the deviance is straightforward, but how shall we determine the effective dimension of our P-spline fit? We find a solution in Hastie and Tibshirani (1990). They discuss the effective dimensions of linear smoother and propose to use the trace of the smoother matrix as an approximation. In our case that means dim(a) = tr(H). Note that $tr\left(H\right) = n$ when $\lambda = 0$, as in (nonsingular) standard linear regression. 
 
+As $tr\left(AB\right) = tr\left(BA\right)$ (for conformable matrices), it is computationally advantageous to use}
 
+{\needsparaphrased The latter expression involves only n-by-n matrices, whereas $H$ is an $m \times m$ matrix. An estimate of the variance is needed, and one approach is to take the variance of the residuals from the $\hat{y}_i$ that are computed when $\lambda = 0$, say, $\hat{\sigma}_0^2$:}
 
+\begin{equation} \label{eq:univariate_AIC}
+\textup{AIC}\left(\lambda\right) = \sum_{i=1}^m \frac{\left( y_i - \hat{\mu}_i \right)^2}{\hat{\sigma}_0^2} + 2tr\left(H\right) - 2m\log\left(\hat{\sigma}_0\right) - m\log 2\pi
+\end{equation}
 
+{\needsparaphrased This choice for the variance is rather arbitrary, as it depends on the number of knots. Alternatives can be based on (generalized) cross-validation. For ordinary cross-validation we compute}
+\begin{equation} \label{eq:univariate_CV}
+\textup{CV}\left(\lambda\right) = \sum_{i=1}^m \left( \frac{ y_i - \hat{y}_i }{1-h_{ii}}\right)^2 
+\end{equation}
+{\needsparaphrased where the $h_{ii}$ are the diagonal elements of the hat matrix, $H$. For generalized cross-validation (Wahba, 1990), we compute }
+\begin{equation} \label{eq:univariate_GCV}
+\textup{GCV}\left(\lambda\right) = \sum_{i=1}^m \frac{\left(  y_i - \hat{y}_i \right)^2}{\left(m-\sum_{j=1}^m h_{jj}\right)^2} 
+\end{equation}
+{\needsparaphrased The difference between both quantities is generally small. The best $\lambda$ is the value that minimizes $\textup{CV}\left(\lambda\right)$ or $\textup{GCV}\left(\lambda\right) $. The variance of the residuals at the optimal $\lambda$ is a natural choice to use as an estimate of $\hat{\sigma}_0^2$ for the computation of $\textup{AIC}\left(\lambda\right)$. It is practical to work with modified versions of $\textup{CV}\left(\lambda\right)$ and $\textup{GCV}\left(\lambda\right)$, with values that can be interpreted as estimates of the cross-validation standard deviation:}
 
+\begin{equation}
+\begin{split}
+\bar{\textup{CV}\left(\lambda\right)} &= \sqrt{m^{-1}\textup{CV}\left(\lambda\right)} \\
+\bar{\textup{GCV}\left(\lambda\right)} &= \sqrt{m\textup{GCV}\left(\lambda\right)} \\
+\end{split}
+\end{equation}
+{\needsparaphrased The two terms in $\textup{AIC}\left(\lambda\right)$ represent the deviance and the trace of the smoother matrix, respectively. The latter term, say $T\left(\lambda\right) = tr\left(H\left(\lambda\right)\right)$, is of interest on its own, because it can be interpreted as the effective dimension of the fitted curve.
 
-
-
-
-
+$T\left(\lambda\right)$ is useful to compare fits for different numbers of knots and orders of penalties, whereas $\lambda$ can vary over a large range of values and has no clear intuitive appeal. We will show in an example below that a plot of $\textup{AIC}$ against $T$ is a useful diagnostic tool. In the case of P-splines, the maximum value that $T\left(\lambda\right)$ can attain is equal to the number of B-splines (when $\lambda = 0$). The actual maximum depends on the number and the distributions of the data points. The minimum value of $T\left(\lambda\right)$ occurs when $\lambda$ goes to infinity and is equal to the order of the difference penalty. This agrees with the fact that for high values of $\lambda$, the fit of P-splines approaches a polynomial of degree $k - 1$.}
 
 
 
