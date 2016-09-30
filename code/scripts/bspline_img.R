@@ -15,11 +15,26 @@ library(splines)
 
 
 bSpline <- spline.des(knots=seq(0,1,by=.05), x=seq(0,1,length.out = 200), ord = 4,outer.ok = TRUE)
-bS <- data.frame(expand.grid(x=seq(0,1,length.out = 200),j=1:ncol(bSpline$design)),B=matrix(bSpline$design,nrow=200*ncol(bSpline$design),ncol=1))
-
+bS <- data.frame(expand.grid(x=seq(0,1,length.out = 200),j=1:ncol(bSpline$design)),B=matrix(bSpline$design,nrow=200*ncol(bSpline$design),ncol=1),q=3)
+      bS <- merge(bS,data.frame(j=1:ncol(bSpline$design),knot=paste0("x",1:ncol(bSpline$design))),by="j")
 bSpline <- spline.des(knots=seq(0,1,by=.05), x=seq(0,1,length.out = 200), ord = 2,outer.ok = TRUE)
-bS <- rbind(data.frame(bS,k=3),data.frame(expand.grid(x=seq(0,1,length.out = 200),j=1:ncol(bSpline$design)),B=matrix(bSpline$design,nrow=200*ncol(bSpline$design),ncol=1),k=1))
-ggplot(subset(bS,((j == 2 | j %in% (13:16))&k==3) | ((j == 3 | j %in% (14:17))&k==1) ),aes(x=x,y=B,group=j)) + geom_line() + facet_wrap(~ k,nrow=2) + guides(colour="none") + ylab("") + xlab("") + theme_minimal() + xlim(-0.1,1.1)
+      bS <- rbind(bS,data.frame(expand.grid(x=seq(0,1,length.out = 200),
+                                          j=1:ncol(bSpline$design)),
+                              B=matrix(bSpline$design,nrow=200*ncol(bSpline$design),ncol=1),
+                              q=1)%>%merge(.,data.frame(j=1:ncol(bSpline$design),knot=paste0("x",1:ncol(bSpline$design))),by="j"))
+
+
+png(filename = file.path(getwd(),"Dissertation TeX","img","bicubic_basis_function.png"))
+p <- ggplot(subset(bS,((j == 2 | j %in% (8:11))&q==3) | ((j == 3 | j %in% (9:12))&q==1) ),
+            aes(x=x,y=B,group=j)) + ylab("") + xlab("") 
+p <- p + scale_x_continuous(breaks = bSpline$knots[c(4,10:13)],
+                            labels = as.character(unique(bS$knot[bS$j %in% c(4,15:18)])))
+p <- p + theme(axis.text.y = element_blank(),
+               axis.ticks.y = element_blank(),
+               panel.background = element_blank(),
+               axis.line = element_line(colour = "black"))
+p + geom_line(aes(x=x,y=B,group=j)) + facet_wrap(~ q,nrow=2,labeller = label_both)
+ggsave(filename = file.path(getwd(),"Dissertation TeX","img","uni_linear_cubic_bsplines.png"))
 
 ############################################################################################
 ############################################################################################
