@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  30 SEP 2016 12:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  1 OCT 2016 15:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -419,24 +419,14 @@ Package pdftex.def Info: img/uni_linear_cubic_bsplines.png used on input line 1
 LaTeX Warning: Reference `fig:univariate_linear_cubic_bspline' on page 6 undefi
 ned on input line 138.
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 143.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 145.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 143.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 145.
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--144
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 144--145
-
- []
-
-[6 <./img/uni_linear_cubic_bsplines.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 145--146
 
  []
@@ -446,51 +436,62 @@ Underfull \hbox (badness 10000) in paragraph at lines 146--147
 
  []
 
-
+[6 <./img/uni_linear_cubic_bsplines.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 147--148
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 148--149
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 149--150
 
  []
 
 [7]
 File: img/bicubic_bspline.png Graphic file (type png)
  <use img/bicubic_bspline.png>
-Package pdftex.def Info: img/bicubic_bspline.png used on input line 179.
+Package pdftex.def Info: img/bicubic_bspline.png used on input line 184.
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
+ [8]
 File: img/bicubic_bspline_contour.png Graphic file (type png)
  <use img/bicubic_bspline_contour.png>
-Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 186
+Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 191
 .
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
 
-[8] [9] [10] [11]
-Overfull \hbox (10.14629pt too wide) in paragraph at lines 261--262
+[9] [10] [11] [12]
+Overfull \hbox (10.14629pt too wide) in paragraph at lines 266--267
 []\OT1/cmr/m/n/12 Using the sum of squared er-rors as the good-ness of fit mea-
 sure, we de-fine $[] = []$
  []
 
-[12] [13] [14]
-Overfull \hbox (141.34702pt too wide) in paragraph at lines 353--354
+[13] [14] [15]
+Overfull \hbox (141.34702pt too wide) in paragraph at lines 358--359
 \OT1/cmr/m/n/12 pro-duced by the Mul-ti-cen-ter AIDS Co-hort Study. The data ar
 e of the form $[]$,
  []
 
-[15] [16]
-Overfull \hbox (14.88255pt too wide) in paragraph at lines 437--440
+[16] [17]
+Overfull \hbox (14.88255pt too wide) in paragraph at lines 442--445
 \OT1/cmr/m/n/12 fined as in 2[]; the Nadaraya-Watson (NW) es-ti-ma-tor of $[] [
 ] = [][]$
  []
 
-[17]
+[18]
 
-LaTeX Warning: Reference `eq:local_linear_smoother_obj_fun' on page 18 undefine
-d on input line 459.
+LaTeX Warning: Reference `eq:local_linear_smoother_obj_fun' on page 19 undefine
+d on input line 464.
 
-[18] [19] [20] [21]
+[19] [20] [21] [22]
 
-LaTeX Warning: Reference `eq:longitudinal_VC_model' on page 22 undefined on inp
-ut line 585.
+LaTeX Warning: Reference `eq:longitudinal_VC_model' on page 23 undefined on inp
+ut line 590.
 
-(./vc_model_overview.bbl [22] [23] [24] [25] [26]) [27]
+(./vc_model_overview.bbl [23] [24] [25] [26] [27]) [28]
 (./vc_model_overview.aux)
 
 LaTeX Warning: There were undefined references.
@@ -524,10 +525,10 @@ pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></
 usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></us
 r/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on vc_model_overview.pdf (27 pages, 482301 bytes).
+Output written on vc_model_overview.pdf (28 pages, 483557 bytes).
 PDF statistics:
- 151 PDF objects out of 1000 (max. 8388607)
- 101 compressed objects within 2 object streams
+ 154 PDF objects out of 1000 (max. 8388607)
+ 103 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

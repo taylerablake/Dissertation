@@ -24,17 +24,18 @@ bSpline <- spline.des(knots=seq(0,1,by=.05), x=seq(0,1,length.out = 200), ord = 
                               q=1)%>%merge(.,data.frame(j=1:ncol(bSpline$design),knot=paste0("x",1:ncol(bSpline$design))),by="j"))
 
 
-png(filename = file.path(getwd(),"Dissertation TeX","img","bicubic_basis_function.png"))
-p <- ggplot(subset(bS,((j == 2 | j %in% (8:11))&q==3) | ((j == 3 | j %in% (9:12))&q==1) ),
+
+p <- ggplot(subset(bS,((j == 2 | j %in% (13:16))&q==3) | ((j == 3 | j %in% (14:17))&q==1) ),
             aes(x=x,y=B,group=j)) + ylab("") + xlab("") 
-p <- p + scale_x_continuous(breaks = bSpline$knots[c(4,10:13)],
-                            labels = as.character(unique(bS$knot[bS$j %in% c(4,15:18)])))
+p <- p + scale_x_continuous(breaks = bSpline$knots[c(4,15:18)],
+                            labels = paste0("x",c(c(4,10:13)-3)))
 p <- p + theme(axis.text.y = element_blank(),
                axis.ticks.y = element_blank(),
                panel.background = element_blank(),
                axis.line = element_line(colour = "black"))
 p + geom_line(aes(x=x,y=B,group=j)) + facet_wrap(~ q,nrow=2,labeller = label_both)
-ggsave(filename = file.path(getwd(),"Dissertation TeX","img","uni_linear_cubic_bsplines.png"))
+ggsave(filename = file.path(getwd(),"Dissertation TeX","img","uni_linear_cubic_bsplines.png"),
+       width = 7.25,height = 6,units = "in")
 
 ############################################################################################
 ############################################################################################
@@ -156,7 +157,7 @@ facetcol <- cut(zfacet, nbcol)
 par(bg="white")
 
 
-png(filename = file.path(getwd(),,"bivariate_bs_basis.png"))
+png(filename = file.path(getwd(),img,"bivariate_bs_basis.png"))
 persp(M2.index, M1.index, z,
-      xlab = "x", ylab = "y", zlab = "b",theta = 35, phi = 25,
+      xlab = "x", ylab = "y", zlab = "",theta = 35, phi = 25,
       shade = 0.1,col=color[facetcol],border=NA,box=TRUE,d=5)
