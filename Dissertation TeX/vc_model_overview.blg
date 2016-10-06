@@ -3,44 +3,44 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: vc_model_overview.aux
 The style file: apalike.bst
 Database file #1: Master.bib
-You've used 67 entries,
+You've used 69 entries,
             1935 wiz_defined-function locations,
-            849 strings with 13790 characters,
-and the built_in function-call counts, 29208 in all, are:
-= -- 3023
-> -- 981
-< -- 72
-+ -- 330
-- -- 318
-* -- 2390
-:= -- 4799
-add.period$ -- 205
-call.type$ -- 67
-change.case$ -- 486
-chr.to.int$ -- 65
-cite$ -- 67
-duplicate$ -- 1152
-empty$ -- 2098
-format.name$ -- 446
-if$ -- 5917
+            859 strings with 14008 characters,
+and the built_in function-call counts, 29887 in all, are:
+= -- 3090
+> -- 1001
+< -- 74
++ -- 336
+- -- 324
+* -- 2444
+:= -- 4918
+add.period$ -- 211
+call.type$ -- 69
+change.case$ -- 498
+chr.to.int$ -- 67
+cite$ -- 69
+duplicate$ -- 1180
+empty$ -- 2151
+format.name$ -- 456
+if$ -- 6050
 int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 70
-newline$ -- 338
-num.names$ -- 201
-pop$ -- 383
+missing$ -- 73
+newline$ -- 348
+num.names$ -- 207
+pop$ -- 395
 preamble$ -- 1
-purify$ -- 489
+purify$ -- 502
 quote$ -- 0
-skip$ -- 984
+skip$ -- 1005
 stack$ -- 0
-substring$ -- 2476
-swap$ -- 271
+substring$ -- 2525
+swap$ -- 273
 text.length$ -- 26
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 396
+type$ -- 406
 warning$ -- 0
-while$ -- 279
+while$ -- 285
 width$ -- 0
-write$ -- 875
+write$ -- 900

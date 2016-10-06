@@ -82,6 +82,11 @@ Chiang, C.-T., Rice, J.~A., and Wu, C.~O. (2001).
 \newblock {\em Journal of the American Statistical Association},
   96(454):605--619.
 
+\bibitem[Craven and Wahba, 1978]{craven1978smoothing}
+Craven, P. and Wahba, G. (1978).
+\newblock Smoothing noisy data with spline functions.
+\newblock {\em Numerische Mathematik}, 31(4):377--403.
+
 \bibitem[Darroch et~al., 1980]{darroch1980markov}
 Darroch, J.~N., Lauritzen, S.~L., and Speed, T.~P. (1980).
 \newblock Markov fields and log-linear interaction models for contingency
@@ -121,6 +126,11 @@ Eilers, P.~H. and Marx, B.~D. (2003).
   two-dimensional penalized signal regression.
 \newblock {\em Chemometrics and intelligent laboratory systems},
   66(2):159--174.
+
+\bibitem[Eubank, 1999]{eubank1999nonparametric}
+Eubank, R.~L. (1999).
+\newblock {\em Nonparametric regression and spline smoothing}.
+\newblock CRC press.
 
 \bibitem[Fan, 1993]{fan1993local}
 Fan, J. (1993).

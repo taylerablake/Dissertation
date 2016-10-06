@@ -10,32 +10,56 @@ library(rlist)
 library(ggplot2)
 library(tidyr)
 library(splines)
-
-
+library(reshape2)
+library(systemfit)
+require(graphics)
+library(latex2exp)
 
 
 bSpline <- spline.des(knots=seq(0,1,by=.05), x=seq(0,1,length.out = 200), ord = 4,outer.ok = TRUE)
-bS <- data.frame(expand.grid(x=seq(0,1,length.out = 200),j=1:ncol(bSpline$design)),B=matrix(bSpline$design,nrow=200*ncol(bSpline$design),ncol=1),q=3)
+bS <- data.frame(expand.grid(x=seq(0,1,length.out = 200),j=1:ncol(bSpline$design)),
+                 B=matrix(bSpline$design,nrow=200*ncol(bSpline$design),ncol=1),
+                 q=3)
       bS <- merge(bS,data.frame(j=1:ncol(bSpline$design),knot=paste0("x",1:ncol(bSpline$design))),by="j")
-bSpline <- spline.des(knots=seq(0,1,by=.05), x=seq(0,1,length.out = 200), ord = 2,outer.ok = TRUE)
-      bS <- rbind(bS,data.frame(expand.grid(x=seq(0,1,length.out = 200),
-                                          j=1:ncol(bSpline$design)),
-                              B=matrix(bSpline$design,nrow=200*ncol(bSpline$design),ncol=1),
-                              q=1)%>%merge(.,data.frame(j=1:ncol(bSpline$design),knot=paste0("x",1:ncol(bSpline$design))),by="j"))
 
-
-
-p <- ggplot(subset(bS,((j == 2 | j %in% (13:16))&q==3) | ((j == 3 | j %in% (14:17))&q==1) ),
+p <- ggplot(subset(bS,((j == 2 | j %in% (13:16))&q==3)),
             aes(x=x,y=B,group=j)) + ylab("") + xlab("") 
-p <- p + scale_x_continuous(breaks = bSpline$knots[c(4,15:18)],
-                            labels = paste0("x",c(c(4,10:13)-3)))
+p <- p + scale_x_continuous(breaks = bSpline$knots[c(2:6,13:20)],
+                            labels = paste0("x",c(c(1:5,12:19))))
 p <- p + theme(axis.text.y = element_blank(),
+               axis.text.x = element_text(angle = 45,vjust=0.1),
                axis.ticks.y = element_blank(),
                panel.background = element_blank(),
                axis.line = element_line(colour = "black"))
-p + geom_line(aes(x=x,y=B,group=j)) + facet_wrap(~ q,nrow=2,labeller = label_both)
-ggsave(filename = file.path(getwd(),"Dissertation TeX","img","uni_linear_cubic_bsplines.png"),
-       width = 7.25,height = 6,units = "in")
+p + geom_line(aes(x=x,y=B,group=j)) 
+ggsave(filename = file.path(getwd(),"Dissertation TeX","img","uni_cubic_bsplines.png"),
+       width = 7.25,height = 4,units = "in")
+
+
+
+
+
+bSpline <- spline.des(knots=seq(0,1,by=.05), x=seq(0,1,length.out = 200), ord = 2,outer.ok = TRUE)
+bS <- data.frame(expand.grid(x=seq(0,1,length.out = 200),
+                                      j=1:ncol(bSpline$design)),
+                          B=matrix(bSpline$design,nrow=200*ncol(bSpline$design),ncol=1),
+                          q=1)
+
+p <- ggplot(subset(bS,  j %in% c(3,14:17)&q==1 ),
+            aes(x=x,y=B,group=j)) + ylab("") + xlab("") 
+p <- p + scale_x_continuous(breaks = bSpline$knots[c(3:5,14:19)],
+                            labels = paste0("x",c(c(1:3,14:19))))
+p <- p + theme(axis.text.y = element_blank(),
+               axis.text.x = element_text(angle = 45,vjust=0.1),
+               axis.ticks.y = element_blank(),
+               panel.background = element_blank(),
+               axis.line = element_line(colour = "black"))
+p + geom_line(aes(x=x,y=B,group=j))# + facet_wrap(~ q,nrow=2,labeller = label_both)
+ggsave(filename = file.path(getwd(),"Dissertation TeX","img","uni_linear_bsplines.png"),
+       width = 7.25,height = 4,units = "in")
+
+
+
 
 ############################################################################################
 ############################################################################################
@@ -58,7 +82,7 @@ B. <- B1. * B2.
 dim(B.)
 
 # Create a function interpolating colors in the range of specified colors
-#jet.colors <- colorRampPalette( c("lightpink","dodgerblue") )
+
 jet.colors <- colorRampPalette( c("deepskyblue2","green") )
 # Generate the desired number of colors from this palette
 nbcol <- 100
@@ -103,7 +127,7 @@ for(i in seq(0.2,1,by=0.2)){
 }
 lines(trans3d(x=0, y = M2.index, z = b, pmat = res))
 lines(trans3d(x=M1.index, y = 1, z = b, pmat = res))
-dev.off()
+#dev.off()
 
 ############################################################################################
 ############################################################################################
@@ -153,11 +177,25 @@ ncz <- ncol(z)
 
 zfacet <- z[-1, -1] + z[-1, -ncz] + z[-nrz, -1] + z[-nrz, -ncz]
 # Recode facet z-values into color indices
-facetcol <- cut(zfacet, nbcol)
+
+M <- data.frame(expand.grid(x=M1.index,tilde.x=M2.index),z=rowSums(B.[,ind])) 
+newcols <- colorRampPalette(c("grey70", "grey10"))
+
 par(bg="white")
-
-
-png(filename = file.path(getwd(),img,"bivariate_bs_basis.png"))
-persp(M2.index, M1.index, z,
-      xlab = "x", ylab = "y", zlab = "",theta = 35, phi = 25,
-      shade = 0.1,col=color[facetcol],border=NA,box=TRUE,d=5)
+png(filename = file.path(getwd(),"Dissertation TeX","img","sparse_bicubic_basis.png"))
+wireframe(z~x*tilde.x,data=M,
+          lty=3,
+          lwd=0.3,
+          ylab="x",
+          xlab=expression(tilde(x)),
+          zlab="",
+          screen=list(z=44,x=-65),
+          aspect = c(68/87, 0.8),
+          light.source = c(10,0,10),
+          #pretty=TRUE,
+          scales = list(arrows = FALSE),
+          col.regions = newcols(100),
+          drape=TRUE,
+          colorkey=FALSE,
+          par.settings = list(axis.line = list(col = "transparent")))
+dev.off()

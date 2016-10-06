@@ -16,6 +16,7 @@
 \newcommand{\bfalpha}{\mbox{\boldmath $\alpha$}}
 \newcommand{\bfe}{\mbox{\boldmath $e$}}
 \newcommand{\bff}{\mbox{\boldmath $f$}}
+\newcommand{\bfone}{\mbox{\boldmath $1$}}
 \newcommand{\bft}{\mbox{\boldmath $t$}}
 \newcommand{\bfo}{\mbox{\boldmath $0$}}
 \newcommand{\bfO}{\mbox{\boldmath $O$}}
@@ -102,7 +103,7 @@ There are many proposed extensions of  model \ref{eq:VC_mean_function_single_smo
 
 {\needsparaphrased Using an approach similar to that described in Marx and Eilers (1999) and Eilers and Marx (2003), \cite{marx2005multidimensional} provide an extremely practical solution for functional linear models as presented in Ramsay and Silverman (1997, Chapters 10 and 11). We use the entire two-dimensional signal as regressors for model building, generalizing the approach of O'Sullivan, in such a way that it can be applied in any context where regression on B-splines is useful. Only small modifications of the regression equations are necessary. 
 
-O'Sullivan proposed model fitting using a relatively large number of knots. To prevent overfitting, a penalty on the second derivative restricts the flexibility of the fitted curve, similar to the penalty pioneered for smoothing splines by Reinsch (1967) and that has become the standard in much of the spline literature; see, for example, \cite{eubank1999nonparametric}, \cite{craven1978smoothing}, Wahba (1990) and Green and Silverman (1994). To regularize, they impose constraints which take into account the spatial structure of the regressors, while ensuring smoothness in the coefficient surface. We take two steps towards smoothness: (a) We purposely overfit the coefficient surface (not the signal) using two-dimensional tensor product B-splines, making the surface more flexible than needed. (b) We penalize estimation of the surface using difference penalties on each of the rows and columns of the tensor product B-spline coefficients.
+O'Sullivan proposed model fitting using a relatively large number of knots. To prevent overfitting, a penalty on the second derivative restricts the flexibility of the fitted curve, similar to the penalty pioneered for smoothing splines by Reinsch (1967) and that has become the standard in much of the spline literature; see, for example, \cite{eubank1999nonparametric}, \cite{craven1978smoothing}, \cite{wahba1990spline} and Green and Silverman (1994). To regularize, they impose constraints which take into account the spatial structure of the regressors, while ensuring smoothness in the coefficient surface. We take two steps towards smoothness: (a) We purposely overfit the coefficient surface (not the signal) using two-dimensional tensor product B-splines, making the surface more flexible than needed. (b) We penalize estimation of the surface using difference penalties on each of the rows and columns of the tensor product B-spline coefficients.
 
 The first step provides an initial reduction in parameter estimation through smoothness, as we will see that the tensor product B-splines are driven by relatively few parameters. The overfitting in this step is in the spirit of P-splines (Eilers and Marx, 1996) and is done to circumvent knot selection schemes. The second step ensures further smoothness, regularizing yet allowing general surfaces; The two tuning parameters associated with the row and column penalties allow for continuous control over the surface. 
 
@@ -131,15 +132,17 @@ Temporarily focusing on a single axis, we first present some specific details of
 \begin{figure}[H]
   \centering
   \graphicspath{{img/}}
-  \includegraphics[width=4in, height=4in]{uni_linear_cubic_bsplines.png}
-  \caption{B-splines of degree $q=1$, $3$}\label{fig:uni_linear_cubic_bsplines}
+  \includegraphics[width=3.7in, height=2.2in]{uni_linear_bsplines.png}
+  \caption{B-splines of degree $q=1$}\label{fig:uni_linear_bsplines}
+  \includegraphics[width=3.7in, height=2.2in]{uni_cubic_bsplines.png}
+  \caption{B-splines of degree $q=3$}\label{fig:uni_cubic_bsplines}
 \end{figure} 
 
-A B-spline consists of polynomial pieces connected in a particular way; a very simple example is shown in the top facet of Figure~\ref{fig:univariate_linear_cubic_bspline}: five linear B-splines. One the left is an isolated B-spline of degree 1; it consists of two linear pieces: one piece from $x_1$ to $x_2$, the other from $x_2$ to $x_3$. The knots are $x_1$, $x_2$, and $x_3$. To the left of $x_1$ and to the right of $x_3$, this B-spline takes value zero. To the right on the same axis, four more B-splines of degree 1 are shown: each one based on three knots. More B-splines are added to the collection with the introduction of additional knots.
+A B-spline consists of polynomial pieces connected in a particular way; a very simple example is shown in of Figure~\ref{fig:uni_linear_bsplines}: five linear B-splines. One the left is an isolated B-spline of degree 1; it consists of two linear pieces: one piece from $x_1$ to $x_2$, the other from $x_2$ to $x_3$. The knots are $x_1$, $x_2$, and $x_3$. To the left of $x_1$ and to the right of $x_3$, this B-spline takes value zero. To the right on the same axis, four more B-splines of degree 1 are shown: each one based on three knots. More B-splines are added to the collection with the introduction of additional knots.
 
-The top facet of Figure~\ref{fig:univariate_linear_cubic_bspline} displays five B-splines of degree 2 is shown. It consists of three quadratic pieces, joined a t two knots. At the joining points not only the ordinates of the polynomial pieces match, but also their first derivatives are equal (but not their second derivatives). The B-spline is based on four adjacent knots: xl, ...,x4. In the right part Figure l(b), three more B-splines of degree 2 are shown.
+Figure~\ref{fig:uni_cubic_bsplines} displays five B-splines of degree 3. It consists of four cubic pieces, joined at three inner knots. At the joining points of these cubic polynomials, not only the ordinates of the polynomial pieces match, but their first derivatives are also equal. (However, their second derivatives are not necessarily equal). The B-spline is based on five adjacent knots: $x_1,\dots,x_5$. To the right, four additional cubic B-splines are shown.
 
-First-degree B-splines overlap with two neighbors, second-degree B-splines with four neighbors, and so on, with the leftmost and rightmost splines have being exceptions to this rule. At a given $x$, two first-degree (or three second-degree) B-splines are nonzero. These examples illustrate the general properties of a B-spline of degree $q$:
+First-degree B-splines overlap with two neighbors, second-degree B-splines with four neighbors, and so on, with the leftmost and rightmost splines have being exceptions to this rule. At a given $x$, two first-degree (or four cubic) B-splines are nonzero. These examples illustrate the general properties of a B-spline of degree $q$:
 
 \begin{itemize}
 \item it consists of $q + 1$ polynomial pieces, each of degree q\\
@@ -150,13 +153,13 @@ First-degree B-splines overlap with two neighbors, second-degree B-splines with 
 \item at a given $x$, $q +1$ B-splines are nonzero.
 \end{itemize}
 
-We choose to divide the domain $x_{min}$ to $x_{max}$ into $n^\prime$ equal intervals, using $n^\prime +1$ interior knots. Taking each boundary into consideration, a complete basis needs $n^\prime + 2q + 1$ total knots, where $q$ is the degree of the B-spline. This is easily verified by constructing graphs like those in Figure~\ref{fig:uni_linear_cubic_bsplines}. B-splines are very attractive as base functions for ("nonparametric") univariate regression. A linear combination of (say)third-degree B-splines gives a smooth curve. Once one can compute the B-splines themselves, their application is no more difficult than polynomial regression.
+We choose to divide the domain $x_{min}$ to $x_{max}$ into $n^\prime$ equal intervals, using $n^\prime +1$ interior knots. Taking each boundary into consideration, a complete basis needs $n^\prime + 2q + 1$ total knots, where $q$ is the degree of the B-spline. This is easily verified by constructing graphs like those in Figure~\ref{fig:uni_linear_cubic_bsplines}. B-splines are very attractive as basis functions for (``nonparametric'') univariate regression. A linear combination of, say, third-degree B-splines gives a smooth curve. Once one can compute the B-splines themselves, their application is no more difficult than polynomial regression.
 
 Denote the knots as: $\phi_1,\dots ,\phi_{n^\prime+2q+1}$, and the collection of knots simply by $\phi$. The total number of B-splines on the axis is $n = n^\prime + q$. For indexing purposes it is convenient to associate each B-spline, $B_j\left(x\right)$ with exactly one of the $j = 1, \dots , n$ knots. We denote a full basis using matrix $B$, which has dimension $m \times n$. These basic properties comprise the essential background necessary for our pursuits, but for comprehensive treatment, we refer the reader to de Boor (1978) and Dierckx (1993).
 
-De Boor (1978) gave an algorithm to compute B-splines of any degree from B-splines of lower degree. Because a zero-degree B-spline is just a constant on one interval between two knots, it is simple to compute B-splines of any degree. In this paper we use only equidistant knots, but de Boor's algorithm also works for any placement of knots.
+{\needsparaphrased De Boor (1978)} presented an algorithm to compute B-splines of any degree from B-splines of lower degree. Because a zero-degree B-spline is just a constant on one interval between two knots, it is simple to compute B-splines of any degree. For the sake of simplicity in presentation, we only discuss the construction and properties given equidistant knots, but de Boor's algorithm also works for any placement of knots.
 
-The indexing of B-splines needs some care, especially when we are going to use derivatives. The indexing connects a B-spline to a knot; that is, it gives the index of the knot that characterizes the position of the B-spline. Our choice is to take the leftmost knot, the knot at which the B-spline starts to be- come nonzero. Let $B_j\left(x; q\right)$ denote the value at $x$ of the $j^{th}$ B-spline of degree $q$ for a given equidistant grid of knots. A fitted curve 5 to data (xi,y,) is the linear combination (x) = C5=lcijBj(x; q). When the degree of the B-splines is clear from the context, or immaterial, we use Bj(x) instead of Bj(x; q).
+The indexing of B-splines needs some care, especially when we are going to use derivatives. The indexing connects a B-spline to a knot; that is, it gives the index of the knot that characterizes the position of the B-spline. Our choice is to take the leftmost knot, the knot at which the B-spline becomes nonzero. Let $B_j\left(x; q\right)$ denote the value at $x$ of the $j^{th}$ B-spline of degree $q$ for a given equidistant grid of knots. A fitted curve $\hat{y}$ to data $\left(x_i,y_i\right)$ is given by the linear combination $\hat{y}\left(x\right) = \sum_{j=1}^n \beta_{j} B_j\left(x; q\right)$. When the degree of the B-splines is clear from the context, or immaterial, we use $B_j\left(x\right)$ instead of $B_j\left(x; q\right)$.
 
 De Boor (1978) gives a simple formula for derivatives of B-splines:
 \begin{eqnarray}
@@ -171,25 +174,7 @@ h^2\sum_{j} \beta_j B_j^{\prime \prime} \left(x,q\right) = \sum_{j} \Delta^2 \be
 \noindent
 where $h$ is the distance between knots and $\Delta^2 \beta_j = \Delta\Delta \beta_j = \beta_j - 2\beta_{j-1}+\beta_{j-2} $. This fact is of particular utility when comparing continuous and discrete roughness penalties, which will follow in later discussion.
 
-\subsubsection{{\outlineskeleton Tensor Product B-splines}}
 
-Tensor product B-splines exist in the v × v ? plane. For our presentation, n (n ?) equally- spaced indexing knots are placed on v (v ?) to yield a regularly-spaced grid, carving out the plane into subrectangles. The rth-sth single tensor product Br(v)B ?s(v ?), as presented in Figure 4, is positive in the rectangular region defined by the knots R = [?r, ?r+q+2] × [? ?s, ? ?s+q ?+2] or on a support of spanned by (q + 2) × (q ? + 2) knots. Similar to univariate B-splines, it is convenient to index each tensor product by one of the n×n ? knot pairs and
-
-Figure~\ref{fig:bicubic_bspline} displays the tensor product of the two univariate cubic B-splines, say, $B_j$ and $B_{j^*}$ presented along the axes, say $x$ and $\breve{x}$, respectively. Tensor product As with the $x$ axis, using equally-spaced knots $\breve{\phi}$, a similar division of the $\breve{x}$ axis may be constructed to index $B_{j^*}\left(\breve{x} \right)$ for $j^* = 1, \dots , n^*$, possibly using a different $q$. The tensor product value is zero in the corresponding zero univariate $x$ and $\breve{x}$ ranges. More details follow below, including indexing, but
-
-\begin{figure}[H]
-  \centering
- \graphicspath{{img/}}
-  \includegraphics[width=4in, height=4in]{bicubic_bspline.png}
-  \caption{Tensor product of two cubic B-splines}\label{bicubic_bspline}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \graphicspath{{img/}}
-  \includegraphics[width=4in, height=4in]{bicubic_bspline_contour.png}
-  \caption{Tensor product of two cubic B-splines}\label{bicubic_bspline_contour}
-\end{figure}
 
 \subsubsection{{\outlineskeleton P-Splines Regularization}}
 
@@ -336,10 +321,56 @@ $T\left(\lambda\right)$ is useful to compare fits for different numbers of knots
 
 
 
+\subsection{{\outlineskeleton Tensor Product B-splines}}
+
+Tensor product B-splines exist in the $x \times \tilde{x}$ plane. For our presentation, $n$ ($\tilde{n}$) equally-spaced indexing knots are placed on $x$ ($\tilde{x}$) to yield a regularly-spaced grid, carving out the plane into sub-rectangles. The $r^{th}-s^{th}$ single tensor product $B_r\left(x\right)$ ($B_s\left(\tilde{x}\right)$), as presented in Figure~\ref{fig:bicubic_bspline} and Figure~\ref{fig:bicubic_bspline_contour}, is positive in the rectangular region defined by the knots $R = \left[\phi_r, \phi_{r+q+2}\right] \times \left[\tilde{\phi}_s, \tilde{\phi}_{s+\tilde{q}+2}\right]$ or on a support of spanned by $\left(q + 2\right) \times \left(\tilde{q} + 2\right)$ knots. Similar to univariate B-splines, it is convenient to index each tensor product by one of the $n\times\tilde{n}$ knot pairs, with
+
+\begin{equation} \nonumber
+\begin{split}
+B_r\left(\tilde{x}\right)B_s\left(\tilde{x}\right) & > 0 \;\; \textup{for all }  x,\; \tilde{x}\;\ \in R\\
+ & = 0 \;\; \textup{for all }  x,\; \tilde{x}\;\ \not\in R
+\end{split}
+\end{equation}
+\noindent
+for $r = 1,dots, n$, $s = 1,dots, \tilde{n}$. Figure~\ref{fig:sparse_bicubic_basis} displays nine tensor product B-splines, which represents only a portion of a full basis. A graphic of a complete basis would be difficult to appreciate, as the``hills'' overlap quite a lot, making each individual basis function difficult to isolate from the rest. Associated with each ``hill'' in Figure~\ref{fig:sparse_bicubic_basis} , there is an unknown coefficient. {\needsparaphrased A complete tensor product B-splines basis thus has an unknown coefficient matrix, denoted by $\Gamma_{n\times\tilde{n}} = \left[\gamma_{rs}\right]. For given knot grid, a very flexible surface can be approximated, e.g. at the digitized coordinates. For $j = 1 ,\dots,p$ and $k = 1,\dots, \tilde{p}$,
+
+\begin{equation} 
+\alpha\left(x_{j}, \tilde{x}_{k}\right) = \sum_{r=1}^n \sum_{s=1}^\tilde{n} B_r\left(x_{j}\right) B_s\left(\tilde{x}_{k}\right) \gamma_{rs}
+\end{equation}
+\noindentThe surface is defined by relatively few parameters \left(n \tilde{n} \right), where changing $\Gamma$ implies changes the surface.}
+
+\begin{figure}[H]
+  \centering
+ \graphicspath{{img/}}
+  \includegraphics[width=4in, height=4in]{bicubic_bspline.png}
+  \caption{Tensor product of two cubic B-splines}\label{bicubic_bspline}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \graphicspath{{img/}}
+  \includegraphics[width=4in, height=4in]{bicubic_bspline_contour.png}
+  \caption{Tensor product of two cubic B-splines}\label{bicubic_bspline_contour}
+\end{figure}
 
 
+%Figure~\ref{fig:bicubic_bspline} displays the tensor product of the two univariate cubic B-splines, say, $B_j$ and $B_{j^*}$ presented along the axes, say $x$ and $\tilde{x}$, respectively. %Tensor product As with the $x$ axis, using equally-spaced knots $\tilde{\phi}$, a similar division of the $\tilde{x}$ axis may be constructed to index $B_{j^*}\left(\tilde{x} \right)$ for $j^* = 1, %\dots , n^*$, possibly using a different $q$. Similarly to the univariate case, we also have that 
 
+\begin{figure}[H]
+  \centering
+  \graphicspath{{img/}}
+  \includegraphics[width=4in,height=4in]{sparse_bicubic_basis.png}
+  \caption{Landscape of cubic B-splines, a portion of a full bivariate basis}\label{sparse_bicubic_basis}
+\end{figure}
 
+\subsubsection{{\outlineskeleton Computation}}
+
+It is computationally efficient to express the surface in ``unfolded'' notation. Denote the support coordinate matrix  $C = \left(v \otimes \bfone_{\tilde{p}}, \bfone_p \otimes \tilde{v}\right) of dimension $p\tilde{p} \times 2$. Let $B_1$ and $B_2$ denote the matrices of dimensions $p\tilde{p}\times n$ and $p\tilde{p}\times \tilde{n}$) with entries corresponding to the univariate B-spline bases evaluated at each entry of the first and second column of $C$, respectively. {\needsparaphrased The unfolded expression at the support coordinates then has the standard multiple regression form}
+
+\begin{equation}\textup{vec}\left\{\alpha\left(v, \tilde{v}\right)\right\} = T^*\gamma
+\end{equation}
+
+ where $\gamma = \textup{vec}\left(\Gamma\right)$. Define the matrix
 
 
 
