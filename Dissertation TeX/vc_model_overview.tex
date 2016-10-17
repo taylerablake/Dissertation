@@ -1,5 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage{graphicx,psfrag,amsfonts,float,mathbbol,xcolor,cleveref}
+\usepackage{arydshln}
 \usepackage{amsmath}
 \usepackage{mathtools}
 \usepackage{IEEEtrantools}
@@ -127,7 +128,7 @@ Before discussion of the proposed smoothing method, we first review the essentia
 Temporarily focusing on a single axis, we first present some specific details of B-splines in the univariate case. 
 \subsubsection{{\outlineskeleton Univariate B-splines}}
 
-{\needsparaphrased B-splines are constructed from polynomial pieces, joined at certain values of the domain $x$, called knots. Once the knots are given, it is easy to compute the B-splines recursively, for any desired degree of the polynomial; see de Boor (1977, 1978), Cox (1981) or Dierckx (1993).  }
+{\needsparaphrased B-splines are constructed from polynomial pieces, joined at certain values of the domain $t$, called knots. Once the knots are given, it is easy to compute the B-splines recursively, for any desired degree of the polynomial; see de Boor (1977, 1978), Cox (1981) or Dierckx (1993).  }
 
 \begin{figure}[H]
   \centering
@@ -138,11 +139,11 @@ Temporarily focusing on a single axis, we first present some specific details of
   \caption{B-splines of degree $q=3$}\label{fig:uni_cubic_bsplines}
 \end{figure} 
 
-A B-spline consists of polynomial pieces connected in a particular way; a very simple example is shown in of Figure~\ref{fig:uni_linear_bsplines}: five linear B-splines. One the left is an isolated B-spline of degree 1; it consists of two linear pieces: one piece from $x_1$ to $x_2$, the other from $x_2$ to $x_3$. The knots are $x_1$, $x_2$, and $x_3$. To the left of $x_1$ and to the right of $x_3$, this B-spline takes value zero. To the right on the same axis, four more B-splines of degree 1 are shown: each one based on three knots. More B-splines are added to the collection with the introduction of additional knots.
+A B-spline consists of polynomial pieces connected in a particular way; a very simple example is shown in of Figure~\ref{fig:uni_linear_bsplines}: five linear B-splines. One the left is an isolated B-spline of degree 1; it consists of two linear pieces: one piece from $t_1$ to $t_2$, the other from $t_2$ to $t_3$. The knots are $t_1$, $t_2$, and $t_3$. To the left of $t_1$ and to the right of $t_3$, this B-spline takes value zero. To the right on the same axis, four more B-splines of degree 1 are shown: each one based on three knots. More B-splines are added to the collection with the introduction of additional knots.
 
-Figure~\ref{fig:uni_cubic_bsplines} displays five B-splines of degree 3. It consists of four cubic pieces, joined at three inner knots. At the joining points of these cubic polynomials, not only the ordinates of the polynomial pieces match, but their first derivatives are also equal. (However, their second derivatives are not necessarily equal). The B-spline is based on five adjacent knots: $x_1,\dots,x_5$. To the right, four additional cubic B-splines are shown.
+Figure~\ref{fig:uni_cubic_bsplines} displays five B-splines of degree 3. It consists of four cubic pieces, joined at three inner knots. At the joining points of these cubic polynomials, not only the ordinates of the polynomial pieces match, but their first derivatives are also equal. (However, their second derivatives are not necessarily equal). The B-spline is based on five adjacent knots: $t_1,\dots,t_5$. To the right, four additional cubic B-splines are shown.
 
-First-degree B-splines overlap with two neighbors, second-degree B-splines with four neighbors, and so on, with the leftmost and rightmost splines have being exceptions to this rule. At a given $x$, two first-degree (or four cubic) B-splines are nonzero. These examples illustrate the general properties of a B-spline of degree $q$:
+First-degree B-splines overlap with two neighbors, second-degree B-splines with four neighbors, and so on, with the leftmost and rightmost splines have being exceptions to this rule. At a given $t$, two first-degree (or four cubic) B-splines are nonzero. These examples illustrate the general properties of a B-spline of degree $q$:
 
 \begin{itemize}
 \item it consists of $q + 1$ polynomial pieces, each of degree q\\
@@ -150,26 +151,26 @@ First-degree B-splines overlap with two neighbors, second-degree B-splines with 
 \item at the joining points, derivatives up to order $q - 1$ are continuous\\
 \item the B-spline is positive on a domain spanned by $q +2$ knots; everywhere else it is zero\\
 \item except at the boundaries, it overlaps with $2q$ polynomial pieces of its neighbors\\
-\item at a given $x$, $q +1$ B-splines are nonzero.
+\item at a given $t$, $q +1$ B-splines are nonzero.
 \end{itemize}
 
-We choose to divide the domain $x_{min}$ to $x_{max}$ into $n^\prime$ equal intervals, using $n^\prime +1$ interior knots. Taking each boundary into consideration, a complete basis needs $n^\prime + 2q + 1$ total knots, where $q$ is the degree of the B-spline. This is easily verified by constructing graphs like those in Figure~\ref{fig:uni_linear_cubic_bsplines}. B-splines are very attractive as basis functions for (``nonparametric'') univariate regression. A linear combination of, say, third-degree B-splines gives a smooth curve. Once one can compute the B-splines themselves, their application is no more difficult than polynomial regression.
+We choose to divide the domain $t_{min}$ to $t_{max}$ into $n^\prime$ equal intervals, using $n^\prime +1$ interior knots. Taking each boundary into consideration, a complete basis needs $n^\prime + 2q + 1$ total knots, where $q$ is the degree of the B-spline. This is easily verified by constructing graphs like those in Figure~\ref{fig:uni_linear_cubic_bsplines}. B-splines are very attractive as basis functions for (``nonparametric'') univariate regression. A linear combination of, say, third-degree B-splines gives a smooth curve. Once one can compute the B-splines themselves, their application is no more difficult than polynomial regression.
 
-Denote the knots as: $\phi_1,\dots ,\phi_{n^\prime+2q+1}$, and the collection of knots simply by $\phi$. The total number of B-splines on the axis is $n = n^\prime + q$. For indexing purposes it is convenient to associate each B-spline, $B_j\left(x\right)$ with exactly one of the $j = 1, \dots , n$ knots. We denote a full basis using matrix $B$, which has dimension $m \times n$. These basic properties comprise the essential background necessary for our pursuits, but for comprehensive treatment, we refer the reader to de Boor (1978) and Dierckx (1993).
+Denote the knots as: $\phi_1,\dots ,\phi_{n^\prime+2q+1}$, and the collection of knots simply by $\phi$. The total number of B-splines on the axis is $n = n^\prime + q$. For indexing purposes it is convenient to associate each B-spline, $B_j\left(t\right)$ with exactly one of the $j = 1, \dots , n$ knots. We denote a full basis using matrix $B$, which has dimension $m \times n$. These basic properties comprise the essential background necessary for our pursuits, but for comprehensive treatment, we refer the reader to de Boor (1978) and Dierckx (1993).
 
 {\needsparaphrased De Boor (1978)} presented an algorithm to compute B-splines of any degree from B-splines of lower degree. Because a zero-degree B-spline is just a constant on one interval between two knots, it is simple to compute B-splines of any degree. For the sake of simplicity in presentation, we only discuss the construction and properties given equidistant knots, but de Boor's algorithm also works for any placement of knots.
 
-The indexing of B-splines needs some care, especially when we are going to use derivatives. The indexing connects a B-spline to a knot; that is, it gives the index of the knot that characterizes the position of the B-spline. Our choice is to take the leftmost knot, the knot at which the B-spline becomes nonzero. Let $B_j\left(x; q\right)$ denote the value at $x$ of the $j^{th}$ B-spline of degree $q$ for a given equidistant grid of knots. A fitted curve $\hat{y}$ to data $\left(x_i,y_i\right)$ is given by the linear combination $\hat{y}\left(x\right) = \sum_{j=1}^n \beta_{j} B_j\left(x; q\right)$. When the degree of the B-splines is clear from the context, or immaterial, we use $B_j\left(x\right)$ instead of $B_j\left(x; q\right)$.
+The indexing of B-splines needs some care, especially when we are going to use derivatives. The indexing connects a B-spline to a knot; that is, it gives the index of the knot that characterizes the position of the B-spline. Our choice is to take the leftmost knot, the knot at which the B-spline becomes nonzero. Let $B_j\left(t; q\right)$ denote the value at $t$ of the $j^{th}$ B-spline of degree $q$ for a given equidistant grid of knots. A fitted curve $\hat{y}$ to data $\left(t_i,y_i\right)$ is given by the linear combination $\hat{y}\left(t\right) = \sum_{j=1}^n \beta_{j} B_j\left(t; q\right)$. When the degree of the B-splines is clear from the context, or immaterial, we use $B_j\left(t\right)$ instead of $B_j\left(t; q\right)$.
 
 De Boor (1978) gives a simple formula for derivatives of B-splines:
 \begin{eqnarray}
-h\sum_{j} \beta_j B_j^\prime \left(x,q\right) &=& \sum_{j} \beta_j B_j\left(x,q-1\right)-\sum_{j} \beta_{j+1} B_{j+1} \left(x,q-1\right) \nonumber \\ 
-&=& -\sum_{j} \Delta\beta_{j+1} B_{j} \left(x,q-1\right) \label{bspline_deriv}
+h\sum_{j} \beta_j B_j^\prime \left(t,q\right) &=& \sum_{j} \beta_j B_j\left(t,q-1\right)-\sum_{j} \beta_{j+1} B_{j+1} \left(t,q-1\right) \nonumber \\ 
+&=& -\sum_{j} \Delta\beta_{j+1} B_{j} \left(t,q-1\right) \label{bspline_deriv}
 \end{eqnarray}
 \noindent
 where $h$ is the distance between knots and $\Delta \beta_j = \beta_j-\beta_{j-1}$. By induction, we have that the second derivative may be characterized as follows:
 \begin{equation}
-h^2\sum_{j} \beta_j B_j^{\prime \prime} \left(x,q\right) = \sum_{j} \Delta^2 \beta_{j} B_{j} \left(x,q-2\right) \label{bspline_2nd_deriv}
+h^2\sum_{j} \beta_j B_j^{\prime \prime} \left(t,q\right) = \sum_{j} \Delta^2 \beta_{j} B_{j} \left(t,q-2\right) \label{bspline_2nd_deriv}
 \end{equation}
 \noindent
 where $h$ is the distance between knots and $\Delta^2 \beta_j = \Delta\Delta \beta_j = \beta_j - 2\beta_{j-1}+\beta_{j-2} $. This fact is of particular utility when comparing continuous and discrete roughness penalties, which will follow in later discussion.
@@ -184,24 +185,24 @@ where $h$ is the distance between knots and $\Delta^2 \beta_j = \Delta\Delta \be
 
 The basic idea is not to use the integral of a squared higher derivative of the fitted curve in the penalty, but instead to use a simple difference penalty on the coefficients themselves of adjacent B-splines. We show that both approaches are very similar for second-order differences. In some applications, however, it can be useful to use differences of a smaller or higher order in the penalty. With our approach it is simple to incorporate a penalty of any order in the (generalized)regression equations. A major problem of any smoothing technique is the choice of the optimal amount of smoothing, in our case the optimal weight of the penalty. We use cross-validation and the Akaike information criterion (AIC). In the latter the effective dimension, that is, the effective number of parameters, of a model plays a crucial role. We follow \cite{buja1989linear} in using the trace of the smoother matrix as the effective dimension. Because we use standard regression techniques, this quantity can be computed easily. We find the trace very useful to compare the effective amount of smoothing for different numbers of knots, different degrees of the B-splines and different orders of penalties.}
 
-\subsubsection{{\outlineskeleton P-Splines Penalties for Univariate B-Splines}}
+\subsubsection{{\outlineskeleton P-Spline Difference Penalties for Univariate B-Splines}} \label{uni_pspline_penalties}
 
-Consider the regression of $m$ data points $\left(x_i,y_i\right)$ on a set of $n$ B-splines $B_j$. The least squares objective function to minimize is
+Consider the regression of $m$ data points $\left(t_i,y_i\right)$ on a set of $n$ B-splines $B_j$. The least squares objective function to minimize is
 
 \begin{equation} \label{eq:univariate_bspline_SSE}
-\sum_{i=1}^m \left\{ y_i - \sum_{j=1}^n \beta_j B_j\left(x_i\right) \right\}^2
+\sum_{i=1}^m \left\{ y_i - \sum_{j=1}^n \beta_j B_j\left(t_i\right) \right\}^2
 \end{equation}
 \noindent
 { \needsparaphrased Let the number of knots be relatively large, such that the fitted curve will show more variation than is justified by the data. To make the result less flexible, O'Sullivan (1986, 1988) introduced a penalty on the second derivative of the fitted curve and so formed the objective function}
 
 \begin{equation} \label{eq:univariate_bspline_ridge_penalty}
-\sum_{i=1}^m \left \{ y_i - \sum_{j=1}^n \beta_j B_j\left(x_i\right) \right \}^2 + \lambda \int_{x_{min}}^{x_{max}} \left\{  \sum_{j=1}^n \beta_j B^{\prime \prime}_j\left(x\right) \right\}^2 \; dx
+\sum_{i=1}^m \left \{ y_i - \sum_{j=1}^n \beta_j B_j\left(t_i\right) \right \}^2 + \lambda \int_{t_{min}}^{t_{max}} \left\{  \sum_{j=1}^n \beta_j B^{\prime \prime}_j\left(t\right) \right\}^2 \; dt
 \end{equation}
 
 { \needsparaphrased The integral of the square of the second derivative of a fitted function has become common as a smoothness penalty, since the seminal work on smoothing splines by Reinsch (1967). There is nothing special about the second derivative; in fact, lower or higher orders might be used as well. In the context of smoothing splines, the first derivative leads to simple equations, and a piecewise linear fit, while higher derivatives lead to rather complex mathematics, systems of equations with a high bandwidth, and a very smooth fit. \cite{eilers1996flexible} propose to base the penalty on (higher-order) finite differences of the coefficients of adjacent B-splines:}
 
 \begin{equation} \label{eq:univariate_pspline_diff_penalty}
-\sum_{i=1}^m \left \{ y_i - \sum_{j=1}^n \beta_j B_j\left(x_i\right) \right \}^2 + \lambda \sum_{j=k+1}^n \left( \Delta^k \beta_j  \right)^2
+\sum_{i=1}^m \left \{ y_i - \sum_{j=1}^n \beta_j B_j\left(t_i\right) \right \}^2 + \lambda \sum_{j=k+1}^n \left( \Delta^k \beta_j  \right)^2
 \end{equation}
 
 This approach reduces the dimensionality of the problem to the number of B-splines, $n$ instead of the number of observations, $m$ , as with smoothing splines. The tuning parameter $\lambda$ permits continuous control over smoothness of the fit. The difference penalty is a good discrete approximation to the integrated square of the $k^{th}$ derivative, as will be demonstrated below. { \needsparaphrased  What is more important: with this penalty moments of the data are conserved and polynomial regression models occur as limits for large values of $\lambda$. See Section 5 for details. We will show below that there is a very strong connection between a penalty on second-order differences of the B-spline coefficients and O'Sullivan's choice of a penalty on the second derivative of the fitted function. However, the difference penalty of \cite{eilers1996flexible} can be handled mechanically for any order of the differences.}
@@ -210,26 +211,26 @@ This approach reduces the dimensionality of the problem to the number of B-splin
 \cite{o1986statistical} used third-degree B-splines and the following penalty:}
 
 \begin{equation} \label{eq:osullivan_univariate_bspline_penalty}
-h^2 P = \lambda \int_{x_{min}}^{x_max} \left\{ \sum_{j}  \beta_j B_j^{\prime \prime} \left(x, q=3\right) \right\}^2\; dx
+h^2 P = \lambda \int_{t_{min}}^{t_max} \left\{ \sum_{j}  \beta_j B_j^{\prime \prime} \left(t, q=3\right) \right\}^2\; dt
 \end{equation}
 \noindent
 From the derivative properties of B-splines, it follows that
 
 \begin{equation} \label{osullivan_univariate_bspline_penalty_via_deriv}
-h^2 P = \lambda \int_{x_{min}}^{x_max}  \sum_{j} \sum_{k} \Delta^2 \beta_j \Delta^2 \beta_k B_j\left(x,q=1\right)B_k\left(x,q=1\right) dx 
+h^2 P = \lambda \int_{t_{min}}^{t_max}  \sum_{j} \sum_{k} \Delta^2 \beta_j \Delta^2 \beta_k B_j\left(t,q=1\right)B_k\left(t,q=1\right) dt 
 \end{equation}
 \noindent
-Most of the cross products of $B_j(x; 1)$ and $B_k(x;1)$ vanish as B-splines of degree 1 only overlap when $j$ is $k-1$, $k$, or $k+1$. Thus, we have that
+Most of the cross products of $B_j(t; 1)$ and $B_k(t;1)$ vanish as B-splines of degree 1 only overlap when $j$ is $k-1$, $k$, or $k+1$. Thus, we have that
 
 \begin{align}
-h^2 P = {} & \lambda \int_{x_{min}}^{x_{max}} \bigg[ \left\{ \sum_{j}  \Delta^2 \beta_j  B_j\left(x,1\right)  \right\}^2  + 2 \sum_{j}\Delta^2 \beta_j\Delta^2 \beta_{j-1}B_j\left(x,1\right)B_{j-1}\left(x,1\right) \bigg] dx \nonumber \\ 
-= {} & \lambda \bigg[ \sum_j \left( \Delta^2\beta_j \right)^2 \int_{x_{min}}^{x_{max}} B_j^2\left(x,1\right)\;dx + 2 \sum_j \Delta^2 \beta_j\Delta^2 \beta_{j-1} \bigg]
+h^2 P = {} & \lambda \int_{t_{min}}^{t_{max}} \bigg[ \left\{ \sum_{j}  \Delta^2 \beta_j  B_j\left(t,1\right)  \right\}^2  + 2 \sum_{j}\Delta^2 \beta_j\Delta^2 \beta_{j-1}B_j\left(t,1\right)B_{j-1}\left(t,1\right) \bigg] dt \nonumber \\ 
+= {} & \lambda \bigg[ \sum_j \left( \Delta^2\beta_j \right)^2 \int_{t_{min}}^{t_{max}} B_j^2\left(t,1\right)\;dt + 2 \sum_j \Delta^2 \beta_j\Delta^2 \beta_{j-1} \bigg]
 \end{align}
 \noindent
 or
 \begin{align}
-h^2 P = \lambda \sum_j \left( \Delta^2\beta_j \right)^2 \int_{x_{min}}^{x_{max}} B_j^2\left(x,1\right) dx + {} & 2\lambda \sum_j \Delta^2 \beta_j \Delta^2 \beta_{j-1}  \nonumber \\ 
-{} &+\int_{x_{min}}^{x_{max}} B_j\left(x,1\right)B_{j-1}\left(x,1\right) dx
+h^2 P = \lambda \sum_j \left( \Delta^2\beta_j \right)^2 \int_{t_{min}}^{t_{max}} B_j^2\left(t,1\right) dt + {} & 2\lambda \sum_j \Delta^2 \beta_j \Delta^2 \beta_{j-1}  \nonumber \\ 
+{} &+\int_{t_{min}}^{t_{max}} B_j\left(t,1\right)B_{j-1}\left(t,1\right) dt
 \end{align}
 \noindent
 which can be written as
@@ -240,8 +241,8 @@ h^2 P = \lambda\left\{c_1 \sum_j\left( \Delta^2 \beta_j\right)^2 + c_2 \sum_j\De
 where, for given equidistant knots, $c_1$ and $c_2$ are constants given by
 \begin{equation}
 \begin{split}
-c_1 & =   \int_{x_{min}}^{x_{max}} B_j^2\left(x,1\right) dx\\
-c_2 & = \int_{x_{min}}^{x_{max}} B_j\left(x,1\right)B_{j-1}\left(x,1\right) dx
+c_1 & =   \int_{t_{min}}^{t_{max}} B_j^2\left(t,1\right) dt\\
+c_2 & = \int_{t_{min}}^{t_{max}} B_j\left(t,1\right)B_{j-1}\left(t,1\right) dt
 \end{split}
 \end{equation}
 
@@ -249,7 +250,7 @@ Thus, we see that O'Sullivan's ridge-like B-spline penalty \ref{eq:osullivan_uni
 
 Using the sum of squared errors as the goodness of fit measure, we define $\hat{\beta} = \left(\beta_1, \beta_2, \dots, \beta_n \right)$ to be the minimizer of
 \begin{equation*}  
-L\left(Y, \beta \right) + \lambda J\left(\bfbeta\right) = \sum_{i=1}^m \left\{ y_i - \sum_{j=1}^n \beta_j B_j\left(x_i\right) \right\}^2 + \lambda \sum_{j=k+1}^n \left( \Delta^k\beta_j \right)^2
+L\left(Y, \beta \right) + \lambda J\left(\bfbeta\right) = \sum_{i=1}^m \left\{ y_i - \sum_{j=1}^n \beta_j B_j\left(t_i\right) \right\}^2 + \lambda \sum_{j=k+1}^n \left( \Delta^k\beta_j \right)^2
 \end{equation*}
 \noindent
 In vector notation, this may be written
@@ -257,7 +258,7 @@ In vector notation, this may be written
 L\left(Y, \beta \right) + \lambda J\left(\beta\right) = \left( Y- B\beta  \right)^T \left( Y-B \beta\right) + \lambda \left(D_k \beta\right)^T\left(D_k \beta\right)
 \end{equation}
 \noindent
-where where $D_k$ is the matrix representation of the difference operator Ak,and the elements of $B$ are $b_{ij} = B_j\left(x_i\right)$. Taking derivatives on both sides of \ref{eq:uni_pspline_penalized_likelihood} with respect to $\beta$ gives
+where where $D_k$ is the matrix representation of the difference operator $\Delta_k$,and the elements of $B$ are $b_{ij} = B_j\left(t_i\right)$. Taking derivatives on both sides of \ref{eq:uni_pspline_penalized_likelihood} with respect to $\beta$ gives
 \begin{align}
 \frac{\partial}{\partial \beta}\left(L\left(Y, \beta \right) + \lambda J\left(\beta\right) \right) ={} & \frac{\partial}{\partial \beta}\left(\beta^TB^TB \beta -2Y^T B^T\beta+\lambda \beta^T D_k^T D_k \beta  \right) \nonumber \\
 = {} & 2B^TB \beta - 2B^T Y + 2\lambda D_k^TD_k\beta \nonumber\\
@@ -273,7 +274,7 @@ When $\lambda = 0$, we have the standard normal equations of linear regression w
 
 \subsubsection{{\outlineskeleton Properties of P-Splines}}
 
-{\needsparaphrased P-splines have a number. of useful properties, partially inherited from B-splines. We give a short overview, with somewhat informal proofs. In the first place: P-splines show no boundary effects, as many types of kernel smoothers do. By this, we mean the spreading of a fitted curve or density outside of the (physical) domain of the data, generally accompanied by bending toward zero. In Section 8 this aspect is considered in some detail, in the context of density smoothing. P-splines can fit polynomial data exactly. Let data $\left(x_i,y_i\right)$ be given. If the $y_i$ are a polynomial in $x$ of degree $k$, then B-splines of degree $k$ or higher will exactly fit the data (de Boor, 1977).The same is true for P-splines, if the order of the penalty is $k +1$ or higher, whatever the value of $\lambda$. To see that this is true, take the case of a first-order penalty and the fit to data y that are constant (a polynomial of degree 0). Because Cy=ldjBj(x) = c, we have that C)=,Ci B)(xi)= 0, for all x. Then it follows from the relationship between differences and derivatives in (1)that all $\Delta \beta_j$ are zero, and thus that C)=2Aaj = 0. Consequently, the penalty has no effect and the fit is the same as for unpenalized B-splines. This reasoning can easily be extended by induction to data with a linear relationship between x and y, and a second order difference penalty.
+{\needsparaphrased P-splines have a number. of useful properties, partially inherited from B-splines. We give a short overview, with somewhat informal proofs. In the first place: P-splines show no boundary effects, as many types of kernel smoothers do. By this, we mean the spreading of a fitted curve or density outside of the (physical) domain of the data, generally accompanied by bending toward zero. In Section 8 this aspect is considered in some detail, in the context of density smoothing. P-splines can fit polynomial data exactly. Let data $\left(t_i,y_i\right)$ be given. If the $y_i$ are a polynomial in $t$ of degree $k$, then B-splines of degree $k$ or higher will exactly fit the data (de Boor, 1977).The same is true for P-splines, if the order of the penalty is $k +1$ or higher, whatever the value of $\lambda$. To see that this is true, take the case of a first-order penalty and the fit to data y that are constant (a polynomial of degree 0). Because Cy=ldjBj(t) = c, we have that C)=,Ci B)(ti)= 0, for all t. Then it follows from the relationship between differences and derivatives in (1)that all $\Delta \beta_j$ are zero, and thus that C)=2Aaj = 0. Consequently, the penalty has no effect and the fit is the same as for unpenalized B-splines. This reasoning can easily be extended by induction to data with a linear relationship between t and y, and a second order difference penalty.
 P-splines can conserve moments of the data. For a linear model with P-splines of degree k +1 and a penalty of order k +1,or higher, it holds that }
 
 {\needsparaphrased  for all values of A, where 5i= C)=lbUfj are the fit- ted values. For GLM's with canonical links it holds that }
@@ -285,7 +286,7 @@ It is important to focus on the linearized smoothing problem that is solved at e
 {\needsparaphrased The trace of $H$ approaches $k$ as $\lambda$ increases. A proof goes as follows: let...}
 
 \subsubsection{{\outlineskeleton Model Selection and Tuning}}
-{\needsparaphrased  Now that we can easily influence the smoothness of a fitted curve with A, we need some way to choose an "optimal" value for it. We propose to use the Akaike information criterion (AIC). The basic idea.of AIC is to correct the log- likelihood of a fitted model for the effective number of parameters. An extensive discussion and appli- cations can be found in Sakamoto, Ishiguro and Kitagawa (1986). Instead of the log-likelihood, the deviance is easier to use. The definition of AIC is equivalent to}
+{\needsparaphrased  Now that we can easily influence the smoothness of a fitted curve with A, we need some way to choose an "optimal" value for it. We propose to use the Akaike information criterion (AIC). The basic idea.of AIC is to correct the log- likelihood of a fitted model for the effective number of parameters. An extensive discussion and applications can be found in Sakamoto, Ishiguro and Kitagawa (1986). Instead of the log-likelihood, the deviance is easier to use. The definition of AIC is equivalent to}
 
 {\needsparaphrased where dim(a, A) is the (effective) dimension of the vector of parameters, a , and dev(y; a , A) is the deviance.
 Computation of the deviance is straightforward, but how shall we determine the effective dimension of our P-spline fit? We find a solution in Hastie and Tibshirani (1990). They discuss the effective dimensions of linear smoother and propose to use the trace of the smoother matrix as an approximation. In our case that means dim(a) = tr(H). Note that $tr\left(H\right) = n$ when $\lambda = 0$, as in (nonsingular) standard linear regression. 
@@ -323,54 +324,192 @@ $T\left(\lambda\right)$ is useful to compare fits for different numbers of knots
 
 \subsection{{\outlineskeleton Tensor Product B-splines}}
 
-Tensor product B-splines exist in the $x \times \tilde{x}$ plane. For our presentation, $n$ ($\tilde{n}$) equally-spaced indexing knots are placed on $x$ ($\tilde{x}$) to yield a regularly-spaced grid, carving out the plane into sub-rectangles. The $r^{th}-s^{th}$ single tensor product $B_r\left(x\right)$ ($B_s\left(\tilde{x}\right)$), as presented in Figure~\ref{fig:bicubic_bspline} and Figure~\ref{fig:bicubic_bspline_contour}, is positive in the rectangular region defined by the knots $R = \left[\phi_r, \phi_{r+q+2}\right] \times \left[\tilde{\phi}_s, \tilde{\phi}_{s+\tilde{q}+2}\right]$ or on a support of spanned by $\left(q + 2\right) \times \left(\tilde{q} + 2\right)$ knots. Similar to univariate B-splines, it is convenient to index each tensor product by one of the $n\times\tilde{n}$ knot pairs, with
+Tensor product B-splines exist in the $t \times \tilde{t}$ plane. For our presentation, $n$ ($\tilde{n}$) equally-spaced indexing knots are placed on the $t$ ($\tilde{t}$) axis to yield a regularly-spaced grid, carving out the plane into sub-rectangles. The $r^{th}-s^{th}$ single tensor product $B_r\left(t\right)$ ($B_s\left(\tilde{t}\right)$), as presented in Figure~\ref{fig:bicubic_bspline} and Figure~\ref{fig:bicubic_bspline_contour}, is positive in the rectangular region defined by the knots $R = \left[\phi_r, \phi_{r+q+2}\right] \times \left[\tilde{\phi}_s, \tilde{\phi}_{s+\tilde{q}+2}\right]$ or on a support of spanned by $\left(q + 2\right) \times \left(\tilde{q} + 2\right)$ knots. Similar to univariate B-splines, we index each tensor product by one of the $n\times\tilde{n}$ knot pairs, where
 
 \begin{equation} \nonumber
 \begin{split}
-B_r\left(\tilde{x}\right)B_s\left(\tilde{x}\right) & > 0 \;\; \textup{for all }  x,\; \tilde{x}\;\ \in R\\
- & = 0 \;\; \textup{for all }  x,\; \tilde{x}\;\ \not\in R
+B_r\left(\tilde{t}\right)B_s\left(\tilde{t}\right) & > 0 \;\; \textup{for all }  t,\; \tilde{t}\;\ \in R\\
+ & = 0 \;\; \textup{for all }  t,\; \tilde{t}\;\ \not\in R
 \end{split}
 \end{equation}
 \noindent
-for $r = 1,dots, n$, $s = 1,dots, \tilde{n}$. Figure~\ref{fig:sparse_bicubic_basis} displays nine tensor product B-splines, which represents only a portion of a full basis. A graphic of a complete basis would be difficult to appreciate, as the``hills'' overlap quite a lot, making each individual basis function difficult to isolate from the rest. Associated with each ``hill'' in Figure~\ref{fig:sparse_bicubic_basis} , there is an unknown coefficient. {\needsparaphrased A complete tensor product B-splines basis thus has an unknown coefficient matrix, denoted by $\Gamma_{n\times\tilde{n}} = \left[\gamma_{rs}\right]. For given knot grid, a very flexible surface can be approximated, e.g. at the digitized coordinates. For $j = 1 ,\dots,p$ and $k = 1,\dots, \tilde{p}$,
+for $r = 1,\dots, n$, $s = 1,\dots, \tilde{n}$. Figure~\ref{fig:sparse_bicubic_basis} displays nine tensor product B-splines, which represents only a portion of a full basis. A graphic of a complete basis would be of little illustrative use, as the``hills'' overlap quite a lot, making each individual basis function difficult to isolate from the rest. Associated with each ``hill'' in Figure~\ref{fig:sparse_bicubic_basis} , there is an unknown coefficient. 
 
-\begin{equation} 
-\alpha\left(x_{j}, \tilde{x}_{k}\right) = \sum_{r=1}^n \sum_{s=1}^\tilde{n} B_r\left(x_{j}\right) B_s\left(\tilde{x}_{k}\right) \gamma_{rs}
+The complete tensor product B-spline basis thus has an unknown coefficient matrix, denoted by $\Gamma_{n\times\tilde{n}} = \left[\gamma_{rs}\right]$. For given knot grid, a very flexible surface can be approximated, e.g. at the digitized coordinates. For $j=1,\dots,p$ and $k=1,\dots,\tilde{p}$,
+\begin{equation} \label{eq:coefficient_surface_expansion}
+\alpha\left(t_{j}, \tilde{t}_{k}\right) = \sum_{r=1}^n \sum_{s=1}^{\tilde{n}}  B_r\left(t_{j}\right) B_s\left(\tilde{t}_{k}\right) \gamma_{rs}
 \end{equation}
-\noindentThe surface is defined by relatively few parameters \left(n \tilde{n} \right), where changing $\Gamma$ implies changes the surface.}
+\noindentThe surface is defined by relatively few parameters $\left(n \tilde{n} \right)$, where changing $\Gamma$ implies changes the surface.
 
 \begin{figure}[H]
   \centering
  \graphicspath{{img/}}
   \includegraphics[width=4in, height=4in]{bicubic_bspline.png}
-  \caption{Tensor product of two cubic B-splines}\label{bicubic_bspline}
+  \caption{Tensor product of two cubic B-splines}\label{fig:bicubic_bspline}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \graphicspath{{img/}}
   \includegraphics[width=4in, height=4in]{bicubic_bspline_contour.png}
-  \caption{Tensor product of two cubic B-splines}\label{bicubic_bspline_contour}
+  \caption{Tensor product of two cubic B-splines}\label{fig:bicubic_bspline_contour}
 \end{figure}
 
 
-%Figure~\ref{fig:bicubic_bspline} displays the tensor product of the two univariate cubic B-splines, say, $B_j$ and $B_{j^*}$ presented along the axes, say $x$ and $\tilde{x}$, respectively. %Tensor product As with the $x$ axis, using equally-spaced knots $\tilde{\phi}$, a similar division of the $\tilde{x}$ axis may be constructed to index $B_{j^*}\left(\tilde{x} \right)$ for $j^* = 1, %\dots , n^*$, possibly using a different $q$. Similarly to the univariate case, we also have that 
+%Figure~\ref{fig:bicubic_bspline} displays the tensor product of the two univariate cubic B-splines, say, $B_j$ and $B_{j^*}$ presented along the axes, say $t$ and $\tilde{t}$, respectively. %Tensor product As with the $t$ axis, using equally-spaced knots $\tilde{\phi}$, a similar division of the $\tilde{t}$ axis may be constructed to index $B_{j^*}\left(\tilde{t} \right)$ for $j^* = 1, %\dots , n^*$, possibly using a different $q$. Similarly to the univariate case, we also have that 
 
 \begin{figure}[H]
   \centering
   \graphicspath{{img/}}
   \includegraphics[width=4in,height=4in]{sparse_bicubic_basis.png}
-  \caption{Landscape of cubic B-splines, a portion of a full bivariate basis}\label{sparse_bicubic_basis}
+  \caption{Landscape of cubic B-splines, a portion of a full bivariate basis}\label{fig:sparse_bicubic_basis}
 \end{figure}
 
 \subsubsection{{\outlineskeleton Computation}}
 
-It is computationally efficient to express the surface in ``unfolded'' notation. Denote the support coordinate matrix  $C = \left(v \otimes \bfone_{\tilde{p}}, \bfone_p \otimes \tilde{v}\right) of dimension $p\tilde{p} \times 2$. Let $B_1$ and $B_2$ denote the matrices of dimensions $p\tilde{p}\times n$ and $p\tilde{p}\times \tilde{n}$) with entries corresponding to the univariate B-spline bases evaluated at each entry of the first and second column of $C$, respectively. {\needsparaphrased The unfolded expression at the support coordinates then has the standard multiple regression form}
+It is computationally efficient to express the surface in ``unfolded'' notation. Denote the support coordinate matrix  $C = \left(v \otimes \bfone_{\tilde{p}}, \bfone_p \otimes \tilde{v}\right)$ of dimension $p\tilde{p} \times 2$. Let $B_1$ and $B_2$ denote the matrices of dimensions $p\tilde{p} \times n$ and $p\tilde{p} \times \tilde{n}$ with entries corresponding to the univariate B-spline bases evaluated at each entry of the first and second column of $C$, respectively. {\needsparaphrased The unfolded expression at the support coordinates then has the standard multiple regression form}
 
-\begin{equation}\textup{vec}\left\{\alpha\left(v, \tilde{v}\right)\right\} = T^*\gamma
+\begin{equation} \label{eq:coef_surface_vec_notation}\textup{vec}\left\{\alpha\left(t, \tilde{t}\right)\right\} = T^*\gamma
+\end{equation}
+\noindent
+ where $\gamma = \textup{vec}\left(\Gamma\right)$. Define $T^*$ to be the matrix that is the result of taking the element-wise product of the matrices $\left(B_1 \otimes \bfone_n^\prime \right)$ and $\left(\bfone_{\tilde{n}}^\prime \otimes B_2 \right)$, written
+\begin{equation}T^*  = \left(B_1 \otimes \bfone_n^\prime \right) \odot \left(\bfone_{\tilde{n}}^\prime \otimes B_2 \right)
+\end{equation} 
+ \noindent 
+where $\otimes$ denotes the Kronecker product operator. 
+
+\subsection{{\outlineskeleton Penalized Two-Dimensional Coefficient Surfaces}}
+
+Let $X_i = \left[x_{ijk}\right]$ denote the $i^{th}$ matrix of regression covariates, having dimension $p \times \tilde{p}$. Given $X_i$, the signal regressor support matrix $C$, and the corresponding coefficient surface $\alpha\left(t,\tilde{t}\right)$, we express the mean function 
+
+\begin{equation} \label{eq:mean_regression_function}
+\mu_i = \sum_{j=1}^p \sum_{k=1}^{\tilde{p}} x_{ijk} \alpha\left(t_j,\tilde{t}_k\right)
+\end{equation} 
+\noindent
+where $i=1, \dots, m$, $j=1, \dots, p$, and $k=1,\dots,\tilde{p}$. Substituting \ref{eq:coefficient_surface_expansion} into \ref{eq:mean_regression_function}, we can expression the mean regression function in terms of the B-spline basis expansion:
+\begin{equation} \label{eq:mean_regression_function_vec_notation}
+\mu_i = \sum_{j=1}^p \sum_{k=1}^{\tilde{p}} x_{ijk}  \sum_{r=1}^n \sum_{s=1}^{\tilde{n}}  B_r\left(t_{j}\right) B_s\left(\tilde{t}_{k}\right) \gamma_{rs} = \bfx^\prime T^* \gamma
+\end{equation} 
+\noindent  
+where $\bfx_i^\prime = \textup{vec}\left(X_i\right)$. A straightforward goodness of fit measure is the squared norm of the residual vector:
+
+\begin{equation} 
+\mathcal{Q}\left(\gamma\right) = \vert y - \bfX T^*\gamma \vert^2 = \vert y - M\gamma \vert^2  \label{eq:bivariate_resi_sum_of_squares}
+\end{equation}
+\noindent
+where we define $M = \bfX T^*$, and $\bfX$ is the $m \times p\tilde{p}$ matrix of vectorized regressors, $\bfx_i$, $i=1,\dots,m$. While expressing the coefficient surface in terms of the tensor product B-splines reduces the model dimension, there are still $n\tilde{n}$ unknown parameters to be estimated from the data. Even moderately complex surfaces may require increasing the number of knots on the grid to allow enough flexibility for adequate estimation. There may also be regions without measurements, leading to a sparse $\bfX$, containing many zeros. Imposing structure through a regularization term will alleviate these potential issues.
+
+{\needsparaphrased In the spirit of P-splines as discussed in section \ref{uni_pspline_penalties}, discrete roughness or difference penalties are imposed on $\Gamma$. Although we implement penalization on the vector form of coefficients ?, the motivation and mechanics of penalization is perhaps best seen through the matrix of coefficients ?. In fact a separate difference penalty is assigned to each of its rows and each of its columns. The penalties have structure to effectively break the linkage in the penalty from row to row or from column to column. The objective function is now modified, using penalties, to minimize }
+\begin{equation} \label{eq:tensor_diff_penalty_obj_function_in_words}
+\mathcal{Q}_\lambda\left(\gamma\right) = \textup{goodness of fit measure} + \textup{row penalty} + \textup{column penalty}
+\end{equation}
+\noindent
+We choose to measure the fit of the coefficient surface using the residual sums of squares. This specification permits ease of computation, particularly when the penalty function can be expressed as a quadratic function of the unknown parameters. The objective function is indexed by $\lambda = \left(\lambda_1, \lambda_2\right)$, which are penalty parameters which control the complexity of the fitted surface. To facilitate smoothness across both dimensions of the coefficient surface, the penalty term is comprised of two parts: one which places a difference penalty on the rows of $\Gamma$, and the second imposes the difference penalty on the columns of $\Gamma$. Specifically, we define $\hat{\gamma}$ to be the minimizer of 
+
+\begin{equation} \label{eq:bivariate_squared_diff_penalized_obj_function}
+\begin{split}
+\mathcal{Q}_\lambda\left(\gamma\right) &= \sum_{i=1}^m \left( y_i - \mu_i \right)^2 + \lambda_1 \sum_{r=1}^{n} \gamma_{r\bullet}^\prime D_k^\prime D_k \gamma_{r\bullet} 
++ \lambda_2 \sum_{s=1}^{\tilde{n}} \gamma_{\bullet s}^\prime D_{\tilde{k}}^\prime D_{\tilde{k}} \gamma_{\bullet s} \\
+&= \sum_{i=1}^m \left( y_i - \sum_{j=1}^p \sum_{k=1}^{\tilde{p}} x_{ijk} \alpha\left(t_j,\tilde{t}_k\right) \right)^2 + \lambda_1 \sum_{r=1}^{n} \gamma_{r\bullet}^\prime D_k^\prime D_k \gamma_{r\bullet} + \lambda_2 \sum_{s=1}^{\tilde{n}} \gamma_{\bullet s}^\prime D_{\tilde{k}}^\prime D_{\tilde{k}} \gamma_{\bullet s} \\
+ &=  \vert y - \bfX T^*\gamma \vert^2  + \lambda_1 \sum_{r=1}^{n} \gamma_{r\bullet}^\prime D_k^\prime D_k \gamma_{r\bullet} 
++ \lambda_2 \sum_{s=1}^{\tilde{n}} \gamma_{\bullet s}^\prime D_{\tilde{k}}^\prime D_{\tilde{k}} \gamma_{\bullet s}\\
+ &=  \vert y - M\gamma \vert^2  + \lambda_1\vert P_1 \gamma \vert^2 + \lambda_2 \vert P_2 \gamma \vert^2 
+\end{split}
+\end{equation}
+\noindent
+where $\gamma_{r\bullet}$ and $\gamma_{\bullet s}$ denote the $r^{th}$ row and $s^{th}$ column of $\Gamma$, respectively. Kronecker products and matrix notation allow for compact representation of each of the components of the penalty:
+\begin{equation} \label{eq:bivariate_squared_diff_penalty_projection_notation}
+\begin{split}
+P_1 &= \left( D_{k}^\prime D_k \right)\otimes I_{\tilde{n}}\\
+P_2 &= I_{n}\otimes \left( D_{\tilde{k}}^\prime D_{\tilde{k}} \right)\end{split}
+\end{equation}\noindent
+where $I_{d}$ denotes the $d \times d$ identity matrix; $k$ and $\tilde{k}$ denote the orders of the difference penalties imposed on the column and row dimensions, respectively. $P_1$ and $P_2$ have corresponding fixed dimensions $\big[ \tilde{n} \left( n-k \right) \big] \times n\tilde{n}$ and $\big[ n \left(\tilde{n}-\tilde{k} \right) \big] \times n\tilde{n}$. In principle, the order of the differences in the penalty term can be considered as additional hyper-parameters, but in practice are typically fixed by the user, as one would typically fix the order of the differencing as one fixes the order of the squared derivative, as in the specification of the ridge regression penalty, for example. Further discussion of this topic will be presented in sections to follow.
+
+\ref{eq:bivariate_squared_diff_penalized_obj_function} relies on two non-negative penalty parameters $\lambda_1$ and $\lambda_2$. These parameters allow for what can practically be viewed as continuous control of the smoothness of the surface in each dimension: the row dimension and the column dimension. This gives added flexibility, allowing for different degrees of smoothness across rows and columns. Figure 6 displays a possible scenario resulting from strong row (top panel) and strong column (bottom panel) penalization using a second order penalty on each row and column with large $\lambda_1$ and $\lambda_2$. Notice that the limiting behavior for each row and column is linear, but reversals of slopes are possible from one row (or column) to the next.
+An example of a first and second order penalty matrix $D$ for small $n = \tilde{n} = 3$ (for one row or column of $\Gamma$) looks like
+
+\[
+D_1 = \begin{bmatrix} 
+-1 & 1 & 0 \\
+0 & -1 & 1 
+\end{bmatrix}
+\quad
+D_2 = \begin{bmatrix} 
+1 & -2 & 1 
+\end{bmatrix}
+\]
+Each row and column of $\Gamma$ has its own banded differencing matrix, $D$, so that the projection onto the penalized column space has structure
+\[
+P_1 = \begin{bmatrix} 
+1 & 0 & 0 \\
+0 & 1 & 0\\ 
+0 & 0 & 1\\ 
+\end{bmatrix} \otimes D_1 = \left[ \begin{array}{ccccccccccc}  -1 & 1 & 0  & &  0 & 0 & 0 &  &  0 & 0 & 0  \\
+						0 & -1 & 1 & & 0 & 0 & 0 &  &  0 & 0 & 0  \\ 
+						&&&&&&&&&&\\
+						0 & 0 & 0  & & -1 & 1 & 0  & & 0 & 0 & 0  \\ 
+						0 & 0 & 0  & & 0 & -1 & 1 & & 0 & 0 & 0  \\ 
+						&&&&&&&&&&\\
+						0 & 0 & 0  & & 0 & 0 & 0 &  & -1 & 1 & 0  \\
+						0 & 0 & 0  & & 0 & 0 & 0 &  &  0 & -1 & 1  
+						\end{array} \right] 
+\]
+\noindent 
+and the projection operator corresponding to the row penalty is of the form
+\[
+P_2 = D_1 \otimes \begin{bmatrix} 
+					1 & 0 & 0 \\
+					0 & 1 & 0\\ 
+					0 & 0 & 1\\ 
+					\end{bmatrix} = \left[ \begin{array}{ccccccccccc}  -1 & 0 & 0  & &  1 & 0 & 0 &  &  0 & 0 & 0  \\
+														   0 & -1 & 0 & & 0 & 1 & 0 &  &  0 & 0 & 0  \\ 
+														   0 & 0 & -1  & & 0 & 0 & 1  & & 0 & 0 & 0  \\ 
+														   &&&&&&&&&&\\					
+														   0 & 0 & 0  & & -1 & 0 & 0 &   & 1 & 0 & 0  \\ 
+														   0 & 0 & 0  & & 0 & -1 & 0 &  & 0 & 1 & 0  \\
+														   0 & 0 & 0  & & 0 & 0 & -1 &  &  0 & 0 & 1  
+														  \end{array} \right] 
+\]
+
+One should also note that this formulation allows for seamless accommodation of different orders of differencing for rows and columns. 
+
+Taking derivatives of \ref{eq:bivariate_squared_diff_penalized_obj_function} with respect to $\gamma$, we have
+\begin{eqnarray*}
+\frac{\partial}{\partial \gamma}\mathcal{Q}_{\lambda}\left(\gamma\right)&=& \bigg[M^\prime M + \lambda_1P_1^\prime P_1 + \lambda_2P_2^\prime P_2 \bigg]\gamma - M^\prime y
+\end{eqnarray*}
+\noindent
+and setting equal to zero, yields the explicit $P$-spline estimator
+
+\begin{equation} \label{eq:pspline_estimator}
+\hat{gamma} = \left( M^\prime M + \lambda_1 P_1^\prime P_1 + \lambda_2 P_2^\prime P_2\right)^{-1}M^\prime y
 \end{equation}
 
- where $\gamma = \textup{vec}\left(\Gamma\right)$. Define the matrix
+{\needsparaphrased The predicted response values are then given by $\hat{y} = M\hat{\gamma}$, and the effective hat matrix is}
+
+\begin{equation} \label{eq:bivariate_pspline_hat_matrix}
+H = M\left( M^\prime M + \lambda_1 P_1^\prime P_1 + \lambda_2 P_2^\prime P_2\right)^{-1} M^\prime
+\end{equation}
+
+An attractive feature of this estimator is that the dimension of the system of normal equations remains fixed at $n\tilde{n}$ even while the resolution of the observation grid, $p\tilde{p}$, increases. The solution can be easily modified to include an intercept term, $\alpha_0$ and its corresponding penalty. Additionally, one may include an overall ridge penalty:
+
+\[
+\lambda_0 \vert \gamma \vert^2, \quad \lambda_0 > 0
+\] 
+
+To accommodate an intercept term, one simply augments the modified design matrix with a vector of ones, letting $\breve{M} = \left[ \bfone \vert M \right]$. Letting $\breve{P}_i = \left[ \bfo \vert\right]$ for $i=1,2$, and $\breve{I} = \textup{diag}\left(\bfo, I_{n\tilde{n}}\right)$, the modified estimator is given by 
+
+\begin{equation*}
+\left( \hat{\alpha}_0, \hat{\gamma}^\prime \right)^\prime = \left( \breve{M}^\prime \breve{M} + \lambda_1 \breve{P}_1^\prime \breve{P}_1 + \lambda_2 \breve{P}_2^\prime \breve{P}_2 + \lambda_0\breve{I}\right)^{-1}\breve{M}^\prime y
+\end{equation*} 
+\noindent
+where the addition of the zero vectors to the penalty projection matrices and the identity matrix ensure that the intercept term is not penalized. Advantages of this approach is that we sidestep the choice of the number and placement of the spline knots, which is a difficult optimization problem in itself. The penalty terms introduce little additional computational complexity, since the smoothing parameters have no impact on $\tilde{M}^\prime M$ and $\tilde{M}^\prime y$ and thus do not need to be recomputed when these parameters are varied. For fixed $k$, as $\lambda_i$, $i=1,2$ increases $\gamma$ becomes smoother in its corresponding dimension, approaching a polynomial of degree $k-1$. As the hat matrix is easily obtained, leave-one-out cross validation   error estimates are also easy to obtain.  
+
+
+
+
+
+
+
 
 
 

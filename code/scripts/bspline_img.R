@@ -170,15 +170,16 @@ color <- jet.colors(nbcol)
 # Compute the z-value at the facet centres
 
 ind <- c(43,43+3,43+6,ncol(B.)-43+1,ncol(B.)-(43+3)+1,ncol(B.)-(43+6)+1,82,85,88)
-z <- matrix(rowSums(B.[,ind]),nrow=length(M1.index),ncol=length(M1.index))
+#z <- matrix(rowSums(B.[,ind]),nrow=length(M1.index),ncol=length(M1.index))
+#z <- rowSums(B.[,ind])
+#nrz <- nrow(z)
+#ncz <- ncol(z)
 
-nrz <- nrow(z)
-ncz <- ncol(z)
-
-zfacet <- z[-1, -1] + z[-1, -ncz] + z[-nrz, -1] + z[-nrz, -ncz]
+#zfacet <- z[-1, -1] + z[-1, -ncz] + z[-nrz, -1] + z[-nrz, -ncz]
 # Recode facet z-values into color indices
 
-M <- data.frame(expand.grid(x=M1.index,tilde.x=M2.index),z=rowSums(B.[,ind])) 
+#M <- data.frame(expand.grid(x=M1.index,tilde.x=M2.index),z=rowSums(B.[,ind]))
+M <- data.frame(expand.grid(x=M1.index,tilde.x=M2.index),z=rowSums(B.[,ind]))
 newcols <- colorRampPalette(c("grey70", "grey10"))
 
 par(bg="white")
