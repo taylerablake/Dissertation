@@ -25,7 +25,7 @@ pspline.fitter<- function(family, link, n.col, m.binomial, r.gamma, y, b, p, p.r
                   if(link == "logit") {
                         eta <- log(mu/(m.binomial - mu))
                   }
-                  if(link == "recipical") {
+                  if(link == "reciprocal") {
                         eta <- 1/mu
                   }
                   if(link == "probit") {

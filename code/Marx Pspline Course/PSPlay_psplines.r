@@ -1,4 +1,6 @@
 # Visualize P-splines
+setwd(file.path("/Users","taylerblake","Documents","Dissertation"))
+
 
 
 library(plyr)
@@ -13,7 +15,7 @@ require(graphics)
 library(latex2exp)
 
 require(rpanel)
-source('bases.r')
+source(file.path(getwd(),"code","Marx Pspline Course","Computer_labs",'bases.r'))
 
 # Simulate data
 n = 100
@@ -25,7 +27,7 @@ lla = 1
 
 # Preparations
 xg = seq(0, 1, length = 500)
-nseg = 10
+nseg = 20
 bdeg = 3
 pord = 2
 

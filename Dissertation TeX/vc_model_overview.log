@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  11 OCT 2016 11:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  18 OCT 2016 14:54
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -427,18 +427,18 @@ Overfull \hbox (13.73375pt too wide) in paragraph at lines 85--86
 if-fer-ent co-vari-ates, $[] = [][]$.
  []
 
-[2] <img/bicubic_bspline.png, id=17, 481.8pt x 481.8pt>
+[2] [3] <img/bicubic_bspline.png, id=20, 481.8pt x 481.8pt>
 File: img/bicubic_bspline.png Graphic file (type png)
 
 <use img/bicubic_bspline.png>
-Package pdftex.def Info: img/bicubic_bspline.png used on input line 117.
+Package pdftex.def Info: img/bicubic_bspline.png used on input line 124.
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
- [3]
+
 <img/bicubic_bspline_contour.png, id=22, 481.8pt x 481.8pt>
 File: img/bicubic_bspline_contour.png Graphic file (type png)
 
 <use img/bicubic_bspline_contour.png>
-Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 124
+Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 131
 .
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
  [4 <./img/bicubic_bspline.png>]
@@ -446,55 +446,55 @@ Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 124
 File: img/uni_linear_bsplines.png Graphic file (type png)
 
 <use img/uni_linear_bsplines.png>
-Package pdftex.def Info: img/uni_linear_bsplines.png used on input line 136.
+Package pdftex.def Info: img/uni_linear_bsplines.png used on input line 143.
 (pdftex.def)             Requested size: 267.39734pt x 158.97978pt.
 
 <img/uni_cubic_bsplines.png, id=28, 2183.15625pt x 1204.5pt>
 File: img/uni_cubic_bsplines.png Graphic file (type png)
 
 <use img/uni_cubic_bsplines.png>
-Package pdftex.def Info: img/uni_cubic_bsplines.png used on input line 138.
+Package pdftex.def Info: img/uni_cubic_bsplines.png used on input line 145.
 (pdftex.def)             Requested size: 267.39734pt x 158.97978pt.
  [5 <./img/bicubic_bspline_contour.png>]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 149.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 156.
 
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 149.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 156.
 
-Underfull \hbox (badness 10000) in paragraph at lines 149--150
+Underfull \hbox (badness 10000) in paragraph at lines 156--157
 
  []
 
 [6 <./img/uni_linear_bsplines.png> <./img/uni_cubic_bsplines.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 150--151
+Underfull \hbox (badness 10000) in paragraph at lines 157--158
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 151--152
+Underfull \hbox (badness 10000) in paragraph at lines 158--159
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 152--153
+Underfull \hbox (badness 10000) in paragraph at lines 159--160
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 153--154
+Underfull \hbox (badness 10000) in paragraph at lines 160--161
 
  []
 
 
 LaTeX Warning: Reference `fig:uni_linear_cubic_bsplines' on page 7 undefined on
- input line 157.
+ input line 164.
 
 [7] [8] [9] [10]
-Overfull \hbox (10.14629pt too wide) in paragraph at lines 251--252
+Overfull \hbox (10.14629pt too wide) in paragraph at lines 258--259
 []\OT1/cmr/m/n/12 Using the sum of squared er-rors as the good-ness of fit mea-
 sure, we de-fine $[] = []$
  []
@@ -502,13 +502,13 @@ sure, we de-fine $[] = []$
 [11] [12] [13]
 File: img/bicubic_bspline.png Graphic file (type png)
  <use img/bicubic_bspline.png>
-Package pdftex.def Info: img/bicubic_bspline.png used on input line 348.
+Package pdftex.def Info: img/bicubic_bspline.png used on input line 361.
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
  [14]
 File: img/bicubic_bspline_contour.png Graphic file (type png)
 
 <use img/bicubic_bspline_contour.png>
-Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 355
+Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 368
 .
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
  [15]
@@ -516,17 +516,17 @@ Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 355
 File: img/sparse_bicubic_basis.png Graphic file (type png)
 
 <use img/sparse_bicubic_basis.png>
-Package pdftex.def Info: img/sparse_bicubic_basis.png used on input line 365.
+Package pdftex.def Info: img/sparse_bicubic_basis.png used on input line 378.
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
  [16] [17 <./img/sparse_bicubic_basis.png>]
 [18] [19] [20]
-Overfull \hbox (141.34702pt too wide) in paragraph at lines 533--534
+Overfull \hbox (141.34702pt too wide) in paragraph at lines 546--547
 \OT1/cmr/m/n/12 pro-duced by the Mul-ti-cen-ter AIDS Co-hort Study. The data ar
 e of the form $[]$,
  []
 
 [21] [22]
-Overfull \hbox (14.88255pt too wide) in paragraph at lines 617--620
+Overfull \hbox (14.88255pt too wide) in paragraph at lines 630--633
 \OT1/cmr/m/n/12 fined as in 2[]; the Nadaraya-Watson (NW) es-ti-ma-tor of $[] [
 ] = [][]$
  []
@@ -534,12 +534,12 @@ Overfull \hbox (14.88255pt too wide) in paragraph at lines 617--620
 [23]
 
 LaTeX Warning: Reference `eq:local_linear_smoother_obj_fun' on page 24 undefine
-d on input line 639.
+d on input line 652.
 
 [24] [25] [26] [27]
 
 LaTeX Warning: Reference `eq:longitudinal_VC_model' on page 28 undefined on inp
-ut line 765.
+ut line 778.
 
 (./vc_model_overview.bbl [28] [29] [30] [31] [32]) [33]
 (./vc_model_overview.aux)
@@ -571,7 +571,7 @@ exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/te
 xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texl
 ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texliv
 e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on vc_model_overview.pdf (33 pages, 652932 bytes).
+Output written on vc_model_overview.pdf (33 pages, 654419 bytes).
 PDF statistics:
  174 PDF objects out of 1000 (max. 8388607)
  114 compressed objects within 2 object streams

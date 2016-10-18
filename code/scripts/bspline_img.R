@@ -61,6 +61,45 @@ ggsave(filename = file.path(getwd(),"Dissertation TeX","img","uni_linear_bspline
 
 
 
+
+
+
+
+
+
+
+############################################################################################
+############################################################################################
+
+
+
+
+
+
+
+
+# Simulate data
+n = 100
+x = seq(0, 1, length = n)
+set.seed(123)
+y = 1.2 + sin(5  * x) + rnorm(n) * 0.2
+order = 2
+lla = 1
+
+# Preparations
+xg = seq(0, 1, length = 500)
+nseg = 20
+bdeg = 3
+pord = 2
+
+
+
+
+
+
+
+
+
 ############################################################################################
 ############################################################################################
 
@@ -195,6 +234,64 @@ wireframe(z~x*tilde.x,data=M,
           light.source = c(10,0,10),
           #pretty=TRUE,
           scales = list(arrows = FALSE),
+          col.regions = newcols(100),
+          drape=TRUE,
+          colorkey=FALSE,
+          par.settings = list(axis.line = list(col = "transparent")))
+dev.off()
+
+
+
+
+
+
+gamma <- rep(0,ncol(B.))
+gamma[ind] <- c(1,1,1,
+                1,2,3,
+                1,2,3)
+gamma.mat <- matrix(data=rep(gamma,nrow(B.)),nrow=nrow(B.),ncol=ncol(B.),byrow=TRUE)
+
+
+#M <- data.frame(expand.grid(x=M1.index,tilde.x=M2.index),z=rowSums(B.[,ind]))
+M <- data.frame(expand.grid(x=M1.index,tilde.x=M2.index),z=rowSums(gamma.mat*B.))
+
+newcols <- colorRampPalette(c("grey50", "grey20"))
+png(filename = file.path(getwd(),"Dissertation TeX","img","large_row_penalty.png"))
+wireframe(z~x*tilde.x,data=M,
+          lty=3,
+          lwd=0.2,
+          ylab="x",
+          xlab=expression(tilde(x)),
+          zlab="",
+          screen=list(z=30,x=-55),
+          #aspect = c(68/87, 0.9),
+          light.source = c(10,0,10),
+          pretty=TRUE,
+          #scales = list(arrows = FALSE),
+          col.regions = newcols(100),
+          drape=TRUE,
+          colorkey=FALSE,
+          par.settings = list(axis.line = list(col = "transparent")))
+dev.off()
+
+
+gamma[ind] <- c(1,3,1,
+                1,1,3,
+                2,2,1)
+gamma.mat <- matrix(data=rep(gamma,nrow(B.)),nrow=nrow(B.),ncol=ncol(B.),byrow=TRUE)
+M <- data.frame(expand.grid(x=M1.index,tilde.x=M2.index),z=rowSums(gamma.mat*B.))
+png(filename = file.path(getwd(),"Dissertation TeX","img","large_col_penalty.png"))
+wireframe(z~x*tilde.x,data=M,
+          lty=3,
+          lwd=0.2,
+          ylab="x",
+          xlab=expression(tilde(x)),
+          zlab="",
+          screen=list(z=30,x=-55),
+          #aspect = c(68/87, 0.9),
+          light.source = c(10,0,10),
+          pretty=TRUE,
+          #scales = list(arrows = FALSE),
           col.regions = newcols(100),
           drape=TRUE,
           colorkey=FALSE,
