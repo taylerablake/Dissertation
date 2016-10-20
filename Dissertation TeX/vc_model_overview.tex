@@ -2,6 +2,7 @@
 \usepackage{graphicx,psfrag,amsfonts,float,mathbbol,xcolor,cleveref}
 \usepackage{arydshln}
 \usepackage{amsmath}
+\usepackage{subcaption}
 \usepackage{mathtools}
 \usepackage{IEEEtrantools}
 \usepackage[letterpaper, left=1in, top=1in, right=1in, bottom=1in,nohead,includefoot, verbose, ignoremp]{geometry}
@@ -282,8 +283,47 @@ When $\lambda = 0$, we have the standard normal equations of linear regression w
 \subsubsection{{\outlineskeleton Properties of P-Splines}}
 
 {\needsparaphrased A fruitful way of looking at P-splines is to give the coefficients a central position as a skeleton, with the B-splines merely putting ``the flesh on the bones.'' This is illustrated
-in Figure 4. A smoother sequence of coefficients leads to a smoother curve. The number of splines and coefficients is immaterial, as long as the latter are smooth. The role of the
+in Figure~\ref{fig:psplines_second_ord_pen_SML_lambda}. A smoother sequence of coefficients leads to a smoother curve. The number of splines and coefficients is immaterial, as long as the latter are smooth. The role of the
 penalty is to make such happen. 
+
+\begin{figure}[H]
+\begin{subfigure}{.5\textwidth}
+  \centering
+   \graphicspath{{img/}}
+  \includegraphics[scale=0.5]{pspline_pord2_xsmall_lambda.png}
+  \label{fig:pspline_small_lambda}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+   \graphicspath{{img/}}
+  \includegraphics[scale=0.5]{pspline_pord2_small_lambda.png}
+  \label{fig:pspline_small_lambda}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+   \graphicspath{{img/}}
+  \includegraphics[scale=0.5]{pspline_pord2_medium_lambda.png}
+  \label{fig:pspline_small_lambda}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+   \graphicspath{{img/}}
+  \includegraphics[scale=0.5]{pspline_pord2_large_lambda.png}
+  \label{fig:pspline_small_lambda}
+\end{subfigure}
+\caption{\textit{Illustration of the impact of the second order difference penalty. The number of B-splines used is the same in each plot, with the value of the penalty parameter increasing from left to right and top to bottom across each plot. The fitted curve in the upper left plot is the most ``wiggly'' of any of the fits, as the penalty plays the weakest roll in the fitted coefficients there. The red circles are the values of each of the B-spline coefficients; as the penalty increases, they form as smoother sequence as we move across the four plots, which results in a smoother fitted function. As the penalty parameter approaches infinity, the fit approaches a linear function as shown in the bottom right plot.}}
+\label{fig:psplines_second_ord_pen_SML_lambda}
+\end{figure}
+
+
+
+  
+
+
+
+
+
+
 
 The number of B-splines can be (much) larger than the number of observations. The penalty makes the fitting procedure well-conditioned. This should be taken literally: even a thousand splines will fit ten observations without problems. Such is the power of the penalty. Figure 5 illustrates this for simulated data. There are 10 data points and 40 (+3) cubic B-splines. Unfortunately, this property of P-splines (and other types of penalized splines) is not generally appreciated. But one simply cannot have too many B-splines. A wise choice is to use 100 of them, unless computational constraints (in large models) come into sight. We will return to this example in Section 4, after introducing the effective model dimension, and further address this issue of many splines in Appendix B.}
 

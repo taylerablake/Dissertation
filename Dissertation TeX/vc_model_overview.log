@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  18 OCT 2016 14:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 OCT 2016 11:27
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -183,20 +183,43 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 )
+(/usr/local/texlive/2015/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2013/02/03 v1.1-62 Sub-captions (AR)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 57.
+\captionmargin=\dimen122
+\captionmargin@=\dimen123
+\captionwidth=\dimen124
+\caption@tempdima=\dimen125
+\caption@indent=\dimen126
+\caption@parindent=\dimen127
+\caption@hangindent=\dimen128
+)
+\c@ContinuedFloat=\count113
+Package caption Info: float package is loaded.
+)
+\c@subfigure=\count114
+\c@subtable=\count115
+)
 (/usr/local/texlive/2015/texmf-dist/tex/latex/mathtools/mathtools.sty
 Package: mathtools 2015/05/11 v1.16 mathematical typesetting tools
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count113
-\calc@Bcount=\count114
-\calc@Adimen=\dimen122
-\calc@Bdimen=\dimen123
+\calc@Acount=\count116
+\calc@Bcount=\count117
+\calc@Adimen=\dimen129
+\calc@Bdimen=\dimen130
 \calc@Askip=\skip46
 \calc@Bskip=\skip47
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count115
+\calc@Ccount=\count118
 \calc@Cskip=\skip48
 )
 (/usr/local/texlive/2015/texmf-dist/tex/latex/mathtools/mhsetup.sty
@@ -206,46 +229,46 @@ LaTeX Info: Thecontrolsequence`\('isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\)'isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
-\g_MT_multlinerow_int=\count116
-\l_MT_multwidth_dim=\dimen124
+\g_MT_multlinerow_int=\count119
+\l_MT_multwidth_dim=\dimen131
 \origjot=\skip49
-\l_MT_shortvdotswithinadjustabove_dim=\dimen125
-\l_MT_shortvdotswithinadjustbelow_dim=\dimen126
-\l_MT_above_intertext_sep=\dimen127
-\l_MT_below_intertext_sep=\dimen128
-\l_MT_above_shortintertext_sep=\dimen129
-\l_MT_below_shortintertext_sep=\dimen130
+\l_MT_shortvdotswithinadjustabove_dim=\dimen132
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen133
+\l_MT_above_intertext_sep=\dimen134
+\l_MT_below_intertext_sep=\dimen135
+\l_MT_above_shortintertext_sep=\dimen136
+\l_MT_below_shortintertext_sep=\dimen137
 )
 (/usr/local/texlive/2015/texmf-dist/tex/latex/IEEEtran/IEEEtrantools.sty
 Package: IEEEtrantools 2014/09/17 V1.4 by Michael Shell
 
 -- See the "IEEEtrantools_doc.txt" manual for usage information.
 -- http://www.michaelshell.org/tex/ieeetran/tools/
-\@IEEEtrantmpdimenA=\dimen131
-\@IEEEtrantmpdimenB=\dimen132
-\@IEEEtrantmpdimenC=\dimen133
-\@IEEEtrantmpcountA=\count117
-\@IEEEtrantmpcountB=\count118
-\@IEEEtrantmpcountC=\count119
+\@IEEEtrantmpdimenA=\dimen138
+\@IEEEtrantmpdimenB=\dimen139
+\@IEEEtrantmpdimenC=\dimen140
+\@IEEEtrantmpcountA=\count120
+\@IEEEtrantmpcountB=\count121
+\@IEEEtrantmpcountC=\count122
 \@IEEEtrantmptoksA=\toks24
-\IEEEnormaljot=\dimen134
-\IEEEquantizedlength=\dimen135
-\IEEEquantizedlengthdiff=\dimen136
-\IEEEquantizedtextheightdiff=\dimen137
-\IEEEilabelindentA=\dimen138
-\IEEEilabelindentB=\dimen139
-\IEEEilabelindent=\dimen140
-\IEEEelabelindent=\dimen141
-\IEEEdlabelindent=\dimen142
-\IEEElabelindent=\dimen143
-\IEEEiednormlabelsep=\dimen144
-\IEEEiedmathlabelsep=\dimen145
+\IEEEnormaljot=\dimen141
+\IEEEquantizedlength=\dimen142
+\IEEEquantizedlengthdiff=\dimen143
+\IEEEquantizedtextheightdiff=\dimen144
+\IEEEilabelindentA=\dimen145
+\IEEEilabelindentB=\dimen146
+\IEEEilabelindent=\dimen147
+\IEEEelabelindent=\dimen148
+\IEEEdlabelindent=\dimen149
+\IEEElabelindent=\dimen150
+\IEEEiednormlabelsep=\dimen151
+\IEEEiedmathlabelsep=\dimen152
 \IEEEiedtopsep=\skip50
-\c@IEEEsubequation=\count120
-\@IEEEeqnnumcols=\count121
-\@IEEEeqncolcnt=\count122
-\@IEEEsubeqnnumrollback=\count123
-\IEEEPARstartletwidth=\dimen146
+\c@IEEEsubequation=\count123
+\@IEEEeqnnumcols=\count124
+\@IEEEeqncolcnt=\count125
+\@IEEEsubeqnnumrollback=\count126
+\IEEEPARstartletwidth=\dimen153
 ) (/usr/local/texlive/2015/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2010/09/12 v5.6 Page Geometry
 
@@ -260,20 +283,56 @@ Package ifvtex Info: VTeX not detected.
 (/usr/local/texlive/2015/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-\Gm@cnth=\count124
-\Gm@cntv=\count125
-\c@Gm@tempcnt=\count126
-\Gm@bindingoffset=\dimen147
-\Gm@wd@mp=\dimen148
-\Gm@odd@mp=\dimen149
-\Gm@even@mp=\dimen150
-\Gm@layoutwidth=\dimen151
-\Gm@layoutheight=\dimen152
-\Gm@layouthoffset=\dimen153
-\Gm@layoutvoffset=\dimen154
+\Gm@cnth=\count127
+\Gm@cntv=\count128
+\c@Gm@tempcnt=\count129
+\Gm@bindingoffset=\dimen154
+\Gm@wd@mp=\dimen155
+\Gm@odd@mp=\dimen156
+\Gm@even@mp=\dimen157
+\Gm@layoutwidth=\dimen158
+\Gm@layoutheight=\dimen159
+\Gm@layouthoffset=\dimen160
+\Gm@layoutvoffset=\dimen161
 \Gm@dimlist=\toks25
 )
 (./vc_model_overview.aux
+
+LaTeX Warning: Label `fig:pspline_small_lambda' multiply defined.
+
+
+LaTeX Warning: Label `fig:pspline_small_lambda@cref' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:pspline_small_lambda' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:pspline_small_lambda@cref' multiply defined.
+
+
+LaTeX Warning: Label `fig:pspline_small_lambda' multiply defined.
+
+
+LaTeX Warning: Label `fig:pspline_small_lambda@cref' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:pspline_small_lambda' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:pspline_small_lambda@cref' multiply defined.
+
+
+LaTeX Warning: Label `fig:pspline_small_lambda' multiply defined.
+
+
+LaTeX Warning: Label `fig:pspline_small_lambda@cref' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:pspline_small_lambda' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:pspline_small_lambda@cref' multiply defined.
+
 
 LaTeX Warning: Label `fig:bicubic_bspline' multiply defined.
 
@@ -292,30 +351,30 @@ LaTeX Warning: Label `eq:longitudinal_NW_objective_function' multiply defined.
 )
 \openout1 = `vc_model_overview.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
  (/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count127
-\scratchdimen=\dimen155
+\scratchcounter=\count130
+\scratchdimen=\dimen162
 \scratchbox=\box31
-\nofMPsegments=\count128
-\nofMParguments=\count129
+\nofMPsegments=\count131
+\nofMParguments=\count132
 \everyMPshowfont=\toks26
-\MPscratchCnt=\count130
-\MPscratchDim=\dimen156
-\MPnumerator=\count131
-\makeMPintoPDFobject=\count132
+\MPscratchCnt=\count133
+\MPscratchDim=\dimen163
+\MPnumerator=\count134
+\makeMPintoPDFobject=\count135
 \everyMPtoPDFconversion=\toks27
 ) (/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
@@ -361,6 +420,9 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -396,24 +458,24 @@ e
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 
-Overfull \hbox (10.9068pt too wide) in paragraph at lines 57--57
+Overfull \hbox (10.9068pt too wide) in paragraph at lines 58--58
 []\OT1/cmr/bx/n/17.28 Nonparametric ex-ten-sions of the clas-si-cal lin-ear mod
 el 
  []
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 59.
+LaTeX Font Info:    Try loading font information for U+msa on input line 60.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 59.
+LaTeX Font Info:    Try loading font information for U+msb on input line 60.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+bbold on input line 59.
+LaTeX Font Info:    Try loading font information for U+bbold on input line 60.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/bbold/Ubbold.fd)
-Overfull \hbox (16.75104pt too wide) in paragraph at lines 67--68
+Overfull \hbox (16.75104pt too wide) in paragraph at lines 68--69
 []\OT1/cmr/m/n/12 An im-me-di-ate prob-lem of de-part-ing from lin-ear-ity is t
 he need for a class of well-parameterized
  []
@@ -422,7 +484,7 @@ he need for a class of well-parameterized
 Non-PDF special ignored!
 
 {/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (13.73375pt too wide) in paragraph at lines 85--86
+Overfull \hbox (13.73375pt too wide) in paragraph at lines 86--87
 \OT1/cmr/m/n/12 low each co-vari-ate's co-ef-fi-cient func-tion to de-pend on d
 if-fer-ent co-vari-ates, $[] = [][]$.
  []
@@ -431,14 +493,14 @@ if-fer-ent co-vari-ates, $[] = [][]$.
 File: img/bicubic_bspline.png Graphic file (type png)
 
 <use img/bicubic_bspline.png>
-Package pdftex.def Info: img/bicubic_bspline.png used on input line 124.
+Package pdftex.def Info: img/bicubic_bspline.png used on input line 125.
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
 
 <img/bicubic_bspline_contour.png, id=22, 481.8pt x 481.8pt>
 File: img/bicubic_bspline_contour.png Graphic file (type png)
 
 <use img/bicubic_bspline_contour.png>
-Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 131
+Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 132
 .
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
  [4 <./img/bicubic_bspline.png>]
@@ -446,35 +508,30 @@ Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 131
 File: img/uni_linear_bsplines.png Graphic file (type png)
 
 <use img/uni_linear_bsplines.png>
-Package pdftex.def Info: img/uni_linear_bsplines.png used on input line 143.
+Package pdftex.def Info: img/uni_linear_bsplines.png used on input line 144.
 (pdftex.def)             Requested size: 267.39734pt x 158.97978pt.
 
 <img/uni_cubic_bsplines.png, id=28, 2183.15625pt x 1204.5pt>
 File: img/uni_cubic_bsplines.png Graphic file (type png)
 
 <use img/uni_cubic_bsplines.png>
-Package pdftex.def Info: img/uni_cubic_bsplines.png used on input line 145.
+Package pdftex.def Info: img/uni_cubic_bsplines.png used on input line 146.
 (pdftex.def)             Requested size: 267.39734pt x 158.97978pt.
  [5 <./img/bicubic_bspline_contour.png>]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 156.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 157.
 
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 156.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 157.
 
-Underfull \hbox (badness 10000) in paragraph at lines 156--157
-
- []
-
-[6 <./img/uni_linear_bsplines.png> <./img/uni_cubic_bsplines.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 157--158
 
  []
 
-
+[6 <./img/uni_linear_bsplines.png> <./img/uni_cubic_bsplines.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 158--159
 
  []
@@ -490,58 +547,127 @@ Underfull \hbox (badness 10000) in paragraph at lines 160--161
  []
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 161--162
+
+ []
+
+
 LaTeX Warning: Reference `fig:uni_linear_cubic_bsplines' on page 7 undefined on
- input line 164.
+ input line 165.
 
 [7] [8] [9] [10]
-Overfull \hbox (10.14629pt too wide) in paragraph at lines 258--259
+Overfull \hbox (10.14629pt too wide) in paragraph at lines 259--260
 []\OT1/cmr/m/n/12 Using the sum of squared er-rors as the good-ness of fit mea-
 sure, we de-fine $[] = []$
  []
 
-[11] [12] [13]
+<img/pspline_pord2_xsmall_lambda.png, id=55, 481.8pt x 481.8pt>
+File: img/pspline_pord2_xsmall_lambda.png Graphic file (type png)
+
+<use img/pspline_pord2_xsmall_lambda.png>
+Package pdftex.def Info: img/pspline_pord2_xsmall_lambda.png used on input line
+ 293.
+(pdftex.def)             Requested size: 240.8994pt x 240.8994pt.
+
+Overfull \hbox (6.0219pt too wide) in paragraph at lines 293--295
+ [][] 
+ []
+
+<img/pspline_pord2_small_lambda.png, id=56, 481.8pt x 481.8pt>
+File: img/pspline_pord2_small_lambda.png Graphic file (type png)
+
+<use img/pspline_pord2_small_lambda.png>
+Package pdftex.def Info: img/pspline_pord2_small_lambda.png used on input line 
+299.
+(pdftex.def)             Requested size: 240.8994pt x 240.8994pt.
+
+Overfull \hbox (6.0219pt too wide) in paragraph at lines 299--301
+ [][] 
+ []
+
+<img/pspline_pord2_medium_lambda.png, id=57, 481.8pt x 481.8pt>
+File: img/pspline_pord2_medium_lambda.png Graphic file (type png)
+
+<use img/pspline_pord2_medium_lambda.png>
+Package pdftex.def Info: img/pspline_pord2_medium_lambda.png used on input line
+ 305.
+(pdftex.def)             Requested size: 240.8994pt x 240.8994pt.
+
+Overfull \hbox (6.0219pt too wide) in paragraph at lines 305--307
+ [][] 
+ []
+
+<img/pspline_pord2_large_lambda.png, id=58, 481.8pt x 481.8pt>
+File: img/pspline_pord2_large_lambda.png Graphic file (type png)
+
+<use img/pspline_pord2_large_lambda.png>
+Package pdftex.def Info: img/pspline_pord2_large_lambda.png used on input line 
+311.
+(pdftex.def)             Requested size: 240.8994pt x 240.8994pt.
+
+Overfull \hbox (6.0219pt too wide) in paragraph at lines 311--313
+ [][] 
+ []
+
+
+Overfull \hbox (2.61107pt too wide) in paragraph at lines 290--314
+[]$[]$ $[]$
+ []
+
+
+Overfull \hbox (2.61107pt too wide) in paragraph at lines 290--314
+[]$ $[]$ 
+ []
+
+[11]
+Overfull \vbox (17.36877pt too high) has occurred while \output is active []
+
+
+[12 <./img/pspline_pord2_xsmall_lambda.png> <./img/pspline_pord2_small_lambda.p
+ng> <./img/pspline_pord2_medium_lambda.png> <./img/pspline_pord2_large_lambda.p
+ng>] [13] [14]
 File: img/bicubic_bspline.png Graphic file (type png)
  <use img/bicubic_bspline.png>
-Package pdftex.def Info: img/bicubic_bspline.png used on input line 361.
+Package pdftex.def Info: img/bicubic_bspline.png used on input line 401.
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
- [14]
+ [15]
 File: img/bicubic_bspline_contour.png Graphic file (type png)
 
 <use img/bicubic_bspline_contour.png>
-Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 368
+Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 408
 .
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
- [15]
-<img/sparse_bicubic_basis.png, id=71, 481.8pt x 481.8pt>
+ [16]
+<img/sparse_bicubic_basis.png, id=82, 481.8pt x 481.8pt>
 File: img/sparse_bicubic_basis.png Graphic file (type png)
 
 <use img/sparse_bicubic_basis.png>
-Package pdftex.def Info: img/sparse_bicubic_basis.png used on input line 378.
+Package pdftex.def Info: img/sparse_bicubic_basis.png used on input line 418.
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
- [16] [17 <./img/sparse_bicubic_basis.png>]
-[18] [19] [20]
-Overfull \hbox (141.34702pt too wide) in paragraph at lines 546--547
+ [17] [18 <./img/sparse_bicubic_basis.png>]
+[19] [20] [21]
+Overfull \hbox (141.34702pt too wide) in paragraph at lines 586--587
 \OT1/cmr/m/n/12 pro-duced by the Mul-ti-cen-ter AIDS Co-hort Study. The data ar
 e of the form $[]$,
  []
 
-[21] [22]
-Overfull \hbox (14.88255pt too wide) in paragraph at lines 630--633
+[22] [23]
+Overfull \hbox (14.88255pt too wide) in paragraph at lines 670--673
 \OT1/cmr/m/n/12 fined as in 2[]; the Nadaraya-Watson (NW) es-ti-ma-tor of $[] [
 ] = [][]$
  []
 
-[23]
+[24]
 
-LaTeX Warning: Reference `eq:local_linear_smoother_obj_fun' on page 24 undefine
-d on input line 652.
+LaTeX Warning: Reference `eq:local_linear_smoother_obj_fun' on page 25 undefine
+d on input line 692.
 
-[24] [25] [26] [27]
+[25] [26] [27] [28]
 
-LaTeX Warning: Reference `eq:longitudinal_VC_model' on page 28 undefined on inp
-ut line 778.
+LaTeX Warning: Reference `eq:longitudinal_VC_model' on page 29 undefined on inp
+ut line 818.
 
-(./vc_model_overview.bbl [28] [29] [30] [31] [32]) [33]
+(./vc_model_overview.bbl [29] [30] [31] [32] [33]) [34]
 (./vc_model_overview.aux)
 
 LaTeX Warning: There were undefined references.
@@ -551,13 +677,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 6165 strings out of 493089
- 102542 string characters out of 6134842
- 200175 words of memory out of 5000000
- 9548 multiletter control sequences out of 15000+600000
+ 7263 strings out of 493089
+ 123015 string characters out of 6134842
+ 221097 words of memory out of 5000000
+ 10633 multiletter control sequences out of 15000+600000
  13163 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,19n,35p,1553b,261s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,19n,40p,1553b,403s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
@@ -571,10 +697,10 @@ exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/te
 xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texl
 ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texliv
 e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on vc_model_overview.pdf (33 pages, 654419 bytes).
+Output written on vc_model_overview.pdf (34 pages, 875477 bytes).
 PDF statistics:
- 174 PDF objects out of 1000 (max. 8388607)
- 114 compressed objects within 2 object streams
+ 185 PDF objects out of 1000 (max. 8388607)
+ 116 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 46 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -37,7 +37,7 @@ drawit = function() {
   Bg <<- bbase(xg, xl = 0, xr = 1, nseg = nseg, deg = bdeg)
   A = diag(a)
   z = Bg %*% a
-  plot(x, y, lty = 1, type = 'l') 
+  plot(x, y, col="grey",pch="+") 
   matlines(xg, Bg %*% A, type = 'l', lty = 1, lwd = 2, col= cols,
           xlab = '', ylab = '', ylim = c(0, 1))
   lines(xg, z, col = 'red', lwd = 3)        
