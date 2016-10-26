@@ -344,6 +344,12 @@ Wahba, G. (1990).
 \newblock {\em Spline models for observational data}, volume~59.
 \newblock Siam.
 
+\bibitem[Wand and Ormerod, 2008]{wand2008semiparametric}
+Wand, M. and Ormerod, J. (2008).
+\newblock On semiparametric regression with o'sullivan penalized splines.
+\newblock {\em Australian \& New Zealand Journal of Statistics},
+  50(2):179--198.
+
 \bibitem[Wu et~al., 1998]{wu1998asymptotic}
 Wu, C.~O., Chiang, C.-T., and Hoover, D.~R. (1998).
 \newblock Asymptotic confidence regions for kernel smoothing of a

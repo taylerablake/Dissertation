@@ -95,21 +95,21 @@ set.seed(123)
 y = 1.2 + sin(5  * x) + rnorm(10) * 0.2
 
 
-B <- bbase(x,  xl = 0, xr = 1, nseg = 40, deg = 3)
+B <- bbase(x,  xl = 0, xr = 1, nseg = 57, deg = 3)
 nb = ncol(B)
 D = diff(diag(nb), diff = 2)
 
-lambda <<- 10 ^ 0.95
+lambda <<- 10 ^ 2
 P = lambda * t(D) %*% D
 a <- solve(t(B) %*% B + P, t(B) %*% y)
 a <- as.vector(a)
 
 cols=rainbow(nb)
-Bg <<- bbase(xg, xl = 0, xr = 1, nseg = 40, deg = 3)
+Bg <<- bbase(xg, xl = 0, xr = 1, nseg = 57, deg = 3)
 A = diag(a)
 z = Bg %*% a
 
-png(filename = file.path(getwd(),"Dissertation TeX","img","pspline_10obs_43_basis_functions.png"))
+png(filename = file.path(getwd(),"Dissertation TeX","img","pspline_10obs_60_basis_functions.png"))
 plot(x, y,ylim=c(0,2.5),pch="+",xlab="",ylab="") 
 matlines(xg, Bg %*% A, type = 'l', lty = 1, lwd = 2, col= cols,
          xlab = '', ylab = '')

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 OCT 2016 11:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  24 OCT 2016 14:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -296,59 +296,7 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen161
 \Gm@dimlist=\toks25
 )
-(./vc_model_overview.aux
-
-LaTeX Warning: Label `fig:pspline_small_lambda' multiply defined.
-
-
-LaTeX Warning: Label `fig:pspline_small_lambda@cref' multiply defined.
-
-
-LaTeX Warning: Label `sub@fig:pspline_small_lambda' multiply defined.
-
-
-LaTeX Warning: Label `sub@fig:pspline_small_lambda@cref' multiply defined.
-
-
-LaTeX Warning: Label `fig:pspline_small_lambda' multiply defined.
-
-
-LaTeX Warning: Label `fig:pspline_small_lambda@cref' multiply defined.
-
-
-LaTeX Warning: Label `sub@fig:pspline_small_lambda' multiply defined.
-
-
-LaTeX Warning: Label `sub@fig:pspline_small_lambda@cref' multiply defined.
-
-
-LaTeX Warning: Label `fig:pspline_small_lambda' multiply defined.
-
-
-LaTeX Warning: Label `fig:pspline_small_lambda@cref' multiply defined.
-
-
-LaTeX Warning: Label `sub@fig:pspline_small_lambda' multiply defined.
-
-
-LaTeX Warning: Label `sub@fig:pspline_small_lambda@cref' multiply defined.
-
-
-LaTeX Warning: Label `fig:bicubic_bspline' multiply defined.
-
-
-LaTeX Warning: Label `fig:bicubic_bspline@cref' multiply defined.
-
-
-LaTeX Warning: Label `fig:bicubic_bspline_contour' multiply defined.
-
-
-LaTeX Warning: Label `fig:bicubic_bspline_contour@cref' multiply defined.
-
-
-LaTeX Warning: Label `eq:longitudinal_NW_objective_function' multiply defined.
-
-)
+(./vc_model_overview.aux)
 \openout1 = `vc_model_overview.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 52.
@@ -363,7 +311,8 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 52.
 LaTeX Font Info:    ... okay on input line 52.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 52.
 LaTeX Font Info:    ... okay on input line 52.
- (/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
+
+(/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count130
 \scratchdimen=\dimen162
@@ -475,32 +424,154 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 LaTeX Font Info:    Try loading font information for U+bbold on input line 60.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/bbold/Ubbold.fd)
+
+LaTeX Warning: Reference `eq:classical_linear_model' on page 1 undefined on inp
+ut line 66.
+
+
+LaTeX Warning: Citation `chen1993nonlinear' on page 1 undefined on input line 6
+6.
+
+
+LaTeX Warning: Citation `hastie1990generalized' on page 1 undefined on input li
+ne 66.
+
+
+LaTeX Warning: Citation `hastie1986generalized' on page 1 undefined on input li
+ne 66.
+
+
+LaTeX Warning: Citation `hardle2007partially' on page 1 undefined on input line
+ 66.
+
+
+LaTeX Warning: Citation `zeger1994semiparametric' on page 1 undefined on input 
+line 66.
+
+
+LaTeX Warning: Citation `hastie1993varying' on page 1 undefined on input line 6
+6.
+
+
 Overfull \hbox (16.75104pt too wide) in paragraph at lines 68--69
 []\OT1/cmr/m/n/12 An im-me-di-ate prob-lem of de-part-ing from lin-ear-ity is t
 he need for a class of well-parameterized
  []
 
+
+LaTeX Warning: Reference `univariate_VC_models' on page 1 undefined on input li
+ne 72.
+
+
+LaTeX Warning: Reference `multivariate_VC_models' on page 1 undefined on input 
+line 72.
+
+
+LaTeX Warning: Reference `extended_VC_models' on page 1 undefined on input line
+ 72.
+
 [1
 Non-PDF special ignored!
 
 {/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (13.73375pt too wide) in paragraph at lines 86--87
-\OT1/cmr/m/n/12 low each co-vari-ate's co-ef-fi-cient func-tion to de-pend on d
-if-fer-ent co-vari-ates, $[] = [][]$.
+
+LaTeX Warning: Citation `hoover1998nonparametric' on page 2 undefined on input 
+line 82.
+
+
+LaTeX Warning: Citation `fan2000two' on page 2 undefined on input line 82.
+
+
+LaTeX Warning: Reference `eq:VC_mean_function_single_smoothing_covariate' on pa
+ge 2 undefined on input line 86.
+
+
+Overfull \hbox (22.87254pt too wide) in paragraph at lines 86--87
+\OT1/cmr/m/n/12 al-low each co-vari-ate's co-ef-fi-cient func-tion to de-pend o
+n dif-fer-ent co-vari-ates, $[] = [][]$.
  []
 
-[2] [3] <img/bicubic_bspline.png, id=20, 481.8pt x 481.8pt>
+
+LaTeX Warning: Reference `eq:VC_mean_function_single_smoothing_covariate' on pa
+ge 2 undefined on input line 92.
+
+
+LaTeX Warning: Reference `eq:VC_mean_function_multiple_smoothing_covariates' on
+ page 2 undefined on input line 92.
+
+
+LaTeX Warning: Reference `eq:hoover_rice_wu_VC_model' on page 2 undefined on in
+put line 92.
+
+
+LaTeX Warning: Reference `eq:VC_mean_function_multiple_smoothing_covariates' on
+ page 2 undefined on input line 92.
+
+
+LaTeX Warning: Citation `huang1998functional' on page 2 undefined on input line
+ 97.
+
+
+LaTeX Warning: Citation `huang1998projection' on page 2 undefined on input line
+ 97.
+
+
+LaTeX Warning: Citation `huang2003extended' on page 2 undefined on input line 9
+9.
+
+
+LaTeX Warning: Citation `huang1998projection' on page 2 undefined on input line
+ 99.
+
+
+LaTeX Warning: Citation `huang1998projection' on page 2 undefined on input line
+ 99.
+
+
+LaTeX Warning: Citation `huang2001concave' on page 2 undefined on input line 10
+1.
+
+
+LaTeX Warning: Citation `eilers2003multivariate' on page 2 undefined on input l
+ine 101.
+
+
+LaTeX Warning: Citation `marx2005multidimensional' on page 2 undefined on input
+ line 101.
+
+[2]
+
+LaTeX Warning: Citation `marx2005multidimensional' on page 3 undefined on input
+ line 106.
+
+
+LaTeX Warning: Citation `eubank1999nonparametric' on page 3 undefined on input 
+line 108.
+
+
+LaTeX Warning: Citation `craven1978smoothing' on page 3 undefined on input line
+ 108.
+
+
+LaTeX Warning: Citation `wahba1990spline' on page 3 undefined on input line 108
+.
+
+
+LaTeX Warning: Reference `fig:bicubic_bspline' on page 3 undefined on input lin
+e 118.
+
+<img/bicubic_bspline.png, id=17, 481.8pt x 481.8pt>
 File: img/bicubic_bspline.png Graphic file (type png)
 
 <use img/bicubic_bspline.png>
-Package pdftex.def Info: img/bicubic_bspline.png used on input line 125.
+Package pdftex.def Info: img/bicubic_bspline.png used on input line 122.
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
-
+ [3]
 <img/bicubic_bspline_contour.png, id=22, 481.8pt x 481.8pt>
 File: img/bicubic_bspline_contour.png Graphic file (type png)
 
 <use img/bicubic_bspline_contour.png>
-Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 132
+Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 129
 .
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
  [4 <./img/bicubic_bspline.png>]
@@ -508,182 +579,424 @@ Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 132
 File: img/uni_linear_bsplines.png Graphic file (type png)
 
 <use img/uni_linear_bsplines.png>
-Package pdftex.def Info: img/uni_linear_bsplines.png used on input line 144.
+Package pdftex.def Info: img/uni_linear_bsplines.png used on input line 141.
 (pdftex.def)             Requested size: 267.39734pt x 158.97978pt.
 
 <img/uni_cubic_bsplines.png, id=28, 2183.15625pt x 1204.5pt>
 File: img/uni_cubic_bsplines.png Graphic file (type png)
 
 <use img/uni_cubic_bsplines.png>
-Package pdftex.def Info: img/uni_cubic_bsplines.png used on input line 146.
+Package pdftex.def Info: img/uni_cubic_bsplines.png used on input line 143.
 (pdftex.def)             Requested size: 267.39734pt x 158.97978pt.
  [5 <./img/bicubic_bspline_contour.png>]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 157.
 
+LaTeX Warning: Reference `fig:uni_linear_bsplines' on page 6 undefined on input
+ line 147.
+
+
+LaTeX Warning: Reference `fig:uni_cubic_bsplines' on page 6 undefined on input 
+line 149.
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 154.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 157.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 154.
+
+Underfull \hbox (badness 10000) in paragraph at lines 154--155
+
+ []
+
+[6 <./img/uni_linear_bsplines.png> <./img/uni_cubic_bsplines.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 155--156
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 156--157
+
+ []
+
 
 Underfull \hbox (badness 10000) in paragraph at lines 157--158
 
  []
 
-[6 <./img/uni_linear_bsplines.png> <./img/uni_cubic_bsplines.png>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 158--159
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 159--160
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 160--161
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 161--162
-
- []
-
-
 LaTeX Warning: Reference `fig:uni_linear_cubic_bsplines' on page 7 undefined on
- input line 165.
+ input line 171.
 
-[7] [8] [9] [10]
-Overfull \hbox (10.14629pt too wide) in paragraph at lines 259--260
+[7]
+
+LaTeX Warning: Citation `o1986statistical' on page 8 undefined on input line 19
+8.
+
+[8]
+
+LaTeX Warning: Citation `wand2008semiparametric' on page 9 undefined on input l
+ine 220.
+
+
+LaTeX Warning: Citation `eilers1996flexible' on page 9 undefined on input line 
+240.
+
+[9]
+
+LaTeX Warning: Citation `eilers1996flexible' on page 10 undefined on input line
+ 277.
+
+[10]
+
+LaTeX Warning: Citation `eilers1996flexible' on page 11 undefined on input line
+ 283.
+
+
+LaTeX Warning: Citation `eilers1991penalized' on page 11 undefined on input lin
+e 285.
+
+
+LaTeX Warning: Citation `eilers1991nonparametric' on page 11 undefined on input
+ line 285.
+
+
+LaTeX Warning: Citation `eilers1995indirect' on page 11 undefined on input line
+ 285.
+
+
+LaTeX Warning: Citation `o1986statistical' on page 11 undefined on input line 2
+86.
+
+[11]
+
+LaTeX Warning: Reference `eq:osullivan_univariate_bspline_penalty' on page 12 u
+ndefined on input line 324.
+
+
+LaTeX Warning: Reference `eq:univariate_pspline_diff_penalty' on page 12 undefi
+ned on input line 324.
+
+
+LaTeX Warning: Reference `eq:osullivan_penalty_decomp' on page 12 undefined on 
+input line 324.
+
+
+LaTeX Warning: Reference `eq:osullivan_penalty_decomp' on page 12 undefined on 
+input line 324.
+
+
+Overfull \hbox (10.14629pt too wide) in paragraph at lines 326--327
 []\OT1/cmr/m/n/12 Using the sum of squared er-rors as the good-ness of fit mea-
 sure, we de-fine $[] = []$
  []
 
-<img/pspline_pord2_xsmall_lambda.png, id=55, 481.8pt x 481.8pt>
+
+LaTeX Warning: Reference `eq:uni_pspline_penalized_likelihood' on page 12 undef
+ined on input line 336.
+
+
+LaTeX Warning: Reference `eq:uni_penalized_lik_deriv' on page 12 undefined on i
+nput line 343.
+
+[12]
+
+LaTeX Warning: Reference `fig:psplines_second_ord_pen_SML_lambda' on page 13 un
+defined on input line 353.
+
+<img/pspline_pord2_xsmall_lambda.png, id=61, 481.8pt x 481.8pt>
 File: img/pspline_pord2_xsmall_lambda.png Graphic file (type png)
 
 <use img/pspline_pord2_xsmall_lambda.png>
 Package pdftex.def Info: img/pspline_pord2_xsmall_lambda.png used on input line
- 293.
+ 359.
 (pdftex.def)             Requested size: 240.8994pt x 240.8994pt.
 
-Overfull \hbox (6.0219pt too wide) in paragraph at lines 293--295
+Overfull \hbox (6.0219pt too wide) in paragraph at lines 359--361
  [][] 
  []
 
-<img/pspline_pord2_small_lambda.png, id=56, 481.8pt x 481.8pt>
+<img/pspline_pord2_small_lambda.png, id=62, 481.8pt x 481.8pt>
 File: img/pspline_pord2_small_lambda.png Graphic file (type png)
 
 <use img/pspline_pord2_small_lambda.png>
 Package pdftex.def Info: img/pspline_pord2_small_lambda.png used on input line 
-299.
+365.
 (pdftex.def)             Requested size: 240.8994pt x 240.8994pt.
 
-Overfull \hbox (6.0219pt too wide) in paragraph at lines 299--301
+Overfull \hbox (6.0219pt too wide) in paragraph at lines 365--367
  [][] 
  []
 
-<img/pspline_pord2_medium_lambda.png, id=57, 481.8pt x 481.8pt>
+<img/pspline_pord2_medium_lambda.png, id=63, 481.8pt x 481.8pt>
 File: img/pspline_pord2_medium_lambda.png Graphic file (type png)
 
 <use img/pspline_pord2_medium_lambda.png>
 Package pdftex.def Info: img/pspline_pord2_medium_lambda.png used on input line
- 305.
+ 371.
 (pdftex.def)             Requested size: 240.8994pt x 240.8994pt.
 
-Overfull \hbox (6.0219pt too wide) in paragraph at lines 305--307
+Overfull \hbox (6.0219pt too wide) in paragraph at lines 371--373
  [][] 
  []
 
-<img/pspline_pord2_large_lambda.png, id=58, 481.8pt x 481.8pt>
+<img/pspline_pord2_large_lambda.png, id=64, 481.8pt x 481.8pt>
 File: img/pspline_pord2_large_lambda.png Graphic file (type png)
 
 <use img/pspline_pord2_large_lambda.png>
 Package pdftex.def Info: img/pspline_pord2_large_lambda.png used on input line 
-311.
+377.
 (pdftex.def)             Requested size: 240.8994pt x 240.8994pt.
 
-Overfull \hbox (6.0219pt too wide) in paragraph at lines 311--313
+Overfull \hbox (6.0219pt too wide) in paragraph at lines 377--379
  [][] 
  []
 
 
-Overfull \hbox (2.61107pt too wide) in paragraph at lines 290--314
+Overfull \hbox (2.61107pt too wide) in paragraph at lines 356--380
 []$[]$ $[]$
  []
 
 
-Overfull \hbox (2.61107pt too wide) in paragraph at lines 290--314
+Overfull \hbox (2.61107pt too wide) in paragraph at lines 356--380
 []$ $[]$ 
  []
 
-[11]
+[13]
 Overfull \vbox (17.36877pt too high) has occurred while \output is active []
 
 
-[12 <./img/pspline_pord2_xsmall_lambda.png> <./img/pspline_pord2_small_lambda.p
+[14 <./img/pspline_pord2_xsmall_lambda.png> <./img/pspline_pord2_small_lambda.p
 ng> <./img/pspline_pord2_medium_lambda.png> <./img/pspline_pord2_large_lambda.p
-ng>] [13] [14]
+ng>]
+
+LaTeX Warning: Reference `fig:overcomplete_basis_pspline' on page 15 undefined 
+on input line 384.
+
+<img/pspline_10obs_60_basis_functions.png, id=76, 481.8pt x 481.8pt>
+File: img/pspline_10obs_60_basis_functions.png Graphic file (type png)
+
+<use img/pspline_10obs_60_basis_functions.png>
+Package pdftex.def Info: img/pspline_10obs_60_basis_functions.png used on input
+ line 389.
+(pdftex.def)             Requested size: 361.3491pt x 361.3491pt.
+ [15 <./img/pspline_10obs_60_basis_functions.png>]
+
+LaTeX Warning: Reference `eq:bspline_deriv' on page 16 undefined on input line 
+406.
+
+[16]
+
+LaTeX Warning: Citation `eilers1996flexible' on page 17 undefined on input line
+ 433.
+
+
+LaTeX Warning: Citation `marx2005multidimensional' on page 17 undefined on inpu
+t line 433.
+
+
+LaTeX Warning: Citation `buja1989linear' on page 17 undefined on input line 433
+.
+
+[17]
+
+LaTeX Warning: Reference `fig:bicubic_bspline' on page 18 undefined on input li
+ne 473.
+
+
+LaTeX Warning: Reference `fig:bicubic_bspline_contour' on page 18 undefined on 
+input line 473.
+
+
+LaTeX Warning: Reference `fig:sparse_bicubic_basis' on page 18 undefined on inp
+ut line 482.
+
+
+LaTeX Warning: Reference `fig:sparse_bicubic_basis' on page 18 undefined on inp
+ut line 482.
+
+[18]
 File: img/bicubic_bspline.png Graphic file (type png)
  <use img/bicubic_bspline.png>
-Package pdftex.def Info: img/bicubic_bspline.png used on input line 401.
+Package pdftex.def Info: img/bicubic_bspline.png used on input line 494.
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
- [15]
 File: img/bicubic_bspline_contour.png Graphic file (type png)
-
-<use img/bicubic_bspline_contour.png>
-Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 408
+ <use img/bicubic_bspline_contour.png>
+Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 501
 .
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
- [16]
-<img/sparse_bicubic_basis.png, id=82, 481.8pt x 481.8pt>
+
+[19] <img/sparse_bicubic_basis.png, id=94, 481.8pt x 481.8pt>
 File: img/sparse_bicubic_basis.png Graphic file (type png)
 
 <use img/sparse_bicubic_basis.png>
-Package pdftex.def Info: img/sparse_bicubic_basis.png used on input line 418.
+Package pdftex.def Info: img/sparse_bicubic_basis.png used on input line 511.
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
- [17] [18 <./img/sparse_bicubic_basis.png>]
-[19] [20] [21]
-Overfull \hbox (141.34702pt too wide) in paragraph at lines 586--587
+ [20] [21 <./img/sparse_bicubic_basis.png>]
+
+LaTeX Warning: Reference `eq:coefficient_surface_expansion' on page 22 undefine
+d on input line 538.
+
+
+LaTeX Warning: Reference `eq:mean_regression_function' on page 22 undefined on 
+input line 538.
+
+
+LaTeX Warning: Reference `uni_pspline_penalties' on page 22 undefined on input 
+line 551.
+
+[22]
+
+LaTeX Warning: Reference `eq:bivariate_squared_diff_penalized_obj_function' on 
+page 23 undefined on input line 579.
+
+[23]
+
+LaTeX Warning: Reference `eq:bivariate_squared_diff_penalized_obj_function' on 
+page 24 undefined on input line 628.
+
+[24]
+Overfull \hbox (141.34702pt too wide) in paragraph at lines 679--680
 \OT1/cmr/m/n/12 pro-duced by the Mul-ti-cen-ter AIDS Co-hort Study. The data ar
 e of the form $[]$,
  []
 
-[22] [23]
-Overfull \hbox (14.88255pt too wide) in paragraph at lines 670--673
-\OT1/cmr/m/n/12 fined as in 2[]; the Nadaraya-Watson (NW) es-ti-ma-tor of $[] [
-] = [][]$
+
+LaTeX Warning: Reference `eq:zeger_diggle_VC_model' on page 25 undefined on inp
+ut line 693.
+
+
+LaTeX Warning: Citation `chen1993functional' on page 25 undefined on input line
+ 697.
+
+[25]
+
+LaTeX Warning: Reference `eq:zeger_diggle_VC_model' on page 26 undefined on inp
+ut line 702.
+
+
+LaTeX Warning: Reference `eq:VC_mean_function_single_smoothing_covariate' on pa
+ge 26 undefined on input line 705.
+
+[26]
+
+LaTeX Warning: Reference `eq:NW_joint_pdf_estimator' on page 27 undefined on in
+put line 735.
+
+
+LaTeX Warning: Reference `eq:conditional_mean_y_given_x' on page 27 undefined o
+n input line 735.
+
+
+LaTeX Warning: Reference `eq:conditional_mean_y_given_x' on page 27 undefined o
+n input line 746.
+
+
+LaTeX Warning: Reference `eq:num_est' on page 27 undefined on input line 754.
+
+
+LaTeX Warning: Reference `eq:den_est' on page 27 undefined on input line 754.
+
+
+LaTeX Warning: Reference `eq:conditional_mean_y_given_x' on page 27 undefined o
+n input line 754.
+
+
+LaTeX Warning: Reference `eq:VC_mean_function_single_smoothing_covariate' on pa
+ge 27 undefined on input line 765.
+
+
+Overfull \hbox (21.75761pt too wide) in paragraph at lines 763--766
+\OT1/cmr/m/n/12 fined as in []; the Nadaraya-Watson (NW) es-ti-ma-tor of $[] []
+ = [][]$
  []
 
-[24]
+[27]
 
-LaTeX Warning: Reference `eq:local_linear_smoother_obj_fun' on page 25 undefine
-d on input line 692.
+LaTeX Warning: Reference `eq:local_linear_smoother_obj_fun' on page 28 undefine
+d on input line 785.
 
-[25] [26] [27] [28]
 
-LaTeX Warning: Reference `eq:longitudinal_VC_model' on page 29 undefined on inp
-ut line 818.
+LaTeX Warning: Reference `single_smoothing_var_bandwidth_selection' on page 28 
+undefined on input line 805.
 
-(./vc_model_overview.bbl [29] [30] [31] [32] [33]) [34]
+[28]
+
+LaTeX Warning: Reference `eq:VC_mean_function_single_smoothing_covariate' on pa
+ge 29 undefined on input line 822.
+
+
+LaTeX Warning: Reference `eq:VC_mean_function_multiple_smoothing_covariates' on
+ page 29 undefined on input line 834.
+
+[29] [30]
+
+LaTeX Warning: Reference `eq:VC_mean_function_single_smoothing_covariate' on pa
+ge 31 undefined on input line 864.
+
+
+LaTeX Warning: Reference `eq:VC_mean_function_multiple_smoothing_covariates' on
+ page 31 undefined on input line 864.
+
+
+LaTeX Warning: Reference `eq:VC_mean_MV_function_multiple_smoothing_covariates'
+ on page 31 undefined on input line 864.
+
+
+LaTeX Warning: Reference `eq:VC_mean_MV_function_multiple_smoothing_covariates'
+ on page 31 undefined on input line 870.
+
+
+LaTeX Warning: Reference `eq:VC_mean_function_single_smoothing_covariate' on pa
+ge 31 undefined on input line 899.
+
+
+LaTeX Warning: Reference `eq:VC_mean_function_multiple_smoothing_covariates' on
+ page 31 undefined on input line 899.
+
+
+LaTeX Warning: Reference `eq:VC_mean_MV_function_multiple_smoothing_covariates'
+ on page 31 undefined on input line 899.
+
+
+LaTeX Warning: Reference `eq:functional_VC_model' on page 31 undefined on input
+ line 905.
+
+[31]
+
+LaTeX Warning: Reference `eq:longitudinal_VC_model' on page 32 undefined on inp
+ut line 911.
+
+
+LaTeX Warning: Reference `eq:longitudinal_NW_objective_function' on page 32 und
+efined on input line 918.
+
+
+LaTeX Warning: Reference `eq:longitudinal_NW_objective_function' on page 32 und
+efined on input line 924.
+
+(./vc_model_overview.bbl [32] [33] [34] [35] [36]) [37]
 (./vc_model_overview.aux)
 
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 7263 strings out of 493089
- 123015 string characters out of 6134842
+ 7272 strings out of 493089
+ 123341 string characters out of 6134842
  221097 words of memory out of 5000000
- 10633 multiletter control sequences out of 15000+600000
+ 10641 multiletter control sequences out of 15000+600000
  13163 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,19n,40p,1553b,403s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,19n,40p,1553b,382s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
@@ -697,10 +1010,10 @@ exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/te
 xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texl
 ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texliv
 e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on vc_model_overview.pdf (34 pages, 875477 bytes).
+Output written on vc_model_overview.pdf (37 pages, 962128 bytes).
 PDF statistics:
- 185 PDF objects out of 1000 (max. 8388607)
- 116 compressed objects within 2 object streams
+ 199 PDF objects out of 1000 (max. 8388607)
+ 125 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 46 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 
