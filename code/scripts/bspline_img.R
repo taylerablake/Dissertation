@@ -69,53 +69,6 @@ ggsave(filename = file.path(getwd(),"Dissertation TeX","img","uni_linear_bspline
 
 
 
-############################################################################################
-############################################################################################
-
-png(filename = file.path(getwd(),"Dissertation TeX","img","pspline_pord2_xsmall_lambda.png"))
-draw_psplines(nseg=20,bdeg=3,pord=2,lla=-2,nobs=100)
-dev.off()
-png(filename = file.path(getwd(),"Dissertation TeX","img","pspline_pord2_small_lambda.png"))
-draw_psplines(nseg=20,bdeg=3,pord=2,lla=0, nobs=100)
-dev.off()
-
-png(filename = file.path(getwd(),"Dissertation TeX","img","pspline_pord2_medium_lambda.png"))
-draw_psplines(nseg=20,bdeg=3,pord=2,lla=2.3,nobs=100)
-dev.off()
-
-png(filename = file.path(getwd(),"Dissertation TeX","img","pspline_pord2_large_lambda.png"))
-draw_psplines(nseg=20,bdeg=3,pord=2,lla=6,nobs=100)
-dev.off()
-
-############################################################################################
-
-x = runif(10)
-xg = seq(0, 1, length = 500)
-set.seed(123)
-y = 1.2 + sin(5  * x) + rnorm(10) * 0.2
-
-
-B <- bbase(x,  xl = 0, xr = 1, nseg = 57, deg = 3)
-nb = ncol(B)
-D = diff(diag(nb), diff = 2)
-
-lambda <<- 10 ^ 2
-P = lambda * t(D) %*% D
-a <- solve(t(B) %*% B + P, t(B) %*% y)
-a <- as.vector(a)
-
-cols=rainbow(nb)
-Bg <<- bbase(xg, xl = 0, xr = 1, nseg = 57, deg = 3)
-A = diag(a)
-z = Bg %*% a
-
-png(filename = file.path(getwd(),"Dissertation TeX","img","pspline_10obs_60_basis_functions.png"))
-plot(x, y,ylim=c(0,2.5),pch="+",xlab="",ylab="") 
-matlines(xg, Bg %*% A, type = 'l', lty = 1, lwd = 2, col= cols,
-         xlab = '', ylab = '')
-lines(xg, z, col = 'grey',lwd=2)        
-dev.off()
-
 
 ############################################################################################
 ############################################################################################
