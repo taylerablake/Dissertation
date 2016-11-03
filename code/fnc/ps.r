@@ -25,6 +25,7 @@
             #
             # (c) 1998, 2003 Brian D. Marx
             #
+            if()
             number.knots <- ps.intervals + 2 * degree + 1
             x.index <- as.vector(x)
             smooth.dummy <- T

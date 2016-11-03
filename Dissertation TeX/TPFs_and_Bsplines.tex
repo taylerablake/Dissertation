@@ -1,0 +1,98 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx,psfrag,amsfonts,float,mathbbol,xcolor,cleveref}
+\usepackage{arydshln}
+\usepackage{amsmath}
+\usepackage{subcaption}
+\usepackage{mathtools}
+\usepackage{IEEEtrantools}
+\usepackage[letterpaper, left=1in, top=1in, right=1in, bottom=1in,nohead,includefoot, verbose, ignoremp]{geometry}
+\newcommand*\needsparaphrased{\color{red}}
+\newcommand*\needsproof{\color{blue}}
+\newcommand*\outlineskeleton{\color{green}}
+\newcommand{\bfeps}{\mbox{\boldmath $\epsilon$}}
+\newcommand{\bfgamma}{\mbox{\boldmath $\gamma$}}
+\newcommand{\bflam}{\mbox{\boldmath $\lambda$}}
+\newcommand{\bfphi}{\mbox{\boldmath $\phi$}}
+\newcommand{\bfsigma}{\mbox{\boldmath $\sigma$}}
+\newcommand{\bfbeta}{\mbox{\boldmath $\beta$}}
+\newcommand{\bfalpha}{\mbox{\boldmath $\alpha$}}
+\newcommand{\bfe}{\mbox{\boldmath $e$}}
+\newcommand{\bff}{\mbox{\boldmath $f$}}
+\newcommand{\bfone}{\mbox{\boldmath $1$}}
+\newcommand{\bft}{\mbox{\boldmath $t$}}
+\newcommand{\bfo}{\mbox{\boldmath $0$}}
+\newcommand{\bfO}{\mbox{\boldmath $O$}}
+\newcommand{\bfx}{\mbox{\boldmath $x$}}
+\newcommand{\bfX}{\mbox{\boldmath $X$}}
+\newcommand{\bfz}{\mbox{\boldmath $z$}}
+
+
+\newcommand{\bfm}{\mbox{\boldmath $m}}
+\newcommand{\bfy}{\mbox{\boldmath $y$}}
+\newcommand{\bfd}{\mbox{\boldmath $d$}}
+\newcommand{\bfc}{\mbox{\boldmath $c$}}
+\newcommand{\bfa}{\mbox{\boldmath $a$}}
+\newcommand{\bfb}{\mbox{\boldmath $b$}}
+\newcommand{\bfY}{\mbox{\boldmath $Y$}}
+\newcommand{\bfS}{\mbox{\boldmath $S$}}
+\newcommand{\bfZ}{\mbox{\boldmath $Z$}}
+\newcommand{\cardT}{\vert \mathcal{T} \vert}
+\newenvironment{theorem}[1][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{corollary}[1][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{proposition}[1][Proposition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\def\bL{\mathbf{L}}
+
+
+ \begin{document}
+
+\nocite{*}
+
+\section{{\outlineskeleton The Truncated Power Basis}}
+\subsection{{\outlineskeleton Piecewise Polynomial Functions}}
+
+Let $\xi = \left\{ \xi_1<\xi_2<\dots<\xi_{l+1} \right\}$ be a set of strictly increasing series of points, and let $k$ be a positive integer. Further, let $P_1,\dots,P_l$ denote a sequence of $l$ polynomials of order $k$. Then the correponding piecewise polynomial (pp) function of order $k$ is defined as follows:
+
+\[
+f\left(x\right) = P_i\left(x\right) \quad \textup{if } \xi_i < x < \xi_{i+1}
+\] 
+\noindent
+for $i=1,\dots,l$. $\left\{\xi\right\}$ are known as the breakpoints of $f$. At the interior breakpoints, $\xi_2,\dots, \xi_l$, the function value is defined by specifying $f$ to be right continuous; that is, 
+\[
+f\left(\xi_i\right) = f\left(\xi_i^+\right),\quad i=2,\dots,l
+\]
+However, in a sense, without this specification, the function has two values at any interior breakpoint: the value it gets from the polynomial piece to the left of the breakpoint, $f\left(\xi_i^-\right) = P_{i-1}\left(\xi_i\right_$, in addition to the value it gets from the polynomial piece to the right of the breakpoint, $f\left(\xi_i^+\right) = P_{i}\left(\xi_i\right)$. To properly define the function, one can specify $f$ to be right-continuous:
+\begin{equation}
+f\left(\xi_i\right) \def f\left(\xi_i^+\right) 
+\end{equation}
+
+Denote the set of pp functions of order $k$ with breakpoints $\xi=\left\{\xi_1,\dots,\xi_{l+1}\right\}$ by 
+\[
+\mathcal{P}_{k,\xi}.
+\]
+
+$\mathcal{P}_{k,\xi}$ is a linear space having dimension $kl$, as it consists of $l$ polynomials, each having $k$ polynomial coefficients. The $j^{th}$ derivative of a pp $f$,
+\[
+D^jf
+\]
+\noindent
+is a pp function of order $k-j$ having the same breakpoint sequence and constructed from the same $j^{th}$ derivatives of the polynomial pieces from which $f$ was constructed. In practice, one typically is given some information about an unknown function, $g$, and
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

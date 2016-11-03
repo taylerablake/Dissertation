@@ -131,24 +131,72 @@ ggplot(data = data.frame(x=x,y=y),aes(x,y)) + geom_point()
 
 ############################################################################################
 
-Y_conts_by_var <- gamSim(eg=3,n=100)
-ggplot(data=Y_conts_by_var,aes(x=x1,y=y)) + geom_point()
-ggplot(data=Y_conts_by_var,aes(x=x2,y=f)) + geom_point()
-ggplot(data=Y_conts_by_var,aes(x=1:nrow(Y_conts_by_var),y=x1*f)) + geom_point()
-
-
-x1 <- sort(runif(100, 0, 1))
-f <-  0.2 * x1^11 * (10 * (1 - x1))^6 + 
-      10 * (10 * x1)^3 * (1 - x1)^10 
-e <- rnorm(n, 0, 1)
+source(file.path(getwd(),"code","fnc","pspline_signal_fit_1d.R"))  
+library(ggthemes)  
+n <- 50  
+x1 <- seq(0,1,length.out=n)
+f <-  function(x){
+      0.2 * x^11 * (10 * (1 - x))^6 + 10 * (10 * x)^3 * (1 - x)^10 
+}
+e <- rnorm(n, 0, 0.3)
 # A continuous `by' variable example.... 
-y <- f*x1 + e
-Y_conts_by_var <- data.frame(y=y,x1=x1,f=f)
+y <- f(x1)*x1 + e
+dat <- data.frame(y=y,x1=x1,f=f(x1),x2=x1)
+pDat <- data.frame(regressor=seq(0,1,length.out=200),
+                   f=f(seq(0,1,length.out=200))) %>% transform(.,signal=regressor*f)
+pDat_melt <- melt(pDat,id.vars = c("regressor"))
+names(pDat_melt)[grepl("variable",names(pDat_melt))] <- "mean_component"
 
-p <- ggplot(data=Y_conts_by_var,aes(x=x1,y=f)) + geom_line(colour="pink") + ylab("") + xlab("")
-p <- p + geom_line(aes(x=x1,y=x1*f),colour="blue")
-p <- p +  geom_point(aes(x=x1,y=y),colour="grey")
+p <- ggplot(data=dat,aes(x=x1,y=y)) + geom_point() + ylab("") + xlab("x")
+p <- p + geom_line(data=pDat_melt,aes(x=regressor,y=value,group=mean_component,colour=mean_component)) + scale_color_ptol("",labels=c("f(x)","xf(x)")) + theme_minimal()
 p
 
 
+n.seg <- 40
+x.l <- min(dat$x1)
+x.r <- max(dat$x1)
+x.max <- x.r + 0.01 * (x.r - x.l)
+x.min <- x.l - 0.01 * (x.r - x.l)
+d.x <- (x.max - x.min)/n.seg
+ps.knots <- seq(x.min - 3 * d.x, x.max + 3 * d.x, by = d.x)
 
+
+ps.signal.fit <- gam(y ~ s(x1,bs="ps", by=x2, k=(length(ps.knots)-(2*2)), m=c(2,3), sp=100, id=1), data=dat, knots = list(x1=ps.knots))
+df <- data.frame(x=dat$x1,
+           y=dat$y,
+           fitted=ps.signal.fit$fitted.values)
+ggplot(melt(df,id.vars="x"),aes(x,value)) + geom_point(aes(colour=variable)) + theme_calc() + scale_color_calc()
+ggplot(df,aes(x=x,y=y)) + geom_point(colour=calc_pal()(2)[1]) + theme_calc() + geom_line(aes(x=x,y=fitted),colour=calc_pal()(2)[2])
+
+B <- spline.des(ps.signal.fit$smooth[[1]]$knots, seq(0,1,length.out=200), ps.signal.fit$smooth[[1]]$p.order[1]+1)$design
+fitted.f <- B%*%ps.signal.fit$coefficients
+df <- data.frame(x=seq(0,1,length.out = 200),
+                 true.f=f(seq(0,1,length.out = 200)),
+                 fitted.f=fitted.f) %>% melt(.,id.vars="x")
+ggplot(df,aes(x=x,y=value,group=variable)) + geom_line(aes(colour=variable)) + theme_calc() + scale_color_calc()
+
+
+
+
+
+ll <- lapply(as.list(exp(seq(-6,5,length.out = 20))),function(l){
+                  ps.signal.fit <- gam(y ~ s(x1,bs="ps", by=x2, sp=l, k=(length(ps.knots)-(2*2)),m=c(2,3)), data=dat, knots = list(x1=ps.knots))
+            
+                  llist <- list()
+                  llist$sp <- l
+                  llist$fitted.values <- ps.signal.fit$fitted.values
+                  llist$predicted.grid <- predict.gam(ps.signal.fit,
+                                                newdata = data.frame(x1=seq(0,1,length.out=nrow(B)),x2=seq(0,1,length.out=nrow(B))))
+                  llist$coefficients <- ps.signal.fit$coefficients
+                  llist$fitted.f <- B%*%ps.signal.fit$coefficients 
+                  return(llist)
+                  })
+
+f.df <- ldply(ll,function(l){return(data.frame(lambda=l$sp,
+                                               x=seq(0,1,length.out=length(l$predicted.grid)),
+                                               f.hat=as.vector(l$fitted.f)))})
+ind <- expand.grid(x=1:length(ll[[1]]$predicted.grid),ind=1:length(ll))$ind
+f.df <- cbind.data.frame(f.df,ind)
+
+p <- ggplot(f.df,aes(x=x,y=f.hat)) + geom_line(aes(colour=ind,group=lambda)) + scale_colour_gradient_tableau("Green") + guides(colour="none")
+p + geom_line(data=data.frame(x=seq(0,1,length.out=200),true.f=f(seq(0,1,length.out=200)),lambda=0),aes(x=x,y=true.f,group=lambda),colour="red",inherit.aes = FALSE)
