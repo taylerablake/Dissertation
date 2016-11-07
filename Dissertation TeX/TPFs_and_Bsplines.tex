@@ -9,6 +9,7 @@
 \newcommand*\needsparaphrased{\color{red}}
 \newcommand*\needsproof{\color{blue}}
 \newcommand*\outlineskeleton{\color{green}}
+\newcommand{\PP}{\mathcal{P}}
 \newcommand{\bfeps}{\mbox{\boldmath $\epsilon$}}
 \newcommand{\bfgamma}{\mbox{\boldmath $\gamma$}}
 \newcommand{\bflam}{\mbox{\boldmath $\lambda$}}
@@ -66,9 +67,9 @@ for $i=1,\dots,l$. $\left\{\xi\right\}$ are known as the breakpoints of $f$. At 
 \[
 f\left(\xi_i\right) = f\left(\xi_i^+\right),\quad i=2,\dots,l
 \]
-However, in a sense, without this specification, the function has two values at any interior breakpoint: the value it gets from the polynomial piece to the left of the breakpoint, $f\left(\xi_i^-\right) = P_{i-1}\left(\xi_i\right_$, in addition to the value it gets from the polynomial piece to the right of the breakpoint, $f\left(\xi_i^+\right) = P_{i}\left(\xi_i\right)$. To properly define the function, one can specify $f$ to be right-continuous:
+However, in a sense, without this specification, the function has two values at any interior breakpoint: the value it gets from the polynomial piece to the left of the breakpoint, $f\left(\xi_i^-\right) = P_{i-1}\left(\xi_i\right)$, in addition to the value it gets from the polynomial piece to the right of the breakpoint, $f\left(\xi_i^+\right) = P_{i}\left(\xi_i\right)$. To properly define the function, one can specify $f$ to be right-continuous:
 \begin{equation}
-f\left(\xi_i\right) \def f\left(\xi_i^+\right) 
+f\left(\xi_i\right) \equiv f\left(\xi_i^+\right) 
 \end{equation}
 
 Denote the set of pp functions of order $k$ with breakpoints $\xi=\left\{\xi_1,\dots,\xi_{l+1}\right\}$ by 
@@ -81,16 +82,54 @@ $\mathcal{P}_{k,\xi}$ is a linear space having dimension $kl$, as it consists of
 D^jf
 \]
 \noindent
-is a pp function of order $k-j$ having the same breakpoint sequence and constructed from the same $j^{th}$ derivatives of the polynomial pieces from which $f$ was constructed. In practice, one typically is given some information about an unknown function, $g$, and
+is a pp function of order $k-j$ having the same breakpoint sequence and constructed from the same $j^{th}$ derivatives of the polynomial pieces from which $f$ was constructed. This ``definition'' dodges much of the complicated discussion of the derivatives of a pp function at its breakpoints and thus must be treated with considerable care in context of the fundamental theorem of calculus.
 
+\begin{proposition} \label
+A pp function, $f$ satisfies
+\[
+f\left(x\right) - f\left(a\right) = \int_a^x \left(Df\right)\left(t\right)dt\quad \textup{for all} \quad x
+\]
+if and only if $f$ is a continuous function.
+\end{proposition}
 
+Consider a piecewise constant function $f$: by the previous definition, its first derivative is identically zero, and is therefore equal to the usual derivative of $f$ if and only if $f$ is constant.  
 
+This prerequisite information is merely for the ability to responsibly refer to the set of piecewise polynomial functions and have a shorthand way of doing so. These means enable us to introduce two sets of basis functions: first, the truncated power basis, followed by B-spline basis functions. We will see that both are closely related, with the former having some properties which leave them unattractive for function approximation and thus present the construction of B-splines and how to use them to construct a representation of $\mathcal{P}_{k}$. In practice, one typically is given some information about an unknown function, $g$, and the task is to construct a function $f \in \PP_{k, \xi}$ which satisfies conditions that $g$ also satisfies, and in addition, has a certain number of continuous derivatives. These conditions define a subspace of $\PP_{k,\xi}$, $\PP_{k,\xi, \nu}$ for which we will need a corresponding basis.
 
+For illustrative purposes, consider the task of smoothing a histogram using parabolic splines. Suppose we are given points
+\[
+\tau_1 < \tau_2 < \dots < \tau_{n+1}
+\]
+and non-negative numbers $h_1, h_2, \dots, h_n$, with $h_i$ denoting the height of the histogram over the interval $\left(\tau_i, \tau_{i+1} \right)$. The histogram is an approximate representation of some underlying density function, $g$. Letting $\Delta \tau_i = \tau_{i+1}-\tau_i$, one may interpret $h_i\Delta \tau_i$ as (approximately) equal to the integral of $g$ over $\left[\tau_i, \tau_{i+1} \right]$. One may impose the following interpolation conditions on our smooth function, $f$:
+\begin{equation*} 
+\int_{\tau_i}^{\tau_{i+1}} f\left(x\right)dx = h_i\Delta \tau_i
+\end{equation*} 
+\noindent
+for $i=1,\dots, n$. Let $f$ be a piecewise polynomial of order 3 having continuous first derivative:
+\[
+f \in \PP_{3,\xi} \cap \mathcal{C}^{\left(1\right)}
+\]
+Choose the breakpoint sequence $\xi$ to coincide with $\tau = \left\{\tau_1,\dots, \tau_{n+1} \right\}$. If $g$ is smooth and vanishes outside its support, $\left[ \tau_1,\tau_{n+1} \right]$, then
+\[
+g^{\left( j \right)}\left(\tau_1\right) = g^{\left( j \right)}\left(\tau_{n+1}\right) = 0,
+\]
+\noindent
+for $j=0,1,\dots,d$, where $d$ characterizes the extent of the smoothness of $g$, we may also wish to require $f$ to obey two additional interpolation constraints:
+\[
+f\left( \tau_1 \right) = f\left( \tau_{n+1} \right) = 0,
+\]
+giving a total of $n+2$ interpolation conditions. These, along with the $2\left(n-1\right)$ continuity conditions yield a total $3n$ constraints on the $3n$ polynomial coefficients,
+\[
+c_{ji} \equiv D^{j-1} f\left(\xi_i^+ \right).
+\]
+These conditions lead to the system of equations:
 
-
-
-
-
+\begin{align*}
+c_{11} &  &  &  &  &  &  & =0  \\
+c_{11} & + & \frac{c_{21}}{2!} \Delta\tau_{1} & + & \frac{c_{31}}{3!} \left(\Delta\tau_{1}\right)^2  &    &  =h_1\\
+c_{11} + c_{21}\Delta\tau_{1} + \frac{c_{31}}{2!} \left(\Delta\tau_{1}\right)^2 &-c_{12}    &  =0\\
+\;c_{21}\;\;+c_{31}\Delta\tau_{1}
+\end{align*}
 
 
 
