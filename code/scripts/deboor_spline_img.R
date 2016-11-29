@@ -37,3 +37,30 @@ ggsave(file=file.path(getwd(),"Dissertation TeX","img","histogram_smoothing.png"
 
 
 
+#############################################################################################
+
+
+tpf <- function(x,breakpoint,degree){
+      max(0,(x-breakpoint)^degree)      
+}
+
+4.65-(0.00001/2)
+4.65+(0.00001/2)
+xi <- c(seq(0.1,3.1,by=1),4.5,4.8,seq(6.1,9.1,by=1),10)
+diff(xi)
+alpha <- c(1.3,0,0,0,
+           1.1/diff(xi)[4],
+           -2.2/diff(xi)[5] - 1.1/diff(xi)[4],
+           2.2/diff(xi)[5] + 1.1/diff(xi)[6],
+           -1.1/diff(xi)[6],
+           0,0,0,0)
+alpha %>% round(.,3)
+broken_line <- function(x,Xi,Alpha,p){
+      
+      Alpha[1] + sum(Alpha[-1]*sapply(Xi,function(xi_arg){tpf(x,xi_arg,p)}))
+}
+
+sapply(xi,function(x_arg){broken_line(x_arg,xi,round(alpha,4),1)})
+broken_line(9.6,xi,round(alpha,5),1)
+
+
