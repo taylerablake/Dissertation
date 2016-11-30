@@ -12,6 +12,7 @@
 \newcommand{\comment}[1]{\text{\phantom{(#1)}} \tag{#1}}
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 \newcommand*\needsparaphrased{\color{red}}
+\newcommand*\needscited{\color{orange}}
 \newcommand*\needsproof{\color{blue}}
 \newcommand*\outlineskeleton{\color{green}}
 \newcommand{\PP}{\mathcal{P}}
@@ -473,8 +474,8 @@ f^{\left(i-1\right)}\left(\tau\right) = g^{\left(i-1\right)}\left(\tau\right), \
 \subsubsection{Properties of the divided difference}
 Definition~\ref{definition:divided_difference} yields the following properties of the $k^{th}$ divided difference:
 
-\begin{enumerate} 
-\item Let $\left\{ p_i \right\}$, $i=1,2,\dots$ denote a sequence of polynomials with $p_i$ having order $i$. If $p_i$ agrees with a function $g$ at $\tau_1,\dots, \tau_i$ for $i=k,k+1$, then 
+\begin{enumerate} \label{dd_properties}
+\item \label{eq:dd_property_1} Let $\left\{ p_i \right\}$, $i=1,2,\dots$ denote a sequence of polynomials with $p_i$ having order $i$. If $p_i$ agrees with a function $g$ at $\tau_1,\dots, \tau_i$ for $i=k,k+1$, then 
 	\begin{equation*} 
 	p_{k+1}\left(x\right) = p_k\left(x\right) + \left(x-\tau_1\right)\cdot \dots \cdot \left(x-\tau_k\right)\left[\tau_1,\dots,\tau_{k+1}\right]g
 	\end{equation*}
@@ -493,8 +494,8 @@ Definition~\ref{definition:divided_difference} yields the following properties o
 	\[
 	p_n\left(x\right) = \sum_{i=1}^n \left(x-\tau_{1}\right)\times \dots \times \left(x-\tau_{i-1}\right) \left[\tau_1,\dots,\tau_{i-1} \right]g
 	\]
-\item $\left[\tau_i,\dots,\tau_{i+k} \right]g$	is symmetric in its arguments $\tau_i,\dots, \tau_{i+k}$ (since the interpolating polynomial depends only on the points of interpolation and not the order in which they are specified.)
-\item $\left[\tau_i,\dots,\tau_{i+k} \right]g$ is a linear operator; if we let 
+\item \label{eq:dd_property_2} $\left[\tau_i,\dots,\tau_{i+k} \right]g$	is symmetric in its arguments $\tau_i,\dots, \tau_{i+k}$ (since the interpolating polynomial depends only on the points of interpolation and not the order in which they are specified.)
+\item \label{eq:dd_property_3} $\left[\tau_i,\dots,\tau_{i+k} \right]g$ is a linear operator; if we let 
 \[
 f= \alpha g + \beta h
 \]
@@ -503,16 +504,21 @@ for some functions $g,h$ and scalars $\alpha, \beta$, then
 \[
 \left[\tau_i,\dots,\tau_{i+k} \right]f = \alpha\left[\tau_i,\dots,\tau_{i+k} \right]g + \beta\left[\tau_i,\dots,\tau_{i+k} \right]h
 \]
-\item If $f=gh$, then
+\item \label{eq:dd_property_4} If $f=gh$, then
 \[
 \left[\tau_i,\dots,\tau_{i+k} \right]f  = \sum_{j=i}^{i+k} \left[\tau_i,\dots,\tau_{i+k} \right]g \left[\tau_i,\dots,\tau_{i+k} \right]h 
 \]
-\item $\left[\tau_i,\dots,\tau_{i+k} \right]g$ is a continuous function of its $k+1$ arguments in case $g\in \mathscr{C}^{\left(k\right)}$ (that is, if $g$ has $k$ continuous derivatives.)
-\item If $g\in \mathscr{C}^{\left(k\right)}$, then there exists a point $\xi$ in the smallest interval containing $\tau_i,\dots,\tau_{i+k}$ such that 
+\item \label{eq:dd_property_5} If $g$ is a polynomial of degree $\le k$, then $\left[\tau_i,\dot,\tau_{i+k}\right]g$ is constant as a function of $\tau_i,\dot,\tau_{i+k}$. In particular,
+\[
+\left[\tau_i,\dot,\tau_{i+k}\right]g = 0 \quad \forall g \in \PP_{k}
+\]
+The polynomial which agrees with $g$ at $\tau_i,\dots, \tau_{i+k}$ or any other $k+1$ points must be $g$ itself due to the uniqueness of interpolating polynomials. For more details, we refer the reader to {\needscited{A Practical Guide to Splines, DeBoor}}.
+\item \label{eq:dd_property_6} $\left[\tau_i,\dots,\tau_{i+k} \right]g$ is a continuous function of its $k+1$ arguments in case $g\in \mathscr{C}^{\left(k\right)}$ (that is, if $g$ has $k$ continuous derivatives.)
+\item \label{eq:dd_property_7} If $g\in \mathscr{C}^{\left(k\right)}$, then there exists a point $\xi$ in the smallest interval containing $\tau_i,\dots,\tau_{i+k}$ such that 
 \[
 \left[\tau_i,\dots,\tau_{i+k} \right]g = \frac{g^{\left(k\right)}\left(\xi\right)}{k!}
 \] 
-\item \[
+\item \label{eq:dd_property_8}\[
 \left[\tau_i,\dots,\tau_{i+k} \right]g = \left\{\begin{array}{ll}
 \frac{g^{\left(k\right)}\left(\tau_i\right)}{k!} & \tau_i= \dots = \tau_{i+k},\;\;g\in \mathscr{C}^{\left(k\right)} \\
 \frac{\left[\tau_i,\dots,\tau_{r-1},\tau_{r+1},\dots,\tau_{i+k} \right]g-\left[\tau_i,\dots,\tau_{s-1},\tau_{s+1},\dots,\tau_{i+k} \right]g}{\tau_s-\tau_r} &  \tau_r,\tau_s \textup{ are any two distinct}\\
@@ -532,12 +538,32 @@ B_{i,k,t}\left(x\right) = \left(t_{i+k}-t_i\right)\left[t_i,\dots,t_{i+k}\right]
 \end{equation}
 \end{definition}
 
-The placeholder notation, $\left(\cdot - x\right)_+^{k-1}$, 
+The placeholder notation, $\left(\cdot - x\right)_+^{k-1}$, is used to indicate that the $k^{th}$ divided difference of the function $g\left(t \right) = \left(t-x\right)^{k-1}_+$ is obtained by fixing $x$ and applying the divided difference to $g\left(t \right)$ as a function of $t$ alone. Henceforth, we will write $B_i$ rather than $B_{i,k,t}$ when the spline order and knot sequence can be inferred from surrounding context.
 
 \subsection{Properties of B-splines}
 
 \begin{enumerate}
-\item Let 
+\item $B_i\left(x\right)$ has isolated support:
+\[
+B_i\left(x\right) = 0, \quad x \not \in \left[t_{i},t_{i+k}\right]
+\]
+To see this, note that if $x \not \in \left[t_{i},t_{i+k}\right]$, then $g\left(t \right) = \left(t-x\right)^{k-1}_+$ is a polynomial of degree $< k$ on $\left[t_{i},t_{i+k}\right]$, thus by \ref{dd_properties} \ref{eq:dd_property_5},
+\[
+\left[t_{i},\dots,t_{i+k}\right]g = 0.
+\]
+As a result, for a set of B-splines of order $k$ corresponding to the knot sequence $t$, only $k$ of them are nonzero on $\left[t_{j},t_{j+k}\right]$: $B_{j-k+1},B_{j-k+2},\dots,B_{j}$.
+\item The $i^{th}$ B-spline of order is defined as the $k^{th}$ divided difference of $\left(\cdot - x\right)_+^{k-1}$ times a normalization factor: $\left(t_{i+k}-t_i\right)$. This normalization, using \ref{dd_properties} \ref{eq:dd_property_8}, allows us to write 
+\[
+B_i\left(x\right)=\left[t_{i+1},\dots,t_{i+k} \right]\left(\cdot - x\right)_+^{k-1} - \left[t_{i},\dots,t_{i+k-1} \right]\left(\cdot - x\right)_+^{k-1}
+\]
+For $x \in \left(t_{j},t_{j+1}\right)$, by \ref{dd_properties} \ref{eq:dd_property_1},
+\begin{align}
+\sum_{i} B_i\left(x\right) &=  \sum_{i=j+1-k}^{j} B_i\left(x\right) \nonumber\\
+&= \sum_{i=j+1-k}^{j} \left[t_{i+1},\dots,t_{i+k} \right] \left(\cdot - x\right)_+^{k-1} - \sum_{i=j+1-k}^{j} \left[t_{i},\dots,t_{i+k-1} \right] \left(\cdot - x\right)_+^{k-1} \nonumber \\
+&= \left[t_{j+1},\dots,t_{j+k} \right] \left(\cdot - x\right)_+^{k-1} - \left[t_{j+1-k},\dots,t_{j} \right] \left(\cdot - x\right)_+^{k-1} \nonumber \\
+&= 1 - 0 \label{eq:unity_equality}
+\end{align}
+The last equality \ref{eq:unity_equality} is a consequence of the following: for $x \in \left(t_j,t_{j+1}\right)$, $g\left(t\right)=\left(t - x\right)_+^{k-1}$ is a $k-1$ degree polynomial with unit leading coefficient on $\left[ t_{j+1},t_{j+k} \right]$, so by \ref{dd_properties} \ref{eq:dd_property_5}, $\left[ t_{j+1},\dots,t_{j+k} \right]g=1$. On $\left[ t_{j+1-k},t_{j} \right]$, $g$ is identically $0$, hence $\left[ t_{j+1-k},\dots,t_{j} \right]g = 0$.   
 \end{enumerate}
 
 \end{document}
