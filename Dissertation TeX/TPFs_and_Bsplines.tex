@@ -523,14 +523,16 @@ The polynomial which agrees with $g$ at $\tau_i,\dots, \tau_{i+k}$ or any other 
 \frac{g^{\left(k\right)}\left(\tau_i\right)}{k!} & \tau_i= \dots = \tau_{i+k},\;\;g\in \mathscr{C}^{\left(k\right)} \\
 \frac{\left[\tau_i,\dots,\tau_{r-1},\tau_{r+1},\dots,\tau_{i+k} \right]g-\left[\tau_i,\dots,\tau_{s-1},\tau_{s+1},\dots,\tau_{i+k} \right]g}{\tau_s-\tau_r} &  \tau_r,\tau_s \textup{ are any two distinct}\\
 & \textup{  points in } \left\{\tau_i,\dots,\tau_{i+k}\right\}
-\end{array} \right.\]
-\item \label{eq:dd_property_9} Let $\tau = \left\{\tau_i \right\}}$, $i=1,\dots,n$ be a nondecreasing sequence, and let $g$ be a ``smooth enough'' function. Define \emph{the restriction of $g$ to the sequence $\tau$} to be the vector $\g \vert_\tau = \left(g_1,\dots,g_n\right)^T$, where
+\end{array} \right.
+\]
+\item \label{eq:dd_property_9} Let $\tau = \left\{\tau_i \right\}$, $i=1,\dots,n$ be a nondecreasing sequence, and let $g$ be a ``smooth enough'' function. Define the restriction of $g$ to the sequence $\tau$ to be the vector $g \vert_\tau = \left(g_1,\dots,g_n\right)^T$, where
 \[
 g_i = g^{\left(r\right)}\left(\tau_i\right),\quad r=\max\left\{j:\;\tau_{i-j}=\tau_i\right\}
 \]
 For any $1 \le r \le s \le n$, there exist constants $\left\{d_i \right\}$, $i=1,\dots,n$ which depend only on $r$, $s$, and $\tau$ and are free of $g$ such that 
 \begin{equation} \label{eq:dd_property_9_punchline}
-\left[\right]g = \sum_i=1^n d_i g_i\]
+\left[\right]g = \sum_i=1^n d_i g_i
+\end{equation}
 \begin{proof}
 The proof is done by induction on $s-r$. The statement is obvious for the case where $s-r=0$; all $d_i = 0$ except the constant corresponding to $g\left(\tau_r\right)$, which is equal to $1$. For any $r < s$, if $\tau_r= \dots = \tau_s$, then 
 \[
@@ -538,7 +540,7 @@ The proof is done by induction on $s-r$. The statement is obvious for the case w
 \]
 so that \ref{eq:dd_property_9_punchline} holds with a single $d_j = \frac{1}{\left(s-r\right)!}$ and all other $d_i = 0$. The index $j \le s$ of the nonzero constant depends only on the number of $\tau_j$ with $j<r$ and $\tau_j = \tau_r$.
 
-Assume that \ref{eq:dd_property_9_punchline} holds for $s-r < k$. Consider $s-r = k$ with $\tau_r < \tau_s$. By the induction hypothesis, there are coefficients $\left{d_i^\prime\right}$ and $\left{d_i^{\prime\prime}\right}$
+Assume that \ref{eq:dd_property_9_punchline} holds for $s-r < k$. Consider $s-r = k$ with $\tau_r < \tau_s$. By the induction hypothesis, there are coefficients $\left\{d_i^\prime\right \}$ and $\left\{d_i^{\prime\prime}\right\}$
 \end{proof}
 \end{enumerate}
 
@@ -578,7 +580,11 @@ For $x \in \left(t_{j},t_{j+1}\right)$, by \ref{dd_properties} \ref{eq:dd_proper
 &= \left[t_{j+1},\dots,t_{j+k} \right] \left(\cdot - x\right)_+^{k-1} - \left[t_{j+1-k},\dots,t_{j} \right] \left(\cdot - x\right)_+^{k-1} \nonumber \\
 &= 1 - 0 \label{eq:unity_equality}
 \end{align}
-The last equality \ref{eq:unity_equality} is a consequence of the following: for $x \in \left(t_j,t_{j+1}\right)$, $g\left(t\right)=\left(t - x\right)_+^{k-1}$ is a $k-1$ degree polynomial with unit leading coefficient on $\left[ t_{j+1},t_{j+k} \right]$, so by \ref{dd_properties} \ref{eq:dd_property_5}, $\left[ t_{j+1},\dots,t_{j+k} \right]g=1$. On $\left[ t_{j+1-k},t_{j} \right]$, $g$ is identically $0$, hence $\left[ t_{j+1-k},\dots,t_{j} \right]g = 0$.   
+The last equality \ref{eq:unity_equality} is a consequence of the following: for $x \in \left(t_j,t_{j+1}\right)$, $g\left(t\right)=\left(t - x\right)_+^{k-1}$ is a $k-1$ degree polynomial with unit leading coefficient on $\left[ t_{j+1},t_{j+k} \right]$, so by \ref{dd_properties} \ref{eq:dd_property_5}, 
+\[
+\left[ t_{j+1},\dots,t_{j+k} \right]g=1.
+\]
+On $\left[ t_{j+1-k},t_{j} \right]$, $g$ is identically $0$, hence $\left[ t_{j+1-k},\dots,t_{j} \right]g = 0$.   
 \end{enumerate}
 
 \end{document}
