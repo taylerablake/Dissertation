@@ -63,6 +63,41 @@ ggsave(filename = file.path(getwd(),"Dissertation TeX","img","uni_linear_bspline
 
 
 
+b <- spline.des(knots=c(0,1,1,3,4,6,6,6)/6,
+                x=seq(0,7/6,length.out=200),
+                ord=3,
+                outer.ok = TRUE)
+bs <- data.frame(b=matrix(b$design,
+                    nrow=nrow(b$design)*ncol(b$design),
+                    ncol=1,byrow = TRUE),knot=factor(expand.grid(x=1:200,t=c(1,2,3,4,5))$t),
+                 x=expand.grid(x=seq(0,7/6,length.out=200),t=c(0,1,1,3,4))$x)
+plot(seq(0,1,length.out=200),b$design[,1],type="n",xlab="",ylab="")
+matlines(seq(0,1,length.out=200),b$design)
+
+
+labls <- c(expression(B[1]),
+           expression(B[2]),
+           expression(B[3]),
+           expression(B[4]),
+           expression(B[5]))
+p <- ggplot(bs,aes(x=x,y=b,group=knot)) + geom_line() + xlab("") + ylab("")
+p <- p + theme_wsj() + scale_color_wsj() +facet_wrap(~ knot,nrow=5,labeller=label_bquote(B[.(knot)])) 
+p <- p + scale_x_continuous(breaks=c(signif(c(1,4)/6,3),signif(c(3,6)/6,1)))
+p + geom_vline(xintercept = c(1,3,4,6)/6,linetype=3) + theme(axis.text.y = element_text(size=5))
+ggsave(filename = file.path(getwd(),"Dissertation TeX","img","deboor_parabolic_bsplines.png"),
+       width = 7.25,height = 5,units = "in")
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

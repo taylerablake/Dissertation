@@ -635,4 +635,170 @@ B_j,1\left(x\right) = \left\{ \begin{array}{lr}
 Properties \ref{eq:BS_property_1}, \ref{eq:BS_property_2}, and \ref{eq:BS_property_3} demonstrate that a sequence of B-splines form a \emph{partition of unity}: a set of non-negative functions which sum, pointwise, to one.
 \end{enumerate}
 
+\begin{example}
+Figure~\ref{fig:deboor_bspline_basis} show fives parabolic B-splines corresponding to the set of knots $\left\{0,1,1,3,4,6,6,6 \right\}$. It is clear that each spline has compact support and is non-negative on this support. The function values are provided at select domain values so that property \ref{eq:BS_property_2} is evident, though it is worth noting that 
+\[
+\sum_{i=1}^6 B_i\left(x\right) = 1
+\]
+only on $\left[\frac{1}{6},1\right]$. In particular, they do not sum to 1 on $\left(0,\frac{1}{6}\right)$. 
+
+Each $B_i$ is piecewise parabolic, with the breakpoints being locations of discontinuity of the function or one of its derivatives. $B_5$ is discontinuous at $x=6$, as the knot at 6 is repeated three times in the knot sequence defining $B_5$: $\left\{t_5,t_6,t_7,t_8\right\}$.
+
+$B_1$, $B_2$, and $B_4$ have discontinuous first derivatives since 1 is repeated twice in the knots defining $B_1$ and $B_2$, and 6 is repeated twice in the knots defining $B_4$. The relationship between knot replication and smoothness will be discussed in more detail in the following section.
+
+\begin{figure}[h]
+ \begin{center}
+ \graphicspath{{img/}}
+  \includegraphics[width=7in, height=5in]{deboor_parabolic_bsplines.png}
+  \caption{Parabolic B-splines corresponding to knot sequence $\{0,1,1,3,4,6,6,6\}$, illustrating the connection between knot multiplicity and smoothness.}\label{fig:deboor_bspline_basis}
+\end{center}
+\end{figure}
+\end{example}
+
+\subsection{The Curry-Schoenberg Theorem}
+
+There is an extensive body of literature 
+\begin{definition}
+A \emph{spline function of order k with knot sequence t} is any linear combination of B-splines of order $k$ for the knot sequence $t$. We denote this set of functions by 
+\[
+\mathscr{S}_{k,t} = \bigg\{ \sum_i \alpha_i B_{i,k,t}: \quad \alpha_i \in \Re \bigg \}
+\]
+\end{definition}
+
+\begin{theorem}{Curry-Schoenberg Theorem} \label{curryschoenbergthm}
+For a strictly increasing sequence $\xi = \big\{ \xi_i \big\}$, $i=1,\dots, l+1$ and a sequence of non-negative integers $\nu = \big\{ \nu_j \big\}$, $j=2, \dots,l$ with $\nu_j \le k$ for all $j$, define
+\begin{align*}
+n &= k + \sum_{i=2}^l\left(k-\nu_i\right) = kl - \sum_{i=2}^l \nu_i \\
+&= \textup{dim}\left(\PP_{k,\xi,\nu}\right)
+\end{align*}
+and let 
+$t = \big\{ t_i \big\}$, $i=1, \dots,n+k$ be a non-decreasing sequence with 
+\begin{enumerate}
+\item \begin{align*}
+ t_1 & \le t_2 \le  \dots \le t_{k} \le \xi_1\\
+ \xi_{l+1} & \le t_{n+1} \le  \dots \le t_{n+k}\\
+\end{align*}
+\item $\xi_i$ occurs exactly $k-\nu_i$ times in $t$ for $i=2,\dots,l$.
+\end{enumerate}
+Then, the sequence of B-splines of order $k$ for the knot sequence $t$, $B_1,\dots, B_n$, is a basis for $\PP_{k,\xi,\nu}$ on the domain $\left[t_k,t_{n+1} \right]$. 
+\end{theorem}
+
+Theorem~\ref{curryschoenbergthm} gives an explicit prescription for the construction of a B-spline basis for any particular pp space, $\PP_{k,\xi,\nu}$, via the specification of $t$. These functions were named (B for `basis') for this theorem. The choice of $t$ controls the smoothness of the corresponding basis functions via knot multiplicities; the number of knots at a given breakpoint dictates the amount of smoothness at the breakpoint. Fewer knots placed at a breakpoint leads to more continuity conditions such that 
+\[
+\left[\mbox{\# continuity conditions at } \xi\right] + \left[\mbox{\# knots at } \xi\right] = k
+\]
+A knot with multiplicity $k$ yields a basis with no continuity conditions at that point, and a point where there are no knots forces $k$ continuity conditions there.
+
+\subsubsection{The Curry-Schoenberg Proof}
+
+\begin{proof}
+We begin by showing that $B_i \in \PP_{k,\xi,\nu}$ for all $i$ as functions defined on $\left[t_k,t_{n+1}\right]$. Each $B_i = B_{i,k,t}$ is defined as the $k^{th}$ divided difference of $\left(t-x\right)_+^{k-1}$ at $t_i,\dots,t_{i+k}$ times a scalar, so by \ref{dd_properties} \ref{eq:dd_property_9}, we can find coefficients $d_i,\dots,d_{i+k}$ which depend only on $t_{i},\dots,t_{i+k}$ so that for any smooth function $g$, 
+\begin{equation} \label{eq:cs_proof_star}
+\left[t_i,\dots,t_{i+k} \right]g = \sum_{r=i}^{i+k} d_r g^{\left(j_r\right)}\left(t_r\right)
+\end{equation}
+with 
+\[
+j_r = \max \bigg\{s:\;\;r-s \ge i \mbox{ and } t_{r-s} = t_r;\;\;r=i,\dots,i+k\bigg\}.
+\]
+Using this, we may write 
+\begin{equation} \label{eq:cs_proof_starstar}
+B_i\left(x\right) = \left(t_{i+k}-t_i\right)\sum_{r=i}^{i+k} d_r \left(t_r - x\right)_+^{k-j_r-1}\frac{\left(k-1\right)!}{\left(k-j_r-1\right)!}.
+\end{equation}
+From \ref{eq:cs_proof_starstar}, it follows immediately that $B_i$ is a pp function of order $k$ with breakpoints $t_i,\dots,t_{i+k}$ (and consequently some of the $\left\{\xi_i\right\}$.)
+
+Now, we must establish the number of continuous derivatives of each $B_i$ at each of its breakpoints, $\xi_i$, $i=2,\dots,l$. For any $B_i$, there cannot be a jump in its $s^{th}$ derivative across $\xi_j$ unless 
+\[
+\xi_j = t_r \mbox{ and } k-1-j_r = s
+\]
+for some $r \in \left\{ i,\dots,i+k \right\}$. Since 
+\[
+j_r = \# \;\; t_r = t_m \;\; i \le m < r,
+\]
+$j_r$ must be less than $k-\nu_j$, the total number of $\left\{t_m\right\}$ coinciding with $\xi_j$ and hence equal to $t_r$, due to the construction of $t$. However, we must have $s \ge \nu_j$, and thus
+\[
+D^mB_i\left(\xi_j^+\right) - D^mB_i\left(\xi_j^-\right) = 0, \qquad m=0,\dots, \nu_j -1.
+\]
+So $B_i \in \PP_{k,\xi,\nu}$ for all $i=1,\dots,n$. We now only need to show that the $B_i$ are linearly independent to complete the proof.
+
+\begin{lemma}{de Boor, Fix (1973)} \label{deBoor_Fix_lemma}
+Define the linear functional $\lambda_i$ by 
+\[
+\lambda_i f = \sum_{r=0}^{k-1} \left(-1\right)^{k-r-1} \psi^{\left(k-r-1\right)}\left(\tau_i\right)D^r f\left(\tau_i\right)
+\]
+where
+\[
+\psi\left( t \right) = \frac{\left(t_{i+1}-t\right)\times \dots \times \left(t_{i+1}-t\right)}{\left(k-1\right)!}
+\]
+and where $\tau_i \in \left(t_i,t_{i+k}\right)$. Then 
+\[
+\lambda_i B_j = \delta_{ij} \quad \mbox{for all} \quad i,j.
+\]
+\end{lemma}
+
+\begin{proof}
+It follows from its definition that $\lambda_i B_j$ is a pp function as a function of $\tau_i$ with breakpoints at the $\left\{t_i\right\}$. If we assume that $\tau_i \not \in \left\{t_j\right\}$ for all $i$, then it is sufficient to show that $\lambda_i B_j = \delta_{ij}$.
+
+By \ref{eq:cs_proof_star} and \ref{eq:cs_proof_starstar}, 
+\[
+\lambda_i B_j = \left(t_{j+k}-t_j\right)\sum_{r=j}^{j+k} d_r \lambda_i \bigg[D_s^{j_r}\left(s-\cdot\right)_+^{k-1} \bigg]\vert_{s=t_r}
+\]
+where $D_s^{j_r}$ denotes the operator for $j_r$-fold differentiation with respect to $s$. Now consider
+\[
+\lambda_i\left(s-\cdot\right)_+^{k-1};
+\]
+For $s<\tau_i$, $f\left(x\right) = \left(s-x\right)_+^{k-1}$ vanishes near $\tau_i$, so that 
+\[
+\lambda_i f = 0.
+\]
+For $s>\tau_i$, $f$ agrees with $\left(s-x\right)^{k-1}$ in a neighborhood of $\tau_i$, while 
+\begin{align}
+\lambda_i \left(s-x\right)^{k-1} &= \sum_{r=0}^{k-1}  \left(-1\right)^{k-r-1} \psi^{\left(k-r-1\right)}\left(\tau_i\right)\left(k-1\right)\times \dots \times \left(k-r\right) \left(-1\right)^{r} \left(s-\tau_i\right)^{k-r-1} \nonumber \\
+&= \sum_{r=0}^{k-1}  \frac{\left(k-1\right)!}{\left(k-r-1\right)!} \psi^{\left(k-r-1\right)}\left(\tau_i\right)\left(s-\tau_i\right)^{k-r-1}\left(-1\right)^{k-1} \nonumber \\
+&= \left(-1\right)^{k-1}\left(k-1\right)! \sum_{r=0}^{k-1}  \frac{\left(s-\tau_i\right)^{k-r-1}}{\left(k-r-1\right)!} \psi^{\left(k-r-1\right)}\left(\tau_i\right) \label{eq:truncated_taylor_psi}
+\end{align}
+We recognize the sum in \ref{eq:truncated_taylor_psi} as the truncated Taylor series in $s$ of order $k$ for $\psi$. Since $\psi$ is itself a pp of order $k$, the sum must agree with $\psi$ at $s$ due to the uniqueness of interpolating polynomials. This implies that 
+\[
+\lambda_i\left(s-\cdot\right)^{k-1} = \left(-1\right)^{k-1} \left(k-1\right)! \psi\left(s\right).
+\]
+Accounting for the three cases, we have that 
+\[
+\lambda_i \left(s-\cdot\right)_+^{k-1} \left(-1\right)^{k-1} \left(k-1\right)! \psi\left(s\right) \left(s-\tau_i\right)_+^0 
+\]
+since 
+\[
+D_s^r\lambda_i \left(s-\cdot\right)_+^{k-1} = \lambda_i \bigg[D_s^r \left(s-\cdot\right)_+^{k-1} \bigg].
+\]
+Now we have that 
+\[
+\lambda_i B_j = \left(t_{j+k}-t_j\right)  \left(-1\right)^{k-1}  \left(k-1\right)! \left[t_j,\dots,t_{j+k}\right]\phi_i 
+\]
+where $\phi_i\left(s\right) = \psi\left(s\right)\left(s-\tau_i\right)_+^{0}$. Taking $\left[t_j,\dots,t_{j+k}\right]\phi_i $ to be the leading coefficient of the order $k+1$ polynomial which agrees with $\phi_i$ at $t_j,\dots,t_{j+k}$, if we assume that 
+\[
+t_i < \tau_i < t_{i+k}
+\]
+then 
+\begin{enumerate}
+\item \label{eq:psi_case_1} $\phi_i$ agrees with $\psi$ at $t_{i+1},t_{i+2},\dots$, and as a polynomial of order $k+1$, $\psi$ has leading coefficient $0$, so 
+\[
+\left[t_j,\dots,t_{j+k}\right]\phi_i = 0, \qquad j=i+1, i+2, \dots
+\]
+\item \label{eq:psi_case_2} $\phi_i$ agrees with 0 at $t_{i+k-1},t_{i+k-2},\dots$, so that
+\[
+\left[t_j,\dots,t_{j+k}\right]\phi_i = 0
+\]
+\item \label{eq:psi_case_3} $\phi_i$ agrees with the $\left(k+1\right)^{st}$ order polynomial 
+\[
+p\left(x\right) = \frac{\psi\left(x\right)\left(x-t_i\right)}{\left(t_{i+k}-t_i\right)}
+\]
+at $t_i,\dots,t_{i+k}$. 
+\end{enumerate}
+Together, \ref{eq:psi_case_1} - \ref{eq:psi_case_3} show that 
+\[
+\lambda_iB_j = \delta_{ij} \mbox{ for all } j.
+\] 
+\end{proof}
+It is worth noting that we may apply Lemma~\ref{deBoor_Fix_lemma} under the assumption that we can find $\tau_i$ in the open interval $\left(t_i,t_{i+k}\right)$ - that is, if $t_i < t_{i+k}$ for all $i$. This case is of little interest, however; in the case that $t_i = t_{i+k}$, then $\left[t_i,t_{i+k}right]$ is just a point. From \ref{eq:BS_properties} \ref{eq:BS_property_1}, $B_i\left(x\right) = 0$ anywhere outside $\left[t_i,t_{i+k}right]$, so if $t_i=t_{i+k}$, then it follows that $B_i$ is simply the zero function.
+
+\end{proof}
+
 \end{document}
