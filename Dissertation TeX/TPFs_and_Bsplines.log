@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  16 DEC 2016 11:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 DEC 2016 15:11
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -744,10 +744,10 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 [13] [14 <./img/deboor_parabolic_bsplines.png>] [15] [16] [17] [18]
 (./TPFs_and_Bsplines.aux) ) 
 Here is how much of TeX's memory you used:
- 16597 strings out of 493089
- 325866 string characters out of 6134842
+ 16599 strings out of 493089
+ 325907 string characters out of 6134842
  393623 words of memory out of 5000000
- 19771 multiletter control sequences out of 15000+600000
+ 19773 multiletter control sequences out of 15000+600000
  16295 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,22n,54p,974b,728s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -766,7 +766,7 @@ sy6.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
 8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12
 .pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/euler/eusm
 10.pfb>
-Output written on TPFs_and_Bsplines.pdf (18 pages, 359621 bytes).
+Output written on TPFs_and_Bsplines.pdf (18 pages, 360195 bytes).
 PDF statistics:
  124 PDF objects out of 1000 (max. 8388607)
  87 compressed objects within 1 object stream
