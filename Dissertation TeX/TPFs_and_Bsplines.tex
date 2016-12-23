@@ -655,7 +655,7 @@ $B_1$, $B_2$, and $B_4$ have discontinuous first derivatives since 1 is repeated
 \end{figure}
 \end{example}
 
-\subsection{The Curry-Schoenberg Theorem}
+\subsubsection{The Curry-Schoenberg Theorem}
 
 There is an extensive body of literature 
 \begin{definition}
@@ -800,6 +800,59 @@ Together, \ref{eq:psi_case_1} - \ref{eq:psi_case_3} show that
 \end{proof}
 It is worth noting that we may apply Lemma~\ref{deBoor_Fix_lemma} under the assumption that we can find $\tau_i$ in the open interval $\left(t_i,t_{i+k}\right)$ - that is, if $t_i < t_{i+k}$ for all $i$. This case is of little interest, however; in the case that $t_i = t_{i+k}$, then $\left[t_i,t_{i+k}\right]$ is just a point. From \ref{eq:BS_properties} \ref{eq:BS_property_1}, $B_i\left(x\right) = 0$ anywhere outside $\left[t_i,t_{i+k}\right]$, so if $t_i=t_{i+k}$, then it follows that $B_i$ is simply the zero function.
 \end{proof}
+
+The recipe provided by Theorem~\ref{curryschoenbergthm} for constructing the knot vector $t$ such that the resulting $\left\{B_i \right\}$ form a basis for $\PP_{k,\xi,\nu}$ leaves open the choice for the first $k$ knots and the last $k$ knots. It is conventional, due likely to convenience, to specify
+
+\[
+\begin{array}{cc}
+t_1 = \dots = t_k = \xi_1, & t_{n+1} = \dots = t_{n+k} = \xi_{l+1}, 
+\end{array}
+\]    
+and by setting $\nu_1 = \nu_{n+1} = 0$, one can include these knots according to the same method of choice of the other knots. This specification imposes no continuity conditions at the endpoints of the interval of interest; this is, however, consistent with the manner in which the B-splines are defined, spanning $\PP_{k,\xi,\nu}$ only on $\left[ t_k,t_{n+1}\right]$.
+
+\begin{definition} \label{B_representation_definition}
+The \emph{B-representation of } $f \in \PP_{k,\xi,\nu}$ consists of 
+\begin{enumerate}
+\item \label{eq:first_B_rep_piece} integers $k$ and $n$ specifying the order of $f$ as a pp function and the number of linear parameters, 
+\[
+n = kl - \sum_{i}\nu_i = \mbox{dim}\left(\PP_{k,\xi,\nu}\right),
+\]
+respectively. 
+\item \label{eq:second_B_rep_piece}The knot vector $t = \left \{t_i \right\}$, $i=1,\dots, n+k$ with elements arranged in increasing order, constructed according to Theorem~\ref{curryschoenbergthm}, via $\xi$ and $\nu$.
+\item \label{eq:third_B_rep_piece} The B-spline coefficients $\alpha=\left \{\alpha_i \right\}$, $i=1 ,\dots, n$ for the knot sequence, $t$.
+\end{enumerate}
+\end{definition}
+\vspace{1pt}
+Given \ref{eq:first_B_rep_piece}, \ref{eq:second_B_rep_piece}, and \ref{eq:third_B_rep_piece} in \ref{B_representation_definition}, the function value at $x\in \left[t_k, t_{n+1}\right]$ is given by 
+\begin{equation*}
+f\left(x\right) = \sum_{i=1}^n \alpha_i B_i\left(x\right),
+\end{equation*}
+and in particular, by \ref{eq:BS_property_1}, for $x\in \left[t_j, t_{j+1} \right]$,
+\[
+f\left(x\right) = \sum_{i=j}^{j+k-1} \alpha_i B_i\left(x\right).
+\]
+
+\begin{example}[Conversion between function representations] 
+
+Conversion from the B-representation to the pp-representation is straightforward the availability of stable evaluation and differentiation of the function. The $l+1$ distinct points among $t_k,\dots,t_{n+1}$ are taken to be $\xi_1, \dots, \xi_{n+1}$; the polynomial coefficients $\left \{ c_{ji} \right\}$, $i=1,\dots,l$, $j=1,\dots,k$ are obtained by calculating $D^{j-1}f\left(\xi_i^+\right)$.
+
+The conversion in the opposite direction, however, is much more difficult because there is no implicit information in the pp-representation about the smoothness of the function at its breakpoints, nor is it possible to numerically derive the minimal knot multiplicity necessary to represent the function as a spline using finite precision arithmetic. However, if it is known that $f$ lies within $\PP_{k,\xi,\nu}$ for a certain $\nu$, then one may use Theorem~\ref{curryschoenbergthm} to construct $t$, and then $\alpha$ using Lemma~\ref{deBoor_Fix_lemma}. If such a representation for $f$ is accessible, then the $\left\{ \tau_i \right\}$ may be chosen to coincide with one of the $\left\{ \xi_i \right\}$ so that the necessary derivatives may be extracted directly from the pp-representation.
+
+Consider $f\left(x \right) = \left(x-3\right)\left(x-6\right)\left(x-9\right)$. Clearly $f$ is a pp function of order $k=4$. Suppose we wish to construct the B-representation of $f$ on $\left[0,10\right]$ as a cubic spline using interior knots $1,2,\dots,9$. Then, we take
+\begin{align*}
+t_1 &= t_2 = t_3 = t_4 = 0 & \\
+t_{4+i} &= i, & i=1,\dots,9\\
+t_{n+1} &= t_{n+2} = t_{n+3} = t_{n+4} = 10 & 
+\end{align*}
+
+\end{example}
+
+
+
+
+
+
+
 
 
 \end{document}
