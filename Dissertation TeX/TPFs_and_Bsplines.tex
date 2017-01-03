@@ -4,6 +4,7 @@
 \usepackage{amsmath}
 \usepackage{tikz}
 \usepackage[mathscr]{euscript}
+\usepackage{enumitem}
 \usepackage{subcaption}
 \usepackage{mathtools}
 \usepackage{IEEEtrantools}
@@ -570,9 +571,9 @@ To see this, note that if $x \not \in \left[t_{i},t_{i+k}\right]$, then $g\left(
 \]
 As a result, for a set of B-splines of order $k$ corresponding to the knot sequence $t$, only $k$ of them are nonzero on $\left[t_{j},t_{j+k}\right]$: $B_{j-k+1},B_{j-k+2},\dots,B_{j}$.
 \item \label{eq:BS_property_2} The $i^{th}$ B-spline of order is defined as the $k^{th}$ divided difference of $\left(\cdot - x\right)_+^{k-1}$ times a normalization factor: $\left(t_{i+k}-t_i\right)$. This normalization, using \ref{dd_properties} \ref{eq:dd_property_8}, allows us to write 
-\[
+\begin{equation} \label{eq:BS_norm_rr}
 B_i\left(x\right)=\left[t_{i+1},\dots,t_{i+k} \right]\left(\cdot - x\right)_+^{k-1} - \left[t_{i},\dots,t_{i+k-1} \right]\left(\cdot - x\right)_+^{k-1}
-\]
+\end{equation}
 For $x \in \left(t_{j},t_{j+1}\right)$, by \ref{dd_properties} \ref{eq:dd_property_1},
 \begin{align}
 \sum_{i} B_i\left(x\right) &=  \sum_{i=j+1-k}^{j} B_i\left(x\right) \nonumber\\
@@ -842,15 +843,170 @@ Consider $f\left(x \right) = \left(x-3\right)\left(x-6\right)\left(x-9\right)$. 
 \begin{align*}
 t_1 &= t_2 = t_3 = t_4 = 0 & \\
 t_{4+i} &= i, & i=1,\dots,9\\
-t_{n+1} &= t_{n+2} = t_{n+3} = t_{n+4} = 10 & 
+t_{13+1} &= t_{13+2} = t_{13+3} = t_{13+4} = 10 & 
 \end{align*}
+Using Lemma~\ref{deBoor_Fix_lemma}, we may let 
+\[
+\tau_i = t_{i+2}
+\]
+for all $i$, which gives 
+\[
+\alpha_i = f\left( t_{i+2} \right) + \frac{1}{3}\left( \Delta t_{i+2} - \Delta t_{i+1} \right)f^\prime \left(t_{i+2}\right) - \frac{1}{3}\Delta t_{i+2} \Delta t_{i+1} \frac{f^{\prime \prime}\left(t_{i+2}\right)}{2}
+\]
 
 \end{example}
 
 
+\subsection{More B-spline Properties}
+
+The properties that follow illustrate how a spline $f \in \mathscr(S)_{k,t}$ is related to its corresponding sequence of B-spline coefficients.
+
+\begin{enumerate} \label{eq:more_BS_properties}
+\setcounter{enumi}{3}
+\item \begin{description}\item[A recurrence relation for $B_{i,k}$:] The evaluation of a B-spline via its definition of a divided difference amounts to evaluating the function in terms of the truncated power basis. This approach is then plagued by the same computational issues that one hoped to sidestep with the introduction of the B-spline basis in the first place. 
+
+Via the derivation of \ref{eq:BS_properties} \ref{eq:BS_property_3}, we showed that the B-splines satisfy the recurrence relation
+\begin{align}
+B_{i,1}\left(x\right) &= \left\{ \begin{array}{ll} \label{eq:BS_rr_init}
+1, & t_i \le x < t_{i+1}\\
+0, & otherwise
+\end{array} \right.
+\\
+B_{i,k}\left(x\right) &= \frac{x-t_i}{t_{i+k-1}-t_i}B_{i,k-1}\left(x\right) + \frac{t_{i+k}-x}{t_{i+k}-t_{i+1}}B_{i+1,k-1}\left(x\right)   \label{eq:BS_rr}
+\end{align}
+so that computing $B_{ik}\left(x\right)$ simply requires repeatedly taking positive linear combinations of positive quantities, starting with \ref{eq:BS_rr_init}. Using this, one may express a series of B-splines as a series of lower order, but with coefficients that are polynomials in the spline argument. In general, we can write
+
+\begin{subequations} 
+\begin{align}
+\sum_{i}\alpha_i B_{i,k}\left(x\right) = \sum_{i}\alpha_i^{\left[j \right]}\left(x\right) B_{i,k-j}\left(x\right) \label{eq:BS_rr_general_a}\\
+\alpha_i^{\left[j\right]}\left(x\right) \equiv \left\{ \begin{array}{cl} \alpha_i, & j = 0 \\
+						\frac{\left(x-t_i\right)\alpha_i^{\left[j-1\right]}\left(x\right) + \left(t_{i+k-j}-x\right)\alpha_{i-1}^{\left[j-1\right]}\left(x\right) }{t_{i+k-j}-t_{i}}, & j \ge 1  
+						\end{array} \right.
+						\label{eq:BS_rr_general_b}
+\end{align}
+\end{subequations} 
+
+and, in fact, $\alpha_i^{\left[k-1\right]}$ is a polynomial of degree $< k$ which agrees with $f = \sum_i \alpha_i B_{i,k}$ on $\left[t_i,t_{i+1}\right]$. 
+
+One may encounter \ref{eq:BS_rr_init} and \ref{eq:BS_rr} presented as the definition of the set of B-splines; properties \ref{eq:BS_properties} \ref{eq:BS_property_1} and \ref{eq:BS_property_3} follow immediately from \ref{eq:BS_rr_init} and \ref{eq:BS_rr}, while  \ref{eq:BS_property_2}, is shown by induction. However, the smoothness properties of the $\left\{ B_i \right\}$ presented in Theorem~\ref{curryschoenbergthm} are not as obvious from \ref{eq:BS_rr_init} and \ref{eq:BS_rr} as is their derivation from the properties of the divided difference, \ref{dd_properties} \ref{eq:dd_property_1} and \ref{dd_properties} \ref{eq:dd_property_6}. We might even say that it is unexpected that the combination of $B_{i,k}$ and $B_{i,k-1}$ as given in \ref{eq:BS_rr} produces a function which has one more continuous derivative than either of the functions themselves. 
+
+
+\end{description}
+\item \label{eq:BS_deriv_property} \begin{description}\item[Differentiation of $f \in \mathscr{S}_{k,t}$] 
+
+A B-spline series may be differentiated by differencing the coefficients. (This fact will prove very useful in sections to follow.) Since the derivative of the truncated power function $g\left(x\right) = \left(t-x\right)_+^{k-1}$ is given by 
+\[
+D_x g\left(x\right) = D_x \left(t-x\right)_+^{k-1} = -\left(k-1\right)\left(t-x\right)_+^{k-2}
+\]
+and by \ref{eq:BS_norm_rr} and \ref{eq:cs_proof_star}, we may write the derivative of the $i^{th}$ order-$k$ B-spline as follows:
+\begin{align*}
+DB_{i,k}\left(x\right) &= \bigg[ \left[ t_{i+1},\dots,t_{i+k} \right] -\left[ t_{i},\dots,t_{i+k-1} \right] \bigg] D\left(\cdot - x\right)_+^{k-1}\\
+&= -\left(k-1\right) \bigg[ \left[ t_{i+1},\dots,t_{i+k} \right] -\left[ t_{i},\dots,t_{i+k-1} \right] \bigg] \left( \cdot - x \right)^{k-2}_+ \\
+&= -\left(k-1\right) \bigg[ -\frac{B_{i+1,k-1}\left(x\right)}{\left(t_{i+k} - t_{i+1} \right)}  + \frac{B_{i,k-1}\left(x\right)}{\left(t_{i+k-1} - t_{i} \right)} \bigg]  
+\end{align*}
+This allows us to write 
+\begin{align} 
+D_x \bigg[ \sum_{i} \alpha_i B_i\left(x\right) \bigg] &=  \sum_i \alpha_i D B_{i,k} \left(x\right)\nonumber \\
+&= \sum_i \left(k-1\right) \frac{\alpha_i - \alpha_{i-1}}{t_{i+k-1}-t_i}B_{i,k-1}\left(x\right) \label{eq:BS_deriv}
+\end{align}  
+Note that the limits on the previous summation in \ref{eq:BS_deriv} are left unspecified; the formula is written for biinfinite sums, and their application to finite sums is accessible after they are written formally as biinfinite sums by augmenting the appropriate zero terms. 
+
+However, if we are interested in a particular interval over the domain, say $\left[t_r,t_s\right]$, then for $x \in \left[t_r,t_s\right]$,
+\[
+D \bigg[ \sum_i \alpha_i B_{i,k}\left(x\right) \bigg]  = \sum_{r-k+2}^{s-1}\left(k-1\right) \frac{\alpha_i-\alpha_{i-1}}{t_{i+k-1} - t_i}B_{i,k-1}\left(x\right)
+\]
+since $B_{i,k-1}\left(x\right)=0$ for all $i \not \in \left\{r-k+2,\dots, s-1 \right\}$ when $t_r \le x\le t_s$. Applying \ref{eq:BS_deriv} $j$ times gives the $j^{th}$ derivative of $f \in \mathscr{S}_{k,t}$, which has form
+
+\begin{subequations} 
+\begin{align}
+D^j \bigg[ \sum_i \alpha_i B_{i,k}\left(x\right) \bigg] =  \sum_i \alpha_i^{\left(j+1\right)} B_{i,k-j} \label{eq:BS_jth_deriv_a} \\
+\alpha_i^{\left(j+1\right)} \equiv \left\{ \begin{array}{cl} \alpha_i, & j = 0 \\
+						\frac{\alpha_i^{\left(j\right)} - \alpha_{i-1}^{\left(j\right)} }{\left( t_{i+k-j}-t_{i}\right)/\left(k-j\right)}, & j \ge 1 
+  \end{array} \right.\label{eq:BS_jth_deriv_b}
+\end{align}
+\end{subequations}
+
+\begin{proof} We proceed by induction on $j$. We have already shown the case for $j=1$ in the derivation of \ref{eq:BS_deriv}. Assume that the statement holds for some $j^* >1$, so that we have
+\[
+D^{j^*} \bigg[ \sum_i \alpha_i B_{i,k}\left(x\right) \bigg] = \sum_i \frac{\alpha_i^{\left(j^*\right)} - \alpha_{i-1}^{\left(j^*\right)} }{\left( t_{i+k-{j^*}}-t_{i}\right)/\left(k-{j^*}\right)} B_{i,k-j^*}\left(x\right).
+\]
+Then the $\left( j^* + 1 \right)^{st}$ derivative is given by 
+\begin{align*}
+D^{j^*+1} \bigg[ \sum_i \alpha_i B_{i,k} \bigg] &= \sum_i \frac{\alpha_i^{\left(j^*\right)} - \alpha_{i-1}^{\left(j^*\right)} }{\left( t_{i+k-{j^*}}-t_{i}\right)/\left(k-{j^*}\right)} D B_{i,k-j^*} \\
+&= \sum_i \alpha_i^{\left(j^*\right)} D B_{i,k-j^*} \\
+&= \sum_i \alpha_i^{\left(j^*\right)} \left(k-\left(j^*+1\right)\right)\bigg[ \frac{B_{i,k-\left(j^*+1\right)}}{t_{i+k-\left({j^*}+1\right)}-t_{i}} - \frac{ B_{i+1,k-\left(j^*+1\right)} }{ t_{i+k-\left({j^*}+1\right)+1}-t_{i+1}} \bigg] \\
+&= \sum_i \frac{\alpha_i^{\left(j^*\right)} - \alpha_{i-1}^{\left(j^*\right)}}{\left(t_{i+k-\left(j^* + 1\right)}-t_i\right)/\left(k-\left(j^*+1\right)\right)}B_{i,k-\left(j^* + 1\right)}\\
+&= \sum_i \alpha_i^{\left(j^*+1\right)}  B_{i,k-\left(j^* + 1\right)}
+\end{align*}
+\end{proof}
+The choice to write $k-j$ as a divisor in the denominator lends to the interpretation of \ref{eq:BS_jth_deriv_a} as a difference quotient, with the quantity
+\[
+\frac{t_{i+k-j} - t_i}{k-j}
+\]
+representing a mean mesh length of sorts on the interval $\left[t_i,t_{i+k-j}\right]$. We note that the case where $t$ contains replicated knots leads to division by zero. This is, however, a trivial situation, since for $t_i = t_{i+k-j}$, we have $B_i = 0$, and we take $\frac{0}{0} = 0$.
+\end{description}
+
+\item \label{eq:BS_condition_property} \begin{description}\item[The condition of the B-spline basis]  
+To characterize the condition of the B-spline basis, we must bound the spline in terms of its B-spline coefficients and, additionally, bound the B-spline coefficients in terms of the spline. The first bound is easy to find; we need only find constants $m > 0$ and $M$ such that 
+\[
+m\max \limits_i \vert \alpha_i \vert \le m\max \limits_t \vert \sum_i \alpha_i B_{i,k}\left(t\right)\vert \le M\max \limits_i \vert \alpha_i \vert
+\]
+holds for any coefficient vector $\alpha = \left\{\alpha_i\right\}$. Since $\left\{B_{i,k} \right\}$ form a partition of unity, we have
+\[
+\vert \sum_i \alpha_i B_{i,k}\left(t\right)\vert \le \sum_i \vert \alpha_i \vert B_{i,k}\left(t\right) \le \sum_i \max \limits_i \vert \alpha_i \vert B_{i,k}\left(t\right) = \max \limits_i \vert \alpha_i \vert.
+\]
+So for $M=1$, the second inequality holds. To show that the first inequality holds, let $f = \sum_i \alpha_i B_{i,k}$. From Theorem~\ref{curryschoenbergthm}, we know that we may write
+\begin{equation}
+\alpha_i = \lambda_{ik}f  = \sum_{j=1}^k \frac{-D^{j-1}\psi_{ik}\left(\tau\right)}{\left(k-1\right)!}D^{k-j}f\left(\tau\right)
+\end{equation}
+for some $\tau \in \left[t_i, t_{i+k}\right)$. To bound this sum in terms of $\max \limits_t \vert f\left(t\right) \vert$, suppose that 
+\[
+\tau \in \left[t_l, t_{l+1}\right) \subset \left[t_i, t_{i+k}\right).
+\]
+Then for some constant $c_k$ depending on $k$ only, and for any pp function $p$ of order $k$, 
+\begin{equation} \label{eq:condition_star}
+\vert D^j p\left(\tau\right) \vert \le c_k \left(\Delta t_l\right)^{-1}\max \limits_{t_l \le t \le t_{l+1}}\vert p\left(t\right) \vert.
+\end{equation}
+For the case in which $\Delta t_l =1$, the existence of $c_k$ follows from the fact that the space of pp functions of order $k$ is finite dimensional; from this, the statement follows for arbitrary $\Delta t_l$ via scaling. Since $f$ agrees with some polynomial of degree $< k$ on $\left[t_l,t_{l+1}\right)$,
+\begin{equation}\label{eq:condition_starstar}
+\vert D^j f\left(\tau\right)\vert \le c_k\left(\Delta t_l\right)^{-1} \max \limits_{t_i \le t \le t_{i+k}} \vert f\left(t\right) \vert 
+\end{equation}
+However, $\psi_{ik} = \left(t_{i+1}- \cdot\right)\left(t_{i+2}- \cdot\right)\dots \left(t_{i+k-1}- \cdot\right)$ is also a polynomial of degree $< k$, and 
+\begin{equation}\label{eq:condition_starstarstar}
+\max \limits_{t_l \le t \le t_{l+1}} \psi\left(t\right) \le c^*_k\vert \Delta t_{l*}\vert^{k-1}
+\end{equation}
+ for some $c_k^*$ which depends on $k$ only and $\left[t_{l^*},t_{l^*+1}\right)$ a largest interval of that form in $\left[t_{l^*},t_{l^*+1}\right)$. Taking $l^*=l$, from \ref{eq:condition_star} with $p = \psi_{ik}$ and from \ref{eq:condition_starstar} we obtain the bound 
+ \[
+ \vert D^{\nu-1}\psi\left(\tau\right)D^{k-\nu}s\left(\tau\right) \vert \le \left(c_k\right)^2c_k^* \max \limits_{t_i \le t\le t_{i+k}}\vert f\left(t\right)\vert.
+ \]
+ If we sum these bounds over $\nu$ and divide by $\left(k-1\right)!$, we have
+ \[
+ \vert \alpha_i \vert = \vert \lambda_{ik} f \vert \le c \max \limits_{t_i \le t\le t_{i+k}}\vert f\left(t\right)\vert,
+ \]
+ with $c$ depending only on $k$.
+ 
+\end{description}
+
+Properties \ref{eq:more_BS_properties} \ref{eq:BS_deriv_property} and  \ref{eq:BS_condition_property} demonstrate how closely a spline function is modeled by its B-spline coefficients. In particular, the formula for differentiation of a spline function given by \ref{eq:BS_deriv_property} tells us that derivatives of a spline function may be obtained by simply differencing its coefficients. This fact will motivate the difference penalties discussed in section {\needsparaphrased{P-spline penalties}} to follow.
+ 
+\end{enumerate}
+
+\section{Single-regressor varying coefficient models via B-spline basis expansions}
+
+Hastie and Tibshirani were the first to introduce the varying coefficient model; consider data of the form 
+\[
+\left(x_i, y_i, t_i\right), \qquad i=1,\dots,m
+\]
+where $y_i$ is the response, $x_i$ is the single (univariate) regressor variable, and $t_i$ is an indexing variable. The single regressor varying-coefficient (VC) model extends the classical linear model by allowing the slope coefficient to vary smoothly in the dimension of the indexing variable, $t$. The VC model assumes that the mean response is of the form
+\[
+E\left[ Y\left(t\right) \right] = f\left(t\right)x\left(t\right)
+\]
+where $f\left(t\right)$ is the smooth slope function of interest. This modeling approach permits interpolation $x$ and $y$ at values of the indexing variable $t$ at which there is either missing data of only a single observation and slope estimation is not feasible. In the section that follows, we will discuss the approach to smoothing the coefficient vector (and \emph{not} the regression function $x\left(t\right)$) first, for mechanical demonstration of parameterization and estimation of the coefficient function via B-spline basis expansion, at a predetermined set of values of $t$ (knots), then following the approach of Eilers and Marx by assuming that the number and position of the knots are unknown and using penalized B-splines, or P-splines 
 
 
 
+
+\section{Tensor product B-splines for multidimensional surface approximation}
 
 
 

@@ -195,7 +195,7 @@ where $h$ is the distance between knots and $\Delta^2 \beta_j = \Delta\Delta \be
 
 The smoothness of the curve fit to the data can be tuned with the number of B-splines in the basis; fewer knots (and hence basis functions) lead to smoother fits. This choice has been a subject of much research, as too many knots lead to overfitting while too few knots lead to underfitting. { \needsparaphrased Some authors have proposed automatic schemes for optimizing the number and the positions of the knots (Friedman and Silverman, 1989; Kooperberg and Stone, 1991,1992). This is a difficult numerical problem and, to our knowledge, no attractive all-purpose scheme exists.}
 
- However, limiting the number of B-splines is not the only approach to achieving smoothness. Choosing an appropriate penalty on the coefficients of the basis functions can also achieve as much smoothness in the fitted function as desired. \cite{o1986statistical} was the first to propose using a rich B-spline basis and apply a discrete penalty to the spline coefficients. Using many B-splines allows one to sidestep the difficulty of choosing the optimal set of knots, while the penalty prevents overfitting and takes a potentially ill-conditioned fitting procedure to a well-conditioned one. He proposed a penalty on the second derivative to restrict the flexibility of the fitted curve, similar to the penalty pioneered for smoothing splines by Reinsch (1967). This penalty has become the standard in much of the spline literature; see Eubank (1988), Wahba (1990) and Green and Silverman (1994). This measure of roughness of a curve is given by 
+However, limiting the number of B-splines is not the only approach to achieving smoothness. Choosing an appropriate penalty on the coefficients of the basis functions can also achieve as much smoothness in the fitted function as desired. \cite{o1986statistical} was the first to propose using a rich B-spline basis and apply a discrete penalty to the spline coefficients. Using many B-splines allows one to sidestep the difficulty of choosing the optimal set of knots, while the penalty prevents overfitting and takes a potentially ill-conditioned fitting procedure to a well-conditioned one. He proposed a penalty on the second derivative to restrict the flexibility of the fitted curve, similar to the penalty pioneered for smoothing splines by Reinsch (1967). This penalty has become the standard in much of the spline literature; see Eubank (1988), Wahba (1990) and Green and Silverman (1994). This measure of roughness of a curve is given by 
  
  \[
  J = \int_l^u \left[ f^{\prime \prime}\left(x\right)\right]^2\;dx
@@ -280,9 +280,9 @@ Consider the regression of $m$ data points $\left(t_i,y_i\right)$ on a set of $n
 \sum_{i=1}^m \left \{ y_i - \sum_{j=1}^n \beta_j B_j\left(t_i\right) \right \}^2 + \lambda \sum_{j=k+1}^n \left( \Delta^k \beta_j  \right)^2
 \end{equation}
 
-This approach reduces the dimensionality of the problem to the number of B-splines, $n$ instead of the number of observations, $m$ , as with smoothing splines. The tuning parameter $\lambda$ permits continuous control over smoothness of the fit. The difference penalty is a good discrete approximation to the integrated square of the $k^{th}$ derivative, as will be demonstrated below. { \needsparaphrased  What is more important: with this penalty moments of the data are conserved and polynomial regression models occur as limits for large values of $\lambda$. See Section 5 for details. We will show below that there is a very strong connection between a penalty on second-order differences of the B-spline coefficients and O'Sullivan's choice of a penalty on the second derivative of the fitted function. However, the difference penalty of \cite{eilers1996flexible} can be handled mechanically for any order of the differences.}
+This approach reduces the dimensionality of the problem to the number of B-splines, $n$ instead of the number of observations, $m$ , as with smoothing splines. The tuning parameter $\lambda$ permits continuous control over smoothness of the fit. We will demonstrate that the difference penalty is a good discrete approximation to the integrated square of the $k^{th}$ derivative, and with this penalty, moments of the data are conserved and polynomial regression models occur as limits for large values of $\lambda$. We will explore the connection between a penalty on second-order differences of the B-spline coefficients and O'Sullivan's choice of a penalty on the second derivative of the fitted function. However, the difference penalty can be handled mechanically for any order of the differences.
 
-{ \needsparaphrased Difference penalties have a long history that goes back at least to Whittaker (1923); recent applications have been described by Green and Yandell (1985) and \cite{eilers1991penalized}, \cite{eilers1991nonparametric}, \cite{eilers1995indirect}. The difference penalty is easily introduced into the regression equations. That makes it possible to experiment with different orders of the differences. In some cases it is useful to work with even the fourth or higher order. This stems from the fact that for high values of h the fitted curve approaches a parametric (polynomial) model, as will be shown below.
+{ \needsparaphrased Difference penalties have a long history that goes back at least to Whittaker (1923); recent applications have been described by Green and Yandell (1985) and \cite{eilers1991penalized}, \cite{eilers1991nonparametric}, \cite{eilers1995indirect}. The difference penalty is easily introduced into the regression equations. That makes it possible to experiment with different orders of the differences. In some cases it is useful to work with even the fourth or higher order. This stems from the fact that for high values of $\lambda$ the fitted curve approaches a parametric (polynomial) model, as will be shown below.
 \cite{o1986statistical} used third-degree B-splines and the following penalty:}
 
 \begin{equation} \label{eq:osullivan_univariate_bspline_penalty}
@@ -325,15 +325,15 @@ Thus, we see that O'Sullivan's ridge-like B-spline penalty \ref{eq:osullivan_uni
 
 Using the sum of squared errors as the goodness of fit measure, we define $\hat{\beta} = \left(\beta_1, \beta_2, \dots, \beta_n \right)$ to be the minimizer of
 \begin{equation*}  
-L\left(Y, \beta \right) + \lambda J\left(\bfbeta\right) = \sum_{i=1}^m \left\{ y_i - \sum_{j=1}^n \beta_j B_j\left(t_i\right) \right\}^2 + \lambda \sum_{j=k+1}^n \left( \Delta^k\beta_j \right)^2
+S_\lambda\left(y, \beta \right) = \sum_{i=1}^m \left\{ y_i - \sum_{j=1}^K \beta_j B_j\left(t_i\right) \right\}^2 + \lambda \sum_{j=k+1}^n \left( \Delta^k\beta_j \right)^2
 \end{equation*}
 \noindent
 In vector notation, this may be written
 \begin{equation}\label{eq:uni_pspline_penalized_likelihood}
-L\left(Y, \beta \right) + \lambda J\left(\beta\right) = \left( Y- B\beta  \right)^T \left( Y-B \beta\right) + \lambda \left(D_k \beta\right)^T\left(D_k \beta\right)
+S_\lambda \left(y, \beta \right) = \left( y- B\beta  \right)^T \left( y-B \beta\right) + \lambda \left(D_k \beta\right)^T\left(D_k \beta\right)
 \end{equation}
 \noindent
-where where $D_k$ is the matrix representation of the difference operator $\Delta_k$,and the elements of $B$ are $b_{ij} = B_j\left(t_i\right)$. Taking derivatives on both sides of \ref{eq:uni_pspline_penalized_likelihood} with respect to $\beta$ gives
+where $D_k$ is the matrix difference operator $\Delta_k$,and the elements of $B$ are $b_{ij} = B_j\left(t_i\right)$ as defined . Taking derivatives on both sides of \ref{eq:uni_pspline_penalized_likelihood} with respect to $\beta$ gives
 \begin{align}
 \frac{\partial}{\partial \beta}\left(L\left(Y, \beta \right) + \lambda J\left(\beta\right) \right) ={} & \frac{\partial}{\partial \beta}\left(\beta^TB^TB \beta -2Y^T B^T\beta+\lambda \beta^T D_k^T D_k \beta  \right) \nonumber \\
 = {} & 2B^TB \beta - 2B^T Y + 2\lambda D_k^TD_k\beta \nonumber\\
@@ -344,10 +344,14 @@ Setting \ref{eq:uni_penalized_lik_deriv} equal to zero yields the following norm
 \begin{equation}\label{eq:uni_pspline_normal_eq}
 B^T Y = \left(B^T B +  \lambda D_k^TD_k\right)\beta
 \end{equation}
-When $\lambda = 0$, we have the standard normal equations of linear regression with a B-spline basis. With $k = 0$ we have a special case of ridge regression. When $\lambda > 0$, the penalty only influences the main diagonal and $k$ subdiagonals (on both sides of the main diagonal) of the system of equations. This system has a banded structure because of the limited overlap of the B-splines. It is seldom worth the trouble to exploit this special structure, as the number of equations is equal to the number of splines, which is generally moderate (10-20). 
+When $\lambda = 0$, we have the standard normal equations of linear regression with a B-spline basis, and with $k = 0$ \ref{eq:uni_pspline_normal_eq} corresponds to the normal equations under the ridge regression penalty. When $\lambda > 0$, the penalty only influences the main diagonal and $k$ subdiagonals of the system of equations. This system has a banded structure because of the limited overlap of the B-splines, though exploiting this special structure is of little utility since the number of equations is equal to the number of splines, which is generally moderate. 
 
 
 \subsubsection{{\outlineskeleton Properties of P-Splines}}
+
+{\needsparaphrased 
+\large [ Discussion of B-splines as defined by their coefficients - see BS section 4.2 IV] 
+}
 
 {\needsparaphrased A fruitful way of looking at P-splines is to give the coefficients a central position as a skeleton, with the B-splines merely putting ``the flesh on the bones.'' This is illustrated
 in Figure~\ref{fig:psplines_second_ord_pen_SML_lambda}. A smoother sequence of coefficients leads to a smoother curve. The number of splines and coefficients is immaterial, as long as the latter are smooth. The role of the penalty is to make such happen. }
@@ -485,7 +489,8 @@ The complete tensor product B-spline basis thus has an unknown coefficient matri
 \begin{equation} \label{eq:coefficient_surface_expansion}
 \alpha\left(t_{j}, \tilde{t}_{k}\right) = \sum_{r=1}^n \sum_{s=1}^{\tilde{n}}  B_r\left(t_{j}\right) B_s\left(\tilde{t}_{k}\right) \gamma_{rs}
 \end{equation}
-\noindentThe surface is defined by relatively few parameters $\left(n \tilde{n} \right)$, where changing $\Gamma$ implies changes the surface.
+\noindent
+The surface is defined by relatively few parameters $\left(n \tilde{n} \right)$, where changing $\Gamma$ implies changes the surface.
 
 \begin{figure}[H]
   \centering
@@ -515,11 +520,13 @@ The complete tensor product B-spline basis thus has an unknown coefficient matri
 
 It is computationally efficient to express the surface in ``unfolded'' notation. Denote the support coordinate matrix  $C = \left(v \otimes \bfone_{\tilde{p}}, \bfone_p \otimes \tilde{v}\right)$ of dimension $p\tilde{p} \times 2$. Let $B_1$ and $B_2$ denote the matrices of dimensions $p\tilde{p} \times n$ and $p\tilde{p} \times \tilde{n}$ with entries corresponding to the univariate B-spline bases evaluated at each entry of the first and second column of $C$, respectively. {\needsparaphrased The unfolded expression at the support coordinates then has the standard multiple regression form}
 
-\begin{equation} \label{eq:coef_surface_vec_notation}\textup{vec}\left\{\alpha\left(t, \tilde{t}\right)\right\} = T^*\gamma
+\begin{equation} \label{eq:coef_surface_vec_notation}
+\textup{vec}\left\{\alpha\left(t, \tilde{t}\right)\right\} = T^*\gamma
 \end{equation}
 \noindent
  where $\gamma = \textup{vec}\left(\Gamma\right)$. Define $T^*$ to be the matrix that is the result of taking the element-wise product of the matrices $\left(B_1 \otimes \bfone_n^\prime \right)$ and $\left(\bfone_{\tilde{n}}^\prime \otimes B_2 \right)$, written
-\begin{equation}T^*  = \left(B_1 \otimes \bfone_n^\prime \right) \odot \left(\bfone_{\tilde{n}}^\prime \otimes B_2 \right)
+\begin{equation}
+T^*  = \left(B_1 \otimes \bfone_n^\prime \right) \odot \left(\bfone_{\tilde{n}}^\prime \otimes B_2 \right)
 \end{equation} 
  \noindent 
 where $\otimes$ denotes the Kronecker product operator. 
@@ -567,12 +574,15 @@ where $\gamma_{r\bullet}$ and $\gamma_{\bullet s}$ denote the $r^{th}$ row and $
 \begin{equation} \label{eq:bivariate_squared_diff_penalty_projection_notation}
 \begin{split}
 P_1 &= \left( D_{k}^\prime D_k \right)\otimes I_{\tilde{n}}\\
-P_2 &= I_{n}\otimes \left( D_{\tilde{k}}^\prime D_{\tilde{k}} \right)\end{split}
-\end{equation}\noindent
+P_2 &= I_{n}\otimes \left( D_{\tilde{k}}^\prime D_{\tilde{k}} \right)
+\end{split}
+\end{equation}
+\noindent
 where $I_{d}$ denotes the $d \times d$ identity matrix; $k$ and $\tilde{k}$ denote the orders of the difference penalties imposed on the column and row dimensions, respectively. $P_1$ and $P_2$ have corresponding fixed dimensions $\big[ \tilde{n} \left( n-k \right) \big] \times n\tilde{n}$ and $\big[ n \left(\tilde{n}-\tilde{k} \right) \big] \times n\tilde{n}$. In principle, the order of the differences in the penalty term can be considered as additional hyper-parameters, but in practice are typically fixed by the user, as one would typically fix the order of the differencing as one fixes the order of the squared derivative, as in the specification of the ridge regression penalty, for example. Further discussion of this topic will be presented in sections to follow.
 
 \ref{eq:bivariate_squared_diff_penalized_obj_function} relies on two non-negative penalty parameters $\lambda_1$ and $\lambda_2$. These parameters allow for what can practically be viewed as continuous control of the smoothness of the surface in each dimension: the row dimension and the column dimension. This gives added flexibility, allowing for different degrees of smoothness across rows and columns. Figure 6 displays a possible scenario resulting from strong row (top panel) and strong column (bottom panel) penalization using a second order penalty on each row and column with large $\lambda_1$ and $\lambda_2$. Notice that the limiting behavior for each row and column is linear, but reversals of slopes are possible from one row (or column) to the next.
-An example of a first and second order penalty matrix $D$ for small $n = \tilde{n} = 3$ (for one row or column of $\Gamma$) looks like
+
+An example of a first and second order penalty matrix $D$ for small $n = \tilde{n} = 3$ (for one row or column of $\Gamma$) looks like
 
 \[
 D_1 = \begin{bmatrix} 
