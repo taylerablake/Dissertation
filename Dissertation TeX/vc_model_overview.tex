@@ -426,7 +426,7 @@ P-splines can conserve moments of the data. For a linear model with P-splines of
 
 {\needsparaphrased  for all values of A, where 5i= C)=lbUfj are the fit- ted values. For GLM's with canonical links it holds that }
 
-{\needsparaphrased This property is especially useful in the context of density smoothing: the mean and variance of the estimated density will be equal to mean and variance of the data, for any amount of smoothing. This is an advantage compared to kernel smoothers: these inflate the variance increasingly with stronger smoothing. The limit of a P-splines fit with strong smoothing is a polynomial. For large values of $h$ and a penalty of order $k$, the fitted series will approach a polynomial of degree $k-1$, if the degree of the B-splines is equal to, or higher than, $k$. Once again, the relationships between derivatives of a B-spline fit and differences of coefficients, as in (1) and (2), are the key. Take the example of a second-order difference penalty: when $h$ is large, Cy=3(A2aj ) 2 has to be very near zero. Thus each of the second differences has to be near zero, and thus the second derivative of the fit has to be near zero everywhere. In view of these very useful results, it seems that B-splines and difference penalties are the ideal marriage.
+{\needsparaphrased This property is especially useful in the context of density smoothing: the mean and variance of the estimated density will be equal to mean and variance of the data, for any amount of smoothing. This is an advantage compared to kernel smoothers: these inflate the variance increasingly with stronger smoothing. The limit of a P-splines fit with strong smoothing is a polynomial. For large values of $\lambda$ and a penalty of order $k$, the fitted series will approach a polynomial of degree $k-1$, if the degree of the B-splines is equal to, or higher than, $k$. Once again, the relationships between derivatives of a B-spline fit and differences of coefficients, as in (1) and (2), are the key. Take the example of a second-order difference penalty: when $h$ is large, Cy=3(A2aj ) 2 has to be very near zero. Thus each of the second differences has to be near zero, and thus the second derivative of the fit has to be near zero everywhere. In view of these very useful results, it seems that B-splines and difference penalties are the ideal marriage.
 
 It is important to focus on the linearized smoothing problem that is solved at each iteration, because we will make use of properties of the smoothing matrix. From (16) follows for the hat matrix $H$:}
 
@@ -493,19 +493,21 @@ The complete tensor product B-spline basis thus has an unknown coefficient matri
 The surface is defined by relatively few parameters $\left(n \tilde{n} \right)$, where changing $\Gamma$ implies changes the surface.
 
 \begin{figure}[H]
+\begin{subfigure}
   \centering
  \graphicspath{{img/}}
-  \includegraphics[width=4in, height=4in]{bicubic_bspline.png}
-  \caption{Tensor product of two cubic B-splines}\label{fig:bicubic_bspline}
-\end{figure}
+  \includegraphics[width=4in, height=4in]{bicubic_bspline_mesh.png}
+  \label{fig:bicubic_bspline}
+\end{subfigure}
 
-\begin{figure}[H]
+\begin{subfigure}
   \centering
   \graphicspath{{img/}}
   \includegraphics[width=4in, height=4in]{bicubic_bspline_contour.png}
   \caption{Tensor product of two cubic B-splines}\label{fig:bicubic_bspline_contour}
+\end{subfigure}
+\label{fig:bicubic_BS}
 \end{figure}
-
 
 %Figure~\ref{fig:bicubic_bspline} displays the tensor product of the two univariate cubic B-splines, say, $B_j$ and $B_{j^*}$ presented along the axes, say $t$ and $\tilde{t}$, respectively. %Tensor product As with the $t$ axis, using equally-spaced knots $\tilde{\phi}$, a similar division of the $\tilde{t}$ axis may be constructed to index $B_{j^*}\left(\tilde{t} \right)$ for $j^* = 1, %\dots , n^*$, possibly using a different $q$. Similarly to the univariate case, we also have that 
 
