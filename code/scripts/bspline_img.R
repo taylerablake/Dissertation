@@ -15,6 +15,7 @@ library(reshape2)
 library(systemfit)
 require(graphics)
 library(latex2exp)
+library(lattice)
 
 
 bSpline <- spline.des(knots=seq(0,1,by=.05), x=seq(0,1,length.out = 200), ord = 4,outer.ok = TRUE)
@@ -171,7 +172,7 @@ for(i in seq(0.2,1,by=0.2)){
 }
 lines(trans3d(x=0, y = M2.index, z = b, pmat = res))
 lines(trans3d(x=M1.index, y = 1, z = b, pmat = res))
-#dev.off()
+dev.off()
 
 ############################################################################################
 ############################################################################################
@@ -207,42 +208,36 @@ B. <- B1. * B2.
 
 
 # Create a function interpolating colors in the range of specified colors
-jet.colors <- colorRampPalette( c("lightpink","dodgerblue") )
+jet.colors <- colorRampPalette( c("deepskyblue2","green") )
 # Generate the desired number of colors from this palette
 nbcol <- 200
 color <- jet.colors(nbcol)
-# Compute the z-value at the facet centres
 
 ind <- c(43,43+3,43+6,ncol(B.)-43+1,ncol(B.)-(43+3)+1,ncol(B.)-(43+6)+1,82,85,88)
-#z <- matrix(rowSums(B.[,ind]),nrow=length(M1.index),ncol=length(M1.index))
-#z <- rowSums(B.[,ind])
-#nrz <- nrow(z)
-#ncz <- ncol(z)
-
-#zfacet <- z[-1, -1] + z[-1, -ncz] + z[-nrz, -1] + z[-nrz, -ncz]
-# Recode facet z-values into color indices
-
-#M <- data.frame(expand.grid(x=M1.index,tilde.x=M2.index),z=rowSums(B.[,ind]))
 M <- data.frame(expand.grid(x=M1.index,tilde.x=M2.index),z=rowSums(B.[,ind]))
 newcols <- colorRampPalette(c("grey70", "grey10"))
 
 par(bg="white")
 png(filename = file.path(getwd(),"Dissertation TeX","img","sparse_bicubic_basis.png"))
 wireframe(z~x*tilde.x,data=M,
-          lty=3,
-          lwd=0.3,
-          ylab="x",
-          xlab=expression(tilde(x)),
+          lty=2,
+          lwd=0.15,
+          ylab="",
+          xlab="",
           zlab="",
-          screen=list(z=44,x=-65),
-          aspect = c(68/87, 0.8),
+          screen=list(z=40,x=-75),
+          #aspect = c(68/87, 0.8),
           light.source = c(10,0,10),
-          #pretty=TRUE,
+          pretty=TRUE,
           scales = list(arrows = FALSE),
-          col.regions = newcols(100),
+          #col.regions = newcols(100),
+          col.regions = color,
           drape=TRUE,
+          cex=0.5,
+          #shade=TRUE,
           colorkey=FALSE,
           par.settings = list(axis.line = list(col = "transparent")))
+
 dev.off()
 
 
@@ -302,3 +297,19 @@ wireframe(z~x*tilde.x,data=M,
           colorkey=FALSE,
           par.settings = list(axis.line = list(col = "transparent")))
 dev.off()
+
+
+
+###################################################################################################
+bsplbase
+B1 <- bsplbase(M1.index, c(0,1,10,3))
+B2 <- bsplbase(M2.index, c(0,1,10,3))
+n1 <- ncol(B1)
+n2 <- ncol(B2)
+
+
+
+
+
+
+

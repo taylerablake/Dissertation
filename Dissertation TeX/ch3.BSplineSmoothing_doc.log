@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  4 JAN 2017 18:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  4 JAN 2017 23:28
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -968,11 +968,12 @@ See the caption package documentation for explanation.
 LaTeX Warning: Reference `fig:bicubic_BS' on page 40 undefined on input line 15
 39.
 
-<img/bicubic_bspline.png, id=156, 481.8pt x 481.8pt>
-File: img/bicubic_bspline.png Graphic file (type png)
+<img/bicubic_basis_function.png, id=156, 481.8pt x 481.8pt>
+File: img/bicubic_basis_function.png Graphic file (type png)
 
-<use img/bicubic_bspline.png>
-Package pdftex.def Info: img/bicubic_bspline.png used on input line 1551.
+<use img/bicubic_basis_function.png>
+Package pdftex.def Info: img/bicubic_basis_function.png used on input line 1551
+.
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
 
 <img/bicubic_bspline_contour.png, id=157, 481.8pt x 481.8pt>
@@ -986,7 +987,14 @@ Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 155
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[40] [41 <./img/bicubic_bspline.png> <./img/bicubic_bspline_contour.png>]
+<img/sparse_bicubic_basis.png, id=158, 481.8pt x 481.8pt>
+File: img/sparse_bicubic_basis.png Graphic file (type png)
+
+<use img/sparse_bicubic_basis.png>
+Package pdftex.def Info: img/sparse_bicubic_basis.png used on input line 1561.
+(pdftex.def)             Requested size: 361.35646pt x 361.35646pt.
+ [40 <./img/sparse_bicubic_basis.png>]
+[41 <./img/bicubic_basis_function.png> <./img/bicubic_bspline_contour.png>]
 (./ch3.BSplineSmoothing_doc.aux)
 
 LaTeX Warning: There were undefined references.
@@ -996,10 +1004,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 17039 strings out of 493089
- 334550 string characters out of 6134842
+ 17046 strings out of 493089
+ 334803 string characters out of 6134842
  402139 words of memory out of 5000000
- 20198 multiletter control sequences out of 15000+600000
+ 20204 multiletter control sequences out of 15000+600000
  16295 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,22n,54p,1091b,731s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1017,10 +1025,10 @@ live/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texli
 ve/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive
 /2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/
 2015/texmf-dist/fonts/type1/public/amsfonts/euler/eusm10.pfb>
-Output written on ch3.BSplineSmoothing_doc.pdf (41 pages, 834900 bytes).
+Output written on ch3.BSplineSmoothing_doc.pdf (41 pages, 986004 bytes).
 PDF statistics:
- 214 PDF objects out of 1000 (max. 8388607)
+ 216 PDF objects out of 1000 (max. 8388607)
  139 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 53 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 58 words of extra memory for PDF output out of 10000 (max. 10000000)
 

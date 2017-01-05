@@ -7,6 +7,7 @@ library(plyr)
 library(dplyr)
 library(rlist)
 library(ggplot2)
+library(mgcv)
 library(tidyr)
 library(splines)
 library(reshape2)
@@ -28,6 +29,12 @@ sourceDir(file.path(getwd(),"code","fnc","aux"))
 sourceDir(file.path(getwd(),"code","fnc"))
 
 
+bspline<- function(x,xl,xr,ndx,bdeg){
+      dx<- (xr-xl) /ndx
+      knots<- seq(xl- bdeg*dx,xr+bdeg*dx,by=dx) 
+      B<- spline.des(knots,x,bdeg+1,0*x)$design
+      B
+}
 
 
 
@@ -79,6 +86,137 @@ lines(xg, z, col = 'grey',lwd=2)
 dev.off()
 
 
+##=================================================================================================
+##=================================================================================================
+##=================================================================================================
+
+
+x = runif(10)
+xg = seq(0, 1, length = 500)
+set.seed(123)
+y = 1.2 + sin(5  * x) + rnorm(10) * 0.2
+
+
+lambda <- as.list(exp(seq(-1,10,length.out=50)))
+B <- bbase(x,  xl = 0, xr = 1, nseg = 57, deg = 3)
+D = diff(diag(ncol(B)), diff = 2)
+
+A <- lapply(lambda,function(l){
+            P = l * t(D) %*% D
+            a <- solve(t(B) %*% B + P, t(B) %*% y)
+            a <- as.vector(a)
+            a
+      })
+Bg <- bbase(xg,  xl = 0, xr = 1, nseg = 57, deg = 3)
+beta0hat <- lapply(A,function(a){
+      Bg %*% a
+})
+
+A0 <- matrix(data=unlist(beta0hat),nrow=500,ncol=length(lambda),byrow = FALSE)
+plot(x, y,pch="+",ylim=c(-0.2,3.6),xlab="",ylab="",main=expression(paste(hat(beta)[0](t)," with penalty ||",D[2] ,alpha,"|","|"^2))) 
+matlines(xg, A0, type = 'l', lty = 1, col=terrain.colors(nb,alpha=0.6),
+         xlab = '', ylab = '')
+points(x, y,pch="+")
+
+
+
+
+
+B <- bspline(x,  xl = 0, xr = 1, ndx = 57, bdeg = 3)
+Bg <- bspline(xg,  xl = 0, xr = 1, ndx = 57, bdeg = 3)
+D = diff(diag(nb), diff = 3)
+A <- lapply(lambda,function(l){
+      P = l * t(D) %*% D
+      a <- solve(t(B) %*% B + P, t(B) %*% y)
+      a <- as.vector(a)
+      a
+})
+
+beta0hat <- lapply(A,function(a){
+      Bg %*% a
+})
+
+A0 <- matrix(data=unlist(beta0hat),nrow=500,ncol=length(lambda),byrow = FALSE)
+
+plot(x, y,pch="+",ylim=c(-0.2,3.6),xlab="",ylab="",
+     main=expression(paste(hat(beta)[0](t)," with penalty ||",D[3] ,alpha,"|","|"^2))) 
+matlines(xg, A0, type = 'l', lty = 1, col=terrain.colors(nb,alpha=0.6),
+         xlab = '', ylab = '')
+points(x, y,pch="+")
+
+
+
+
+
+
+
+
+
+
+##=================================================================================================
+##=================================================================================================
+##=================================================================================================
+
+
+
+set.seed(123)
+f <- function(x) 2 * sin(pi * x*2)
+x <- runif(100) %>% sort
+xg = seq(0, 1, length = 500)
+e <- rnorm(length(x), 0, 0.2)
+y <- f(x) + e
+
+ggplot(data = data.frame(x=x,y=y),aes(x,y)) + geom_point()
+
+
+lambda <- as.list(exp(seq(-1,10,length.out=50)))
+B <- bbase(x,  xl = 0, xr = 1, nseg = 57, deg = 3)
+D = diff(diag(ncol(B)), diff = 3)
+
+
+A <- lapply(lambda,function(l){
+      P = l * t(D) %*% D
+      a <- solve(t(B) %*% B + P, t(B) %*% y)
+      a <- as.vector(a)
+      a
+})
+Bg <- bbase(xg,  xl = 0, xr = 1, nseg = 57, deg = 3)
+beta0hat <- lapply(A,function(a){
+      Bg %*% a
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##=================================================================================================
+##=================================================================================================
+##=================================================================================================
 
 
 ############################################################################################
@@ -91,42 +229,89 @@ dev.off()
 f <- function(x) 2 * sin(pi * x*2)
 x <- runif(100) %>% sort
 e <- rnorm(length(x), 0, 0.2)
-y <- f(x) + e
+y <- f(x)*x + e
 
 ggplot(data = data.frame(x=x,y=y),aes(x,y)) + geom_point()
+dat <- data.frame(y=y,x1=x,f=f(x),x2=x)
+pDat <- data.frame(regressor=seq(0,1,length.out=200),
+                   f=f(seq(0,1,length.out=200))) %>% transform(.,signal=regressor*f)
+pDat_melt <- melt(pDat,id.vars = c("regressor"))
+names(pDat_melt)[grepl("variable",names(pDat_melt))] <- "mean_component"
 
-  ll <- c(seq(-3,16,length.out=150))
-  fit_list <- lapply(as.list(ll),function(l){
-                  fit <- pspline.fit( y, x, ps.intervals = 100, 
-                                      degree = 3, order = 3,
-                                      ridge.adj = 0.0001,lambda=exp(l))
-                  fit
-              })
+p <- ggplot(data=dat,aes(x=x1,y=y)) + geom_point() + ylab("") + xlab("x")
+p <- p + geom_line(data=pDat_melt,aes(x=regressor,y=value,group=mean_component,colour=mean_component)) + scale_color_ptol("",labels=c("f(x)","xf(x)")) + theme_minimal()
+p
 
-  
-  fits <- data.frame(x=rep(seq(0,1,length.out=100),length(fit_list)),
-             yhat=lapply(fit_list,function(l){spline.des(l$knots,seq(l$knots[2*l$order+1],l$knots[length(l$knots)-(2*l$order+1)],length.out=100), l$degree + 1)$design%*%l$coef}) %>% list.rbind(),
-             lambda=expand.grid(1:100,exp(ll))[,2],
-             index=expand.grid(1:100,1:length(ll))[,2]) 
-  
-  diagnostics <- data.frame(aic=lapply(fit_list,function(l){l$aic})%>% unlist,
-                            ed=lapply(fit_list,function(l){l$eff.df})%>% unlist,
-                            lambda=lapply(fit_list,function(l){l$lambda})%>% unlist,
-                            index=1:length(fit_list))
-  ggplot(diagnostics,aes(x=log(lambda),y=aic)) + geom_line(colour="blue") + xlab(expression(log(lambda)))        
-  ggplot(diagnostics,aes(x=log(lambda),y=ed)) + geom_line(colour="blue") + xlab(expression(log(lambda))) + ylab("tr(H)")
-  
-  F.n <- ecdf(diagnostics$aic)
-  ind <- which(F.n(diagnostics$aic) %in% seq(0.05,1,by=0.05))
-  ind <- c(ind,sapply(seq(0.05,1,by=0.05)[!(seq(0.05,1,by=0.05)%in%F.n(diagnostics$aic))],
-                      function(q){which.min(abs(F.n(diagnostics$aic)-q))}))
-  
-  
-  p <-  ggplot(subset(fits,lambda%in%diagnostics$lambda[ind]),aes(x=x,y=yhat,group=lambda)) + geom_line(aes(colour=index)) + scale_color_gradientn(colours = heat.colors(16))
-  p <- p + geom_point(data=data.frame(x=x,y=y),aes(x,y),colour="grey") + guides(colour="none")
-  #true.f <- data.frame(x=seq(min(x),max(x),length.out=200),f=f(seq(min(x),max(x),length.out=200)))
-  
-  p + geom_line(data=subset(fits,lambda%in%diagnostics$lambda[which.min(diagnostics$aic)]),aes(x=x,y=yhat),size=1.2,colour="blue")
+
+
+lambda <- as.list(exp(seq(-5,5,length.out=40)))
+B <- bbase(x,  xl = 0, xr = 1, nseg = 57, deg = 3)
+D = diff(diag(ncol(B)), diff = 3)
+Q <- diag(x)%*%B
+
+A <- lapply(lambda,function(l){
+      P = l * t(D) %*% D
+      a <- solve(t(Q) %*% Q + P, t(Q) %*% y)
+      a <- as.vector(a)
+      a
+})
+Bg <- bbase(xg,  xl = 0, xr = 1, nseg = 57, deg = 3)
+beta1hat <- lapply(A,function(a){
+      as.vector(Bg %*% a)
+})
+Beta1 <- matrix(data=unlist(beta1hat),nrow=nrow(Bg),ncol=length(beta1hat),byrow=FALSE)
+
+
+plot(x, y,pch="+",ylim=c(-2.4,2.4),xlab="",ylab="",
+     main=expression(paste(hat(beta)[1](t)," with penalty ||",D[3] ,alpha,"|","|"^2))) 
+matlines(xg, Beta1, type = 'l', lty = 1, col=terrain.colors(nb,alpha=0.6),
+         xlab = '', ylab = '')
+points(x, y,pch="+")
+lines(xg,f(xg),col="red")
+
+
+
+
+B <- bbase(x,  xl = 0, xr = 1, nseg = 57, deg = 4)
+D = diff(diag(ncol(B)), diff = 3)
+Q <- diag(x)%*%B
+
+A <- lapply(lambda,function(l){
+      P = l * t(D) %*% D
+      a <- solve(t(Q) %*% Q + P, t(Q) %*% y)
+      a <- as.vector(a)
+      a
+})
+Bg <- bbase(xg,  xl = 0, xr = 1, nseg = 57, deg = 4)
+beta1hat <- lapply(A,function(a){
+      as.vector(Bg %*% a)
+})
+Beta1 <- matrix(data=unlist(beta1hat),nrow=nrow(Bg),ncol=length(beta1hat),byrow=FALSE)
+
+
+plot(x, y,pch="+",ylim=c(-2.4,2.4),xlab="",ylab="",
+     main=expression(paste(hat(beta)[1](t)," with penalty ||",D[3] ,alpha,"|","|"^2))) 
+matlines(xg, Beta1, type = 'l', lty = 1, col=terrain.colors(nb,alpha=0.6),
+         xlab = '', ylab = '')
+points(x, y,pch="+")
+lines(xg,f(xg),col="red")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ############################################################################################
@@ -152,16 +337,32 @@ p <- p + geom_line(data=pDat_melt,aes(x=regressor,y=value,group=mean_component,c
 p
 
 
-n.seg <- 40
+
+
+
+
+
+
+n.seg <- 50
 x.l <- min(dat$x1)
 x.r <- max(dat$x1)
 x.max <- x.r + 0.01 * (x.r - x.l)
 x.min <- x.l - 0.01 * (x.r - x.l)
 d.x <- (x.max - x.min)/n.seg
-ps.knots <- seq(x.min - 3 * d.x, x.max + 3 * d.x, by = d.x)
+ps.knots <- seq(x.min - 2 * d.x, x.max + 2 * d.x, by = d.x)
 
 
-ps.signal.fit <- gam(y ~ s(x1,bs="ps", by=x2, k=(length(ps.knots)-(2*2)), m=c(2,3), sp=100, id=1), data=dat, knots = list(x1=ps.knots))
+ps.signal.fit <- gam(y ~ s(x1,
+                           bs="ps",
+                           by=x2,
+                           k=(length(ps.knots)-6),
+                           m=c(4,4),
+                           sp=100,
+                           id=1),
+                     data=dat[-c(1:3,(nrow(dat)-2):nrow(dat)),],
+                     knots = list(x1=ps.knots))
+
+
 df <- data.frame(x=dat$x1,
            y=dat$y,
            fitted=ps.signal.fit$fitted.values)
@@ -179,8 +380,13 @@ ggplot(df,aes(x=x,y=value,group=variable)) + geom_line(aes(colour=variable)) + t
 
 
 
-ll <- lapply(as.list(exp(seq(-6,5,length.out = 20))),function(l){
-                  ps.signal.fit <- gam(y ~ s(x1,bs="ps", by=x2, sp=l, k=(length(ps.knots)-(2*2)),m=c(2,3)), data=dat, knots = list(x1=ps.knots))
+ll <- lapply(as.list(exp(seq(-4,5,length.out = 20))),function(l){
+                  ps.signal.fit <- gam(y ~ s(x1,bs="ps", by=x2,
+                                             sp=l,
+                                             k=(length(ps.knots)-(2*3)),
+                                             m=c(4,3)),
+                                       data=dat[-c(1:3,(nrow(dat)-2):nrow(dat)),],
+                                       knots = list(x1=ps.knots))
             
                   llist <- list()
                   llist$sp <- l
@@ -200,3 +406,34 @@ f.df <- cbind.data.frame(f.df,ind)
 
 p <- ggplot(f.df,aes(x=x,y=f.hat)) + geom_line(aes(colour=ind,group=lambda)) + scale_colour_gradient_tableau("Green") + guides(colour="none")
 p + geom_line(data=data.frame(x=seq(0,1,length.out=200),true.f=f(seq(0,1,length.out=200)),lambda=0),aes(x=x,y=true.f,group=lambda),colour="red",inherit.aes = FALSE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

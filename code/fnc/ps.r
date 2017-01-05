@@ -98,6 +98,7 @@
             attr(basis, "degree") <- degree
             basis
       }
+
 "ps.wam"<-
       function(x, y, w, s, which, smooth.frame, maxit = 20, tol = 1e-008, trace = F, 
                se = T, ...)
