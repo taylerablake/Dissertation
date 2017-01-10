@@ -5,6 +5,7 @@
 \usepackage{tikz}
 \usepackage[mathscr]{euscript}
 \usepackage{enumitem}
+\usepackage{accents}
 \usepackage{framed}
 \usepackage{subcaption}
 \usepackage{mathtools}
@@ -1276,32 +1277,32 @@ In vector notation, this may be written
 
 \begin{align}
 \begin{split}
-S_\lambda &= \vert \vert y- B\alpha  \vert \vert^2  + \lambda \vert \vert D_k \alpha\vert \vert^2 \\
+S_\lambda &= \vert \vert y- B\alpha  \vert \vert^2  + \lambda \vert \vert D_d \alpha\vert \vert^2 \\
 &=  \left( y- B\alpha  \right)^T \left( y-B \alpha\right) + \lambda \alpha^T P \alpha
 \end{split} \label{eq:S_pen_varying_intercept_model}
 \end{align}
 \noindent
 where 
 \[
-P = D_k^T D_k
+P = D_d^T D_d
 \]
 \noindent
 and the elements of $B$ are given by $b_{ij} = B_j\left(t_i\right)$, as defined in \ref{eq:S_varying_intercept_model}. Taking derivatives on both sides of \ref{eq:S_pen_varying_intercept_model} with respect to $\alpha$ gives
 
 \begin{align}
 \frac{\partial}{\partial \alpha}S_\lambda ={} & \frac{\partial}{\partial \alpha}\left(\alpha^TB^TB \alpha -2y^T B^T\alpha+\lambda \alpha^T D_k^T D_k \alpha  \right) \nonumber \\
-= {} & 2B^TB \alpha - 2B^T y + 2\lambda D_k^TD_k\alpha \nonumber\\
-= {} & \left(B^T B +  \lambda D_k^TD_k\right)\alpha - B^T y \label{eq:dSlambda_dAlpha}
+= {} & 2B^TB \alpha - 2B^T y + 2\lambda D_d^TD_d\alpha \nonumber\\
+= {} & \left(B^T B +  \lambda D_d^TD_d\right)\alpha - B^T y \label{eq:dSlambda_dAlpha}
 \end{align} 
 \noindent
 
 and setting equal to zero yields normal equations:
 \begin{equation}\label{eq:S_lambda_normal_eq}
-B^T y = \left(B^T B +  \lambda D_k^TD_k\right)\alpha,
+B^T y = \left(B^T B +  \lambda D_d^TD_k\right)\alpha,
 \end{equation}
 which has explicit solution
 \[
-\hat{\alpha} = \left(B^T B +  \lambda D_k^TD_k\right)^{-1}B^T y
+\hat{\alpha} = \left(B^T B +  \lambda D_d^TD_d\right)^{-1}B^T y
 \]
 \noindent
 The effective hat matrix is now
@@ -1341,8 +1342,32 @@ where
 H = Q\left(Q^T Q +  P\right)^{-1}Q^T.
 \end{equation}
 
+{\needsparaphrased{[Figure~\ref{fig:PS_VCM_section_figure_1} Need to explain figure 3 here. ]} }
 
+\begin{figure}[H]
+   \graphicspath{{img/}}
+   \centering
+  \includegraphics[scale=0.25]{PS_VCM_section_figure_1.png}
+\caption{\textit{100 simulated data points where} $y\left(t\right) = t \beta\left( t \right) + 0.2\epsilon\left(t\right)$ \textit{where} $\epsilon$ \textit{is a white noise process with unit variance, and} $\beta\left(t\right) = 2\sin\left(2\pi t\right)$.}
+\label{fig:PS_VCM_section_figure_1}
+\end{figure}
 
+\begin{figure}[H]
+ \begin{subfigure}{.48\textwidth}
+  \centering
+   \graphicspath{{img/}}
+ \includegraphics[scale=0.5]{PS_VCM_section_figure_2.png}
+ \caption{$\hat{\beta}\left(t\right)$}
+ \end{subfigure}
+ \begin{subfigure}{.48\textwidth}
+  \centering
+   \graphicspath{{img/}}
+  \includegraphics[scale=0.5]{PS_VCM_section_figure_3.png}
+ \caption{$\hat{\mu}\left(t\right) = t \hat{\beta}\left(t\right)$}
+\label{fig:PS_VCM_section_figure_2}
+ \end{subfigure}
+ \caption{\textit{Estimated coefficient function} $\hat{\beta}\left(t\right)$ \textit{and mean curve} $\hat{\mu}\left(t\right) = t \sin(2 \pi t)$ \textit{using a 80 B-splines basis functions of order 5 and a difference penalty of order} $k=3$.}
+\end{figure}
 
 
 
@@ -1382,7 +1407,7 @@ The properties discussed in Section~\ref{BS_properties_continued} allude to how 
 \label{fig:second_ord_PS_pen_SML_lambda}
 \end{figure}
 
-The number of B-splines can be much larger than the number of observations because penalty ensures that the fitting procedure well-conditioned. One could literally use a thousand splines to fit ten observations without problems. Figure~\ref{fig:overcomplete_basis_pspline} illustrates this utility of the penalty for simulated data. There are $m=10$ data points and $K = 40 + 3$ cubic B-splines. This property of P-splines cannot be overly appreciated, as it allows us to completely circumvent the nontrivial task of the optimal selection of knot placement. But one simply cannot have too many B-splines. Unless computational constraints are of concern, which is possible with large models, it is prudent to use even more. 
+The number of B-splines can be much larger than the number of observations because penalty ensures that the fitting procedure well-conditioned. One could literally use a thousand splines to fit ten observations without problems. Figure~\ref{fig:overcomplete_basis_pspline} illustrates this utility of the penalty for simulated data. There are $m=10$ observations and $40 + 3$ cubic B-splines. This property of P-splines cannot be overly appreciated, as it allows us to completely circumvent the nontrivial task of the optimal selection of knot placement. But one simply cannot have too many B-splines. Unless computational constraints are of concern, which is possible with large models, it is prudent to use even more. Figure~\ref{fig:PS_penalty_section_figure_3} shows how the fitted function changes as the tuning parameter $\lambda$ is varied in the presence of sparsely sampled data. 
 
 \begin{figure}[H]   \label{fig:overcomplete_basis_pspline}
   \centering
@@ -1391,13 +1416,22 @@ The number of B-splines can be much larger than the number of observations becau
   \caption{P-spline smoothing of 10 observations using 60 B-spline basis functions.}
 \end{figure}
 
+\begin{figure}[H] \label{fig:PS_penalty_section_figure_3}
+\centering
+ \graphicspath{{img/}}
+  \includegraphics[width=4in, height=4in]{PS_penalty_section_figure_3.png}
+
+  \includegraphics[width=4in, height=4in]{PS_penalty_section_figure_4.png}
+ \caption{Fitted mean curves using a second (top) and third (bottom) order difference penalty for simulated data, sparsely sampled along the indexing variable: $y\left(t\right) = 1.2 + \sin\left(5t\right) + 0.2\epsilon_t$, where $\epsilon_t \stackrel{i.i.d.}{\sim}\textup{N}\left(0,1\right)$. A total of 10 data points were fit using a basis of 60 B-splines of degree $k=3$.}
+\end{figure}
+
 %%====================================================================================
 
 \subsection{Properties of P-splines}
 
 P-splines enjoy many advantageous properties, many due in part to the inherited properties of the B-spline basis functions on which a generous portion of their foundation is constructed. 
 
-\begin{enumerate}
+\begin{enumerate} \label{eq:PS_properties}
 \item \begin{description}\item[Boundary effects]
  P-splines show no boundary effects, as many types of kernel smoothers do. By this, we mean the spreading of a fitted curve or density outside of the (physical) domain of the data, generally accompanied by bending toward zero.
 \end{description}
@@ -1455,7 +1489,7 @@ so that we must have $\Delta \alpha_j = 0$ for all $j$, and
 \]
 
 This shows that the penalty has no impact on the basis coefficients, and the resulting fit is identical to that when using unpenalized B-splines. Using induction, one can show that this is also true when the relationship between $x$ and $y$ is linear and a second order difference penalty is used, and for any values of the polynomial order and order of the difference penalty.\end{description}
-\item \begin{description}\item[Null models under difference penalties]
+\item \begin{description}\item[Null models under difference penalties] \label{eq:PS_property_3}
 The limiting P-spline fit approaches a polynomial under strongly enforced smoothing. As $\lambda \rightarrow \infty$, under a difference penalty of order $d$, the fitted function will approach a polynomial of degree $d-1$ as long as the degree of the B-splines is greater than or equal to $k$. To see this, we again need to use the relationship between the differenced coefficient sequence and the derivative of a B-spline as described in \ref{eq:more_BS_properties} \ref{eq:BS_deriv_property}. Consider using the second-order difference penalty; when $\lambda$ is large, the penalty dominates the P-spline objective function defined in \ref{eq:S_pen_varying_intercept_model}, so that the minimizer $\alpha$ must be such that $\sum_{j=3}^n\left(\Delta^2\alpha_j\right)^2$ is close to zero. Consequently, each of the individual second differences must also be nearly zero, and thus the second derivative of the fitted function must be close to zero over the entire domain.
 \end{description}
 \item \begin{description}\item[The limiting behaviour of $H_\lambda$] The trace of the hat matrix, 
@@ -1487,18 +1521,108 @@ Define $L \equiv Q_B^{-{1/2}}Q_\lambda Q_B^{-{1/2}}$. Then
 
 The previous derivations hold regardless of whether we are fitting the varying intercept-only model, with $\mu\left( t\right) = \beta_0\left(t\right)$ or accommodating a varying slope for a regressor by specifying $\mu\left( t\right) = \beta_0\left(t\right) + \beta_1\left(t\right)x\left(t\right)$. The inspection of the hat matrix $H$ is a prelude to the following section, where we will discuss how to use the properties of $H$ to tune the smoothing parameter for optimal model selection. We will later show that extension of these results can be extended in a rather straightforward manner to the case that is of our particular interest: when the smooth slope function is a two-dimensional surface rather than a curve.
 
+\begin{figure}[H]
+\begin{subfigure}{.5\textwidth}
+  \centering
+   \graphicspath{{img/}}
+  \includegraphics[scale=0.5]{PS_penalty_section_figure_6_order_0.png}
+  %\label{fig:pspline_small_lambda}
+\caption{$d=0$ }
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+   \graphicspath{{img/}}
+  \includegraphics[scale=0.5]{PS_penalty_section_figure_6_order_1.png}
+ % \label{fig:pspline_small_lambda}
+\caption{$d=1$}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+   \graphicspath{{img/}}
+  \includegraphics[scale=0.5]{PS_penalty_section_figure_6_order_2.png}
+  %\label{fig:pspline_small_lambda}
+\caption{$d=2$}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+   \graphicspath{{img/}}
+  \includegraphics[scale=0.5]{PS_penalty_section_figure_6_order_3.png}
+  %\label{fig:pspline_small_lambda}
+\caption{$d=3$}
+\end{subfigure}
+\caption{\textit{Illustration of the impact of the order of the difference penalty. The number of B-splines used is the same in each plot, with the penalty parameter varying from across the same grid of values. The fitted curves in the upper left plot correspond to the difference penalty of order $0$, where $\vert \vert D_0 \alpha \vert \vert^2 = \sum_{i=1}^n \alpha_i^2$, analogous to ridge regression using the B-spline basis as regression covariates. The fitted curves approach polynomials of degree $d-1$ as $\lambda \rightarrow \infty$, as discussed in \ref{eq:PS_properties} \ref{eq:PS_property_3}.}}
+\label{fig:PS_penalty_section_figure_6}
+\end{figure}
+
+
+
+
+\begin{figure}[h]
+\centering
+ \graphicspath{{img/}}
+  \includegraphics[width=4in, height=4in]{PS_penalty_section_figure_5.png}
+ %\caption{Tensor product of two cubic B-splines}
+\end{figure}
+
 
 %%====================================================================================
 %%====================================================================================
 
 
-\subsection{Optimal tuning and model selection}
+\subsection{Optimal tuning and model selection} \label{1D_model_selection_section}
 
-A major problem involved with any smoothing technique is the choice of the optimal amount of smoothing. We have illustrated how we can influence the smoothness of the estimated curve via $\lambda$, so we must now establish a way to choose the ``optimal'' value for it. Two potential model selection criteria are cross-validation and the Akaike information criterion, or AIC. In effect, AIC is an adjustment to the log likelihood to account for the effective dimension, or the effective number of parameters in the model. We choose to follow in the approach of\cite{eilers1996flexible}, \cite{marx2005multidimensional}, and \cite{buja1989linear} in using the trace of the smoother matrix as the effective dimension. This quantity is easily computed with the use of standard regression techniques, and is useful to compare the effective amount of smoothing for different numbers of knots, different degrees of the B-splines and different orders of penalties.
+A major problem involved with any smoothing technique is the choice of the optimal amount of smoothing. Unlike many smoothing approaches such as kernel smoothers, wavelets, and local likelihood methods, the estimation mechanics of P-splines are identical to those used in standard regression models. P-splines are defined by clearly defined coefficients, so we can exploit the surplus of regression theory to compute informative properties of the model. However, this body of work, only addressing the fit of the model to the available data, does not aid in the selection of the best value of the penalty parameter.  We have illustrated how we can influence the smoothness of the estimated curve via $\lambda$, so we must now establish a way to choose the ``optimal'' value for it.  We consider three avenues for model selection criteria. Fast and simple computation of cross-validation and Akaike information criterion relies on the hat matrix $H$ for fast and simple computation; in particular, we will discuss the how to calculate both measures using the trace of the smoothing matrix. Alternatively, one can view P-splines as a mixed model; in this context, the penalty parameter can be viewed as a ratio of variances. \cite{marx2010p} presents an generalization of the Expectation-Maximization (EM) algorithm to optimize for $\lambda$.
+
 
 \subsubsection{Cross validation and information criteria}
 
-\cite{hastie1986generalized} suggest using the trace of the smoother matrix as an approximation to the effective dimension, 
+The smoothing matrix $H$ plays an integral role of calculating all of the model selection criteria we will discuss; within the context of both AIC and cross validation, the diagonal elements of $H$, $h_{ii}$ are of particular importance. Closely related to the problem of model selection is the ability to quantify model complexity. In classical regression theory, the degrees of freedom are clearly defined as the number of variables included in the model. Alternatively, the degrees of freedom can also be interpreted as the sum of the sensitivity of each fitted value with respect to the corresponding observed value. \cite{eilers1996flexible} and\cite{marx2005multidimensional} refer to this measure of model complexity as the model's \emph{effective dimension}, writing $\textup{ED}\left(\lambda\right)$ to explicitly indicate that this quantity is function of the smoothing parameter. 
+
+In classical regression, determining the model degrees of freedom is straightforward, as it is as simple as counting the number of variables included in the model. However, when regularization is used to control the fit of the model, resulting in coefficient shrinkage, counting the effective number of parameters is less straightforward. We choose to follow in the approach of \cite{hastie1986generalized} in using the trace of the smoother matrix as the effective dimension. This quantity is easily computed with the use of standard regression techniques, and is useful to compare the effective amount of smoothing for different numbers of knots, different degrees of the B-splines and different orders of penalties. \cite{ye1998measuring} proposes the concept of a generalized degrees of freedom, which gives the model effective dimension as 
+\[
+\textup{ED}\left(\lambda\right) = \sum_i \frac{\partial \hat{y}_i}{\partial y_i}.
+\]
+
+For smoothing matrix $H$, the predicted response values are given by $\hat{y} = H y$. Writing
+
+\begin{align*}
+\frac{\partial \hat{y_i}}{\partial y_i} = \frac{\partial }{\partial y_i} \sum_{j} h_{ij} y_j = ,
+\end{align*}
+
+we have that 
+\begin{equation}
+\textup{ED}\left(\lambda\right) = \sum_i \frac{\partial \hat{y}_i}{\partial y_i} = .
+\end{equation}
+which can be shown to be equal to the trace of the hat matrix, $H$. Summarizing the complexity of a fitted P-spline is far from a trivial task; one must simultaneously consider the value of the smoothing parameter, the number of basis functions in the B-spline basis, as well as the order of the difference penalty. The effective dimension combines the effect of all three of these elements.
+
+
+In essence, AIC, along with other information criterion-approaches to model selection aim to assess the performance of a model by adjusting the log likelihood of the data under the fitted model to account for some measure of model complexity. 
+
+
+
+
+Ye 1998: In the theory of linear models, the concept of degrees of freedom plays an important role. This concept is often used for measurement
+of model complexity, for obtaining an unbiased estimate of the error variance, and for comparison of different models.
+I have developed a concept of generalized degrees of freedom (GDF) that is applicable to complex modeling procedures. The
+definition is based on the sum of the sensitivity of each fitted value to perturbation in the corresponding observed value. The
+concept is nonasymptotic in nature and does not require analytic knowledge of the modeling procedures. The concept of GDF
+offers a unified framework under which complex and highly irregular modeling procedures can be analyzed in the same way as
+classical linear models. By using this framework, many difficult problems can be solved easily. For example, one can now measure
+the number of observations used in a variable selection process. Different modeling procedures, such as a tree-based regression
+and a projection pursuit regression, can be compared on the basis of their residual sums of squares and the GDF that they cost.
+I apply the proposed framework to measure the effect of variable selection in linear models, leading to corrections of selection
+bias in various goodness-of-fit statistics. The theory also has interesting implications for the effect of general model searching by
+a human modeler. 
+
+
+The predictive power of a P-spline model for a given value of the smoothing parameter $\lambda$ can be assessed by its leave-one-out cross validation (LOOCV) score. Let $\hat{y}_{-i}$ denote the predicted value for the observation $y_i$ when $y_i$ itself is removed from the data we use to fit the model. We can calculate these predictions for each observation in the data set to obtain the prediction error:
+
+\begin{equation} \label{eq:LOOCV_def}
+\textup{CV}\left(\lambda\right) = \sqrt{\sum_i \left(y_i - \hat{y}_{-i}\right)^2}.
+\end{equation}
+
+Naturally, we choose $\lambda$ such that the CV error is minimized. Brute force calculation of \ref{eq:LOOCV_def} is generally impractical, especially if the number of observations is large.
+
 
 \subsubsection{P-splines as mixed models and the E-M algorithm}
 %%====================================================================================
@@ -1534,16 +1658,109 @@ Review the previously proposed methods of smoothing down the diagonals of the co
 }  }
 \end{framed}
 
-As in the previous chapter with smoothing splines, tensor products permit a nearly seamless extension of P-splines for VC models in which the slope function $\beta_1\left(\cdot\right)$ varies along a single indexing dimension to VC models with slope functions which are of two (or more) dimensions. If we equip each dimension, $x$ and $y$, with its own set of B-spline basis functions, then the only other modification necessary for the extension into two dimensions is the addition of a difference penalty for each augmented indexing variable.
+As in the previous chapter with smoothing splines, tensor products permit a nearly seamless extension of P-splines for VC models in which the slope function $\beta_1\left(\cdot\right)$ varies along a single indexing dimension to VC models with slope functions which are of two (or more) dimensions. If we equip each dimension, $x$ and $v$, with its own set of B-spline basis functions, then the only other modification necessary for the extension into two dimensions is the addition of a difference penalty for each augmented indexing variable.
 
-Figure~\ref{fig:bicubic_BS} displays the building block of the foundation on which multidimensional P-splines is built: B-spline tensor product basis $\big\{ T_{jk}\big\}$.
+Assume the available data are observed in triplets, $\left(x_i,v_i,y_i\right)$, $i=1,\dots,m$. We wish to estimate a smooth bivariate function $\mu\left(x,v\right)$ which approximates the data well. We assume
+\begin{equation} \label{eq:2D_intercept_only_model}
+E\left[ y_i \right] = \mu\left(x_i,v_i\right).
+\end{equation}
 
+Figure~\ref{fig:bicubic_BS} displays the building block of the foundation on which multidimensional P-splines is built: B-spline tensor product basis $\big\{ T_{kl}\big\}$.
+
+The $j-k^{th}$ single tensor product is given by
 \[
 T_{jk}\left(x,y\right) = B_j\left(x\right)\bar{B}_k\left(y\right),
 \]
 where 
-$\big\{ B_{j}\big\}$ and $\big\{ \bar{B}_{k}\big\}$ denote the B-spline bases for $x$ and $y$, having $n$ and $\bar{n}$ equally spaced knots along their respective domain.  
+$\big\{ B_{k}\big\}$ and $\big\{ \bar{B}_{l}\big\}$, $k=1,\dots,K$, $l=1,\dots,L$ denote the B-spline bases for $x$ and $v$, each having a set of equally spaced knots along their respective domain, carving out the $x-v$ plane into sub-rectangles. (We have chosen to distinguish between $\left\{ B_k \right\}$ and $\left\{ \bar{B}_l \right\}$ because one is free to specify a different basis for each dimension either by using different order B-spline or, of course, using different numbers of knots, and hence entirely different knot sequences since P-splines rely on bases with equally spaced knots.)
 
+
+
+As in one dimension, we may express the mean surface as a tensor product basis expansion:
+\begin{equation} \label{eq:2D_intercept_only_model_TP_expansion}
+\mu\left(x,v\right) = \sum_{k}\sum_l \alpha_{kl} B_k\left(x\right) \bar{B}_l\left(v\right),
+\end{equation}
+where $\alpha_{kl}$ is the $k-l^{th}$ element of the $K \times L$ coefficient matrix, A. Figure~\ref{fig:sparse_bicubic_BS_basis} shows a subset of a full tensor product basis $\left\{ T_{kl} \right\}$. A small portion of the basis is displayed because without omitting many of the basis functions, there would be too much overlap to be able to distinguish one from the rest. {\needsparaphrased{[ DISCUSS HOW THE PROPERTIES OF UNIVARIATE B-SPLINES TRANSLATE TO THE $x\times v$ PLANE (i.e. compact support, evaluation of the function at any point in the domain depends on only a small number of parameters, non-negative and sum to 1, etc.)]}}
+
+
+The relationship between the elements of $A$ and the shape of the fitted surface is entirely analogous to the situation illustrated in Figure~\ref{fig:second_ord_PS_pen_SML_lambda}; the coefficients $\alpha_{kl}$ determine the height of each ``mound'' corresponding to a single $T_{kl}$., thus the surface is driven by a relatively small number of total parameters: $KL$. To control the smoothness of the fitted surface, we can impose difference penalties on the coefficients, just as in the one-dimensional case, but smoothing in both dimensions requires two penalties: one for row differences of $A$ and one for the column differences of $A$.
+
+Intuitively, the tensor product B-splines are easily digestible, but to square away the technical details, they do require a bit of careful bookkeeping. As in one dimension, we may consider the sum of squared errors as a goodness of fit function, and in the case where we choose to enforce no smoothness penalty on the fitted surface, the estimate for $A$ can be chosen to minimize 
+\begin{equation} \label{eq:S_2D_intecept_only_model}
+S = \sum_{i=1}^m \left[ y_i  - \mu\left(x_i,v_i\right) \right]^2 = \sum_{i=1}^m \bigg[ y_i  - \sum_{k}\sum_{l} \alpha_{kl}B_k\left(x_i\right)\bar{B}_l\left(v_i\right) \bigg]^2.
+\end{equation}
+
+As before, we can then leverage difference penalties by adding the following penalty term to the goodness of fit measure:
+\begin{equation} \label{eq:unvectorized_2D_penalty}
+\lambda \sum_{k} \vert \vert D_d \alpha_{k \cdot} \vert \vert^2 + \bar{\lambda} \sum_{l} \vert \vert D_{\bar{d}} \alpha_{\cdot l} \vert \vert^2 .
+\end{equation}
+
+$\alpha_{k \cdot}$ and $\alpha_{\cdot l}$ denote the $k^{th}$ row and $l^{th}$ column of $A$, respectively. Thus, the first term in the penalty imposes a difference penalty of order $d$ on the rows of the coefficient matrix while the second term places a difference penalty (of possible different order $\bar{d}$) on the columns. We give each direction its own smoothing parameter to permit anisotropic smoothing; however, one could opt to use a single smoothing parameter for both directions and dodge the added work of optimizing the amount of smoothing with two separate parameters. Many of the practical properties of P-splines in one dimension such as accessible cross validation and effective model dimension are inherited in the two dimensional case. 
+
+%Given the structure of the basis coefficient matrix, it is natural to consider the responses $y_1,\dots, y_m$ as packaged in an $I \times J$ matrix, $Y$ which has the set of row coordinates
+%\[
+%x_i, \qquad i=1,\dots,I
+%\] 
+%and column coordinates
+%\[
+%v_j, \qquad j=1,\dots,J.
+%\]
+
+%Let $B$ denote the $I \times K$ matrix of basis function regressors for the $x$ dimension, with elements
+%\[
+%b_{ik} = B_{k}\left(x_i\right).
+%\]
+%Similarly, let $\bar{B}$ denote the $J \times L$ matrix of basis function regressors for the $v$ dimension, with elements
+%\[
+%\bar{b}_{jl} = \bar{B}_{l}\left(x_j\right).
+%\]
+%In this notation, we can express \ref{eq:2D_intercept_only_model_TP_expansion} as
+%\begin{equation} \label{eq:2D_intercept_only_model_TP_expansion_star}
+%\mu_{ij} = \sum_{k}\sum_{l} \alpha_{kl}b_{ik} \bar{b}_{jl}, 
+%\end{equation}
+%and in matrix form:
+%\[
+%M = B A \bar{B}^T.
+%\]
+It is possible to derive (penalized) normal equations in terms of the coefficient matrix itself, but this formulation is rather unwieldy. To efficiently minimize the penalized residual sums of squares with respect to the $\left\{ \alpha_{kl} \right\}$, we can re-express the mean surface in terms of the vectorized coefficient matrix:
+
+\begin{equation} \label{eq:vectorized_2D_TP_mean_surface}
+\mu \left(x,v\right) = \mathring{B} \alpha
+\end{equation}
+\noindent
+where $\alpha = \textup{vec}\left(A \right)$ is the flattened coefficient matrix, constructed by stacking the columns of $A$. $\mathring{B}$ denotes the $m \times KL$ ``unfolded'' regression basis and is defined in terms of the Kronecker product (denoted $o\times$) and the elementwise multiplication (denoted $\odot$) of two matrices:
+
+\begin{equation*}
+\mathring{B} = \left[B \otimes 1^T_L \right] \odot \left[1^T_K \otimes \bar{B} \right]
+\end{equation*}
+\noindent
+where 
+$1_K$ and $1_L$ are one vectors of length $K$ and $L$, respectively. These definitions of $\mathring{B}$ and $\alpha$, estimation of the coefficient grid can be performed in the usual regression framework with $E\left[ y\right] = \mathring{B}\alpha$. To write the penalized sums of squares, we must write the penalty \ref{eq:unvectorized_2D_penalty} on the coefficient matrix in terms of penalties on $\alpha$. Both the row and column penalties may also be expressed in terms of the Kronecker product of two matrices. The row penalty can be written as $\lambda \alpha^T P \alpha$ where
+
+\[
+P = I_L \otimes D_d^T D_d.
+\]
+
+In a similar fashion, the column penalty can be written as $\bar{\lambda} \alpha^T \bar{P} \alpha$, where
+\[
+\bar{P} = D_{\bar{d}}^T D_{\bar{d}} \otimes I_L, 
+\]
+and $I_K$ and $I_L$ are identity matrices of dimension  $K \times K$ and $L \times L$, respectively. We choose coefficients $\alpha$ to minimize
+
+\begin{equation*}
+\vert \vert y - \mathring{B} \alpha \vert \vert^2 + \lambda \alpha^T P \alpha + \bar{\lambda} \alpha^T \bar{P} \alpha
+\end{equation*}
+
+which has solution 
+\[
+\hat{\alpha} = \left(\mathring{B}^T \mathring{B} +  \lambda D_d^T D_d + \bar{\lambda} D_{\bar{d}}^T D_{\bar{d}} \right)^{-1} \mathring{B}^T y.
+\]
+\noindent
+The grid of regression coefficients can be recovered by arranging the elements of $\hat{\alpha}$ into a matrix of $L$ columns having length $K$. Just as in one dimension, the effective hat matrix is given by 
+\[
+H_\lambda = \mathring{B}\left(\mathring{B}^T \mathring{B} +  \lambda D_d^TD_d + \bar{\lambda} D_{\bar{d}}^T D_{\bar{d}} \right)^{-1} \mathring{B}^T,
+\]
+with the calculation of effective dimension and deletion residuals may be calculated just as in Section~\ref{1D_model_selection_section} by replacing $B$ with $\mathring{B}$ and replacing $\lambda D_d^T D_d$ with $\lambda D_d^TD_d + \bar{\lambda} D_{\bar{d}}^T D_{\bar{d}}$.
 
 \begin{figure}[h]
 \centering
@@ -1551,16 +1768,18 @@ $\big\{ B_{j}\big\}$ and $\big\{ \bar{B}_{k}\big\}$ denote the B-spline bases fo
   \includegraphics[width=4in, height=4in]{bicubic_basis_function.png}
  
 \includegraphics[width=4in, height=4in]{bicubic_bspline_contour.png}
-\label{fig:bicubic_BS}
 \caption{Tensor product of two cubic B-splines}
+\label{fig:bicubic_BS}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \graphicspath{{img/}}
   \includegraphics[width=5in,height=5in]{sparse_bicubic_basis.png}
   \caption{A subset of a full bivariate basis of cubic B-splines}\label{fig:sparse_bicubic_BS_basis}
 \end{figure}
+
+
 
 
 \end{document}

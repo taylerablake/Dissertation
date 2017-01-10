@@ -76,11 +76,7 @@ plot(seq(0,1,length.out=200),b$design[,1],type="n",xlab="",ylab="")
 matlines(seq(0,1,length.out=200),b$design)
 
 
-labls <- c(expression(B[1]),
-           expression(B[2]),
-           expression(B[3]),
-           expression(B[4]),
-           expression(B[5]))
+
 p <- ggplot(bs,aes(x=x,y=b,group=knot)) + geom_line() + xlab("") + ylab("")
 p <- p + theme_wsj() + scale_color_wsj() +facet_wrap(~ knot,nrow=5,labeller=label_bquote(B[.(knot)])) 
 p <- p + scale_x_continuous(breaks=c(signif(c(1,4)/6,3),signif(c(3,6)/6,1)))

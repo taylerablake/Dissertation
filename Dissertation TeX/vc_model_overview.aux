@@ -8,6 +8,7 @@
 \citation{hastie1993varying}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Nonparametric extensions of the classical linear model}{1}}
 \newlabel{eq:classical_linear_model}{{1}{1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}{\color  {green}Extensions of linear models which are special cases of models in \G@refundefinedtrue \text  {\normalfont  \bfseries  ??}\GenericWarning  {               }{LaTeX Warning: Reference `univariate_VC_models' on page 1 undefined},\G@refundefinedtrue \text  {\normalfont  \bfseries  ??}\GenericWarning  {               }{LaTeX Warning: Reference `multivariate_VC_models' on page 1 undefined},\G@refundefinedtrue \text  {\normalfont  \bfseries  ??}\GenericWarning  {               }{LaTeX Warning: Reference `extended_VC_models' on page 1 undefined}}}{1}}
 \citation{hoover1998nonparametric}
 \citation{fan2000two}
 \citation{huang1998functional}
@@ -15,7 +16,9 @@
 \citation{huang2003extended}
 \citation{huang1998projection}
 \citation{huang1998projection}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}{\color  {green}Extensions of linear models which are special cases of models in 2\hbox {},3\hbox {},3.1\hbox {}}}{2}}
+\citation{huang2001concave}
+\citation{eilers2003multivariate}
+\citation{marx2005multidimensional}
 \@writefile{toc}{\contentsline {section}{\numberline {2}{\color  {green}VC Models with a Univariate Smoothing Variable}}{2}}
 \newlabel{univariate_VC_models}{{2}{2}}
 \newlabel{univariate_VC_models@cref}{{[section][2][]2}{2}}
@@ -28,9 +31,6 @@
 \newlabel{extended_VC_models}{{3.1}{2}}
 \newlabel{extended_VC_models@cref}{{[subsection][1][3]3.1}{2}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}{\color  {green}Smoothing Spline ANOVA models and the extended linear modeling framework of huang, stone}}{2}}
-\citation{huang2001concave}
-\citation{eilers2003multivariate}
-\citation{marx2005multidimensional}
 \citation{marx2005multidimensional}
 \citation{eubank1999nonparametric}
 \citation{craven1978smoothing}
@@ -58,178 +58,4 @@
 \citation{wand2008semiparametric}
 \citation{eilers1996flexible}
 \citation{eilers1996flexible}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}{\color  {green}P-Spline Difference Penalties for Univariate B-Splines}}{10}}
-\newlabel{uni_pspline_penalties}{{3.2.3}{10}}
-\newlabel{uni_pspline_penalties@cref}{{[subsubsection][3][3,2]3.2.3}{10}}
-\newlabel{eq:univariate_bspline_SSE}{{8}{10}}
-\newlabel{eq:univariate_bspline_ridge_penalty}{{9}{10}}
-\citation{eilers1991penalized}
-\citation{eilers1991nonparametric}
-\citation{eilers1995indirect}
-\citation{o1986statistical}
-\newlabel{eq:univariate_pspline_diff_penalty}{{10}{11}}
-\newlabel{eq:osullivan_univariate_bspline_penalty}{{11}{11}}
-\newlabel{osullivan_univariate_bspline_penalty_via_deriv}{{12}{11}}
-\newlabel{eq:osullivan_penalty_decomp}{{15}{12}}
-\newlabel{eq:uni_pspline_penalized_likelihood}{{17}{12}}
-\newlabel{eq:uni_penalized_lik_deriv}{{18}{12}}
-\newlabel{eq:uni_pspline_normal_eq}{{19}{13}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}{\color  {green}Properties of P-Splines}}{13}}
-\newlabel{fig:pspline_small_lambda}{{\caption@xref {fig:pspline_small_lambda}{ on input line 364}}{14}}
-\newlabel{fig:pspline_small_lambda@cref}{{[subsubsection][4][3,2]3.2.4}{14}}
-\newlabel{sub@fig:pspline_small_lambda}{{}{14}}
-\newlabel{sub@fig:pspline_small_lambda@cref}{{[subsubsection][4][3,2]3.2.4}{14}}
-\newlabel{fig:pspline_small_lambda}{{\caption@xref {fig:pspline_small_lambda}{ on input line 370}}{14}}
-\newlabel{fig:pspline_small_lambda@cref}{{[subsubsection][4][3,2]3.2.4}{14}}
-\newlabel{sub@fig:pspline_small_lambda}{{}{14}}
-\newlabel{sub@fig:pspline_small_lambda@cref}{{[subsubsection][4][3,2]3.2.4}{14}}
-\newlabel{fig:pspline_small_lambda}{{\caption@xref {fig:pspline_small_lambda}{ on input line 376}}{14}}
-\newlabel{fig:pspline_small_lambda@cref}{{[subsubsection][4][3,2]3.2.4}{14}}
-\newlabel{sub@fig:pspline_small_lambda}{{}{14}}
-\newlabel{sub@fig:pspline_small_lambda@cref}{{[subsubsection][4][3,2]3.2.4}{14}}
-\newlabel{fig:pspline_small_lambda}{{\caption@xref {fig:pspline_small_lambda}{ on input line 382}}{14}}
-\newlabel{fig:pspline_small_lambda@cref}{{[subsubsection][4][3,2]3.2.4}{14}}
-\newlabel{sub@fig:pspline_small_lambda}{{}{14}}
-\newlabel{sub@fig:pspline_small_lambda@cref}{{[subsubsection][4][3,2]3.2.4}{14}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces \textit  {Illustration of the impact of the second order difference penalty. The number of B-splines used is the same in each plot, with the value of the penalty parameter increasing from left to right and top to bottom across each plot. The fitted curve in the upper left plot is the most ``wiggly'' of any of the fits, as the penalty plays the weakest roll in the fitted coefficients there. The red circles are the values of each of the B-spline coefficients; as the penalty increases, they form as smoother sequence as we move across the four plots, which results in a smoother fitted function. As the penalty parameter approaches infinity, the fit approaches a linear function as shown in the bottom right plot.}\relax }}{14}}
-\newlabel{fig:psplines_second_ord_pen_SML_lambda}{{5}{14}}
-\newlabel{fig:psplines_second_ord_pen_SML_lambda@cref}{{[figure][5][]5}{14}}
-\newlabel{fig:overcomplete_basis_pspline}{{\caption@xref {fig:overcomplete_basis_pspline}{ on input line 390}}{15}}
-\newlabel{fig:overcomplete_basis_pspline@cref}{{[subsubsection][4][3,2]3.2.4}{15}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces P-spline smoothing of 10 observations using 60 B-spline basis functions.\relax }}{15}}
-\citation{eilers1996flexible}
-\citation{marx2005multidimensional}
-\citation{buja1989linear}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.5}{\color  {green}Model Selection and Tuning}}{17}}
-\newlabel{eq:univariate_AIC}{{20}{17}}
-\newlabel{eq:univariate_CV}{{21}{18}}
-\newlabel{eq:univariate_GCV}{{22}{18}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}{\color  {green}Tensor Product B-splines}}{18}}
-\newlabel{eq:coefficient_surface_expansion}{{24}{19}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Tensor product of two cubic B-splines\relax }}{19}}
-\newlabel{fig:bicubic_bspline}{{7}{19}}
-\newlabel{fig:bicubic_bspline@cref}{{[figure][7][]7}{19}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Tensor product of two cubic B-splines\relax }}{20}}
-\newlabel{fig:bicubic_bspline_contour}{{8}{20}}
-\newlabel{fig:bicubic_bspline_contour@cref}{{[figure][8][]8}{20}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Landscape of cubic B-splines, a portion of a full bivariate basis\relax }}{21}}
-\newlabel{fig:sparse_bicubic_basis}{{9}{21}}
-\newlabel{fig:sparse_bicubic_basis@cref}{{[figure][9][]9}{21}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}{\color  {green}Computation}}{21}}
-\newlabel{eq:coef_surface_vec_notation}{{25}{21}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}{\color  {green}Penalized Two-Dimensional Coefficient Surfaces}}{21}}
-\newlabel{eq:mean_regression_function}{{27}{22}}
-\newlabel{eq:mean_regression_function_vec_notation}{{28}{22}}
-\newlabel{eq:bivariate_resi_sum_of_squares}{{29}{22}}
-\newlabel{eq:tensor_diff_penalty_obj_function_in_words}{{30}{22}}
-\newlabel{eq:bivariate_squared_diff_penalized_obj_function}{{31}{23}}
-\newlabel{eq:bivariate_squared_diff_penalty_projection_notation}{{32}{23}}
-\newlabel{eq:pspline_estimator}{{33}{24}}
-\newlabel{eq:bivariate_pspline_hat_matrix}{{34}{24}}
-\citation{chen1993functional}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Nonparametric approaches to modeling nonlinear time series data}{25}}
-\newlabel{eq:zeger_diggle_VC_model}{{35}{25}}
-\newlabel{eq:hoover_rice_wu_VC_model}{{36}{25}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Model estimation}{26}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Kernel estimation with a single smoothing variable}{26}}
-\newlabel{eq:classical_NP_regression_model}{{37}{26}}
-\newlabel{eq:conditional_mean_y_given_x}{{38}{26}}
-\newlabel{eq:conditional_mean_y_given_x@cref}{{[subsection][1][4]4.1}{26}}
-\newlabel{eq:NW_joint_pdf_estimator}{{39}{27}}
-\newlabel{eq:NW_joint_pdf_estimator@cref}{{[subsection][1][4]4.1}{27}}
-\newlabel{eq:num_est}{{40}{27}}
-\newlabel{eq:den_est}{{41}{27}}
-\newlabel{eq:den_est@cref}{{[subsection][1][4]4.1}{27}}
-\newlabel{local_linear_smoother_obj_fun}{{43}{28}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Kernel bandwidth selection with a single smoothing variable}{28}}
-\newlabel{single_smoothing_var_bandwidth_selection}{{4.1.1}{28}}
-\newlabel{single_smoothing_var_bandwidth_selection@cref}{{[subsubsection][1][4,1]4.1.1}{28}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}Asymptotic properties of kernel estimators with a single smoothing variable}{28}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.3}Two-step estimation for multiple bandwidths}{28}}
-\newlabel{two_step_kernel_smoothing}{{4.1.3}{28}}
-\newlabel{two_step_kernel_smoothing@cref}{{[subsubsection][3][4,1]4.1.3}{28}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Kernel estimation with multiple smoothing variables}{29}}
-\newlabel{eq:VC_mean_MV_function_multiple_smoothing_covariates}{{44}{29}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Basis expansions and penalized likelihood techniques}{30}}
-\newlabel{VC_spline_models}{{4.3}{30}}
-\newlabel{VC_spline_models@cref}{{[subsection][3][4]4.3}{30}}
-\newlabel{eq:general_VC_model}{{45}{31}}
-\newlabel{eq:xue_VC_model}{{46}{31}}
-\newlabel{eq:xue_VC_model@cref}{{[subsection][3][4]4.3}{31}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Smoothing methods with longitudinal data}{31}}
-\newlabel{eq:functional_VC_model}{{47}{31}}
-\bibdata{Master}
-\bibcite{anderson1973asymptotically}{Anderson, 1973}
-\bibcite{banerjee2008model}{Banerjee et\nobreakspace  {}al., 2008}
-\bibcite{bickel2008regularized}{Bickel and Levina, 2008}
-\bibcite{buja1989linear}{Buja et\nobreakspace  {}al., 1989}
-\bibcite{cai2010nonparametric}{Cai and Yuan, 2010}
-\bibcite{cai2002two}{Cai, 2002}
-\newlabel{longitudinal_VC_model}{{48}{32}}
-\newlabel{eq:longitudinal_NW_objective_function}{{49}{32}}
-\newlabel{eq:longitudinal_NW_objective_function}{{50}{32}}
-\bibcite{cai2000functional}{Cai et\nobreakspace  {}al., 2000}
-\bibcite{cai2000application}{Cai and Tiwari, 2000}
-\bibcite{chen1993functional}{Chen and Tsay, 1993a}
-\bibcite{chen1993nonlinear}{Chen and Tsay, 1993b}
-\bibcite{chen2007large}{Chen, 2007}
-\bibcite{chen2011semiparametric}{Chen et\nobreakspace  {}al., 2011}
-\bibcite{cheng2000inferences}{Cheng and Wei, 2000}
-\bibcite{chiang2001smoothing}{Chiang et\nobreakspace  {}al., 2001}
-\bibcite{craven1978smoothing}{Craven and Wahba, 1978}
-\bibcite{darroch1980markov}{Darroch et\nobreakspace  {}al., 1980}
-\bibcite{dempster1972covariance}{Dempster, 1972}
-\bibcite{eilers1991nonparametric}{Eilers, 1991a}
-\bibcite{eilers1991penalized}{Eilers, 1991b}
-\bibcite{eilers1995indirect}{Eilers, 1995}
-\bibcite{eilers1996flexible}{Eilers and Marx, 1996}
-\bibcite{eilers2003multivariate}{Eilers and Marx, 2003}
-\bibcite{eubank1999nonparametric}{Eubank, 1999}
-\bibcite{fan1993local}{Fan, 1993}
-\bibcite{fan2007semiparametric}{Fan et\nobreakspace  {}al., 2007}
-\bibcite{fan2008semiparametric}{Fan and Wu, 2008}
-\bibcite{fan2000two}{Fan and Zhang, 2000}
-\bibcite{fan1999statistical}{Fan and Zhang, 1999}
-\bibcite{friedman2008sparse}{Friedman et\nobreakspace  {}al., 2008}
-\bibcite{friedman1989flexible}{Friedman and Silverman, 1989}
-\bibcite{gabriel1962ante}{Gabriel, 1962}
-\bibcite{gu2013smoothing}{Gu, 2013}
-\bibcite{hardle2007partially}{H{\"a}rdle and Liang, 2007}
-\bibcite{hastie1986generalized}{Hastie and Tibshirani, 1986}
-\bibcite{hastie1987generalized}{Hastie and Tibshirani, 1987}
-\bibcite{hastie1993varying}{Hastie and Tibshirani, 1993}
-\bibcite{hastie1990generalized}{Hastie and Tibshirani, 1990}
-\bibcite{hoover1998nonparametric}{Hoover et\nobreakspace  {}al., 1998}
-\bibcite{huang1998functional}{Huang, 1998}
-\bibcite{huang2001concave}{Huang, 2001}
-\bibcite{huang1998projection}{Huang et\nobreakspace  {}al., 1998}
-\bibcite{huang2003extended}{Huang and Stone, 2003}
-\bibcite{huang2002varying}{Huang et\nobreakspace  {}al., 2002}
-\bibcite{huang2004polynomial}{Huang et\nobreakspace  {}al., 2004}
-\bibcite{kaslow1987multicenter}{Kaslow et\nobreakspace  {}al., 1987}
-\bibcite{lee2012flexible}{Lee et\nobreakspace  {}al., 2012}
-\bibcite{levina2008sparse}{Levina et\nobreakspace  {}al., 2008}
-\bibcite{lin2005semiparametric}{Lin and Carroll, 2006}
-\bibcite{linton1995kernel}{Linton and Nielsen, 1995}
-\bibcite{mammen2005bandwidth}{Mammen and Park, 2005}
-\bibcite{marx2005multidimensional}{Marx and Eilers, 2005}
-\bibcite{Meinshausen2006highDimGraphs}{Meinhausen and Buhlmann, 2006}
-\bibcite{o1986statistical}{O'Sullivan, 1986}
-\bibcite{peng2012partial}{Peng et\nobreakspace  {}al., 2012}
-\bibcite{pourahmadi1999joint}{Pourahmadi, 1999}
-\bibcite{rothman2008sparse}{Rothman et\nobreakspace  {}al., 2008}
-\bibcite{stone1997polynomial}{Stone et\nobreakspace  {}al., 1997}
-\bibcite{stone2002free}{Stone and Huang, 2002}
-\bibcite{stone2003statistical}{Stone and Huang, 2003}
-\bibcite{tong1995personal}{Tong et\nobreakspace  {}al., 1995}
-\bibcite{wahba1990spline}{Wahba, 1990}
-\bibcite{wand2008semiparametric}{Wand and Ormerod, 2008}
-\bibcite{wu1998asymptotic}{Wu et\nobreakspace  {}al., 1998}
-\bibcite{wu2003nonparametric}{Wu and Pourahmadi, 2003}
-\bibcite{yao2005functional}{Yao et\nobreakspace  {}al., 2005}
-\bibcite{yuan2007model}{Yuan and Lin, 2007}
-\bibcite{zeger1994semiparametric}{Zeger and Diggle, 1994}
-\bibcite{zhang2012moving}{Zhang and Leng, 2012}
-\bibcite{zhou1998local}{Zhou et\nobreakspace  {}al., 1998}
-\bibcite{zimmerman1997structured}{Zimmerman and Nunez-Anton, 1997}
-\bibstyle{apalike}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}{\color  {green}P-Spline Differen
