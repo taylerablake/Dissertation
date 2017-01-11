@@ -1571,12 +1571,80 @@ The previous derivations hold regardless of whether we are fitting the varying i
 
 \subsection{Optimal tuning and model selection} \label{1D_model_selection_section}
 
-A major problem involved with any smoothing technique is the choice of the optimal amount of smoothing. Unlike many smoothing approaches such as kernel smoothers, wavelets, and local likelihood methods, the estimation mechanics of P-splines are identical to those used in standard regression models. P-splines are defined by clearly defined coefficients, so we can exploit the surplus of regression theory to compute informative properties of the model. However, this body of work, only addressing the fit of the model to the available data, does not aid in the selection of the best value of the penalty parameter.  We have illustrated how we can influence the smoothness of the estimated curve via $\lambda$, so we must now establish a way to choose the ``optimal'' value for it.  We consider three avenues for model selection criteria. Fast and simple computation of cross-validation and Akaike information criterion relies on the hat matrix $H$ for fast and simple computation; in particular, we will discuss the how to calculate both measures using the trace of the smoothing matrix. Alternatively, one can view P-splines as a mixed model; in this context, the penalty parameter can be viewed as a ratio of variances. \cite{marx2010p} presents an generalization of the Expectation-Maximization (EM) algorithm to optimize for $\lambda$.
+A major problem involved with any smoothing technique is the choice of the optimal amount of smoothing. Unlike many smoothing approaches such as kernel smoothers, wavelets, and local likelihood methods, the estimation mechanics of P-splines are identical to those used in standard regression models. P-splines are defined by clearly defined coefficients, so we can exploit the surplus of regression theory to compute informative properties of the model. A natural approach to evaluating a model is through inference about the estimated model parameters. This requires the covariance matrix of the estimated B-spline coefficients, which (for fixed $\lambda$) is given by 
+
+{
+\needsparaphrased{ [ I'm pretty sure that the last equality follows from taking the QR decomposition of $B$ and writing the solution $\hat{\alpha}$ in terms of $Q_1$ and $R$. (I'll figure this out later.) ] }
+}
+
+\begin{align*}
+\Sigma_\alpha &\equiv Cov\left(\hat{\alpha}\right)\\
+&= Cov\left( \left(B^T B +  \lambda D^T D\right)^{-1}B^T y\right)\\
+&= \bigg[ \left(B^T B +  \lambda D^T D\right)^{-1}B^T \bigg] Cov \left(y \right) \bigg[ \left(B^T B +  \lambda D^T D\right)^{-1}B^T \bigg]^T\\
+&= \sigma^2 \left(B^T B +  \lambda D^T D\right)^{-1}B^T B  \left(B^T B +  \lambda D^T D\right)^{-1} \\
+&= \sigma^2 \left(B^T B +  \lambda D^T D\right)^{-1},
+\end{align*}
+\noindent
+where $\sigma^2$ is the error variance under the model $y= B\alpha + \epsilon$. This is of little use, however, as it requires knowing the value of $\sigma$. One could estimate it from the residuals if we knew the appropriate value of the tuning parameter, so as to divide by the correct ``degrees of freedom.'' We have illustrated how we can influence the smoothness of the estimated curve via $\lambda$, so we must now establish a way to choose the ``optimal'' value for it.  We consider three avenues for model selection criteria. Efficient computation of cross-validation and Akaike information criterion relies on the hat matrix $H$ for fast and simple calculation; in particular, we will discuss the how to calculate both measures using the trace of the smoothing matrix. Alternatively, one can view P-splines as a mixed model; in this context, the penalty parameter can be viewed as a ratio of variances. \cite{marx2010p} presents an generalization of the Expectation-Maximization (EM) algorithm to optimize for $\lambda$.
 
 
 \subsubsection{Cross validation and information criteria}
 
+The predictive power of a P-spline model for a given value of the smoothing parameter $\lambda$ can be assessed by its cross validation prediction error. Cross validation and its variants have long been utilized for smoothing parameter selection in spline models, and their properties have been studied extensively. A short list of supplemental references include \cite{craven1978smoothing}, \cite{wahba1985comparison}, \cite{hardle1988far}, \cite{hardle1992applied}, and \cite{wahba1990spline}. There are a number of ways to calculate a measure of cross validated prediction error; we first focus on the leave-one-out method. Let $\hat{y}_{-i}$ denote the predicted value for the observation $y_i$ when $y_i$ itself is removed from the data we use to fit the model. We can calculate these predictions for each observation in the data set to obtain the prediction error:
+
+\begin{equation} \label{eq:LOOCV_def}
+\textup{CV}\left(\lambda\right) = \frac{1}{m}\sum_{i=1}^m \left( \frac{ y_i - \hat{y}_i }{1-h_{ii}}\right)^2, 
+\end{equation}
+where the $h_{ii}$ are the diagonal elements of the hat matrix, $H$. The difference between both quantities is generally small. The best $\lambda$ is the value that minimizes $\textup{CV}\left(\lambda\right)$ or $\textup{GCV}\left(\lambda\right) $. Brute force calculation of \ref{eq:LOOCV_def} is generally impractical, especially if the number of observations is large. However, this labor can be sidestepped using the following fact: 
+
+\begin{equation*}
+\hat{y} = Hy = B\left(B^TB + \lambda D_d^T D_d \right)^{-1} B^T y
+\end{equation*}
+
+One can show that 
+
+\begin{equation} \label{eq:LOO_residual}
+y_i - \hat{y}_{-i} = \left(y_i - \hat{y}_{i}\right)/\left(1-h_{ii}\right),
+\end{equation}
+\noindent
+and the diagonal elements of $H$ can be calculated quickly. An informal proof of \label{eq:LOO_residual} is as follows: suppose that we change the $i^{th}$ element of $y$, obtaining a new response vector $y^*$. Then $\hat{y}^* = H y^*$.
+
+ Since 
+ \[
+ \hat{y}_i = \sum_{j} h_{ij} y_j \qquad \textup{and} \qquad \hat{y}_{-i} = \sum_{j} h_{ij} y_j^*,
+ \]
+ \noindent
+ then
+ \[
+ \hat{y}_i - \hat{y}_{-i} = \sum_j h_{ij} \left(y_i - y_i^*\right) = h_{ii} \left(y_i - y_i^*\right).  
+\]
+
+
+For generalized cross-validation \cite{wahba1990spline}, we compute 
+\begin{equation} \label{eq:univariate_GCV}
+\textup{GCV}\left(\lambda\right) = \sum_{i=1}^m \frac{\left(  y_i - \hat{y}_i \right)^2}{\left(m-\sum_{j=1}^m h_{jj}\right)^2} 
+\end{equation}
+
 The smoothing matrix $H$ plays an integral role of calculating all of the model selection criteria we will discuss; within the context of both AIC and cross validation, the diagonal elements of $H$, $h_{ii}$ are of particular importance. Closely related to the problem of model selection is the ability to quantify model complexity. In classical regression theory, the degrees of freedom are clearly defined as the number of variables included in the model. Alternatively, the degrees of freedom can also be interpreted as the sum of the sensitivity of each fitted value with respect to the corresponding observed value. \cite{eilers1996flexible} and\cite{marx2005multidimensional} refer to this measure of model complexity as the model's \emph{effective dimension}, writing $\textup{ED}\left(\lambda\right)$ to explicitly indicate that this quantity is function of the smoothing parameter. 
+Hastie and Tibshirani (1990). They discuss the effective dimensions of linear smoother and propose to use the trace of the smoother matrix as an approximation. 
+
+It is computationally advantageous to use the cyclic property of the matrix trace, writing 
+\begin{align*}
+\textup{tr}\left(H\right) &= \textup{tr}\bigg[ B\left(B^TB + \lambda D_d^T D_d \right)^{-1} B^T\bigg]\\
+&=\textup{tr}\bigg[ \left(B^TB + \lambda D_d^T D_d \right)^{-1} B^TB\bigg],
+\end{align*}
+as the hat matrix is of dimension $m \times m$, and the latter expression only involves $n \times n$ matrices.
+
+
+The variance of the residuals at the optimal $\lambda$ is a natural choice to use as an estimate of $\hat{\sigma}_0^2$ for the computation of $\textup{AIC}\left(\lambda\right)$. It is practical to work with modified versions of $\textup{CV}\left(\lambda\right)$ and $\textup{GCV}\left(\lambda\right)$, with values that can be interpreted as estimates of the cross-validation standard deviation:
+
+\begin{equation}
+\begin{split}
+\bar{\textup{CV}}\left(\lambda\right) &= \sqrt{\textup{CV}\left(\lambda\right)} \\
+\bar{\textup{GCV}}\left(\lambda\right) &= \sqrt{m\textup{GCV}\left(\lambda\right)} \\
+\end{split}
+\end{equation}
+
 
 In classical regression, determining the model degrees of freedom is straightforward, as it is as simple as counting the number of variables included in the model. However, when regularization is used to control the fit of the model, resulting in coefficient shrinkage, counting the effective number of parameters is less straightforward. We choose to follow in the approach of \cite{hastie1986generalized} in using the trace of the smoother matrix as the effective dimension. This quantity is easily computed with the use of standard regression techniques, and is useful to compare the effective amount of smoothing for different numbers of knots, different degrees of the B-splines and different orders of penalties. \cite{ye1998measuring} proposes the concept of a generalized degrees of freedom, which gives the model effective dimension as 
 \[
@@ -1586,17 +1654,28 @@ In classical regression, determining the model degrees of freedom is straightfor
 For smoothing matrix $H$, the predicted response values are given by $\hat{y} = H y$. Writing
 
 \begin{align*}
-\frac{\partial \hat{y_i}}{\partial y_i} = \frac{\partial }{\partial y_i} \sum_{j} h_{ij} y_j = ,
+\frac{\partial \hat{y_i}}{\partial y_i} = \frac{\partial }{\partial y_i} \sum_{j} h_{ij} y_j = h_{ii},
 \end{align*}
 
 we have that 
 \begin{equation}
-\textup{ED}\left(\lambda\right) = \sum_i \frac{\partial \hat{y}_i}{\partial y_i} = .
+\textup{ED}\left(\lambda\right) = \textup{tr}\left(H\right).
 \end{equation}
-which can be shown to be equal to the trace of the hat matrix, $H$. Summarizing the complexity of a fitted P-spline is far from a trivial task; one must simultaneously consider the value of the smoothing parameter, the number of basis functions in the B-spline basis, as well as the order of the difference penalty. The effective dimension combines the effect of all three of these elements.
+Summarizing the complexity of a fitted P-spline is far from a trivial task; one must simultaneously consider the value of the smoothing parameter, the number of basis functions in the B-spline basis, as well as the order of the difference penalty. The effective dimension combines the effect of all three of these elements.
+
+
+\begin{figure}[H]
+\centering
+ \graphicspath{{img/}}
+  \includegraphics[scale=0.27]{"model selection/PS_ED_section_figure_3"}
+ \caption{\textit{An illustration of the behaviour of effective model dimension for P-spline smoothing of 10 simulated observations} $\left(x_i,y_i\right)$ \textit{using} $n=70$ \textit{cubic B-splines under various orders of the difference penalty,} $d$.}
+\end{figure}
+
+
 
 
 In essence, AIC, along with other information criterion-approaches to model selection aim to assess the performance of a model by adjusting the log likelihood of the data under the fitted model to account for some measure of model complexity. 
+
 
 
 
@@ -1615,13 +1694,6 @@ bias in various goodness-of-fit statistics. The theory also has interesting impl
 a human modeler. 
 
 
-The predictive power of a P-spline model for a given value of the smoothing parameter $\lambda$ can be assessed by its leave-one-out cross validation (LOOCV) score. Let $\hat{y}_{-i}$ denote the predicted value for the observation $y_i$ when $y_i$ itself is removed from the data we use to fit the model. We can calculate these predictions for each observation in the data set to obtain the prediction error:
-
-\begin{equation} \label{eq:LOOCV_def}
-\textup{CV}\left(\lambda\right) = \sqrt{\sum_i \left(y_i - \hat{y}_{-i}\right)^2}.
-\end{equation}
-
-Naturally, we choose $\lambda$ such that the CV error is minimized. Brute force calculation of \ref{eq:LOOCV_def} is generally impractical, especially if the number of observations is large.
 
 
 \subsubsection{P-splines as mixed models and the E-M algorithm}
