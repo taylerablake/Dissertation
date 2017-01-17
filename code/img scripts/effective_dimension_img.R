@@ -1,4 +1,45 @@
 
+setwd(file.path("/Users","taylerblake","Documents","Dissertation"))
+source(file.path(getwd(),"code","fnc","aux","bsplbase.R"))
+source(file.path(getwd(),"code","fnc","draw_psplines.R"))
+
+library(plyr)
+library(dplyr)
+library(rlist)
+library(ggplot2)
+library(mgcv)
+library(tidyr)
+library(splines)
+library(reshape2)
+library(systemfit)
+require(graphics)
+library(magrittr)
+
+
+
+sourceDir <- function(path, trace = TRUE, ...) {
+      for (nm in list.files(path, pattern = "[.][RrSsQq]$")) {
+            if(trace) cat(nm,":")
+            source(file.path(path, nm), ...)
+            if(trace) cat("\n")
+      }
+}
+
+sourceDir(file.path(getwd(),"code","fnc","aux"))
+sourceDir(file.path(getwd(),"code","fnc"))
+
+
+bspline<- function(x,xl,xr,ndx,bdeg){
+      dx<- (xr-xl) /ndx
+      knots<- seq(xl- bdeg*dx,xr+bdeg*dx,by=dx) 
+      B<- spline.des(knots,x,bdeg+1,0*x)$design
+      B
+}
+
+
+
+
+
 f <- function(x){1.2 + 2*sin(5  * x)}
 x <- runif(10)
 xg = seq(0, 1, length = 500)
@@ -39,7 +80,7 @@ for(d in 0:4){
             sum(diag(l$H))
       })
       LOOCV <- lapply(A,function(l){
-            ((y-l$H%*%y)*(1/diag(l$H)))^2 %>% sum %>% sqrt
+            ((y-l$H%*%y)*(1/(1-diag(l$H))))^2 %>% sum %>% sqrt
       })
       
       Beta0 <- matrix(data=unlist(beta0hat),nrow=500,ncol=length(lambda),byrow = FALSE)
@@ -71,7 +112,7 @@ p <- ggplot(ED,aes(x=log(l),y=ed,group=d)) + geom_line(aes(colour=factor(d)))
 p <- p + guides(colour=guide_legend("d")) 
 p <- p + xlab(expression(paste(log(lambda)))) + ylab("ED")
 p +theme_minimal() + scale_color_wsj()
-ggsave(file.path(getwd(),"Dissertation TeX","img","model selection","PS_ED_section_figure_3.png"))
+ggsave(file.path(getwd(),"Dissertation TeX","img","model selection","PS_ED_section_figure_1.png"))
 
 
 
@@ -120,7 +161,7 @@ for(d in 0:4){
             sum(diag(l$H))
       })
       LOOCV <- lapply(A,function(l){
-            ((y-l$H%*%y)*(1/diag(l$H)))^2 %>% sum %>% sqrt
+            ((y-l$H%*%y)*(1/(1-diag(l$H))))^2 %>% sum %>% sqrt
       })
       
       Beta0 <- matrix(data=unlist(beta0hat),nrow=500,ncol=length(lambda),byrow = FALSE)

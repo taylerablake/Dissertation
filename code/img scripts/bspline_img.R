@@ -240,16 +240,16 @@ dev.off()
 
 
 
-
-gamma <- rep(0,ncol(B.))
-gamma[ind] <- c(1,1,1,
+ind <- c(43,43+3,43+6,ncol(B.)-43+1,ncol(B.)-(43+3)+1,ncol(B.)-(43+6)+1,82,85,88)
+alpha <- rep(0,ncol(B.))
+alpha[ind] <- c(1,1,1,
                 1,2,3,
                 1,2,3)
-gamma.mat <- matrix(data=rep(gamma,nrow(B.)),nrow=nrow(B.),ncol=ncol(B.),byrow=TRUE)
+alpha.mat <- matrix(data=rep(alpha,nrow(B.)),nrow=nrow(B.),ncol=ncol(B.),byrow=TRUE)
 
 
 #M <- data.frame(expand.grid(x=M1.index,tilde.x=M2.index),z=rowSums(B.[,ind]))
-M <- data.frame(expand.grid(x=M1.index,tilde.x=M2.index),z=rowSums(gamma.mat*B.))
+M <- data.frame(expand.grid(x=M1.index,tilde.x=M2.index),z=rowSums(alpha.mat*B.))
 
 newcols <- colorRampPalette(c("grey50", "grey20"))
 png(filename = file.path(getwd(),"Dissertation TeX","img","large_row_penalty.png"))

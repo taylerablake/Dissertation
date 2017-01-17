@@ -184,7 +184,7 @@
 \newlabel{eq:PS_properties@cref}{{[subsection][3][6]6.3}{38}}
 \newlabel{eq:PS_property_3}{{III}{39}}
 \newlabel{eq:PS_property_3@cref}{{[enumi][3][]III}{39}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces \textit  {Illustration of the impact of the order of the difference penalty. The number of B-splines used is the same in each plot, with the penalty parameter varying from across the same grid of values. The fitted curves in the upper left plot correspond to the difference penalty of order $0$, where $\delimiter "026A30C \delimiter "026A30C D_0 \alpha \delimiter "026A30C \delimiter "026A30C ^2 = \DOTSB \sum@ \slimits@ _{i=1}^n \alpha _i^2$, analogous to ridge regression using the B-spline basis as regression covariates. The fitted curves approach polynomials of degree $d-1$ as $\lambda \rightarrow \infty $, as discussed in 6.3\hbox {} III\hbox {}.}\relax }}{41}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces \textit  {Illustration of the impact of the order of the difference penalty. The number of B-splines used is the same in each plot, with the penalty parameter varying from across the same grid of values. The fitted curves in the upper left plot correspond to the difference penalty of order $0$, where $\delimiter "026A30C D_0 \alpha \delimiter "026A30C ^2 = \DOTSB \sum@ \slimits@ _{i=1}^n \alpha _i^2$, analogous to ridge regression using the B-spline basis as regression covariates. The fitted curves approach polynomials of degree $d-1$ as $\lambda \rightarrow \infty $, as discussed in 6.3\hbox {} III\hbox {}.}\relax }}{41}}
 \newlabel{fig:PS_penalty_section_figure_6}{{8}{41}}
 \newlabel{fig:PS_penalty_section_figure_6@cref}{{[figure][8][]8}{41}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Optimal tuning and model selection}{42}}
@@ -201,24 +201,53 @@
 \citation{wahba1990spline}
 \citation{eilers1996flexible}
 \citation{marx2005multidimensional}
-\citation{hastie1986generalized}
+\citation{hastie1990generalized}
 \citation{ye1998measuring}
 \newlabel{eq:LOO_residual}{{53}{44}}
 \newlabel{eq:LOO_residual}{{6.4.1}{44}}
 \newlabel{eq:LOO_residual@cref}{{[subsubsection][1][6,4]6.4.1}{44}}
-\newlabel{eq:univariate_GCV}{{54}{44}}
+\newlabel{eq:GCV_def}{{54}{44}}
+\newlabel{eq:hat_matrix_trace}{{55}{44}}
+\newlabel{eq:hat_matrix_trace_cyclic_variation}{{56}{45}}
+\newlabel{eq:cyclic_hat_matrix_simplification}{{57}{45}}
+\newlabel{fig:PS_ED_figure_1}{{\caption@xref {fig:PS_ED_figure_1}{ on input line 1666}}{46}}
+\newlabel{fig:PS_ED_figure_1@cref}{{[subsubsection][1][6,4]6.4.1}{46}}
 \@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces \textit  {An illustration of the behaviour of effective model dimension for P-spline smoothing of 10 simulated observations} $\left (x_i,y_i\right )$ \textit  {using} $n=70$ \textit  {cubic B-splines under various orders of the difference penalty,} $d$.\relax }}{46}}
+\newlabel{eq:univariate_AIC}{{58}{46}}
 \citation{huang2007estimation}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {6.4.2}P-splines as mixed models and the E-M algorithm}{47}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Tensor product B-splines for multidimensional surface approximation}{47}}
-\newlabel{eq:2D_intercept_only_model}{{57}{48}}
-\newlabel{eq:2D_intercept_only_model_TP_expansion}{{58}{48}}
-\newlabel{eq:S_2D_intecept_only_model}{{59}{49}}
-\newlabel{eq:unvectorized_2D_penalty}{{60}{49}}
-\newlabel{eq:vectorized_2D_TP_mean_surface}{{61}{49}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Tensor product of two cubic B-splines\relax }}{51}}
-\newlabel{fig:bicubic_BS}{{10}{51}}
-\newlabel{fig:bicubic_BS@cref}{{[figure][10][]10}{51}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces A subset of a full bivariate basis of cubic B-splines\relax }}{52}}
-\newlabel{fig:sparse_bicubic_BS_basis}{{11}{52}}
-\newlabel{fig:sparse_bicubic_BS_basis@cref}{{[figure][11][]11}{52}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Multidimensional P-spline smoothing}{47}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Penalized tensor product B-splines for two-dimensional surface approximation}{48}}
+\newlabel{2D_PS_section}{{7.1}{48}}
+\newlabel{2D_PS_section@cref}{{[subsection][1][7]7.1}{48}}
+\newlabel{eq:2D_intercept_only_model}{{60}{48}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Tensor product of two cubic B-splines\relax }}{49}}
+\newlabel{fig:bicubic_BS}{{10}{49}}
+\newlabel{fig:bicubic_BS@cref}{{[figure][10][]10}{49}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces A subset of a full bivariate basis of cubic B-splines\relax }}{50}}
+\newlabel{fig:sparse_bicubic_BS_basis}{{11}{50}}
+\newlabel{fig:sparse_bicubic_BS_basis@cref}{{[figure][11][]11}{50}}
+\newlabel{eq:2D_intercept_only_model_TP_expansion}{{61}{50}}
+\newlabel{eq:S_2D_intecept_only_model}{{62}{51}}
+\newlabel{eq:unvectorized_2D_penalty}{{63}{51}}
+\newlabel{fig:2d_PS_penalty_demo}{{\caption@xref {fig:2d_PS_penalty_demo}{ on input line 1798}}{52}}
+\newlabel{fig:2d_PS_penalty_demo@cref}{{[subsection][1][7]7.1}{52}}
+\newlabel{fig:2D_PS_big_col_penalty}{{12a}{52}}
+\newlabel{fig:2D_PS_big_col_penalty@cref}{{[subfigure][1][12]12a}{52}}
+\newlabel{sub@fig:2D_PS_big_col_penalty}{{a}{52}}
+\newlabel{sub@fig:2D_PS_big_col_penalty@cref}{{[subfigure][1][12]12a}{52}}
+\newlabel{fig:2D_PS_big_row_penalty}{{12b}{52}}
+\newlabel{fig:2D_PS_big_row_penalty@cref}{{[subfigure][2][12]12b}{52}}
+\newlabel{sub@fig:2D_PS_big_row_penalty}{{b}{52}}
+\newlabel{sub@fig:2D_PS_big_row_penalty@cref}{{[subfigure][2][12]12b}{52}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces \textit  {Nine cubic B-spline tensor products with heavy linear column penalty and heavy linear row penalty}\relax }}{52}}
+\newlabel{eq:vectorized_2D_TP_mean_surface}{{64}{52}}
+\newlabel{eq:unfolded_2D_PS_basis}{{65}{52}}
+\newlabel{eq:2d_PS_solution}{{66}{53}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2} Diagnostics and model selection for tensor product P-splines }{53}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3} Tensor product varying coefficient models }{53}}
+\newlabel{eq:TPSR_model}{{67}{54}}
+\newlabel{eq:PSR_model}{{68}{54}}
+\newlabel{eq:2D_PS_VC_model_unvectorized}{{69}{54}}
+\newlabel{eq:2D_PS_VC_basis_vectorized}{{70}{54}}
+\newlabel{eq:2D_VC_objective_function}{{71}{55}}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  11 JAN 2017 11:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  17 JAN 2017 14:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1114,69 +1114,126 @@ LaTeX Warning: Citation `wahba1990spline' on page 44 undefined on input line 16
 
 
 LaTeX Warning: Citation `eilers1996flexible' on page 44 undefined on input line
- 1628.
+ 1629.
 
 
 LaTeX Warning: Citation `marx2005multidimensional' on page 44 undefined on inpu
-t line 1628.
+t line 1629.
 
 
-LaTeX Warning: Citation `hastie1986generalized' on page 44 undefined on input l
-ine 1649.
+LaTeX Warning: Citation `hastie1990generalized' on page 44 undefined on input l
+ine 1629.
 
 
 LaTeX Warning: Citation `ye1998measuring' on page 44 undefined on input line 16
-49.
+31.
 
 [44]
-<img/"model selection/PS_ED_section_figure_3".png, id=193, 1906.12125pt x 1446.
-40375pt>
-File: img/"model selection/PS_ED_section_figure_3".png Graphic file (type png)
- <use img/"model selection/PS_ED_section_figure_3".png>
-Package pdftex.def Info: img/"model selection/PS_ED_section_figure_3".png used 
-on input line 1670.
-(pdftex.def)             Requested size: 514.65962pt x 390.53424pt.
 
-Overfull \hbox (44.9046pt too wide) in paragraph at lines 1670--1671
+Package caption Warning: \label without proper \caption on input line 1666.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:PS_ED_figure_1' on page 45 undefined on input lin
+e 1656.
+
+
+Package caption Warning: \label without proper \caption on input line 1412.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:overcomplete_basis_pspline' on page 45 undefined 
+on input line 1656.
+
+
+<img/"model selection/effective dimension/PS_ED_section_figure_1".png, id=193, 
+1906.12125pt x 1446.40375pt>
+File: img/"model selection/effective dimension/PS_ED_section_figure_1".png Grap
+hic file (type png)
+
+<use img/"model selection/effective dimension/PS_ED_section_figure_1".png>
+Package pdftex.def Info: img/"model selection/effective dimension/PS_ED_section
+_figure_1".png used on input line 1669.
+(pdftex.def)             Requested size: 495.57985pt x 376.0561pt.
+
+Overfull \hbox (25.82483pt too wide) in paragraph at lines 1669--1670
  [][] 
  []
 
-[45] [46 <./img/model selection/PS_ED_section_figure_3.png>]
+[45]
+Missing character: There is no l in font eusm10!
+ [46 <./img/model selection/effective dimension/PS_ED_section_figure_1.png>]
 
 LaTeX Warning: Citation `huang2007estimation' on page 47 undefined on input lin
-e 1722.
+e 1723.
 
-[47] [48] [49] <img/bicubic_basis_function.png, id=211, 481.8pt x 481.8pt>
+[47] <img/bicubic_basis_function.png, id=204, 481.8pt x 481.8pt>
 File: img/bicubic_basis_function.png Graphic file (type png)
 
 <use img/bicubic_basis_function.png>
-Package pdftex.def Info: img/bicubic_basis_function.png used on input line 1840
+Package pdftex.def Info: img/bicubic_basis_function.png used on input line 1761
 .
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
 
-<img/bicubic_bspline_contour.png, id=212, 481.8pt x 481.8pt>
+<img/bicubic_bspline_contour.png, id=205, 481.8pt x 481.8pt>
 File: img/bicubic_bspline_contour.png Graphic file (type png)
 
 <use img/bicubic_bspline_contour.png>
-Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 184
-2.
+Package pdftex.def Info: img/bicubic_bspline_contour.png used on input line 176
+3.
 (pdftex.def)             Requested size: 289.08957pt x 289.08957pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<img/sparse_bicubic_basis.png, id=213, 481.8pt x 481.8pt>
+ [48]
+<img/sparse_bicubic_basis.png, id=209, 481.8pt x 481.8pt>
 File: img/sparse_bicubic_basis.png Graphic file (type png)
 
 <use img/sparse_bicubic_basis.png>
-Package pdftex.def Info: img/sparse_bicubic_basis.png used on input line 1850.
+Package pdftex.def Info: img/sparse_bicubic_basis.png used on input line 1771.
 (pdftex.def)             Requested size: 361.35646pt x 361.35646pt.
+ [49 <./img/bicubic_basis_function.png> <./img/bicubic_bspline_contour.png>] [5
+0 <./img/sparse_bicubic_basis.png>]
+
+Package caption Warning: \label without proper \caption on input line 1798.
+See the caption package documentation for explanation.
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+LaTeX Warning: Reference `fig:2d_PS_penalty_demo' on page 51 undefined on input
+ line 1795.
 
-[50] [51 <./img/bicubic_basis_function.png> <./img/bicubic_bspline_contour.png>
-] [52 <./img/sparse_bicubic_basis.png>] (./ch3.BSplineSmoothing_doc.aux)
+
+<img/"model selection/effective dimension/2d_PS_section_figure1_big_col_lambda"
+.png, id=221, 481.8pt x 481.8pt>
+File: img/"model selection/effective dimension/2d_PS_section_figure1_big_col_la
+mbda".png Graphic file (type png)
+
+<use img/"model selection/effective dimension/2d_PS_section_figure1_big_col_lam
+bda".png>
+Package pdftex.def Info: img/"model selection/effective dimension/2d_PS_section
+_figure1_big_col_lambda".png used on input line 1802.
+(pdftex.def)             Requested size: 240.8994pt x 240.8994pt.
+
+Overfull \hbox (15.419pt too wide) in paragraph at lines 1802--1803
+ [][] 
+ []
+
+
+<img/"model selection/effective dimension/2d_PS_section_figure1_big_row_lambda"
+.png, id=222, 481.8pt x 481.8pt>
+File: img/"model selection/effective dimension/2d_PS_section_figure1_big_row_la
+mbda".png Graphic file (type png)
+
+<use img/"model selection/effective dimension/2d_PS_section_figure1_big_row_lam
+bda".png>
+Package pdftex.def Info: img/"model selection/effective dimension/2d_PS_section
+_figure1_big_row_lambda".png used on input line 1809.
+(pdftex.def)             Requested size: 240.8994pt x 240.8994pt.
+
+Overfull \hbox (15.419pt too wide) in paragraph at lines 1809--1810
+ [][] 
+ []
+
+[51] [52 <./img/model selection/effective dimension/2d_PS_section_figure1_big_c
+ol_lambda.png> <./img/model selection/effective dimension/2d_PS_section_figure1
+_big_row_lambda.png>] [53] [54] [55] (./ch3.BSplineSmoothing_doc.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -1185,13 +1242,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 17185 strings out of 493089
- 338607 string characters out of 6134842
+ 17222 strings out of 493089
+ 340182 string characters out of 6134842
  402798 words of memory out of 5000000
- 20326 multiletter control sequences out of 15000+600000
- 18232 words of font info for 73 fonts, out of 8000000 for 9000
+ 20360 multiletter control sequences out of 15000+600000
+ 18578 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,22n,54p,1091b,731s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,22n,54p,1121b,731s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
@@ -1205,12 +1262,13 @@ exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texl
 ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texli
 ve/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive
 /2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2
-015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/20
-15/texmf-dist/fonts/type1/public/amsfonts/euler/eusm10.pfb>
-Output written on ch3.BSplineSmoothing_doc.pdf (52 pages, 1765940 bytes).
+015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/20
+15/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/201
+5/texmf-dist/fonts/type1/public/amsfonts/euler/eusm10.pfb>
+Output written on ch3.BSplineSmoothing_doc.pdf (55 pages, 1987823 bytes).
 PDF statistics:
- 277 PDF objects out of 1000 (max. 8388607)
- 166 compressed objects within 2 object streams
+ 295 PDF objects out of 1000 (max. 8388607)
+ 176 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 113 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 123 words of extra memory for PDF output out of 10000 (max. 10000000)
 
