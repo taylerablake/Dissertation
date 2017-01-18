@@ -1,0 +1,102 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx,psfrag,amsfonts,float,mathbbol,xcolor,cleveref}
+\usepackage{arydshln}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage[mathscr]{euscript}
+\usepackage{enumitem}
+\usepackage{accents}
+\usepackage{framed}
+\usepackage{subcaption}
+\usepackage{mathtools}
+\usepackage{IEEEtrantools}
+\usepackage{amsthm}
+\usepackage[letterpaper, left=1in, top=1in, right=1in, bottom=1in,nohead,includefoot, verbose, ignoremp]{geometry}
+\newcommand{\comment}[1]{\text{\phantom{(#1)}} \tag{#1}}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\newcommand*\needsparaphrased{\color{red}}
+\newcommand*\needscited{\color{orange}}
+\newcommand*\needsproof{\color{blue}}
+\newcommand*\outlineskeleton{\color{green}}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\bfeps}{\mbox{\boldmath $\epsilon$}}
+\newcommand{\bfgamma}{\mbox{\boldmath $\gamma$}}
+\newcommand{\bflam}{\mbox{\boldmath $\lambda$}}
+\newcommand{\bfphi}{\mbox{\boldmath $\phi$}}
+\newcommand{\bfsigma}{\mbox{\boldmath $\sigma$}}
+\newcommand{\bfbeta}{\mbox{\boldmath $\beta$}}
+\newcommand{\bfalpha}{\mbox{\boldmath $\alpha$}}
+\newcommand{\bfe}{\mbox{\boldmath $e$}}
+\newcommand{\bff}{\mbox{\boldmath $f$}}
+\newcommand{\bfone}{\mbox{\boldmath $1$}}
+\newcommand{\bft}{\mbox{\boldmath $t$}}
+\newcommand{\bfo}{\mbox{\boldmath $0$}}
+\newcommand{\bfO}{\mbox{\boldmath $O$}}
+\newcommand{\bfx}{\mbox{\boldmath $x$}}
+\newcommand{\bfX}{\mbox{\boldmath $X$}}
+\newcommand{\bfz}{\mbox{\boldmath $z$}}
+
+
+\newcommand{\bfm}{\mbox{\boldmath $m}}
+\newcommand{\bfy}{\mbox{\boldmath $y$}}
+\newcommand{\bfd}{\mbox{\boldmath $d$}}
+\newcommand{\bfc}{\mbox{\boldmath $c$}}
+\newcommand{\bfa}{\mbox{\boldmath $a$}}
+\newcommand{\bfb}{\mbox{\boldmath $b$}}
+\newcommand{\bfY}{\mbox{\boldmath $Y$}}
+\newcommand{\bfS}{\mbox{\boldmath $S$}}
+\newcommand{\bfZ}{\mbox{\boldmath $Z$}}
+\newcommand{\cardT}{\vert \mathcal{T} \vert}
+%\newenvironment{theorem}[1][Theorem]{\begin{trivlist}
+%\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+%\newenvironment{corollary}[1][Corollary]{\begin{trivlist}
+%\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+%\newenvironment{proposition}[1][Proposition]{\begin{trivlist}
+%\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+%\newenvironment{definition}[1][Definition]{\begin{trivlist}
+%\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\def\bL{\mathbf{L}}
+
+
+\makeatletter
+\renewcommand{\theenumi}{\Roman{enumi}}
+\renewcommand{\labelenumi}{\theenumi.}
+\renewcommand{\theenumii}{\Alph{enumii}}
+\renewcommand{\labelenumii}{\theenumii.}
+\renewcommand{\p@enumii}{\theenumi.}
+\makeatother
+
+ \begin{document}
+
+\nocite{*}
+
+We assess the performance of the covariance matrix estimator using two commonly used loss functions: the entropy loss $\mathscr{L}_1$ and the quadratic loss $\mathscr{L}_2$, which are defined as follows:
+
+\begin{equation} \label{eq:matrix_entropy_loss}
+\mathscr{L}_1\left(\Sigma, G}\right) = \textup{tr}\left(\Sigma^{-1}G\right) - \log \vert \Sigma^{-1}G \vert = m,
+\end{equation}
+\noindent
+and
+\begin{equation} \label{eq:matrix_quadratic_loss}
+\mathscr{L}_2\left(\Sigma, G}\right) = \textup{tr}\left(\Sigma^{-1}G - I\right)^2,
+\end{equation}
+\noindent
+where $\Sigma$ is the true covariance matrix, and $G$ is some positive definite matrix. Both $\mathscr{L}_1$ and $\mathscr{L}_2$ are 0 when $G = \Sigma$, and positive for all $G \ne \Sigma$.
+
+\begin{equation*}
+\mathscr{R}_1\left(\right)
+\end{equation}
+
+
+
+
+\end{document}

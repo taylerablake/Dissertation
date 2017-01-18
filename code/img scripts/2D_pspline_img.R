@@ -226,7 +226,8 @@ B1 <- bsplbase(as.vector(oM1), c(0,1,6,3))
 oM2 <- outer(M2.index, rep(1, length(M1.index)))
 B2 <- bsplbase(as.vector(oM2), c(0,1,6,3))
 n1 <- ncol(B1)
-n2 <- ncol(B2)	# Compute tensor products for estimated alpha surface
+n2 <- ncol(B2)
+
 B1. <- kronecker(B1, t(rep(1, n2)))
 B2. <- kronecker(t(rep(1, n1)), B2)
 rm(B1)

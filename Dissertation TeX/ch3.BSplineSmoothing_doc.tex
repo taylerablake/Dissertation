@@ -1944,9 +1944,17 @@ where
  \mbox{and} \quad I^* = \textup{diag}\left(0, I_{KL}\right).
 \end{align*}
 
-The additional penalty parameter $\lambda_0$ imposes an overall ridge penalty on $\alpha$. We augment $U$, $P$, and $\bar{P}$ with zeros so as to not penalize the intercept term $\alpha_0$.
+The additional penalty parameter $\lambda_0$ imposes an overall ridge penalty on $\alpha$. We augment $U$, $P$, and $\bar{P}$ with zeros so as to not penalize the intercept term $\alpha_0$. The minimizer $\hat{\alpha}^*$ of Equation~\ref{eq:2D_VC_objective_function} is given by 
 
+\begin{equation*}
+\hat{\alpha}^* = \big[\mathring{U}^{*T} + \lambda P^* + \bar{\lambda}\bar{P} + \lambda_0 I^* \big]^{-1}\mathring{U}^{*T}y.
+\end{equation*}
 
+The predicted response is then given by 
+\begin{align*}
+\hat{y} &= \mathring{U}^* \left[ \hat{\alpha_0},\hat{\alpha}^T \right]^T \\
+&= \mathring{U}^* \big[\mathring{U}^{*T} + \lambda P^* + \bar{\lambda}\bar{P} + \lambda_0 I^* \big]^{-1}\mathring{U}^{*T}y \\
+\end{align*}
 
 
 
