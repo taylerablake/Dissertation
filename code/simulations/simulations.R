@@ -162,8 +162,8 @@ dBar <- 3
       B. <- Bl. * Bm.
       Q. <- X %*% B.
 
-      ll <- expand.grid(l1=10^(seq(-4,4,length.out=10)),
-                        l2=10^(seq(-4,4,length.out=10))) %>%
+      ll <- expand.grid(l1=10^(seq(-4,6,length.out=10)),
+                        l2=10^(seq(-4,6,length.out=10))) %>%
             dlply(.,.(l1,l2))
 
       
@@ -177,44 +177,68 @@ dBar <- 3
       })
       endTime <- Sys.time()
       endTime-startTime
-                  a <-  M%*%t(Q.) %*% as.vector(y[-1])
-                  H <- Q.%*%M%*%t(Q.)
-                  ED <- H %>% diag %>% sum
-                  
-                  a <- M%*%t(Q.)%*%y[-1]
-                  y_hat <- as.vector(Q.%*%a)
-                  phi_hat <- as.vector(B.%*%a)
-            
-                  T_hat <- matrix(data=0,nrow=length(y),ncol=length(y))
-                  diag(T_hat) <- rep(1,length(y))
-                  T_hat[as.matrix(grid[,1:2])] <- -phi_hat 
-                  CV <- ((y[-1]-y_hat)/(1-diag(H)))^2 %>% mean
-                  Omega_hat <- T_hat%*%t(T_hat)
       
-                  entropy_loss <- sum(diag(Omega_hat%*%true_Sigma)) - log(det(Omega_hat%*%true_Sigma)) - m
-                  quadratic_loss <- sum(diag((Omega_hat%*%true_Sigma)^2))
-                  rl <- list()
-                  rl$ED <- ED
-                  rl$CV <- CV
-                  rl$el <- entropy_loss
-                  rl$ql <- quadratic_loss
-                  rl
-            })      
-      endTime <- Sys.time()
-      endTime-startTime
+      goods <- lapply(l.list,function(meat){
+                  if(class(meat)!="try-error"){
+                        a <-  meat%*%t(Q.) %*% as.vector(y[-1])
+                        H <- Q.%*%meat%*%t(Q.)
+                        ED <- H %>% diag %>% sum
+                        ##--------------------------------------------------------------------------------------
+                        y_hat <- as.vector(Q.%*%a)
+                        CV <- ((y[-1]-y_hat)/(1-diag(H)))^2 %>% mean
+                        ##--------------------------------------------------------------------------------------
+                        phi_hat <- as.vector(B.%*%a)
+                        T_hat <- matrix(data=0,nrow=length(y),ncol=length(y))
+                        diag(T_hat) <- rep(1,length(y))
+                        T_hat[as.matrix(grid[,1:2])] <- -phi_hat 
+                        Omega_hat <- T_hat%*%t(T_hat)
+                        ##--------------------------------------------------------------------------------------
+                        entropy_loss <- sum(diag(Omega_hat%*%true_Sigma)) - log(det(Omega_hat%*%true_Sigma)) - m
+                        quadratic_loss <- sum(diag((Omega_hat%*%true_Sigma)^2))
+                        ##--------------------------------------------------------------------------------------
+                        rl <- list(ED=ED,CV=CV,el=entropy_loss,ql=quadratic_loss)
+                        rl
+                  }
+            })
 
-      M <- solve((t(Q.) %*% Q. + lambda*P + lambdaBar*Pbar + lambdaRidge*Pridge))
-      a <-  M%*%t(Q.) %*% as.vector(y)
-      H <- Q.%*%M%*%t(Q.)
-      ED <- H %>% diag %>% sum
-
-      a <- solve(t(Q.)%*%Q. + lambda*P + lambdaBar*Pbar + lambdaRidge*Pridge,t(Q.)%*%y[-1])
-      y_hat <- as.vector(Q.%*%a)
-      phi_hat <- as.vector(B.%*%a)
-
-      T_hat <- matrix(data=0,nrow=length(y),ncol=length(y))
-      diag(T_hat) <- rep(1,length(y))
-      T_hat[as.matrix(grid[,1:2])] <- -phi_hat 
+      cv <- lapply(goods,function(l.arg){
+            l.arg$CV
+      }) %>% unlist %>% as.vector()
+      ed <- lapply(goods,function(l.arg){
+            l.arg$ED
+      }) %>% unlist %>% as.vector()
+      el <- lapply(goods,function(l.arg){
+            l.arg$el
+      }) %>% unlist %>% as.vector()
+      ql <- lapply(goods,function(l.arg){
+            l.arg$ql
+      }) %>% unlist %>% as.vector()
+    
+      diagnostics <- data.frame(expand.grid(lambda_l=10^(seq(-4,6,length.out=10)),
+                                            lambda_m=10^(seq(-4,6,length.out=10)))[-which(unlist(lapply(l.list,class))=="try-error"),],
+                                cv=cv,
+                                ed=ed,
+                                el=el,
+                                ql=ql)
+      
+      p <- ggplot(diagnostics,aes(x=log(lambda_l,base=10),y=ed,group=log(lambda_m,base=10))) +
+            geom_line(aes(colour=log(lambda_m,base=10))) +
+            theme_minimal() +
+            scale_colour_gradient_tableau("Red") +
+            guides(colour=guide_legend(expression(log[10](lambda[m])))) +
+            xlab(expression(log[10](lambda[l]))) +
+            ylab(expression(ED(lambda[l],lambda[m])))
+      p
+      
+      p <- ggplot(diagnostics,aes(x=log(lambda_l,base=10),y=cv,group=log(lambda_m,base=10))) +
+            geom_line(aes(colour=log(lambda_m,base=10))) +
+            theme_minimal() +
+            scale_colour_gradient_tableau("Red") +
+            guides(colour=guide_legend(expression(log[10](lambda[m])))) +
+            xlab(expression(log[10](lambda[l]))) +
+            ylab(expression(log[10](lambda[l])))
+      p
+      
 
 # cloud(true_phi ~ l*m,
 #       data=grid,
