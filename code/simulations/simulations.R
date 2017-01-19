@@ -3,7 +3,7 @@
 
 
 library(ggthemes)
-
+library(rlist)
 
 
 test1 <- function(x,z,sx=0.3,sz=0.4) { 
@@ -98,9 +98,12 @@ phi <- function(t1.index,t2.index,m){
       garp
 }
 
-sapply(1:nrow(grid),function(row.i){
-      phi(grid$t1.index[row.i],grid$t2.index[row.i],m=m)
-})
+      true_phi <- sapply(1:nrow(grid),function(row.i){
+                  phi(grid$t1.index[row.i],grid$t2.index[row.i],m=m)
+            })
+
+      grid <- transform(grid,true_phi=true_phi)
+      rm(true_phi)
 
 
 indices_of_nonzeros <- as.matrix(expand.grid(t1=t,t2=t) %>% subset(.,(t1-t2)==1))
@@ -113,20 +116,9 @@ phis <- -T_mat[lower.tri(T_mat)]
 y <- solve(T_mat)%*%as.vector(rnorm(length(t),mean=0,sd=1))
 true_Sigma <- solve(T_mat)%*%T_mat
 
-#M1.index <- grid[,1] %>% unique
-#M2.index <- grid[,2] %>% unique
 l.index <- grid[,3] %>% unique
 m.index <- grid[,4] %>% unique
 
-
-
-
-
-
-
-# X <- sapply(2:length(t),function(i){
-#             c(y[1:(i-1)],rep(0,length(t)-i))
-#       }) %>% t
 X <- matrix(data=0,nrow=length(t),ncol=nrow(grid))
 X[2,1] <- y[1]
 column_index <- 1
@@ -138,14 +130,8 @@ X <- X[-1,]
 
 #################################################################################
 
-#B1 <- bsplbase(M1.index, c(0,1,20,3))
-#B2 <- bsplbase(M2.index, c(0,1,20,3))
-
 Bl <- bsplbase(grid$l, c(0,1,40,3))
 Bm <- bsplbase(grid$m, c(0,1,40,3))
-
-
-#U <- X%*%B1
 U <- X%*%Bl
 
 lambda <- 100
@@ -153,51 +139,106 @@ lambdaBar <- 1
 lambdaRidge <- 0
 
 d <- 2
-D <- diff(diag(ncol(Bl)), diff = d)
-#D <- diag(ncol(Bl))
-P <- kronecker(diag(rep(1,ncol(Bm))), t(D)%*%D )
 dBar <- 3
-Dbar <- diff(diag(ncol(Bm)), diff = dBar)
-Pbar <- kronecker(t(Dbar)%*%Dbar, diag(rep(1,ncol(Bl))) )
-Pridge <- diag(rep(1,ncol(Pbar)))
-n1 <- ncol(Bl)
-n2 <- ncol(Bm)	
 
-Bl. <- kronecker(Bl, t(rep(1, n2)))
-Bm. <- kronecker(t(rep(1, n1)), Bm)
+      D <- diag(ncol(Bl))
+      if(d > 0){
+            D <- diff(diag(ncol(Bl)), diff = d)      
+      }
+      Dbar <- diag(ncol(Bm))
+      if(dBar > 0){
+            Dbar <- diff(diag(ncol(Bm)), diff = dBar)
+      }
 
-B. <- Bl. * Bm.
-Q. <- X %*% B.
+      P <- kronecker(diag(rep(1,ncol(Bm))), t(D)%*%D )
+      Pbar <- kronecker(t(Dbar)%*%Dbar, diag(rep(1,ncol(Bl))) )
+      Pridge <- diag(rep(1,ncol(Pbar)))
 
-M <- solve((t(B.) %*% B. + lambda*P + lambdaBar*Pbar + lambdaRidge*Pridge))
-a <-  M%*%t(Q.) %*% as.vector(y)
-H <- Q.%*%M%*%t(Q.)
-ED <- H %>% diag %>% sum
+      n1 <- ncol(Bl)
+      n2 <- ncol(Bm)	
 
-a <- solve(t(Q.)%*%Q. + lambda*P + lambdaBar*Pbar + lambdaRidge*Pridge,t(Q.)%*%y[-1])
-y_hat <- as.vector(Q.%*%a)
-phi_hat <- as.vector(B.%*%a)
+      Bl. <- kronecker(Bl, t(rep(1, n2)))
+      Bm. <- kronecker(t(rep(1, n1)), Bm)
+      B. <- Bl. * Bm.
+      Q. <- X %*% B.
 
-T_hat <- matrix(data=0,nrow=length(y),ncol=length(y))
-diag(T_hat) <- rep(1,length(y))
-T_hat[as.matrix(grid[,1:2])] <- -phi_hat 
+      ll <- expand.grid(l1=10^(seq(-4,4,length.out=10)),
+                        l2=10^(seq(-4,4,length.out=10))) %>%
+            dlply(.,.(l1,l2))
 
-df <- data.frame(e=as.vector(T_mat - T_hat),expand.grid(l=1:nrow(T_mat),m=1:ncol(T_mat)))
-df %>% ggplot(.,aes(x=l,y=m)) + geom_point(aes(colour=e^2)) + theme_minimal() + scale_color_continuous_tableau("Green")
+      
+      
+      startTime <- Sys.time()
+      l.list <- lapply(ll,function(df){
+      
+                  #M <- solve((t(Q.) %*% Q. + df$l1*P + df$l2*Pbar + df$l3*Pridge))
+                  try({M <- solve((t(Q.) %*% Q. + df$l1*P + df$l2*Pbar))
+                  M})
+      })
+      endTime <- Sys.time()
+      endTime-startTime
+                  a <-  M%*%t(Q.) %*% as.vector(y[-1])
+                  H <- Q.%*%M%*%t(Q.)
+                  ED <- H %>% diag %>% sum
+                  
+                  a <- M%*%t(Q.)%*%y[-1]
+                  y_hat <- as.vector(Q.%*%a)
+                  phi_hat <- as.vector(B.%*%a)
+            
+                  T_hat <- matrix(data=0,nrow=length(y),ncol=length(y))
+                  diag(T_hat) <- rep(1,length(y))
+                  T_hat[as.matrix(grid[,1:2])] <- -phi_hat 
+                  CV <- ((y[-1]-y_hat)/(1-diag(H)))^2 %>% mean
+                  Omega_hat <- T_hat%*%t(T_hat)
+      
+                  entropy_loss <- sum(diag(Omega_hat%*%true_Sigma)) - log(det(Omega_hat%*%true_Sigma)) - m
+                  quadratic_loss <- sum(diag((Omega_hat%*%true_Sigma)^2))
+                  rl <- list()
+                  rl$ED <- ED
+                  rl$CV <- CV
+                  rl$el <- entropy_loss
+                  rl$ql <- quadratic_loss
+                  rl
+            })      
+      endTime <- Sys.time()
+      endTime-startTime
+
+      M <- solve((t(Q.) %*% Q. + lambda*P + lambdaBar*Pbar + lambdaRidge*Pridge))
+      a <-  M%*%t(Q.) %*% as.vector(y)
+      H <- Q.%*%M%*%t(Q.)
+      ED <- H %>% diag %>% sum
+
+      a <- solve(t(Q.)%*%Q. + lambda*P + lambdaBar*Pbar + lambdaRidge*Pridge,t(Q.)%*%y[-1])
+      y_hat <- as.vector(Q.%*%a)
+      phi_hat <- as.vector(B.%*%a)
+
+      T_hat <- matrix(data=0,nrow=length(y),ncol=length(y))
+      diag(T_hat) <- rep(1,length(y))
+      T_hat[as.matrix(grid[,1:2])] <- -phi_hat 
+
+# cloud(true_phi ~ l*m,
+#       data=grid,
+#       screen = list(x = -90, y = 40), distance = .4, zoom = .6)
+# cloud(true_phi-phi_hat ~ l*m,
+#       data=data.frame(grid,phi_hat=phi_hat),
+#       screen = list(x = -90, y = 40), distance = .4, zoom = .6)
+# 
+# df <- data.frame(e=as.vector(T_mat - T_hat),expand.grid(l=1:nrow(T_mat),m=1:ncol(T_mat)))
+# df %>% ggplot(.,aes(x=l,y=m)) + geom_point(aes(colour=e^2)) + theme_minimal() + scale_color_continuous_tableau("Green")
 
 
 
 
-df <- data.frame(type=c(rep("observed",length(y)-1),rep("predicted",length(y)-1)),
-           value=c(y[-1],y_hat),
-           t=rep((2:m)/m,2))
-df %>% ggplot(.,aes(x=t,y=value)) + geom_point(aes(colour=type)) + theme_wsj() 
-data.frame(t=2:m,e=y[-1]-y_hat) %>% ggplot(.,aes(x=t,y=e)) + geom_point() + theme_wsj() + scale_color_wsj()
-
+#df <- data.frame(type=c(rep("observed",length(y)-1),rep("predicted",length(y)-1)),
+#           value=c(y[-1],y_hat),
+#           t=rep((2:m)/m,2))
+#df %>% ggplot(.,aes(x=t,y=value)) + geom_point(aes(colour=type)) + theme_wsj() 
+#data.frame(t=2:m,e=y[-1]-y_hat) %>% ggplot(.,aes(x=t,y=e)) + geom_point() + theme_wsj() + scale_color_wsj()
+      CV <- ((y[-1]-y_hat)/(1-diag(H)))^2 %>% mean
       Omega_hat <- T_hat%*%t(T_hat)
       
-entropy_loss <- sum(diag(Omega_hat%*%true_Sigma)) - log(det(Omega_hat%*%true_Sigma)) - m
-      
+      entropy_loss <- sum(diag(Omega_hat%*%true_Sigma)) - log(det(Omega_hat%*%true_Sigma)) - m
+      quadratic_loss <- sum(diag((Omega_hat%*%true_Sigma)^2))
       
 #################################################################################
 #################################################################################

@@ -82,12 +82,12 @@
 We assess the performance of the covariance matrix estimator using two commonly used loss functions: the entropy loss $\mathscr{L}_1$ and the quadratic loss $\mathscr{L}_2$, which are defined as follows:
 
 \begin{equation} \label{eq:matrix_entropy_loss}
-\mathscr{L}_1\left(\Sigma, G}\right) = \textup{tr}\left(\Sigma^{-1}G\right) - \log \vert \Sigma^{-1}G \vert = m,
+\mathscr{L}_1\left(\Sigma, G\right) = \textup{tr}\left(\Sigma^{-1}G\right) - \log \vert \Sigma^{-1}G \vert = m,
 \end{equation}
 \noindent
 and
 \begin{equation} \label{eq:matrix_quadratic_loss}
-\mathscr{L}_2\left(\Sigma, G}\right) = \textup{tr}\left(\Sigma^{-1}G - I\right)^2,
+\mathscr{L}_2\left(\Sigma, G\right) = \textup{tr}\left(\Sigma^{-1}G - I\right)^2,
 \end{equation}
 \noindent
 where $\Sigma$ is the true covariance matrix, and $G$ is some positive definite matrix. Both $\mathscr{L}_1$ and $\mathscr{L}_2$ are 0 when $G = \Sigma$, and positive for all $G \ne \Sigma$.
