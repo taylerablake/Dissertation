@@ -50,7 +50,6 @@ par(old.par)
 
 
 
-
 #######################################################################################################
 #######################################################################################################
 
@@ -72,6 +71,18 @@ for (i in 1:3) { plot(b,select=i);lines(coast)}
 
 
 
+
+
+
+
+
+
+
+data("gasoline")
+gas <- gasoline
+
+head(gas)
+
 #######################################################################################################
 #######################################################################################################
 
@@ -87,7 +98,7 @@ grid <- expand.grid(t1.index=1:m,
       transform(.,l=(t1.index-t2.index)/max(t1.index-t2.index),
                 m=0.5*(t1.index+t2.index)/max(0.5*(t1.index+t2.index)))
       
-
+rownames(grid) <- 1:nrow(grid)
 phi <- function(t1.index,t2.index,m){
       if(t1.index-t2.index==1){
             garp <- (2*((t1.index)/m)^2)-0.5
@@ -113,13 +124,27 @@ T_mat <- diag(rep(1,length(t)))
 T_mat[indices_of_nonzeros] <- -nonzero_phis
 phis <- -T_mat[lower.tri(T_mat)]
 
-y <- solve(T_mat)%*%as.vector(rnorm(length(t),mean=0,sd=1))
+
+N <- 1
+y <- solve(T_mat)%*%matrix(data=rnorm(N*length(t),mean=0,sd=1),nrow=length(t),ncol=N)
 true_Sigma <- solve(T_mat)%*%T_mat
 
-l.index <- grid[,3] %>% unique
-m.index <- grid[,4] %>% unique
+#l.index <- grid[,3] %>% unique
+#m.index <- grid[,4] %>% unique
 
 X <- matrix(data=0,nrow=length(t),ncol=nrow(grid))
+
+# bigX <- lapply(as.list(1:ncol(y)),function(i){
+#             x <- matrix(data=0,nrow=length(t),ncol=nrow(grid))       
+#             x[2,1] <- y[1,i]
+#             column_index <- 1
+#             for(j in 3:nrow(y)){
+#                   x[i,((column_index+1):(column_index+j-1))] <- y[1:(j-1),i]
+#                   column_index <- column_index+ j-1
+#             }
+#             x <- x[-1,]
+#             x
+#       })
 X[2,1] <- y[1]
 column_index <- 1
 for(i in 3:length(y)){
@@ -236,10 +261,29 @@ dBar <- 3
             scale_colour_gradient_tableau("Red") +
             guides(colour=guide_legend(expression(log[10](lambda[m])))) +
             xlab(expression(log[10](lambda[l]))) +
-            ylab(expression(log[10](lambda[l])))
+            ylab(expression(CV(lambda[l],lambda[m])))
       p
       
-
+      p <- ggplot(diagnostics,aes(x=log(lambda_l,base=10),y=el,group=log(lambda_m,base=10))) +
+            geom_line(aes(colour=log(lambda_m,base=10))) +
+            theme_minimal() +
+            scale_colour_gradient_tableau("Red") +
+            guides(colour=guide_legend(expression(log[10](lambda[m])))) +
+            xlab(expression(log[10](lambda[l]))) +
+            ylab(expression(Delta[1](hat(Sigma)^-1,Sigma)))
+      p
+      
+      
+      p <- ggplot(diagnostics,aes(x=log(lambda_l,base=10),y=ql,group=log(lambda_m,base=10))) +
+            geom_line(aes(colour=log(lambda_m,base=10))) +
+            theme_minimal() +
+            scale_colour_gradient_tableau("Red") +
+            guides(colour=guide_legend(expression(log[10](lambda[m])))) +
+            xlab(expression(log[10](lambda[l]))) +
+            ylab(expression(Delta[2](hat(Sigma)^-1,Sigma))) +
+            ylim()
+      p
+      summary(ql)
 # cloud(true_phi ~ l*m,
 #       data=grid,
 #       screen = list(x = -90, y = 40), distance = .4, zoom = .6)
@@ -271,3 +315,131 @@ dBar <- 3
 
 
 
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      #################################################################################
+      #################################################################################
+      
+      
+      
+      pl <- length(unique(grid$l))
+      pm <- length(unique(grid$m))
+      
+      M <- lapply(as.list(2:m),function(i){
+                  x <- matrix(data=0,
+                        nrow=pl,
+                        ncol=pm)
+                  for (j in 1:(i-1)){
+                        ## put y[j] in the right spot
+                        x[match(i-j,unique(grid$t1.index-grid$t2.index)),
+                        match(i+j,unique(grid$t1.index+grid$t2.index))] <- as.vector(y)[j]
+                  }
+                  x
+            }) %>% list.rbind() 
+      
+      y <- as.vector(y)
+      M <- lapply(as.list(2:m),function(i){
+            x <- matrix(data=0,
+                        nrow=pl,
+                        ncol=pm)
+            for (j in 1:(i-1)){
+                  ## put y[j] in the right spot
+                  x[match(i-j,unique(grid$t1.index-grid$t2.index)),
+                    match(i+j,unique(grid$t1.index+grid$t2.index))] <- y[j]
+            }
+            x
+      }) %>% list.rbind()
+      
+
+      Ml.index <- seq(0,1,length.out=length(unique(grid$t1.index-grid$t2.index)))
+      Mm.index <- seq(0,1,length.out=length(unique(grid$t1.index+grid$t2.index)))
+      
+      ps.fit <- psp2dM(y[-1], M, p1=pl, p2=pm,
+                       M.type = "stacked",
+                       Pars=rbind(as.vector(c(1/m,(m-1)/m,40,3,100,2)),
+                                  as.vector(c(3/(max(grid$t1.index+grid$t2.index)),
+                                              (max(grid$t1.index+grid$t2.index)-1)/max(grid$t1.index+grid$t2.index),
+                                              40,3,100,3))),
+                       ridge.adj = 0,
+                       x.lab = "l",
+                       y.lab = "m",
+                       z.lab = "phi.hat",
+                       coef.plot = T,
+                       image.plot = T,
+                       se.bands = T,
+                       int = F)
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      X <- matrix(data=0,nrow=length(y)-1,ncol=length(y)-1)
+      for(i in 1:nrow(X)){
+            X[i,1:i] <- y[1:i] 
+      }
+      S.t <- (2:(length(y)))/(length(y))
+      S.s <- (1:(length(y)-1))/(length(y)-1)
+      Pars[1,1:2] <-c(min(S.t),max(S.t))
+      Pars[2,1:2] <-c(min(S.s),max(S.s))
+      
+      fit <- psp2dU(y, S=X, S.index=S.t, t.var=S.s, Pars=Pars,
+                  ridge.adj = 0, R = 49, x.lab = "t", y.lab = "s",
+                  z.lab = "phi hat", coef.plot = T, image.plot = T, 
+                  se.bands = T, family = "gaussian", link = "default",
+                  int = F)
+      dim(X)
+      length(S.s)
+      
+      
+      
+      
