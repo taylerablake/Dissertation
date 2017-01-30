@@ -440,6 +440,16 @@ dBar <- 3
       dim(X)
       length(S.s)
       
+      S <- as.matrix(X)
+      Bx <- bsplbase(S.t, Pars[1,  ])
+      U <- S %*% Bx
+      By <- bsplbase(S.s, Pars[2,  ])
+      n1 <- ncol(Bx)
+      n2 <- ncol(By)	# Compute tensor products
+      SB1 <- kronecker(U, t(rep(1, n2)))
+      B2 <- kronecker(t(rep(1, n1)), By)
+      
+      Q <- SB1 * B2	#-----
       
       
       
