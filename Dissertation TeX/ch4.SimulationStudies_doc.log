@@ -678,4 +678,86 @@ Package etexcmds Info: Could not find \expanded.
 )))
 Package grfext Info: Graphics extension search list:
 (grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
-G,.JBIG2,.JB2
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+ABD: EveryShipout initializing macros
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: letterpaper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: includefoot 
+* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=469.75502pt
+* \textheight=620.43001pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=0.0pt
+* \headheight=0.0pt
+* \headsep=0.0pt
+* \topskip=12.0pt
+* \footskip=30.0pt
+* \marginparwidth=44.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+LaTeX Font Info:    Try loading font information for U+msa on input line 82.
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 82.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for U+bbold on input line 82.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/bbold/Ubbold.fd)
+LaTeX Font Info:    Try loading font information for U+eus on input line 82.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/ueus.fd
+File: ueus.fd 2013/01/14 v3.01 Euler Script
+)
+./ch4.SimulationStudies_doc.tex:90: Extra }, or forgotten \right.
+l.90 \mathscr{L}_2\left(\Sigma, G}
+                                  \right) = \textup{tr}\left(\Sigma^{-1}G - ...
+
+? 
+./ch4.SimulationStudies_doc.tex:90: Emergency stop.
+l.90 \mathscr{L}_2\left(\Sigma, G}
+                                  \right) = \textup{tr}\left(\Sigma^{-1}G - ...
+End of file on the terminal!
+
+ 
+Here is how much of TeX's memory you used:
+ 16746 strings out of 493089
+ 327295 string characters out of 6134842
+ 384798 words of memory out of 5000000
+ 19925 multiletter control sequences out of 15000+600000
+ 9436 words of font info for 38 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 55i,3n,54p,436b,86s stack positions out of 5000i,500n,10000p,200000b,80000s
+./ch4.SimulationStudies_doc.tex:90:  ==> Fatal error occurred, no output PDF fi
+le produced!

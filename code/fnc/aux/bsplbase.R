@@ -7,9 +7,10 @@ bsplbase<- function(x, bpars){
       #   base: matrix with nrow = length(x) and nseg + degree columns
       #
       # Paul Eilers, 2000
+      require(splines)
       dx <- (bpars[2] - bpars[1])/bpars[3]
       knots <- seq(bpars[1] - bpars[4] * dx, bpars[2] + bpars[4] * dx, by = 
                          dx)
       base <- as.matrix(spline.des(knots, x, bpars[4] + 1, 0 * x)$design)
-      base
+      list(base=base, knots=knots)
 }
