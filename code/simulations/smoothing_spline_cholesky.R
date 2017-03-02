@@ -1,0 +1,291 @@
+
+library(rlist)
+
+ M <- m <- 20
+ N <- 19
+ 
+phi <- function(t1.index,t2.index,m){
+      if(t1.index-t2.index==1){
+            garp <- (2*((t1.index)/m)^2)-0.5
+      }
+      if(t1.index-t2.index!=1){
+            garp <- 0
+      }
+      garp
+}
+
+
+
+
+
+
+
+grid <- expand.grid(t=1:M,s=1:M) %>% subset(.,t>s) %>%
+      transform(.,l=t-s,
+                m=(t+s)/2)
+
+
+true_phi <- sapply(1:nrow(grid),function(row.i){
+      phi(grid$t[row.i],grid$s[row.i],m=m)
+})
+grid <- transform(grid,true_phi=true_phi)
+
+
+
+indices_of_nonzeros <- as.matrix(expand.grid(t=(1:m),s=(1:m)) %>% subset(.,(t-s)==1))
+nonzero_phis <- (2*((2:m)/m)^2)-0.5
+
+T_mat <- diag(rep(1,m))
+phis <- as.vector(rep(0,sum(lower.tri(T_mat))))
+T_mat[indices_of_nonzeros] <- -nonzero_phis
+phis <- -T_mat[lower.tri(T_mat)]
+
+
+
+y <- t(solve(T_mat)%*%matrix(data=rnorm(N*m,mean=0,sd=0.3),
+                             nrow=m,
+                             ncol=N))
+true_Sigma <- solve(T_mat)%*%t(solve(T_mat))
+true_Omega <- t(T_mat)%*%T_mat
+
+
+y_vec <- as.vector(t(y[,-1]))
+
+X <- matrix(data=0,nrow=N*(M-1),ncol=choose(M,2))
+no.skip <- 0
+for (t in 2:M){
+      X[((0:(N-1))*(M-1)) + t-1,(no.skip+1):(no.skip+t-1)] <- y[,1:(t-1)]
+      no.skip <- no.skip + t - 1
+}
+
+
+
+
+#-----------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------
+## define basis functions, representers
+#-----------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------
+
+
+
+
+
+k0 <- function(x){
+      return(rep(1,length(x)))
+}		
+k1 <- function(x){
+      return(x-0.5)
+}
+k2 <- function(x){
+      return( 0.5*((k1(x))^2 - (1/(12))) )
+}
+k4 <- function(x){
+      return(  (1/24)*( (k1(x))^4 -((k1(x))^2/2) + (7/240)) )
+}
+
+
+
+
+R1 <- function(l1,l2,m){
+      
+      if(m==1){
+            representer <- k1(l1)*k1(l2) +  k2(l1)*k2(l2) - k4( abs(l1-l2)  )
+      }
+      if(m==2){
+            representer <- k2(l1)*k2(l2) - k4( abs(l1-l2) ) 
+      }
+      representer
+}
+
+
+
+
+
+#-----------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------------------
+## construct B, K
+#-----------------------------------------------------------------------------------------
+
+
+R1_l <- function(l1,l2){R1(l1,l2,m=1)}
+R1_L <- outer(grid$l/max(grid$l), grid$l/max(grid$l), "R1_l")
+
+R1_m <- function(m1,m2){R1(m1,m2,m=1)}
+R1_M <- outer(grid$m/max(grid$m), grid$m/max(grid$m), "R1_m")
+
+R1_LM <- R1_L*R1_M + outer(k1(grid$l/max(grid$l)),k1(grid$l/max(grid$l)))*R1_M
+K <- R1_L + R1_M + R1_LM
+
+# B <- matrix(data=c(rep(1,nrow(grid)),k1(grid$l/max(grid$l))*k1(grid$m/max(grid$m))),
+#             nrow=nrow(grid),ncol=2,byrow=FALSE)
+B <- matrix(data=c(rep(1,nrow(grid))),ncol=1,nrow=nrow(grid),byrow=FALSE)
+QR_B <- qr(B,complete=TRUE)
+Q_B <- qr.Q(QR_B,complete=TRUE)
+Q2_B <- Q_B[,(ncol(B)+1):ncol(Q_B)]
+Q1_B <- Q_B[,1:ncol(B)]
+R_B.big <- qr.R(QR_B,complete=TRUE)
+R_B <- R_B.big[1:ncol(B),]
+R_Binv <- solve(R_B)
+
+Dinv <- diag(rep(1,length(y_vec)))
+
+
+
+
+
+
+
+QR_X <- qr(X,complete=TRUE)
+Q_X <- qr.Q(QR_X,complete=TRUE)
+Q2_X <- Q_X[,(ncol(B)+1):ncol(Q_X)]
+Q1_X <- Q_X[,1:ncol(X)]
+R_X.big <- qr.R(QR_X,complete=TRUE)
+R_X <- R_X.big[1:ncol(X),]
+R_Xinv <- solve(R_X)
+
+#-----------------------------------------------------------------------------------------
+## Build solutions
+#-----------------------------------------------------------------------------------------
+
+lambdas <- as.list(exp(seq(-10,8,length.out=100)))
+P <- solve(t(X)%*%Dinv%*%X)
+
+Ms <- lapply(lambdas,function(l){
+      M <- solve( t(Q2_B)%*%(K + l*P)%*%Q2_B )
+      M
+})
+      
+
+c <- lapply(Ms,function(mat){
+      Q2_B%*%mat%*%t(Q2_B)%*% P %*%t(X)%*%Dinv%*%y_vec      
+})
+
+d <- lapply(list.zip(lam=lambdas,c=c),function(l){
+      d <- R_Binv%*%t(Q1_B)%*%( P%*%t(X)%*%Dinv%*%y_vec - ( K + l$lam*P )%*%l$c )      
+})
+cholesky <- lapply(list.zip(c=c,d=d),function(l){
+      Phi <- B%*%l$d + K%*%l$c
+      T_hat <- diag(rep(1,m))
+      T_hat[lower.tri(T_hat)] <- -Phi
+      list(phi=Phi,T_mat=T_hat,omega=t(T_hat)%*%T_hat)
+})
+
+
+entropy_loss <- function(trueSigma, omegaHat){
+      I_hat <- trueSigma%*%omegaHat
+      sum(diag(I_hat)) -log(det(I_hat)) - ncol(omegaHat)
+}
+
+lapply(cholesky,function(l){
+      entropy_loss(true_Sigma,l$omega)
+}) %>% unlist %>% plot(x=log(unlist(lambdas)),
+                       y=.,
+                       type="l",
+                       ylab=expression(Delta[1]),
+                       xlab=expression(log(lambda)))
+
+
+
+quadratic_loss <- function(trueSigma, omegaHat){
+      I_hat <- trueSigma%*%omegaHat
+      sum( diag(I_hat-diag(1,ncol(omegaHat)))^2  )
+}
+
+
+lapply(cholesky,function(l){
+      quadratic_loss(true_Sigma,l$omega)
+}) %>% unlist %>% plot(x=log(unlist(lambdas)),
+                       y=.,
+                       type="l",
+                       ylab=expression(Delta[2]),
+                       xlab=expression(log(lambda)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Rl_gg <- sapply(grid$l/max(grid$l),function(grid_l) {sapply(seq(0,1,length.out=200),function(pred_l){R1_l(pred_l,grid_l)})})
+Bl_gg <- matrix(data=c( rep(1,200), k1(seq(0,1,length.out=200))),nrow=200,ncol=2,byrow=FALSE)
+
+l_smooth <- list.zip(c=c,d=d) %>% lapply(.,function(l){
+      Rl_gg%*%l$c #+ Bl_gg%*%l$d
+      })
+
+
+Rm_gg <- sapply(grid$m/max(grid$m),function(grid_m) {sapply(seq(0,1,length.out=200),function(pred_m){R1_m(pred_m,grid_m)})})
+Bm_gg <- matrix(data=c( rep(1,200), k1(seq(0,1,length.out=200))),nrow=200,ncol=2,byrow=FALSE)
+m_smooth <- list.zip(c=c,d=d) %>% lapply(.,function(l){
+      Rm_gg%*%l$c #+Bm_gg%*%l$d
+})
+
+l_smooth <- list.cbind(l_smooth) 
+m_smooth <- list.cbind(m_smooth) 
+
+matplot(seq(0,1,length.out=200),l_smooth,
+        col=terrain.colors(100,alpha=0.7),type="l",
+        xlab="l",
+       ylab= expression(phi[l]))
+
+matplot(seq(0,1,length.out=200),m_smooth,
+        col=terrain.colors(100,alpha=0.7),type="l",
+        xlab="m",
+        ylab= expression(phi[m]))
+
+
+gg <- expand.grid(l=seq(0,1,length.out=200),
+                  m=seq(0,1,length.out=200))
+
+Rl_gg <- sapply(grid$l/max(grid$l),
+                function(grid_l){
+                      sapply(gg$l,
+                             function(pred_l){
+                                   R1_l(pred_l,grid_l)
+                                   })})
+
+Rm_gg <- sapply(grid$m/max(grid$m),
+                function(grid_m){
+                      sapply(gg$m,
+                             function(pred_m){
+                                   R1_m(pred_m,grid_m)
+                             })})
+
+lm_smooth <- lapply(c,function(coef){
+      as.vector((Rl_gg*Rm_gg)%*%coef)    
+})
+
+data.frame(gg,phi_lm=lm_smooth[[1]]) %>% wireframe(phi_lm~l+m,
+                                                   data=.,
+                                                   drape=TRUE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
