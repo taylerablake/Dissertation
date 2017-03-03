@@ -269,9 +269,6 @@ lm_smooth <- lapply(c,function(coef){
       as.vector((Rl_gg*Rm_gg)%*%coef)    
 })
 
-data.frame(gg,phi_lm=lm_smooth[[1]]) %>% wireframe(phi_lm~l+m,
-                                                   data=.,
-                                                   drape=TRUE)
 
 
 
@@ -280,6 +277,63 @@ data.frame(gg,phi_lm=lm_smooth[[1]]) %>% wireframe(phi_lm~l+m,
 
 
 
+jet.colors <- colorRampPalette( c("deepskyblue2","green") )
+nbcol <- 100
+color <- jet.colors(nbcol)
+
+
+lm_smooth[[lapply(cholesky,function(l){quadratic_loss(true_Sigma,l$omega)}) %>% unlist %>%which.min]] %>%
+      data.frame(gg,phi_lm=.) %>% wireframe(phi_lm~l+m,
+                                            data=.,
+                                            screen=list(z=20,x=-75),
+                                            light.source = c(5,20,10),
+                                            pretty=TRUE,
+                                            scales = list(arrows = FALSE),
+                                            drape=FALSE,
+                                            cex=0.15,
+                                            colorkey=FALSE,
+                                            par.settings = list(axis.line = list(col = "transparent")))
+lm_smooth <- list.cbind(lm_smooth) %>% as.vector
+
+library(ggplot2)
+library(ggthemes)
+
+best_phi_lm <- lm_smooth[[lapply(cholesky,function(l){quadratic_loss(true_Sigma,l$omega)}) %>% unlist %>%which.min]]
+best_phi_m <- m_smooth[[lapply(cholesky,function(l){quadratic_loss(true_Sigma,l$omega)}) %>% unlist %>%which.min]]
+true_phi_m <- data.frame(m=seq(0,1,length.out=200),
+                  phi=2*(seq(0,1,length.out=200)^2 + seq(0,1,length.out=200) ) )
+
+
+library(doBy)
+data.frame(lambda=expand.grid(1:40000,lam=unlist(lambdas))$lam,
+           phi=lm_smooth,
+           l=rep(gg$l,length(lambdas)),
+           m=rep(gg$m,length(lambdas))) %>%
+      ggplot(.,aes(x=m,y=phi,group=lambda)) + geom_line(aes(colour=lambda)) +
+      scale_color_continuous_tableau(palette = "Green") +
+      theme_minimal() 
+
+
+
+
+
+
+
+best_phi_lm <- lm_smooth[[lapply(cholesky,function(l){quadratic_loss(true_Sigma,l$omega)}) %>% unlist %>%which.min]]
+best_phi_m <- m_smooth[[lapply(cholesky,function(l){quadratic_loss(true_Sigma,l$omega)}) %>% unlist %>%which.min]]
+true_phi_m <- data.frame(m=seq(0,1,length.out=200),
+                         phi=2*(seq(0,1,length.out=200)^2 + seq(0,1,length.out=200) ) )
+
+
+data.frame(phi=best_phi_m+best_phi_lm,gg) %>%
+      subset(.,l%in%seq(0,1,length.out=200)[c(1:5,seq(25,200,by=25))]) %>%
+      ggplot(.,aes(x=m,y=phi,group=l)) + geom_line(aes(colour=l)) +
+      scale_color_continuous_tableau(palette = "Green") +
+      theme_minimal() +
+      geom_line(data=true_phi_m,
+                aes(x=m,y=phi),
+                inherit.aes = FALSE,
+                colour="red") 
 
 
 
