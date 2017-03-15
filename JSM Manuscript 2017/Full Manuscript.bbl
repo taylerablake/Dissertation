@@ -1,0 +1,44 @@
+\begin{thebibliography}{6}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bickel and Levina(2008)]{bickel2008regularized}
+Peter~J Bickel and Elizaveta Levina.
+\newblock Regularized estimation of large covariance matrices.
+\newblock \emph{The Annals of Statistics}, pages 199--227, 2008.
+
+\bibitem[Huang et~al.(2007)Huang, Liu, and Liu]{huang2007estimation}
+Jianhua~Z Huang, Linxu Liu, and Naiping Liu.
+\newblock Estimation of large covariance matrices of longitudinal data with
+  basis function approximations.
+\newblock \emph{Journal of Computational and Graphical Statistics}, 16\penalty0
+  (1):\penalty0 189--209, 2007.
+
+\bibitem[Levina et~al.(2008)Levina, Rothman, and Zhu]{levina2008sparse}
+Elizaveta Levina, Adam Rothman, and Ji~Zhu.
+\newblock Sparse estimation of large covariance matrices via a nested lasso
+  penalty.
+\newblock \emph{The Annals of Applied Statistics}, pages 245--263, 2008.
+
+\bibitem[Pourahmadi(1999)]{pourahmadi1999joint}
+Mohsen Pourahmadi.
+\newblock Joint mean-covariance models with applications to longitudinal data:
+  Unconstrained parameterisation.
+\newblock \emph{Biometrika}, 86\penalty0 (3):\penalty0 677--690, 1999.
+
+\bibitem[Wu and Pourahmadi(2003)]{wu2003nonparametric}
+Wei~Biao Wu and Mohsen Pourahmadi.
+\newblock Nonparametric estimation of large covariance matrices of longitudinal
+  data.
+\newblock \emph{Biometrika}, 90\penalty0 (4):\penalty0 831--844, 2003.
+
+\bibitem[Yao et~al.(2005)Yao, M{\"u}ller, and Wang]{yao2005functional}
+Fang Yao, Hans-Georg M{\"u}ller, and Jane-Ling Wang.
+\newblock Functional data analysis for sparse longitudinal data.
+\newblock \emph{Journal of the American Statistical Association}, 100\penalty0
+  (470):\penalty0 577--590, 2005.
+
+\end{thebibliography}

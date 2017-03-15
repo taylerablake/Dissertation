@@ -1,0 +1,62 @@
+This is BibTeX, Version 0.99d (TeX Live 2015)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: Full Manuscript.aux
+The style file: plainnat.bst
+Database file #1: Master.bib
+Warning--I didn't find a database entry for "pourahmadi2011covariance"
+Warning--I didn't find a database entry for "kaufman2008covariance"
+Warning--I didn't find a database entry for "huang2006covariance"
+Warning--I didn't find a database entry for "chen2011efficient"
+Warning--I didn't find a database entry for "pourahmadi2002dynamic"
+Warning--I didn't find a database entry for "tibshirani2011nearly"
+Warning--I didn't find a database entry for "pourahmadi2007cholesky"
+Warning--I didn't find a database entry for "pourahmadi2000maximum"
+Warning--I didn't find a database entry for "lin2009robust"
+Warning--I didn't find a database entry for "pan2003modelling"
+Warning--I didn't find a database entry for "gu2002smoothing"
+Warning--I didn't find a database entry for "kimeldorf1971some"
+Warning--I didn't find a database entry for "watkins2004fundamentals"
+Warning--I didn't find a database entry for "cai2010optimal"
+Warning--I didn't find a database entry for "cai2012estimating"
+You've used 6 entries,
+            2773 wiz_defined-function locations,
+            649 strings with 6205 characters,
+and the built_in function-call counts, 3036 in all, are:
+= -- 288
+> -- 142
+< -- 5
++ -- 48
+- -- 42
+* -- 243
+:= -- 448
+add.period$ -- 18
+call.type$ -- 6
+change.case$ -- 32
+chr.to.int$ -- 6
+cite$ -- 12
+duplicate$ -- 141
+empty$ -- 254
+format.name$ -- 52
+if$ -- 645
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 6
+newline$ -- 38
+num.names$ -- 24
+pop$ -- 57
+preamble$ -- 1
+purify$ -- 26
+quote$ -- 0
+skip$ -- 115
+stack$ -- 0
+substring$ -- 176
+swap$ -- 24
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 66
+warning$ -- 0
+while$ -- 32
+width$ -- 0
+write$ -- 85
+(There were 15 warnings)

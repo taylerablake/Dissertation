@@ -25,21 +25,47 @@ grid <- expand.grid(t=1:M,s=1:M) %>% subset(.,t>s) %>%
                 m=(t+s)/2)
 
 
-true_phi <- sapply(1:nrow(grid),function(row.i){
-      phi(grid$t[row.i],grid$s[row.i],m=m)
-})
-grid <- transform(grid,true_phi=true_phi)
+# true_phi <- sapply(1:nrow(grid),function(row.i){
+#       phi(grid$t[row.i],grid$s[row.i],m=m)
+# })
+# grid <- transform(grid,true_phi=true_phi)
+# 
+# 
+# 
+# indices_of_nonzeros <- as.matrix(expand.grid(t=(1:m),s=(1:m)) %>% subset(.,(t-s)==1))
+# nonzero_phis <- (2*((2:m)/m)^2)-0.5
+# 
+# T_mat <- diag(rep(1,m))
+# phis <- as.vector(rep(0,sum(lower.tri(T_mat))))
+# T_mat[indices_of_nonzeros] <- -nonzero_phis
+# phis <- -T_mat[lower.tri(T_mat)]
 
 
 
-indices_of_nonzeros <- as.matrix(expand.grid(t=(1:m),s=(1:m)) %>% subset(.,(t-s)==1))
-nonzero_phis <- (2*((2:m)/m)^2)-0.5
+phi <- function(t1.index,t2.index,m){
+      if(t1.index>t2.index){
+            t_ij <- -exp(-2*(t1.index-t2.index)/((m-1)))             
+      }
+      if(t1.index==t2.index){
+            t_ij <- 1             
+      }
+      if(t1.index<t2.index){
+            t_ij <- 0             
+      }
+      t_ij
+}
 
-T_mat <- diag(rep(1,m))
-phis <- as.vector(rep(0,sum(lower.tri(T_mat))))
-T_mat[indices_of_nonzeros] <- -nonzero_phis
-phis <- -T_mat[lower.tri(T_mat)]
 
+
+
+full_grid <- expand.grid(t=1:m,s=1:m) %>% orderBy(~t+s,.)
+true_T <- sapply(1:nrow(full_grid),function(row.i){
+      phi(full_grid$t[row.i],full_grid$s[row.i],m=m)
+}) %>%unlist
+
+
+T_mat <- matrix(data=true_T,nrow=m,ncol=m,byrow=TRUE)
+T_mat
 
 
 y <- t(solve(T_mat)%*%matrix(data=rnorm(N*m,mean=0,sd=0.3),
@@ -150,7 +176,7 @@ R_Xinv <- solve(R_X)
 ## Build solutions
 #-----------------------------------------------------------------------------------------
 
-lambdas <- as.list(exp(seq(-10,8,length.out=100)))
+lambdas <- as.list(exp(seq(-8,8,length.out=100)))
 P <- solve(t(X)%*%Dinv%*%X)
 
 Ms <- lapply(lambdas,function(l){
@@ -287,7 +313,7 @@ lm_smooth[[lapply(cholesky,function(l){quadratic_loss(true_Sigma,l$omega)}) %>% 
                                             data=.,
                                             screen=list(z=20,x=-75),
                                             light.source = c(5,20,10),
-                                            pretty=TRUE,
+                                            col="grey",
                                             scales = list(arrows = FALSE),
                                             drape=FALSE,
                                             cex=0.15,
