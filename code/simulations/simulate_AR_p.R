@@ -271,7 +271,7 @@ data.frame(expand.grid(t=1:M,s=1:M),
       orderBy(~t+s,.) %>%
       wireframe(phi~t+s,
                 data=.,
-                screen=list(z=-10,x=-65),
+                screen=list(z=55,x=-85,y=10),
                 light.source = c(5,20,10),
                 pretty=TRUE,
                 scales = list(arrows = FALSE),

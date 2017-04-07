@@ -1,8 +1,15 @@
-
-
+library(doBy)
+library(lattice)
 library(MASS)
+library(magrittr)
+library(rlist)
+library(plyr)
+library(dplyr)
+source("bsplbase.R")
+source("fit_PS_cholesky.R")
 
-m <- 30
+N <- 30
+M <- m <- 30
 grid <- expand.grid(s=(1:m),t=(1:m)) %>%
       subset(.,s>t) %>%
       transform(l=(s-t),m=s+t) %>%
@@ -18,89 +25,32 @@ D <- diag(diag(C))
 L <- C%*%solve(D)
 T_mod <- solve(L)
 
+#matplot(Y_chol <- L %*% t(mvrnorm(n=100,mu=rep(0,m),Sigma=I(D^2))),col="pink",type="l")
+#matlines(t(mvrnorm(n=100,mu=rep(0,m),Sigma=Sigma)),col="blue")
 
 
-matplot(Y_chol <- L %*% t(mvrnorm(n=100,mu=rep(0,m),Sigma=I(D^2))),col="pink",type="l")
-matlines(t(mvrnorm(n=100,mu=rep(0,m),Sigma=Sigma)),col="blue")
+data.frame(expand.grid(t=1:M,s=1:M),
+           phi=as.vector(diag(rep(1,nrow(T_mod)))-T_mod)) %>%
+  subset(.,t>s) %>%
+  orderBy(~t+s,.) %>%
+  wireframe(phi~t+s,
+            data=.,
+            #screen=list(x = -90, y = 70),
+            screen = list(z = 25, x = -85),
+            light.source = c(5,20,10),
+            pretty=TRUE,
+            scales = list(arrows = FALSE),
+            drape=FALSE,
+            cex=0.15,
+            col="grey",
+            par.settings = list(axis.line = list(col = "transparent")))
+
 
 grid <- expand.grid(t=1:m,s=1:m) %>%
-      transform(l=t-s,m=s+t)
+  subset(.,t>s) %>%
+  transform(.,l=t-s,
+            m=(t+s)/2)
 
-persp(grid$s, grid$t, z=diag(rep(1,nrow(T_mod)))-T_mod, col = color[facetcol], phi = 30, theta = -30)
-
-
-
-      data.frame(grid,
-                 phi=as.vector(diag(rep(1,nrow(T_mod)))-T_mod)) %>%
-            subset(.,t>s) %>%
-      orderBy(~t+s,.) %>%
-      wireframe(phi~t+s,
-                data=.,
-                screen=list(z=-10,x=-65),
-                light.source = c(5,20,10),
-                pretty=TRUE,
-                scales = list(arrows = FALSE),
-                drape=FALSE,
-                cex=0.15,
-                col="grey",
-                par.settings = list(axis.line = list(col = "transparent")))
-
-      
-      ggrid <-  data.frame(grid,
-                           phi=as.vector(diag(rep(1,nrow(T_mod)))-T_mod))
-      ggrid$phi[ggrid$l<=0] <- 0
-      plot(subset(ggrid, m==31)$l,subset(ggrid, m==31)$phi,type="l",
-           xlab="l",ylab=expression(phi))
-      for (grid.m in 16:46){
-            lines(subset(ggrid, m==grid.m)$l,subset(ggrid, m==grid.m)$phi,
-                  col=grid.m)      
-      }
-      plot(subset(ggrid, l==1)$m,subset(ggrid, l==1)$phi,type="l",
-           xlab="l",ylab=expression(phi))
-      for (grid.l in 2:31){
-            lines(subset(ggrid, l==grid.l)$m,subset(ggrid, l==grid.l)$phi,
-                  col=grid.l)      
-      }
-      
-      transform(expand.grid(t=1:30,s=1:30),
-                l=t-s,m=s+t)
-      
-      wireframe(phi~s+t,
-                data=ggrid,
-                light.source = c(5,20,10),
-                pretty=TRUE,
-                scales = list(arrows = FALSE),
-                drape=FALSE,
-                screen=list(z = 80, x = -70, y = 3),
-                row.values=transform(expand.grid(t=1:30,s=1:30),
-                                           l=t-s,m=s+t)$s,
-                col.values=transform(expand.grid(t=1:30,s=1:30),
-                                     l=t-s,m=s+t)$t,
-                cex=0.15,
-                col="grey",
-                par.settings = list(axis.line = list(col = "transparent")))
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      library(magrittr)
-      library(rlist)
-      library(plyr)
-      library(dplyr)
-      M <- m <- 30
-      N <- 50
-      grid <- expand.grid(t=1:M,s=1:M) %>% subset(.,t>s) %>%
-            transform(.,l=t-s,
-                      m=(t+s)/2)
-      
-      bPars <- rbind(c(0,1,50,3,100,2),
-                     c(0,1,60,3,100,3))
       
       y <- mvrnorm(n=N,mu=rep(0,m),Sigma=Sigma)
       y_vec <- as.vector(t(y[,-1]))
@@ -115,6 +65,10 @@ persp(grid$s, grid$t, z=diag(rep(1,nrow(T_mod)))-T_mod, col = color[facetcol], p
       
       
       
+      
+      
+      bPars <- rbind(c(0,1,60,3,100,3),
+                     c(0,1,60,3,100,3))
       
       l. <- as.vector(outer(rep(1,length(unique(grid$m))),unique(grid$l)))
       Bl <- bsplbase(l./max(grid$l), bPars[1,  ])$base
@@ -139,7 +93,8 @@ persp(grid$s, grid$t, z=diag(rep(1,nrow(T_mod)))-T_mod, col = color[facetcol], p
       
       
       n1 <- ncol(Bl)
-      n2 <- ncol(Bm)  # Compute tensor products
+      n2 <- ncol(Bm)
+      # Compute tensor products
       
       Bl. <- kronecker(Bl, t(rep(1, n2)))
       Bm. <- kronecker(t(rep(1, n1)), Bm)
@@ -162,42 +117,94 @@ persp(grid$s, grid$t, z=diag(rep(1,nrow(T_mod)))-T_mod, col = color[facetcol], p
       
       
       
+      
       knot_grid <- subset(knot_grid,keep==TRUE)
-      dl <- bPars[1, 6]
-      Pl <- matrix(data=0,nrow=sum(knot_grid$m==unique(knot_grid$m)[1])-dl,
-                   ncol=nrow(knot_grid))
-      Pl[,which(knot_grid$m==unique(knot_grid$m)[1])] <- diff(diag(sum(knot_grid$m==unique(knot_grid$m)[1])),
-                                                              differences = dl)
-      for(i in 2:length(unique(knot_grid$m))){
+      dl <- 
+      if(dl>0){
+        if(sum(knot_grid$m==unique(knot_grid$m)[1])>dl){
+          Pl <- matrix(data=0,nrow=sum(knot_grid$m==unique(knot_grid$m)[1])-dl,
+                       ncol=nrow(knot_grid))
+          Pl[,which(knot_grid$m==unique(knot_grid$m)[1])] <- diff(diag(sum(knot_grid$m==unique(knot_grid$m)[1])),
+                                                                  differences = dl)            
+          for(i in 2:length(unique(knot_grid$m))){
             pl <- matrix(data=0,nrow=sum(knot_grid$m==unique(knot_grid$m)[i])-dl,
                          ncol=nrow(knot_grid))
             pl[,which(knot_grid$m==unique(knot_grid$m)[i])] <- diff(diag(sum(knot_grid$m==unique(knot_grid$m)[i])),
                                                                     differences = dl)      
             Pl <- rbind(Pl,pl)
+          }
+        }
+        
+        if((sum(knot_grid$m==unique(knot_grid$m)[1])<=dl) &(sum(knot_grid$m==unique(knot_grid$m)[2])>dl)){
+          Pl <- matrix(data=0,nrow=sum(knot_grid$m==unique(knot_grid$m)[2])-dl,
+                       ncol=nrow(knot_grid))
+          Pl[,which(knot_grid$m==unique(knot_grid$m)[2])] <- diff(diag(sum(knot_grid$m==unique(knot_grid$m)[2])),
+                                                                  differences = dl)            
+          for(i in 3:length(unique(knot_grid$m))){
+            if(sum(knot_grid$m==unique(knot_grid$m)[i])>dl){
+              pl <- matrix(data=0,nrow=sum(knot_grid$m==unique(knot_grid$m)[i])-dl,
+                           ncol=nrow(knot_grid))
+              pl[,which(knot_grid$m==unique(knot_grid$m)[i])] <- diff(diag(sum(knot_grid$m==unique(knot_grid$m)[i])),
+                                                                      differences = dl)      
+              Pl <- rbind(Pl,pl)      
+            }
+          }
+        }
+        
       }
-      lambdal <- bPars[1, 5]
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      dm <- bPars[2, 6]
-      Pm <- matrix(data=0,nrow=sum(knot_grid$l==unique(knot_grid$l)[1])-dm,
-                   ncol=nrow(knot_grid))
-      Pm[,which(knot_grid$l==unique(knot_grid$l)[1])] <- diff(diag(sum(knot_grid$l==unique(knot_grid$l)[1])),
-                                                              differences = dm)
-      for(i in 2:length(unique(knot_grid$l))){
-            pm <- matrix(data=0,nrow=sum(knot_grid$l==unique(knot_grid$l)[i])-dm,
-                         ncol=nrow(knot_grid))
-            pm[,which(knot_grid$l==unique(knot_grid$l)[i])] <- diff(diag(sum(knot_grid$l==unique(knot_grid$l)[i])),
-                                                                    differences = dm)      
-            Pm <- rbind(Pm,pm)
+      if(dl==0){
+        Pl <- diag(nrow(knot_grid))
       }
-      lambdam <- bPars[2, 5]
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+      dm <- 2
+      if(dm>0){
+        if((sum(knot_grid$m==unique(knot_grid$m)[1])>dl)){
+          Pm <- matrix(data=0,nrow=sum(knot_grid$l==unique(knot_grid$l)[1])-dm,
+                       ncol=nrow(knot_grid))
+          Pm[,which(knot_grid$l==unique(knot_grid$l)[1])] <- diff(diag(sum(knot_grid$l==unique(knot_grid$l)[1])),
+                                                                  differences = dm)
+          for(i in 2:length(unique(knot_grid$l))){
+            if(sum(knot_grid$m==unique(knot_grid$m)[i])>dl){
+              pm <- matrix(data=0,nrow=sum(knot_grid$l==unique(knot_grid$l)[i])-dm,
+                           ncol=nrow(knot_grid))
+              pm[,which(knot_grid$l==unique(knot_grid$l)[i])] <- diff(diag(sum(knot_grid$l==unique(knot_grid$l)[i])),
+                                                                      differences = dm)      
+              Pm <- rbind(Pm,pm)
+            }
+          }  
+        }
+        
+        if((sum(knot_grid$m==unique(knot_grid$m)[1])<=dl) &(sum(knot_grid$m==unique(knot_grid$m)[2])>dl)){
+          Pm <- matrix(data=0,nrow=sum(knot_grid$l==unique(knot_grid$l)[2])-dm,
+                       ncol=nrow(knot_grid))
+          Pm[,which(knot_grid$l==unique(knot_grid$l)[2])] <- diff(diag(sum(knot_grid$l==unique(knot_grid$l)[2])),
+                                                                  differences = dm)
+          for(i in 3:length(unique(knot_grid$l))){
+            if(sum(knot_grid$m==unique(knot_grid$m)[i])>dl){
+              pm <- matrix(data=0,nrow=sum(knot_grid$l==unique(knot_grid$l)[i])-dm,
+                           ncol=nrow(knot_grid))
+              pm[,which(knot_grid$l==unique(knot_grid$l)[i])] <- diff(diag(sum(knot_grid$l==unique(knot_grid$l)[i])),
+                                                                      differences = dm)      
+              Pm <- rbind(Pm,pm)
+            }
+          }  
+        }
+      }
+      if(dm==0){
+        Pm <- diag(nrow(knot_grid))
+      }
+      
+
       
       
       U. <- X%*%B.
@@ -206,95 +213,7 @@ persp(grid$s, grid$t, z=diag(rep(1,nrow(T_mod)))-T_mod, col = color[facetcol], p
       
       
       
-      
-      
-      knot_grid <- subset(knot_grid,keep==TRUE)
-      dl <- bPars[1, 6]
-      if(dl>0){
-            if(sum(knot_grid$m==unique(knot_grid$m)[1])>dl){
-                  Pl <- matrix(data=0,nrow=sum(knot_grid$m==unique(knot_grid$m)[1])-dl,
-                               ncol=nrow(knot_grid))
-                  Pl[,which(knot_grid$m==unique(knot_grid$m)[1])] <- diff(diag(sum(knot_grid$m==unique(knot_grid$m)[1])),
-                                                                          differences = dl)            
-                  for(i in 2:length(unique(knot_grid$m))){
-                        pl <- matrix(data=0,nrow=sum(knot_grid$m==unique(knot_grid$m)[i])-dl,
-                                     ncol=nrow(knot_grid))
-                        pl[,which(knot_grid$m==unique(knot_grid$m)[i])] <- diff(diag(sum(knot_grid$m==unique(knot_grid$m)[i])),
-                                                                                differences = dl)      
-                        Pl <- rbind(Pl,pl)
-                  }
-            }
-            
-            if((sum(knot_grid$m==unique(knot_grid$m)[1])<=dl) &(sum(knot_grid$m==unique(knot_grid$m)[2])>dl)){
-                  Pl <- matrix(data=0,nrow=sum(knot_grid$m==unique(knot_grid$m)[2])-dl,
-                               ncol=nrow(knot_grid))
-                  Pl[,which(knot_grid$m==unique(knot_grid$m)[2])] <- diff(diag(sum(knot_grid$m==unique(knot_grid$m)[2])),
-                                                                          differences = dl)            
-                  for(i in 3:length(unique(knot_grid$m))){
-                        if(sum(knot_grid$m==unique(knot_grid$m)[i])>dl){
-                              pl <- matrix(data=0,nrow=sum(knot_grid$m==unique(knot_grid$m)[i])-dl,
-                                           ncol=nrow(knot_grid))
-                              pl[,which(knot_grid$m==unique(knot_grid$m)[i])] <- diff(diag(sum(knot_grid$m==unique(knot_grid$m)[i])),
-                                                                                      differences = dl)      
-                              Pl <- rbind(Pl,pl)      
-                        }
-                  }
-            }
-            
-      }
-      if(dl==0){
-            Pl <- diag(nrow(knot_grid))
-      }
-      lambdal <- bPars[1, 5]
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      dm <- bPars[2, 6]
-      dm <- 2
-      if(dm>0){
-            if((sum(knot_grid$m==unique(knot_grid$m)[1])>dl)){
-                  Pm <- matrix(data=0,nrow=sum(knot_grid$l==unique(knot_grid$l)[1])-dm,
-                               ncol=nrow(knot_grid))
-                  Pm[,which(knot_grid$l==unique(knot_grid$l)[1])] <- diff(diag(sum(knot_grid$l==unique(knot_grid$l)[1])),
-                                                                          differences = dm)
-                  for(i in 2:length(unique(knot_grid$l))){
-                        if(sum(knot_grid$m==unique(knot_grid$m)[i])>dl){
-                              pm <- matrix(data=0,nrow=sum(knot_grid$l==unique(knot_grid$l)[i])-dm,
-                                           ncol=nrow(knot_grid))
-                              pm[,which(knot_grid$l==unique(knot_grid$l)[i])] <- diff(diag(sum(knot_grid$l==unique(knot_grid$l)[i])),
-                                                                                      differences = dm)      
-                              Pm <- rbind(Pm,pm)
-                        }
-                  }  
-            }
-            
-            if((sum(knot_grid$m==unique(knot_grid$m)[1])<=dl) &(sum(knot_grid$m==unique(knot_grid$m)[2])>dl)){
-                  Pm <- matrix(data=0,nrow=sum(knot_grid$l==unique(knot_grid$l)[2])-dm,
-                               ncol=nrow(knot_grid))
-                  Pm[,which(knot_grid$l==unique(knot_grid$l)[2])] <- diff(diag(sum(knot_grid$l==unique(knot_grid$l)[2])),
-                                                                          differences = dm)
-                  for(i in 3:length(unique(knot_grid$l))){
-                        if(sum(knot_grid$m==unique(knot_grid$m)[i])>dl){
-                              pm <- matrix(data=0,nrow=sum(knot_grid$l==unique(knot_grid$l)[i])-dm,
-                                           ncol=nrow(knot_grid))
-                              pm[,which(knot_grid$l==unique(knot_grid$l)[i])] <- diff(diag(sum(knot_grid$l==unique(knot_grid$l)[i])),
-                                                                                      differences = dm)      
-                              Pm <- rbind(Pm,pm)
-                        }
-                  }  
-            }
-      }
-      if(dm==0){
-            Pm <- diag(nrow(knot_grid))
-      }
-      
-      lambdam <- bPars[2, 5]
+    
       
       
       
