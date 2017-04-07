@@ -9,15 +9,9 @@ library(ggplot2)
 
 
 
-
-
-
-
-
-
 ###########################################################################################################
 ###########################################################################################################
-
+source("bspl")
 
 M <- m <- 20
 
@@ -927,9 +921,9 @@ coef_list_3 <- list.zip(lam_l=lambdas_3$lam_m,
 
 
 setwd("/Users/taylerblake/Documents/Dissertation/code/simulations")
-save(coef_list,file="coef_list.Rdata")
-save(coef_list_2,file="coef_list_2.Rdata")
-save(coef_list_2,file="coef_list_3.Rdata")
+save(coef_list,file="cpdSymm_coef_list.Rdata")
+save(coef_list_2,file="cpdSymm_coef_list_2.Rdata")
+save(coef_list_3,file="cpdSymm_coef_list_3.Rdata")
 ##-----------------------------------------------------------------------------
 
 
