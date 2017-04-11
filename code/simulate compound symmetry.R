@@ -4,17 +4,17 @@ library(MASS)
 library(magrittr)
 library(rlist)
 library(plyr)
+library(stringr)
 library(dplyr)
-source("bsplbase.R")
-source("fit_PS_cholesky.R")
+
+source("C:/GitRepos/Dissertation/code/fnc/bsplbase.R")
+source("C:/GitRepos/Dissertation/code/fnc/fit_cholesky_PS.R")
 
 N <- 30
 M <- m <- 30
 grid <- expand.grid(s=(1:m),t=(1:m)) %>%
       subset(.,s>t) %>%
-      transform(l=(s-t),m=s+t) %>%
-      transform(.,phi=(l/max(grid$l))^2)
-
+      transform(l=(s-t),m=s+t)
 
 Sigma <- matrix(0.7,nrow=m,ncol=m) + diag(rep(0.3),m)
 Omega <- solve(Sigma)
@@ -45,7 +45,6 @@ data.frame(expand.grid(t=1:M,s=1:M),
             col="grey",
             par.settings = list(axis.line = list(col = "transparent")))
 
-
 grid <- expand.grid(t=1:m,s=1:m) %>%
   subset(.,t>s) %>%
   transform(.,l=t-s,
@@ -67,48 +66,42 @@ grid <- expand.grid(t=1:m,s=1:m) %>%
       
       
       
-      bPars <- rbind(c(0,1,60,3,100,3),
-                     c(0,1,60,3,100,3))
+      bPars <- rbind(c(0,1,m-1,3,100,3),
+                     c(0,1,length(unique(grid$m)),3,100,3))
       
-      l. <- as.vector(outer(rep(1,length(unique(grid$m))),unique(grid$l)))
-      Bl <- bsplbase(l./max(grid$l), bPars[1,  ])$base
-      knots.l <- bsplbase(l./max(grid$l), bPars[1,  ])$knots
+    
+      
+      
+      # Compute tensor products
+      
+      Bl <- bsplbase(as.vector(grid$l)/max(grid$l), bPars[1,])$base
+      Bm <- bsplbase(as.vector(grid$m)/max(grid$m), bPars[2,])$base
+      
+      n1 <- ncol(Bl)
+      n2 <- ncol(Bm)
+      
+      knots.l <- bsplbase(as.vector(grid$l)/max(grid$l), bPars[1,])$knots
       knots.l <- knots.l[1:(length(knots.l)-(bPars[1,4]+1))]
       
+      knots.m <- bsplbase(as.vector(grid$m)/max(grid$m), bPars[2,])$knots
+      knots.m <- knots.m[1:(length(knots.m)-(bPars[1,4]+1))]
+      B. <- kronecker(Bm,
+                      t(as.vector(rep(1,ncol(Bl))))) * kronecker(t(as.vector(rep(1,ncol(Bm)))),
+                                                                 Bl)
       
-      m. <- as.vector(outer(unique(grid$m),rep(1,length(unique(grid$l)))))
-      Bm <- bsplbase(m./max(grid$m), bPars[2,  ])$base
-      knots.m <- bsplbase(m./max(grid$m), bPars[2,  ])$knots
-      knots.m <- knots.m[1:(length(knots.m)-(bPars[2,4]+1))]
       
       knot_grid <- expand.grid(m=knots.m,l=knots.l)[,2:1]
       keep <- (knot_grid$m >= 0.5) & (knot_grid$m < max(knot_grid$l)-0.5*knot_grid$l) |
-            (knot_grid$m < 0.5) & (knot_grid$m > min(knot_grid$l)+0.5*knot_grid$l)
+        (knot_grid$m < 0.5) & (knot_grid$m > min(knot_grid$l)+0.5*knot_grid$l)
       knot_grid <- transform(knot_grid,keep=factor(keep))
       knot_grid <- data.frame(knot_grid,
                               expand.grid(m_index=1:length(knots.m),
                                           l_index=(1:length(knots.l)))[,2:1])
       
-      
-      
-      
-      n1 <- ncol(Bl)
-      n2 <- ncol(Bm)
-      # Compute tensor products
-      
-      Bl. <- kronecker(Bl, t(rep(1, n2)))
-      Bm. <- kronecker(t(rep(1, n1)), Bm)
-      
-      
       grid <- orderBy(~ l+m,grid)
-      discard_rows <- left_join(data.frame(l=l.,m=m.,frame="big"),
-                                data.frame(grid[,c("l","m")],frame="little")
-                                ,by=c("l","m"))$frame.y %>% is.na %>% which
-      
-      B. <- Bl.*Bm.
       basisKeepIndex <- knot_grid$keep[!duplicated(knot_grid[,c("l_index","m_index")])] %>% equals(TRUE) %>% which
-      B. <- B.[-discard_rows,basisKeepIndex]
-      
+      B. <- B.[,basisKeepIndex]
+      U. <- X%*%B.
       
       
       
@@ -119,7 +112,7 @@ grid <- expand.grid(t=1:m,s=1:m) %>%
       
       
       knot_grid <- subset(knot_grid,keep==TRUE)
-      dl <- 
+      dl <- 2
       if(dl>0){
         if(sum(knot_grid$m==unique(knot_grid$m)[1])>dl){
           Pl <- matrix(data=0,nrow=sum(knot_grid$m==unique(knot_grid$m)[1])-dl,
@@ -157,15 +150,6 @@ grid <- expand.grid(t=1:m,s=1:m) %>%
       }
 
       
-      
-      
-      
-      
-      
-      
-      
-      
-
       dm <- 2
       if(dm>0){
         if((sum(knot_grid$m==unique(knot_grid$m)[1])>dl)){
@@ -203,111 +187,28 @@ grid <- expand.grid(t=1:m,s=1:m) %>%
       if(dm==0){
         Pm <- diag(nrow(knot_grid))
       }
+      lambdas <- expand.grid(lam_l=exp(seq(-1,7,length.out=15)),
+                             lam_m=exp(seq(-1,7,length.out=15)))
       
-
+      fit_list <- list.zip(lam_l=lambdas$lam_m,
+                            lam_m=lambdas$lam_l) %>%
+        lapply(.,function(l){
+          fit_cholesky_PS(y_vec,U.,Pl,l$lam_l,
+                          Pm,l$lam_m,
+                          0.00001)    
+        })
       
-      
-      U. <- X%*%B.
-      
-      
-      
-      
-      
-    
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      fit_cholesky_PS <- function(yVec,U,
-                                  P_l,lambda_l,
-                                  P_m,lambda_m,
-                                  lambda_ridge){
-            Pen <- rbind(lambda_l*P_l,
-                         lambda_m*P_m,
-                         lambda_ridge*diag(ncol(P_l)))
-            n.col <- ncol(U)
-            nix <- rep(0,nrow(Pen))
-            
-            nix.ridge <- rep(0, ncol(U))
-            coef.est <- rep(1, ncol(U))
-            
-            mu <- rep(mean(yVec), length(yVec))
-            it <- 0
-            repeat {
-                  if(it == 0) {
-                        eta <- mu
-                  }
-                  
-                  it <- it + 1
-                  if(it > 25)
-                        break
-                  
-                  mu <- eta
-                  h.prime <- 1
-                  w <- rep(1, length(y_vec))
-                  u <- (y_vec - mu)/h.prime + eta
-                  
-                  startTS <- Sys.time()
-                  f <- lsfit(rbind(U,Pen), c(u, nix), wt = c(w, nix + 1) *c(w, nix + 1), intercept = F)
-                  endTS <- Sys.time()
-                  endTS-startTS
-                  
-                  coef.old <- coef.est
-                  coef.est <- as.vector(f$coef)
-                  
-                  d.coef <- max(abs((coef.est[coef.old>0] - coef.old[coef.old>0])/coef.old[coef.old>0]))
-                  if(d.coef < 1e-008)
-                        break
-                  print(c(it, d.coef))
-                  eta <- U %*% coef.est
-            }
-            
-            if(it > 24) {
-                  warning(paste("parameter estimates did NOT converge in 25 iterations"
-                  ))
-            }      
-            
-            # H <- hat(f$qr, intercept = F)[1:(m-1)]
-            # trace <- eff.dim <- sum(H)
-            # 
-            # cv <- press.mu <- press.e <- var.c <- NULL
-            # dev <- sum(f$residuals[1:(m-1)]^2)
-            # dispersion.parm <- dev/((m-1) - trace)
-            # press.e <- f$residuals[1:(m-1)]/(1 - H)
-            # cv <- sqrt(sum((press.e)^2)/(m-1))
-            # press.mu <- y_vec - press.e
-            # 
-            # aic <- dev + 2 * trace
-            # aic
-            f$coefficients      
-      }
-      
-      lambdas <- expand.grid(lam_l=exp(seq(-2,7,length.out=15)),
-                               lam_m=exp(seq(-2,7,length.out=15)))
-      
-      coef_list <- list.zip(lam_l=lambdas$lam_m,
-                              lam_m=lambdas$lam_l) %>%
-            lapply(.,function(l){
-                  fit_cholesky_PS(y_vec,U.,Pl,l$lam_l,
-                                  Pm,l$lam_m,
-                                  0.12)    
-            })
-      
-      setwd("/Users/taylerblake/Documents/Dissertation/code/simulations")
+      setwd(file.path(getwd(),"/code/simulations"))
       save(coef_list,file="cpdSymm_coef_list_2.Rdata")
-      
+      save(list=ls(),
+           file = paste0("compSymm_fits_dl_",
+                         dl,
+                         "_dm_",
+                         dm,"N_",
+                         N,"M_",
+                         M,
+                         str_re,
+                         ".RData"))
       
       
       
@@ -323,7 +224,6 @@ grid <- expand.grid(t=1:m,s=1:m) %>%
       knots.l <- knots.l[1:(length(knots.l)-(bPars[1,4]+1))]
       
       m. <- gg$m
-      #m. <- as.vector(outer(unique(grid$m),rep(1,length(unique(grid$l)))))
       Bm <- bsplbase(m./max(gg$m), bPars[2,  ])$base
       knots.m <- bsplbase(m./max(gg$m), bPars[2,  ])$knots
       knots.m <- knots.m[1:(length(knots.m)-(bPars[2,4]+1))]
@@ -342,19 +242,12 @@ grid <- expand.grid(t=1:m,s=1:m) %>%
       B_lm <- B_lm[,basisKeepIndex]
       
       
-      
-      
-      
-      
-      phi_list <- lapply(coef_list,function(beta){
-            B_lm%*%beta
+      phi_list <- lapply(coef_list,function(fitted_f){
+            B_lm%*%fitted_f$coefficients
       })
       i <- 1
       
       
-      #Phi_hat <- B_lm %*% f$coefficients
-     # par(ask=TRUE)
-      #for (i in 76:nrow(lambdas)){
             laml <- round(lambdas$lam_l[i],3)
             lamm <- round(lambdas$lam_m[i],3)
             my_title <- c(as.expression(bquote(lambda[l] == .(laml))), as.expression(bquote(lambda[m] == .(lamm))))
