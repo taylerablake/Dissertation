@@ -35,27 +35,32 @@ r_vm <- gce_vm_template(template = "r-base",
 
 
 docker_build(r_vm, 
-             dockerfolder = file.path("/Users",
-                                    "taylerblake",
-                                    "Documents",
-                                    "Dissertation",
+             dockerfolder = file.path(getwd(),
                                     "code",
                                     "rGoogleComputeEngine",
                                     "dockerFolder"), 
              new_image = "my-r-image")
 
 gce_push_registry(r_vm, "my-r-image", image_name = "my-r-image")
+tag <- gce_tag_container("my_rstudio")
+# gcr.io/mark-edmondson-gde/my_rstudio
 
-gcs_create_bucket("dissertation-computation-bucket",
-                  projectId=gce_get_project()$name, 
-                  location = "US",
-                  storageClass = c("STANDARD"),
-                  predefinedAcl = c("private"),
-                  predefinedDefaultObjectAcl = c("private"),
-                  projection = c("noAcl","full"),
-                  versioning = TRUE,
-                  lifecycle = NULL)
-
+## start a 50GB RAM instance
+vm2 <- gce_vm(name = "rstudio-big",
+              predefined_type = "n1-highmem-8",
+              template = "rstudio",
+              dynamic_image = tag)
+# 
+# gcs_create_bucket("dissertation-computation-bucket",
+#                   projectId=gce_get_project()$name, 
+#                   location = "US",
+#                   storageClass = c("STANDARD"),
+#                   predefinedAcl = c("private"),
+#                   predefinedDefaultObjectAcl = c("private"),
+#                   projection = c("noAcl","full"),
+#                   versioning = TRUE,
+#                   lifecycle = NULL)
+# 
 gce_stop("r-vm")
 
 
