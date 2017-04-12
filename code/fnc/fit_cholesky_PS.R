@@ -49,18 +49,11 @@ fit_cholesky_PS <- function(yVec,U,
             ))
       }      
       
-      # H <- hat(f$qr, intercept = F)[1:(m-1)]
-      # trace <- eff.dim <- sum(H)
-      # 
-      # cv <- press.mu <- press.e <- var.c <- NULL
-      # dev <- sum(f$residuals[1:(m-1)]^2)
-      # dispersion.parm <- dev/((m-1) - trace)
-      # press.e <- f$residuals[1:(m-1)]/(1 - H)
-      # cv <- sqrt(sum((press.e)^2)/(m-1))
-      # press.mu <- y_vec - press.e
-      # 
-      # aic <- dev + 2 * trace
-      # aic
-      #f$coefficients      
-      f
+      H <- hat(f$qr, intercept = F)[1:(m-1)]
+      trace <- eff.dim <- sum(H)
+
+      list(f=f,
+           H=H,
+           eff.dim=eff.dim,
+           trace=trace)
 }
