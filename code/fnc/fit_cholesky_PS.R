@@ -52,7 +52,7 @@ fit_cholesky_PS <- function(yVec,U,
       H <- hat(f$qr, intercept = F)[1:(m-1)]
       trace <- eff.dim <- sum(H)
 
-      list(f=f,
+      list(coef=f$coefficients,
            H=H,
            eff.dim=eff.dim,
            trace=trace)
