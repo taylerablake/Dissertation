@@ -6,6 +6,7 @@ library(rlist)
 library(plyr)
 library(stringr)
 library(dplyr)
+library(doParallel)
 
 source("C:/GitRepos/Dissertation/code/fnc/bsplbase.R")
 source("C:/GitRepos/Dissertation/code/fnc/fit_cholesky_PS.R")
