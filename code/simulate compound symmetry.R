@@ -7,8 +7,12 @@ library(plyr)
 library(stringr)
 library(dplyr)
 
-source("C:/GitRepos/Dissertation/code/fnc/bsplbase.R")
-source("C:/GitRepos/Dissertation/code/fnc/fit_cholesky_PS.R")
+#source("C:/GitRepos/Dissertation/code/fnc/bsplbase.R")
+#source("C:/GitRepos/Dissertation/code/fnc/fit_cholesky_PS.R")
+
+source(file.path(getwd(),"fnc","bsplbase.R")
+#source("C:/GitRepos/Dissertation/code/fnc/fit_cholesky_PS.R")
+
 
 N <- 30
 M <- m <- 30
