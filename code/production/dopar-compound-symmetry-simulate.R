@@ -1,6 +1,18 @@
 
 library(doParallel)
 library(foreach)
+library(doBy)
+library(lattice)
+library(MASS)
+library(magrittr)
+library(rlist)
+library(plyr)
+library(stringr)
+library(dplyr)
+
+
+source(file.path(getwd(),"fnc/bsplbase.R"))
+source(file.path(getwd(),"fnc/fit_cholesky_PS.R"))
 
 cl <- makeCluster(detectCores()-1)
 registerDoParallel(cl)
