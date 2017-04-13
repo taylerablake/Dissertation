@@ -9,7 +9,7 @@ library(rlist)
 library(plyr)
 library(stringr)
 library(dplyr)
-
+library(cronR)
 
 source(file.path(getwd(),"fnc/bsplbase.R"))
 source(file.path(getwd(),"fnc/fit_cholesky_PS.R"))
@@ -180,9 +180,8 @@ clusterExport(cl,c("grid",
                    "dl",
                    "dm"))
 
-nsim <- 100
+nsim <- 2
 startTS <- Sys.time()
-
 PS_fit_sim <- foreach(icount(nsim),.noexport = c("y",
                                                  "y_vec",
                                                  "X",
@@ -215,5 +214,21 @@ PS_fit_sim <- foreach(icount(nsim),.noexport = c("y",
 }
 endTS <- Sys.time()
 endTS-startTS
-
+timeStamp <- Sys.time() %>%
+      str_sub(.,start=1,end=19) %>%
+      str_replace_all(.," ","_") %>%
+      str_replace_all(.,":","-")
+save(PS_fit_sim,
+     file = file.path(getwd(),
+                      "..",
+                      "data",
+                      paste0("compSymm_fits_dl_",
+                             dl,
+                             "_dm_",
+                             dm,"_N_",
+                             N,"_M_",
+                             M,
+                             "_",
+                             timeStamp,
+                             ".RData")))
 
