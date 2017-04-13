@@ -8,10 +8,8 @@ library(stringr)
 library(dplyr)
 library(doParallel)
 
-# source("C:/GitRepos/Dissertation/code/fnc/bsplbase.R")
-# source("C:/GitRepos/Dissertation/code/fnc/fit_cholesky_PS.R")
-source(file.path(getwd(),"fnc/bsplbase.R"))
-source(file.path(getwd(),"fnc/fit_cholesky_PS.R"))
+source(normalizePath(file.path(getwd(),"fnc/bsplbase.R")))
+source(normalizePath(file.path(getwd(),"fnc/fit_cholesky_PS.R")))
 
 
 N <- 30

@@ -11,8 +11,8 @@ library(stringr)
 library(dplyr)
 
 
-source(file.path(getwd(),"fnc/bsplbase.R"))
-source(file.path(getwd(),"fnc/fit_cholesky_PS.R"))
+source(normalizePath(file.path(getwd(),"fnc/bsplbase.R")))
+source(normalizePath(file.path(getwd(),"fnc/fit_cholesky_PS.R")))
 
 cl <- makeCluster(detectCores()-1)
 registerDoParallel(cl)
@@ -217,3 +217,20 @@ endTS <- Sys.time()
 endTS-startTS
 
 
+
+
+
+timeStamp <- Sys.time() %>% str_sub(.,start=1,end=19) %>% str_replace_all(.," ","_") %>% str_replace_all(.,":","-")
+save(fit_list,
+     file = file.path(getwd(),
+                      "simulations",
+                      "data",
+                      paste0("compSymm_fits_dl_",
+                             dl,
+                             "_dm_",
+                             dm,"_N_",
+                             N,"_M_",
+                             M,
+                             "_",
+                             timeStamp,
+                             ".RData")))
