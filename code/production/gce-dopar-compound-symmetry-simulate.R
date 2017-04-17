@@ -11,10 +11,10 @@ library(stringr)
 library(dplyr)
 
 
-source(normalizePath(file.path(getwd(),"fnc/bsplbase.R")))
-source(normalizePath(file.path(getwd(),"fnc/fit_cholesky_PS.R")))
+source(normalizePath(file.path("~","bsplbase.R")))
+source(normalizePath(file.path("~","fit_cholesky_PS.R")))
 
-cl <- makeCluster(detectCores()-1)
+cl <- makeCluster(detectCores()-3)
 registerDoParallel(cl)
 clusterCall(cl,function() {
       .libPaths("~/Rlibs/lib")
@@ -180,7 +180,7 @@ clusterExport(cl,c("grid",
                    "dl",
                    "dm"))
 
-nsim <- 50
+nsim <- 40
 startTS <- Sys.time()
 
 PS_fit_sim <- foreach(icount(nsim),.noexport = c("y",
@@ -211,7 +211,7 @@ PS_fit_sim <- foreach(icount(nsim),.noexport = c("y",
                                                              fit_list[[i]]$lam_l <- lambdas$lam_l[i]
                                                              fit_list[[i]]$lam_m <- lambdas$lam_m[i]
                                                        }
-                                                       fit_list
+                                         
 }
 endTS <- Sys.time()
 endTS-startTS
@@ -221,7 +221,7 @@ endTS-startTS
 
 
 timeStamp <- Sys.time() %>% str_sub(.,start=1,end=19) %>% str_replace_all(.," ","_") %>% str_replace_all(.,":","-")
-save(fit_list,
+save(PS_fit_sim,
      file = file.path(getwd(),
                       "..",
                       "data",

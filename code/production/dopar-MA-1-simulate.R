@@ -10,7 +10,7 @@ library(plyr)
 library(stringr)
 library(dplyr)
 
-
+setwd(file.path("/Users","taylerblake","Documents","Dissertation","code"))
 source(normalizePath(file.path(getwd(),"fnc/bsplbase.R")))
 source(normalizePath(file.path(getwd(),"fnc/fit_cholesky_PS.R")))
 
@@ -36,14 +36,27 @@ grid <- expand.grid(s=(1:m),t=(1:m)) %>%
       subset(.,s>t) %>%
       transform(l=(s-t),m=s+t)
 
-Sigma <- matrix(0.7,nrow=m,ncol=m) + diag(rep(0.3),m)
-Omega <- solve(Sigma)
 
+
+theta <- 0.8
+sig2 <- 0.1
+
+
+
+Sigma <- diag( rep( sig2*(1+theta^2), M ) )
+for (i in 1:nrow(Sigma)) {
+      for (j in 1:ncol(Sigma)) {
+            if (abs(i-j)==1)
+                  Sigma[i,j] <- sig2*theta
+      }
+}
+
+Omega <- solve(Sigma)
 
 C <- t(chol(Sigma))
 D <- diag(diag(C))
 L <- C%*%solve(D)
-T_mod <- solve(L)
+T_mod <- solve(L)      
 
 grid <- expand.grid(t=1:m,s=1:m) %>%
       subset(.,t>s) %>%
@@ -93,11 +106,13 @@ if(dl>0){
             Pl[,which(knot_grid$m==unique(knot_grid$m)[1])] <- diff(diag(sum(knot_grid$m==unique(knot_grid$m)[1])),
                                                                     differences = dl)            
             for(i in 2:length(unique(knot_grid$m))){
-                  pl <- matrix(data=0,nrow=sum(knot_grid$m==unique(knot_grid$m)[i])-dl,
-                               ncol=nrow(knot_grid))
-                  pl[,which(knot_grid$m==unique(knot_grid$m)[i])] <- diff(diag(sum(knot_grid$m==unique(knot_grid$m)[i])),
-                                                                          differences = dl)      
-                  Pl <- rbind(Pl,pl)
+                  if (sum(knot_grid$m==unique(knot_grid$m)[i]) > dl) {
+                        pl <- matrix(data=0,nrow=sum(knot_grid$m==unique(knot_grid$m)[i])-dl,
+                                     ncol=nrow(knot_grid))
+                        pl[,which(knot_grid$m==unique(knot_grid$m)[i])] <- diff(diag(sum(knot_grid$m==unique(knot_grid$m)[i])),
+                                                                                differences = dl)      
+                        Pl <- rbind(Pl,pl)
+                  } 
             }
       }
       
@@ -123,7 +138,7 @@ if(dl==0){
 }
 
 
-dm <- 2
+dm <- 1
 if(dm>0){
       if((sum(knot_grid$m==unique(knot_grid$m)[1])>dl)){
             Pm <- matrix(data=0,nrow=sum(knot_grid$l==unique(knot_grid$l)[1])-dm,
@@ -182,7 +197,6 @@ clusterExport(cl,c("grid",
 
 nsim <- 50
 startTS <- Sys.time()
-
 PS_fit_sim <- foreach(icount(nsim),.noexport = c("y",
                                                  "y_vec",
                                                  "X",
@@ -212,7 +226,8 @@ PS_fit_sim <- foreach(icount(nsim),.noexport = c("y",
                                                              fit_list[[i]]$lam_m <- lambdas$lam_m[i]
                                                        }
                                                        fit_list
-}
+                                                       
+                                                 }
 endTS <- Sys.time()
 endTS-startTS
 
@@ -221,11 +236,12 @@ endTS-startTS
 
 
 timeStamp <- Sys.time() %>% str_sub(.,start=1,end=19) %>% str_replace_all(.," ","_") %>% str_replace_all(.,":","-")
-save(fit_list,
+save(PS_fit_sim,
      file = file.path(getwd(),
                       "..",
                       "data",
-                      paste0("compSymm_fits_dl_",
+                      "moving average",
+                      paste0("MA1_fits_dl_",
                              dl,
                              "_dm_",
                              dm,"_N_",
@@ -234,3 +250,6 @@ save(fit_list,
                              "_",
                              timeStamp,
                              ".RData")))
+
+
+

@@ -1,6 +1,3 @@
-
-library(doParallel)
-library(foreach)
 library(doBy)
 library(lattice)
 library(MASS)
@@ -9,27 +6,12 @@ library(rlist)
 library(plyr)
 library(stringr)
 library(dplyr)
+library(doParallel)
 
-
-source(normalizePath(file.path(getwd(),"fnc/bsplbase.R")))
-source(normalizePath(file.path(getwd(),"fnc/fit_cholesky_PS.R")))
-
-cl <- makeCluster(detectCores()-1)
-registerDoParallel(cl)
-clusterCall(cl,function() {
-      .libPaths("~/Rlibs/lib")
-      library(doBy)
-      library(doBy)
-      library(lattice)
-      library(MASS)
-      library(magrittr)
-      library(rlist)
-      library(plyr)
-      library(stringr)
-      library(dplyr)
-      library(doParallel)
-})
-
+#source(normalizePath(file.path(getwd(),"fnc/bsplbase.R")))
+#source(normalizePath(file.path(getwd(),"fnc/fit_cholesky_PS.R")))
+source(normalizePath(file.path("~","fit_cholesky_PS.R")))
+source(normalizePath(file.path("~","bsplbase.R")))
 N <- 30
 M <- m <- 30
 grid <- expand.grid(s=(1:m),t=(1:m)) %>%
@@ -46,10 +28,10 @@ L <- C%*%solve(D)
 T_mod <- solve(L)
 
 grid <- expand.grid(t=1:m,s=1:m) %>%
-      subset(.,t>s) %>%
-      transform(.,l=t-s,
-                m=(t+s)/2) %>%
-      orderBy(~ l+m,.)
+  subset(.,t>s) %>%
+  transform(.,l=t-s,
+            m=(t+s)/2) %>%
+  orderBy(~ l+m,.)
 
 bPars <- rbind(c(0,1,length(unique(grid$l))-5,3,100,3),
                c(0,1,length(unique(grid$m))-5,3,100,3))
@@ -82,7 +64,6 @@ knot_grid <- data.frame(knot_grid,
 
 basisKeepIndex <- knot_grid$keep[!duplicated(knot_grid[,c("l_index","m_index")])] %>% equals(TRUE) %>% which
 B. <- B.[,basisKeepIndex]
-knot_grid <- subset(knot_grid,keep==TRUE)
 
 
 dl <- 2
@@ -161,76 +142,78 @@ if(dm==0){
       Pm <- diag(nrow(knot_grid))
 }
 
+
+
 lambdas <- expand.grid(lam_l=exp(seq(-1,5.3,length.out=20)),
                        lam_m=exp(seq(-1,5.3,length.out=20)))
 
-clusterExport(cl,c("grid",
-                   "bsplbase",
-                   "fit_cholesky_PS",
-                   "Sigma",
-                   "N",
-                   "m",
-                   "M",
-                   "Bl",
-                   "Bm",
-                   "B.",
-                   "Pl",
-                   "Pm",
-                   "lambdas",
-                   "dl",
-                   "dm"))
+sim_list <- list()
+for (sim.j in 1:1) {
+        y <- mvrnorm(n=N,mu=rep(0,m),Sigma=Sigma)
+        y_vec <- as.vector(t(y[,-1]))
+        
+        X <- matrix(data=0,nrow=N*(M-1),ncol=choose(M,2))
+        no.skip <- 0
+        for (t in 2:M){
+          X[((0:(N-1))*(M-1)) + t-1,(no.skip+1):(no.skip+t-1)] <- y[,1:(t-1)]
+          no.skip <- no.skip + t - 1
+        }
+        
+        # Compute tensor products
+        
+        U. <- X%*%B.
+        knot_grid <- subset(knot_grid,keep==TRUE)
+        
 
-nsim <- 50
-startTS <- Sys.time()
+        fit_list <- list.zip(lam_l=lambdas$lam_m,
+                             lam_m=lambdas$lam_l) %>%
+          lapply(.,function(l){
+            fit_cholesky_PS(y_vec,U.,Pl,l$lam_l,
+                            Pm,l$lam_m,
+                            0.00001)    
+          })
+        
+        
+        for(i in 1:length(fit_list)){
+          fit_list[[i]]$lam_l <- lambdas$lam_l[i]
+          fit_list[[i]]$lam_m <- lambdas$lam_m[i]
+        }
+        
+        timeStamp <- Sys.time() %>% str_sub(.,start=1,end=19) %>% str_replace_all(.," ","_") %>% str_replace_all(.,":","-")
+#         save(fit_list,
+#              file = file.path("~",
+#                               paste0("compSymm_fits_",
+#                                      sim.j,
+#                                      "_",
+#                                      "dl_",
+#                                      dl,
+#                                      "_dm_",
+#                                      dm,"_N_",
+#                                      N,"_M_",
+#                                      M,
+#                                      "_",
+#                                      timeStamp,
+#                                      ".RData")))
+#         sim_list[[sim.j]] <- list(fit_list=fit_list,
+#                                   y_vec=y_vec)      
+ }      
+# 
+# save(list=c("sim_list","fit_list"),
+#      file = file.path("~",
+#                       paste0("compSymm_simulations_",
+#                              "dl_",
+#                              dl,
+#                              "_dm_",
+#                              dm,"_N_",
+#                              N,"_M_",
+#                              M,
+#                              "_",
+#                              timeStamp,
+#                              ".RData")))      
+# 
 
-PS_fit_sim <- foreach(icount(nsim),.noexport = c("y",
-                                                 "y_vec",
-                                                 "X",
-                                                 "U.")) %dopar% {
-                                                       y <- mvrnorm(n=N,mu=rep(0,m),Sigma=Sigma)
-                                                       y_vec <- as.vector(t(y[,-1]))
-                                                       
-                                                       X <- matrix(data=0,nrow=N*(M-1),ncol=choose(M,2))
-                                                       no.skip <- 0
-                                                       for (t in 2:M){
-                                                             X[((0:(N-1))*(M-1)) + t-1,(no.skip+1):(no.skip+t-1)] <- y[,1:(t-1)]
-                                                             no.skip <- no.skip + t - 1
-                                                       }
-                                                       
-                                                       U. <- X%*%B.
-                                                       fit_list <- list.zip(lam_l=lambdas$lam_m,
-                                                                            lam_m=lambdas$lam_l) %>%
-                                                             lapply(.,function(l){
-                                                                   fit_cholesky_PS(y_vec,U.,Pl,l$lam_l,
-                                                                                   Pm,l$lam_m,
-                                                                                   0.00001)    
-                                                             })
-                                                       
-                                                       
-                                                       for(i in 1:length(fit_list)){
-                                                             fit_list[[i]]$lam_l <- lambdas$lam_l[i]
-                                                             fit_list[[i]]$lam_m <- lambdas$lam_m[i]
-                                                       }
-                                                       fit_list
-}
-endTS <- Sys.time()
-endTS-startTS
 
-
-
-
-
-timeStamp <- Sys.time() %>% str_sub(.,start=1,end=19) %>% str_replace_all(.," ","_") %>% str_replace_all(.,":","-")
-save(fit_list,
-     file = file.path(getwd(),
-                      "..",
-                      "data",
-                      paste0("compSymm_fits_dl_",
-                             dl,
-                             "_dm_",
-                             dm,"_N_",
-                             N,"_M_",
-                             M,
-                             "_",
-                             timeStamp,
-                             ".RData")))
+save(list=c("sim_list","fit_list"),
+     file = file.path("~",
+                      paste0("compSymm_simulations_",
+                             ".RData")))      
