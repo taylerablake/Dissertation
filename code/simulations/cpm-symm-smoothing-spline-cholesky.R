@@ -27,12 +27,6 @@ L <- C%*%solve(D)
 T_mod <- solve(L)
 
 
-y <- t(solve(T_mat)%*%matrix(data=rnorm(N*m,mean=0,sd=0.3),
-                             nrow=m,
-                             ncol=N))
-true_Sigma <- solve(T_mat)%*%t(solve(T_mat))
-true_Omega <- t(T_mat)%*%T_mat
-
 y <- mvrnorm(n=N,mu=rep(0,m),Sigma=Sigma)
 y_vec <- as.vector(t(y[,-1]))
 
@@ -122,12 +116,6 @@ R_B.big <- qr.R(QR_B,complete=TRUE)
 R_B <- R_B.big[1:ncol(B),]
 R_Binv <- solve(R_B)
 
-Dinv <- diag(rep(1,length(y_vec)))
-
-
-
-
-
 
 
 QR_X <- qr(X,complete=TRUE)
@@ -138,12 +126,17 @@ R_X.big <- qr.R(QR_X,complete=TRUE)
 R_X <- R_X.big[1:ncol(X),]
 R_Xinv <- solve(R_X)
 
+
+
+
 #-----------------------------------------------------------------------------------------
 ## Build solutions
 #-----------------------------------------------------------------------------------------
 
 lambdas <- as.list(exp(seq(-8,8,length.out=100)))
-P <- solve(t(X)%*%Dinv%*%X)
+#P <- solve(t(X)%*%Dinv%*%X)
+P <- solve(t(X)%*%diag(1/(diag(C)^2))%*%X)
+
 
 Ms <- lapply(lambdas,function(l){
       M <- solve( t(Q2_B)%*%(K + l*P)%*%Q2_B )
@@ -151,12 +144,17 @@ Ms <- lapply(lambdas,function(l){
 })
       
 
+
+##################################################################################
+## TODO: I think in the calculation of c and d, Dinv should be replaced with 
+##        D^(-2) -  
+##################################################################################
 c <- lapply(Ms,function(mat){
-      Q2_B%*%mat%*%t(Q2_B)%*% P %*%t(X)%*%Dinv%*%y_vec      
+      Q2_B%*%mat%*%t(Q2_B)%*% P %*%t(X)%*%diag(1/(diag(C)^2))%*%y_vec      
 })
 
 d <- lapply(list.zip(lam=lambdas,c=c),function(l){
-      d <- R_Binv%*%t(Q1_B)%*%( P%*%t(X)%*%Dinv%*%y_vec - ( K + l$lam*P )%*%l$c )      
+      d <- R_Binv%*%t(Q1_B)%*%( P%*%t(X)%*%diag(1/(diag(C)^2))%*%y_vec - ( K + l$lam*P )%*%l$c )      
 })
 cholesky <- lapply(list.zip(c=c,d=d),function(l){
       Phi <- B%*%l$d + K%*%l$c
