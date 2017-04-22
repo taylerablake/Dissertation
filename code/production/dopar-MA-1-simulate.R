@@ -98,7 +98,7 @@ B. <- B.[,basisKeepIndex]
 knot_grid <- subset(knot_grid,keep==TRUE)
 
 
-dl <- 2
+dl <- 3
 if(dl>0){
       if(sum(knot_grid$m==unique(knot_grid$m)[1])>dl){
             Pl <- matrix(data=0,nrow=sum(knot_grid$m==unique(knot_grid$m)[1])-dl,
@@ -215,9 +215,11 @@ PS_fit_sim <- foreach(icount(nsim),.noexport = c("y",
                                                        fit_list <- list.zip(lam_l=lambdas$lam_m,
                                                                             lam_m=lambdas$lam_l) %>%
                                                              lapply(.,function(l){
-                                                                   fit_cholesky_PS(y_vec,U.,Pl,l$lam_l,
+                                                                   fit_cholesky_PS(y,U.,
+                                                                                   D=diag(diag(C)),
+                                                                                   Pl,l$lam_l,
                                                                                    Pm,l$lam_m,
-                                                                                   0.00001)    
+                                                                                   0.0000001)    
                                                              })
                                                        
                                                        
