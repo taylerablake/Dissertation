@@ -210,7 +210,8 @@ lambdas <- expand.grid(lam_l=exp(seq(-2,7,length.out=15)),
 ar_1_coef_list <- list.zip(lam_l=lambdas$lam_m,
                       lam_m=lambdas$lam_l) %>%
       lapply(.,function(l){
-            try(            fit_cholesky_PS(y_vec,U.,Pl,l$lam_l,
+            try(            fit_cholesky_PS(y,U.,D=diag(doag(C)),
+                                            Pl,l$lam_l,
                                             Pm,l$lam_m,
                                             0.12)    
             )
@@ -225,7 +226,7 @@ data.frame(expand.grid(t=1:M,s=1:M),
            phi=as.vector(diag(rep(1,nrow(T_mod)))-T_mod)) %>%
       subset(.,t>s) %>%
       orderBy(~t+s,.) %>%
-      wireframe(phi~t+s,
+      wireframe(phi~s*t,
                 data=.,
                 screen=list(z=55,x=-85,y=10),
                 light.source = c(5,20,10),
@@ -255,7 +256,7 @@ knots.m <- knots.m[1:(length(knots.m)-(bPars[2,4]+1))]
 
 knot_grid <- expand.grid(m=knots.m,l=knots.l)[,2:1]
 keep <- (knot_grid$m >= 0.5) & (knot_grid$m < max(knot_grid$l)-0.5*knot_grid$l) |
-      (knot_grid$m < 0.5) & (knot_grid$m > min(knot_grid$l)+0.5*knot_grid$l)
+      (knot_grid$m <= 0.5) & (knot_grid$m > min(knot_grid$l)+0.5*knot_grid$l)
 knot_grid <- transform(knot_grid,keep=factor(keep))
 knot_grid <- data.frame(knot_grid,
                         expand.grid(m_index=1:length(knots.m),

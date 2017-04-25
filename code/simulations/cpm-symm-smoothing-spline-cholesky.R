@@ -1,100 +1,55 @@
 
+library(doParallel)
+library(foreach)
+library(doBy)
+library(lattice)
+library(MASS)
+library(magrittr)
+library(rlist)
+library(plyr)
+library(stringr)
+library(dplyr)
 library(rlist)
 
- M <- m <- 20
- N <- 19
- 
-phi <- function(t1.index,t2.index,m){
-      if(t1.index-t2.index==1){
-            garp <- (2*((t1.index)/m)^2)-0.5
-      }
-      if(t1.index-t2.index!=1){
-            garp <- 0
-      }
-      garp
-}
+M <- m <- 50
+N <- 30
+
+grid <- expand.grid(s=(1:m),t=(1:m)) %>%
+  subset(.,s>t) %>%
+  transform(l=(s-t),m=(s+t)/2)
+
+Sigma <- matrix(0.7,nrow=m,ncol=m) + diag(rep(0.3),m)
+Omega <- solve(Sigma)
+
+C <- t(chol(Sigma))
+D <- diag(diag(C))
+L <- C%*%solve(D)
+T_mod <- solve(L)
 
 
-
-
-
-
-
-grid <- expand.grid(t=1:M,s=1:M) %>% subset(.,t>s) %>%
-      transform(.,l=t-s,
-                m=(t+s)/2)
-
-
-# true_phi <- sapply(1:nrow(grid),function(row.i){
-#       phi(grid$t[row.i],grid$s[row.i],m=m)
-# })
-# grid <- transform(grid,true_phi=true_phi)
-# 
-# 
-# 
-# indices_of_nonzeros <- as.matrix(expand.grid(t=(1:m),s=(1:m)) %>% subset(.,(t-s)==1))
-# nonzero_phis <- (2*((2:m)/m)^2)-0.5
-# 
-# T_mat <- diag(rep(1,m))
-# phis <- as.vector(rep(0,sum(lower.tri(T_mat))))
-# T_mat[indices_of_nonzeros] <- -nonzero_phis
-# phis <- -T_mat[lower.tri(T_mat)]
-
-
-
-phi <- function(t1.index,t2.index,m){
-      if(t1.index>t2.index){
-            t_ij <- -exp(-2*(t1.index-t2.index)/((m-1)))             
-      }
-      if(t1.index==t2.index){
-            t_ij <- 1             
-      }
-      if(t1.index<t2.index){
-            t_ij <- 0             
-      }
-      t_ij
-}
-
-
-
-
-full_grid <- expand.grid(t=1:m,s=1:m) %>% orderBy(~t+s,.)
-true_T <- sapply(1:nrow(full_grid),function(row.i){
-      phi(full_grid$t[row.i],full_grid$s[row.i],m=m)
-}) %>%unlist
-
-
-T_mat <- matrix(data=true_T,nrow=m,ncol=m,byrow=TRUE)
-T_mat
-
-
-y <- t(solve(T_mat)%*%matrix(data=rnorm(N*m,mean=0,sd=0.3),
-                             nrow=m,
-                             ncol=N))
-true_Sigma <- solve(T_mat)%*%t(solve(T_mat))
-true_Omega <- t(T_mat)%*%T_mat
-
-
+y <- mvrnorm(n=N,mu=rep(0,m),Sigma=Sigma)
 y_vec <- as.vector(t(y[,-1]))
 
 X <- matrix(data=0,nrow=N*(M-1),ncol=choose(M,2))
 no.skip <- 0
 for (t in 2:M){
-      X[((0:(N-1))*(M-1)) + t-1,(no.skip+1):(no.skip+t-1)] <- y[,1:(t-1)]
-      no.skip <- no.skip + t - 1
+  X[((0:(N-1))*(M-1)) + t-1,(no.skip+1):(no.skip+t-1)] <- y[,1:(t-1)]
+  no.skip <- no.skip + t - 1
 }
-
-
-
 
 #-----------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------
 ## define basis functions, representers
 #-----------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------
-
-
-
+sourceDir <- function(path, trace = TRUE, ...) {
+  for (nm in list.files(path, pattern = "[.][RrSsQq]$")) {
+    if(trace) cat(nm,":")
+    source(file.path(path, nm), ...)
+    if(trace) cat("\n")
+  }
+}
+sourceDir(file.path(getwd(),"lib"))
 
 
 k0 <- function(x){
@@ -136,6 +91,11 @@ R1 <- function(l1,l2,m){
 #-----------------------------------------------------------------------------------------
 
 
+
+############################################################
+## TODO: MAKE SURE YOURE CONSTRUCTING K CORRECTLY - 
+##        SPECIFICALLY THE INTERACTION TERM R1_LM
+
 R1_l <- function(l1,l2){R1(l1,l2,m=1)}
 R1_L <- outer(grid$l/max(grid$l), grid$l/max(grid$l), "R1_l")
 
@@ -156,12 +116,6 @@ R_B.big <- qr.R(QR_B,complete=TRUE)
 R_B <- R_B.big[1:ncol(B),]
 R_Binv <- solve(R_B)
 
-Dinv <- diag(rep(1,length(y_vec)))
-
-
-
-
-
 
 
 QR_X <- qr(X,complete=TRUE)
@@ -172,12 +126,17 @@ R_X.big <- qr.R(QR_X,complete=TRUE)
 R_X <- R_X.big[1:ncol(X),]
 R_Xinv <- solve(R_X)
 
+
+
+
 #-----------------------------------------------------------------------------------------
 ## Build solutions
 #-----------------------------------------------------------------------------------------
 
-lambdas <- as.list(exp(seq(-1,5,length.out=100)))
-P <- solve(t(X)%*%Dinv%*%X)
+lambdas <- as.list(exp(seq(-8,8,length.out=100)))
+#P <- solve(t(X)%*%Dinv%*%X)
+P <- solve(t(X)%*%diag(1/(diag(C)^2))%*%X)
+
 
 Ms <- lapply(lambdas,function(l){
       M <- solve( t(Q2_B)%*%(K + l*P)%*%Q2_B )
@@ -185,12 +144,17 @@ Ms <- lapply(lambdas,function(l){
 })
       
 
+
+##################################################################################
+## TODO: I think in the calculation of c and d, Dinv should be replaced with 
+##        D^(-2) -  
+##################################################################################
 c <- lapply(Ms,function(mat){
-      Q2_B%*%mat%*%t(Q2_B)%*% P %*%t(X)%*%Dinv%*%y_vec      
+      Q2_B%*%mat%*%t(Q2_B)%*% P %*%t(X)%*%diag(1/(diag(C)^2))%*%y_vec      
 })
 
 d <- lapply(list.zip(lam=lambdas,c=c),function(l){
-      d <- R_Binv%*%t(Q1_B)%*%( P%*%t(X)%*%Dinv%*%y_vec - ( K + l$lam*P )%*%l$c )      
+      d <- R_Binv%*%t(Q1_B)%*%( P%*%t(X)%*%diag(1/(diag(C)^2))%*%y_vec - ( K + l$lam*P )%*%l$c )      
 })
 cholesky <- lapply(list.zip(c=c,d=d),function(l){
       Phi <- B%*%l$d + K%*%l$c
@@ -198,13 +162,6 @@ cholesky <- lapply(list.zip(c=c,d=d),function(l){
       T_hat[lower.tri(T_hat)] <- -Phi
       list(phi=Phi,T_mat=T_hat,omega=t(T_hat)%*%T_hat)
 })
-
-
-
-
-
-
-
 
 
 entropy_loss <- function(trueSigma, omegaHat){

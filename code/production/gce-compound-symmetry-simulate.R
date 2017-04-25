@@ -8,10 +8,10 @@ library(stringr)
 library(dplyr)
 library(doParallel)
 
-source(normalizePath(file.path(getwd(),"fnc/bsplbase.R")))
-source(normalizePath(file.path(getwd(),"fnc/fit_cholesky_PS.R")))
-
-
+#source(normalizePath(file.path(getwd(),"fnc/bsplbase.R")))
+#source(normalizePath(file.path(getwd(),"fnc/fit_cholesky_PS.R")))
+source(normalizePath(file.path("~","fit_cholesky_PS.R")))
+source(normalizePath(file.path("~","bsplbase.R")))
 N <- 30
 M <- m <- 30
 grid <- expand.grid(s=(1:m),t=(1:m)) %>%
@@ -180,21 +180,40 @@ for (sim.j in 1:1) {
         }
         
         timeStamp <- Sys.time() %>% str_sub(.,start=1,end=19) %>% str_replace_all(.," ","_") %>% str_replace_all(.,":","-")
-        save(fit_list,
-             file = file.path(getwd(),
-                              "simulations",
-                              "data",
-                              paste0("compSymm_fits_dl_",
-                                     dl,
-                                     "_dm_",
-                                     dm,"_N_",
-                                     N,"_M_",
-                                     M,
-                                     "_",
-                                     timeStamp,
-                                     ".RData")))
-        sim_list[[sim.j]] <- list(fit_list=fit_list,
-                                  y_vec=y_vec)      
-}      
-      
-      
+#         save(fit_list,
+#              file = file.path("~",
+#                               paste0("compSymm_fits_",
+#                                      sim.j,
+#                                      "_",
+#                                      "dl_",
+#                                      dl,
+#                                      "_dm_",
+#                                      dm,"_N_",
+#                                      N,"_M_",
+#                                      M,
+#                                      "_",
+#                                      timeStamp,
+#                                      ".RData")))
+#         sim_list[[sim.j]] <- list(fit_list=fit_list,
+#                                   y_vec=y_vec)      
+ }      
+# 
+# save(list=c("sim_list","fit_list"),
+#      file = file.path("~",
+#                       paste0("compSymm_simulations_",
+#                              "dl_",
+#                              dl,
+#                              "_dm_",
+#                              dm,"_N_",
+#                              N,"_M_",
+#                              M,
+#                              "_",
+#                              timeStamp,
+#                              ".RData")))      
+# 
+
+
+save(list=c("sim_list","fit_list"),
+     file = file.path("~",
+                      paste0("compSymm_simulations_",
+                             ".RData")))      

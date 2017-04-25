@@ -9,12 +9,12 @@ library(rlist)
 library(plyr)
 library(stringr)
 library(dplyr)
-library(cronR)
 
-source(normalizePath(file.path(getwd(),"fnc/bsplbase.R")))
-source(normalizePath(file.path(getwd(),"fnc/fit_cholesky_PS.R")))
 
-cl <- makeCluster(detectCores()-1)
+source(normalizePath(file.path("~","bsplbase.R")))
+source(normalizePath(file.path("~","fit_cholesky_PS.R")))
+
+cl <- makeCluster(detectCores()-3)
 registerDoParallel(cl)
 clusterCall(cl,function() {
       .libPaths("~/Rlibs/lib")
@@ -34,9 +34,9 @@ N <- 30
 M <- m <- 30
 grid <- expand.grid(s=(1:m),t=(1:m)) %>%
       subset(.,s>t) %>%
-      transform(l=(s-t),m=(s+t)/2)
+      transform(l=(s-t),m=s+t)
 
-Sigma <- matrix(0.7,nrow=M,ncol=M) + diag(rep(0.3),M)
+Sigma <- matrix(0.7,nrow=m,ncol=m) + diag(rep(0.3),m)
 Omega <- solve(Sigma)
 
 
@@ -45,6 +45,11 @@ D <- diag(diag(C))
 L <- C%*%solve(D)
 T_mod <- solve(L)
 
+grid <- expand.grid(t=1:m,s=1:m) %>%
+      subset(.,t>s) %>%
+      transform(.,l=t-s,
+                m=(t+s)/2) %>%
+      orderBy(~ l+m,.)
 
 bPars <- rbind(c(0,1,length(unique(grid$l))-5,3,100,3),
                c(0,1,length(unique(grid$m))-5,3,100,3))
@@ -80,7 +85,7 @@ B. <- B.[,basisKeepIndex]
 knot_grid <- subset(knot_grid,keep==TRUE)
 
 
-dl <- 3
+dl <- 2
 if(dl>0){
       if(sum(knot_grid$m==unique(knot_grid$m)[1])>dl){
             Pl <- matrix(data=0,nrow=sum(knot_grid$m==unique(knot_grid$m)[1])-dl,
@@ -88,13 +93,11 @@ if(dl>0){
             Pl[,which(knot_grid$m==unique(knot_grid$m)[1])] <- diff(diag(sum(knot_grid$m==unique(knot_grid$m)[1])),
                                                                     differences = dl)            
             for(i in 2:length(unique(knot_grid$m))){
-                  if(sum(knot_grid$m==unique(knot_grid$m)[i])>dl){
-                        pl <- matrix(data=0,nrow=sum(knot_grid$m==unique(knot_grid$m)[i])-dl,
-                                     ncol=nrow(knot_grid))
-                        pl[,which(knot_grid$m==unique(knot_grid$m)[i])] <- diff(diag(sum(knot_grid$m==unique(knot_grid$m)[i])),
-                                                                                differences = dl)      
-                        Pl <- rbind(Pl,pl)
-                  }
+                  pl <- matrix(data=0,nrow=sum(knot_grid$m==unique(knot_grid$m)[i])-dl,
+                               ncol=nrow(knot_grid))
+                  pl[,which(knot_grid$m==unique(knot_grid$m)[i])] <- diff(diag(sum(knot_grid$m==unique(knot_grid$m)[i])),
+                                                                          differences = dl)      
+                  Pl <- rbind(Pl,pl)
             }
       }
       
@@ -120,7 +123,7 @@ if(dl==0){
 }
 
 
-dm <- 3
+dm <- 2
 if(dm>0){
       if((sum(knot_grid$m==unique(knot_grid$m)[1])>dl)){
             Pm <- matrix(data=0,nrow=sum(knot_grid$l==unique(knot_grid$l)[1])-dm,
@@ -158,8 +161,8 @@ if(dm==0){
       Pm <- diag(nrow(knot_grid))
 }
 
-lambdas <- expand.grid(lam_l=exp(seq(-1,5.1,length.out=20)),
-                       lam_m=exp(seq(-1,5.1,length.out=20)))
+lambdas <- expand.grid(lam_l=exp(seq(-1,5.3,length.out=20)),
+                       lam_m=exp(seq(-1,5.3,length.out=20)))
 
 clusterExport(cl,c("grid",
                    "bsplbase",
@@ -177,16 +180,14 @@ clusterExport(cl,c("grid",
                    "dl",
                    "dm"))
 
-
-nsim <- 2
-
+nsim <- 40
 startTS <- Sys.time()
+
 PS_fit_sim <- foreach(icount(nsim),.noexport = c("y",
                                                  "y_vec",
                                                  "X",
-                                                 "U.",
-                                                 "C")) %dopar% {
-                                                       y <- mvrnorm(n=N,mu=rep(0,M),Sigma=Sigma)
+                                                 "U.")) %dopar% {
+                                                       y <- mvrnorm(n=N,mu=rep(0,m),Sigma=Sigma)
                                                        y_vec <- as.vector(t(y[,-1]))
                                                        
                                                        X <- matrix(data=0,nrow=N*(M-1),ncol=choose(M,2))
@@ -200,8 +201,7 @@ PS_fit_sim <- foreach(icount(nsim),.noexport = c("y",
                                                        fit_list <- list.zip(lam_l=lambdas$lam_m,
                                                                             lam_m=lambdas$lam_l) %>%
                                                              lapply(.,function(l){
-                                                                   fit_cholesky_PS(y,U.,D=diag(diag(C)),
-                                                                                   Pl,l$lam_l,
+                                                                   fit_cholesky_PS(y_vec,U.,Pl,l$lam_l,
                                                                                    Pm,l$lam_m,
                                                                                    0.00001)    
                                                              })
@@ -211,46 +211,16 @@ PS_fit_sim <- foreach(icount(nsim),.noexport = c("y",
                                                              fit_list[[i]]$lam_l <- lambdas$lam_l[i]
                                                              fit_list[[i]]$lam_m <- lambdas$lam_m[i]
                                                        }
-                                                       fit_list
+                                         
 }
 endTS <- Sys.time()
 endTS-startTS
-timeStamp <- Sys.time() %>%
-      str_sub(.,start=1,end=19) %>%
-      str_replace_all(.," ","_") %>%
-      str_replace_all(.,":","-")
-save(PS_fit_sim,
-     file = file.path(getwd(),
-                      "..",
-                      "data",
-                      paste0("compSymm_fits_dl_",
-                             dl,
-                             "_dm_",
-                             dm,"_N_",
-                             N,"_M_",
-                             M,
-                             "_",
-                             timeStamp,
-                             ".RData")))
+
 
 
 
 
 timeStamp <- Sys.time() %>% str_sub(.,start=1,end=19) %>% str_replace_all(.," ","_") %>% str_replace_all(.,":","-")
-save(fit_list,
-     file = file.path(getwd(),
-                      "..",
-                      "data",
-                      paste0("compSymm_fits_dl_",
-                             dl,
-                             "_dm_",
-                             dm,"_N_",
-                             N,"_M_",
-                             M,
-                             "_",
-                             timeStamp,
-                             ".RData")))
-
 save(PS_fit_sim,
      file = file.path(getwd(),
                       "..",

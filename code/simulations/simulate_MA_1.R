@@ -17,7 +17,7 @@ grid <- expand.grid(t=1:M,s=1:M) %>% subset(.,t>s) %>%
 
 
 list_Sigma <- list()
-theta <- 0.8
+theta <- 2.5
 sig2 <- 0.1
 
 Sigma_MA_1 <- diag( rep( sig2*(1+theta^2), M ) )
@@ -28,7 +28,7 @@ for (i in 1:nrow(Sigma_MA_1)) {
       }
 }
 list_Sigma[[3]] <- Sigma_MA_1
-Omega <- solve(Sigma_AR_1)
+Omega <- solve(Sigma_MA_1)
 
 C <- t(chol(Sigma_MA_1))
 D <- diag(diag(C))
@@ -248,7 +248,8 @@ lambdas <- expand.grid(lam_l=exp(seq(-2,7,length.out=15)),
 ma_1_coef_list <- list.zip(lam_l=lambdas$lam_m,
                            lam_m=lambdas$lam_l) %>%
       lapply(.,function(l){
-            try(            fit_cholesky_PS(y_vec,U.,Pl,l$lam_l,
+            try(            fit_cholesky_PS(y,U.,D=diag(diag(C)),
+                                            Pl,l$lam_l,
                                             Pm,l$lam_m,
                                             0.12)    
             )
