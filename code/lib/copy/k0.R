@@ -1,4 +1,0 @@
-
-k0 <- function(x){
-      return(rep(1,length(x)))
-}		
