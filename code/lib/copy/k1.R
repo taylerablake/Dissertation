@@ -1,0 +1,4 @@
+
+k1 <- function(x){
+      return(x-0.5)
+}
