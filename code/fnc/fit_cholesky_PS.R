@@ -36,11 +36,14 @@ fit_cholesky_PS <- function(Y,
             mu <- eta
             h.prime <- 1
             #w <- rep(1, length(y_vec))
-            w <- rep(1/diag(D)[-1]^2,N.subjects)
-            u <- (y_vec - mu)/h.prime + eta
+            w <- c(rep(0,length(y_aug)),
+                   rep(1/diag(D)[-1]^2,N.subjects))
+            u <- (yVec - mu)/h.prime + eta
             
             startTS <- Sys.time()
-            f <- lsfit(rbind(U,Pen), c(u, nix), wt = c(w, nix + 1) *c(w, nix + 1), intercept = F)
+            f <- lsfit(rbind(U,Pen), c(u, nix), 
+                       wt = c(w, nix + 1) *c(w, nix + 1),
+                       intercept = F)
             endTS <- Sys.time()
             endTS-startTS
             
@@ -59,7 +62,7 @@ fit_cholesky_PS <- function(Y,
             ))
       }      
       
-      H <- hat(f$qr, intercept = F)[1:(m-1)]
+      H <- hat(f$qr, intercept = F)[1:(M-1)]
       trace <- eff.dim <- sum(H)
 
       list(coef=f$coefficients,
