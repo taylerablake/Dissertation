@@ -1,6 +1,7 @@
 
 
 fit_cholesky_PS <- function(Y,
+                            y_aug,
                             U,
                             D,
                             P_l,
@@ -34,7 +35,7 @@ fit_cholesky_PS <- function(Y,
             mu <- eta
             h.prime <- 1
             #w <- rep(1, length(y_vec))
-            w <- rep(diag(D)[-1],N.subjects)
+            w <- rep(1/diag(D)[-1],N.subjects)
             u <- (y_vec - mu)/h.prime + eta
             
             startTS <- Sys.time()

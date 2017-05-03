@@ -1,4 +1,4 @@
-bsplbase<- function(x, bpars, outer.okay){
+bsplbase<- function(x, bpars, outer.okay=TRUE){
       # Compute a B-spline basis
       # Input:
       #   x: abcissae
@@ -11,7 +11,6 @@ bsplbase<- function(x, bpars, outer.okay){
       dx <- (bpars[2] - bpars[1])/bpars[3]
       knots <- seq(bpars[1] - bpars[4] * dx, bpars[2] + bpars[4] * dx, by = 
                          dx)
-      base <- as.matrix(spline.des(knots, x, bpars[4] + 1, 0 * x)$design,
-                        outer.ok=outer.okay)
+      base <- as.matrix(spline.des(knots, x, bpars[4] + 1, 0 * x,outer.ok=outer.okay)$design)
       list(base=base, knots=knots)
 }
