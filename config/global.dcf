@@ -4,7 +4,7 @@ cache_loading: TRUE
 recursive_loading:TRUE
 munging: TRUE
 load_libraries: TRUE
-libraries: magrittr, plyr, dplyr, splines, rlist, doParallel
+libraries: magrittr, plyr, dplyr, splines, rlist, doParallel, lattice, MASS
 as_factors: FALSE
 data_tables: FALSE
 attach_internal_libraries: FALSE
