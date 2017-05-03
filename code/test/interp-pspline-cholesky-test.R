@@ -15,6 +15,21 @@ for (helper.file in list.files(file.path(getwd(),"lib"))) {
 }
 
 
+cl <- makeCluster(detectCores()-3)
+registerDoParallel(cl)
+clusterCall(cl,function() {
+  .libPaths("~/Rlibs/lib")
+  library(doBy)
+  library(lattice)
+  library(MASS)
+  library(magrittr)
+  library(rlist)
+  library(plyr)
+  library(stringr)
+  library(dplyr)
+  library(doParallel)
+})
+
 N <- 100
 M <- 20
 grid <- expand.grid(s=(1:M),t=(1:M)) %>%
@@ -60,8 +75,6 @@ for (i in 2:10) {
 
 
 
-
-
 X <- matrix(data=0,nrow=N*(M-1),ncol=choose(M,2))
 no.skip <- 0
 for (t in 2:M){
@@ -70,9 +83,8 @@ for (t in 2:M){
 }
 
 
-
-bPars <- rbind(c(0,1,length(unique(grid$l))-3,3,100,3),
-               c(0,1,length(unique(grid$m))-3,3,100,3))
+bPars <- rbind(c(0,1,length(unique(grid$l)),3,100,3),
+               c(0,1,length(unique(grid$m)),3,100,3))
 
 
 Bl <- bsplbase(as.vector(c(rep(0,M-1),grid$l)/max(grid$l)),
@@ -192,13 +204,27 @@ lambdas <- expand.grid(lam_l=exp(seq(-1,5.3,length.out=20)),
                        lam_m=exp(seq(-1,5.3,length.out=20)))
 
 
+y_aug <- c(rep(1,M-1))
+X_aug <- rbind(cbind(diag(M-1),
+                     matrix(0,nrow=M-1,
+                            ncol=(nrow(B.)-(M-1)))),
+               cbind(matrix(0,nrow=nrow(X),
+                            ncol=(nrow(B.)-ncol(X))),
+                     X)) 
+U. <- X_aug%*%B.
+
+
+
+
 clusterExport(cl,c("grid",
                    "bsplbase",
                    "fit_cholesky_PS",
                    "Sigma",
                    "N",
-                   "m",
                    "M",
+                   "y",
+                   "y_vec",
+                   "y_aug",
                    "Bl",
                    "Bm",
                    "B.",
@@ -206,60 +232,28 @@ clusterExport(cl,c("grid",
                    "Pm",
                    "lambdas",
                    "dl",
-                   "dm"))
+                   "dm",
+                   "U.",
+                   "Pl",
+                   "Pm"))
 
-nsim <- 50
-startTS <- Sys.time()
-PS_fit_sim <- foreach(icount(nsim),.noexport = c("y",
-                                                 "y_vec",
-                                                 "X",
-                                                 "U.")) %dopar% {
-                                                       y <- mvrnorm(n=N,
-                                                                    mu=rep(0,M),
-                                                                    Sigma=Sigma)
-                                                       y_vec <- as.vector(t(y[,-1]))
-                                                       y_aug <- c(rep(1,M-1),
-                                                                  y_vec)
-                                                       
-                                                       
-                                                       
-                                                       X <- matrix(data=0,nrow=N*(M-1),ncol=choose(M,2))
-                                                       no.skip <- 0
-                                                       for (t in 2:M){
-                                                             X[((0:(N-1))*(M-1)) + t-1,(no.skip+1):(no.skip+t-1)] <- y[,1:(t-1)]
-                                                             no.skip <- no.skip + t - 1
-                                                       }
-                                                       X_aug <- rbind(cbind(diag(M-1),
-                                                                            matrix(0,nrow=M-1,
-                                                                                   ncol=(nrow(B.)-(M-1)))),
-                                                                      cbind(matrix(0,nrow=nrow(X),
-                                                                                   ncol=(nrow(B.)-ncol(X))),
-                                                                            X)) 
-                                                       
-                                                       
-                                                       U. <- X_aug%*%B.
-                                                       fit_list <- list.zip(lam_l=lambdas$lam_m,
-                                                                            lam_m=lambdas$lam_l) %>%
-                                                             lapply(.,function(l){
-                                                                   fit_cholesky_PS(y,
-                                                                                   y_aug=rep(1,M-1),
-                                                                                   U.,
-                                                                                   D=diag(rep(0.1,M)),
-                                                                                   Pl,l$lam_l,
-                                                                                   Pm,l$lam_m,
-                                                                                   0.0000001)    
-                                                             })
-                                                       
-                                                       
-                                                       for(i in 1:length(fit_list)){
-                                                             fit_list[[i]]$lam_l <- lambdas$lam_l[i]
-                                                             fit_list[[i]]$lam_m <- lambdas$lam_m[i]
-                                                       }
-                                                       fit_list
-                                                       
-                                                 }
-endTS <- Sys.time()
-endTS-startTS
+fit_list <- foreach(lambda_pair=iter(lambdas,by="row")) %dopar% {
+      fit_cholesky_PS(y,
+                      y_aug=rep(1,M-1),
+                      U.,
+                      D=diag(rep(0.1,M)),
+                      Pl,
+                      lambda_pair$lam_l,
+                      Pm,
+                      lambda_pair$lam_m,
+                      0.0000001)    
+    }
+  
+  
+  for(i in 1:length(fit_list)){
+    fit_list[[i]]$lam_l <- lambdas$lam_l[i]
+    fit_list[[i]]$lam_m <- lambdas$lam_m[i]
+  }
 
 
 
