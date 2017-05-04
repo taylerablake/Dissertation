@@ -41,26 +41,28 @@ grid <- expand.grid(s=(1:M),t=(1:M)) %>%
 T_mod <- diag(M)
 for (this_t in 2:nrow(T_mod)) {
       for (this_s in 1:(this_t-1)) {
-            T_mod[this_t,this_s] <- -0.9*((M-(this_t-this_s)+1)/(4*M))    
+            T_mod[this_t,this_s] <- 0.95*((M-(this_t-this_s)+1)/(M))    
       }
 }
 
-wireframe(diag(M)-T_mod)
+wireframe(T_mod,
+          scales=list(arrows=FALSE))
 L_mod <- solve(T_mod)
 
-D <- diag(rep(0.1,N*(M-1)))
+D <- diag(rep(0.01,N*(M-1)))
 #D <- diag(rep(seq(0.1,0.01,length.out=M)[-1],N))
-Sigma <- L_mod %*%(diag(rep(0.1,M))^2) %*% t(L_mod)
+Sigma <- L_mod %*%(diag(rep(0.01,M))^2) %*% t(L_mod)
 
 
 y <- mvrnorm(n=N,mu=rep(0,M),Sigma=Sigma)
 y_vec <- as.vector(t(y[,-1]))
-
+matplot(t(y),type="l")
 
 heatColors <- heat.colors(20)
-plot(y[,19],y[,20],col=heatColors[1],
+plot(y[,18],y[,20],col=heatColors[1],
      xlab=expression(y[i]),
-     ylab=expression(y[20]))
+     ylab=expression(y[20]),
+     ylim=c())
 for (i in 2:15) {
       points(y[,20-i],y[,20],col=heatColors[i])      
 }
@@ -297,9 +299,15 @@ my_title <- c(as.expression(bquote(lambda[l] == .(laml))), as.expression(bquote(
 wireframe(phi,
           scales = list(arrows = FALSE),
           par.settings = list(axis.line = list(col = "transparent")),
-          main=my_title)
+          main=my_title,zlim=c(-0.5,1.2))
 
 i <- i+1
+
+
+
+
+
+
 
 
 
