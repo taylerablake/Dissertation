@@ -13,9 +13,12 @@ fit_cholesky_PS <- function(Y,
       
       yVec <- as.vector(c(y_aug,
                         t(Y[,-1])))
+    
+      
       Pen <- rbind(lambda_l*P_l,
                    lambda_m*P_m,
                    lambda_ridge*diag(ncol(P_l)))
+      
       n.col <- ncol(U)
       nix <- rep(0,nrow(Pen))
       
