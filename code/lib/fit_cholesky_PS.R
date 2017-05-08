@@ -6,7 +6,8 @@ fit_cholesky_PS <- function(Y,
                             lambda_l,
                             P_m,
                             lambda_m,
-                            lambda_ridge){
+                            lambda_ridge,
+                            P_l_shape, lambda_l_shape){
   N.subjects <- nrow(Y)
   if (!is.null(y_aug)) {
     yVec <- as.vector(c(y_aug,
@@ -17,8 +18,14 @@ fit_cholesky_PS <- function(Y,
     yVec <- as.vector(t(Y[,-1]))
   }
   Pen <- rbind(lambda_l*P_l,
-               lambda_m*P_m,
-               lambda_ridge*diag(ncol(P_l)))
+               lambda_m*P_m)
+  if (lambda_ridge > 0) {
+    Pen <- rbind(Pen,lambda_ridge*diag(ncol(P_l)))
+  }
+
+  if (lambda_l_shape > 0) {
+    Pen <- rbind(Pen,lambda_l_shape*P_l_shape)
+  }
   n.col <- ncol(U)
   nix <- rep(0,nrow(Pen))
   
@@ -38,9 +45,15 @@ fit_cholesky_PS <- function(Y,
     
     mu <- eta
     h.prime <- 1
-    #w <- rep(1, length(y_vec))
-    w <- c(rep(0,length(y_aug)),
-           rep(1/diag(D)[-1]^2,N.subjects))
+    if (is.null(y_aug)) {
+      w <- rep(1, length(yVec))
+    }
+        
+    if (!is.null(y_aug)) {
+      w <- c(rep(0,length(y_aug)),
+             rep(1/diag(D)[-1]^2,N.subjects))      
+    }
+
     u <- (yVec - mu)/h.prime + eta
     
     startTS <- Sys.time()
