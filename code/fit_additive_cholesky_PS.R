@@ -246,23 +246,24 @@ lambdas <- expand.grid(lam_l1=exp(seq(-2,2,length.out=10)),
                        lam_m2=exp(seq(-2,2,length.out=10)))
 fit_list <- foreach(lambda_pair=iter(lambdas,by="row")) %dopar% {
   
-  Pen <- rbind(cbind(rep(0,nrow(Dl)),
+  Pen <- rbind(## P1 ####################################################
+               cbind(rep(0,nrow(Dl)),
                      lambda_pair$lam_l1*Dl,
                      matrix(data=0,nrow=nrow(Dl),
                             ncol=((2*ncol(Dm))+ncol(Dl)))),
-               ######################################################
+               ## P2 ####################################################
                cbind(rep(0,nrow(Dl)),
                      matrix(data=0,nrow=nrow(Dm),
                             ncol=ncol(Dl)),
                      lambda_pair$lam_m1*Dm,
                      matrix(data=0,nrow=nrow(Dm),ncol=ncol(Dl)+ncol(Dm))),
-               ######################################################
+               ## P3 ####################################################
                cbind(rep(0,nrow(Dl)),
                      matrix(data=0,nrow=nrow(Dm),
                             ncol=ncol(Dl)+ncol(Dm)),
                      lambda_pair$lam_l2*Dl,
                      matrix(data=0,nrow=nrow(Dm),ncol=ncol(Dm))),
-               ######################################################
+               ## P4 ####################################################
                cbind(rep(0,nrow(Dl)),
                      matrix(data=0,nrow=nrow(Dm),
                             ncol=((2*ncol(Dl))+ncol(Dm))),
@@ -311,4 +312,138 @@ wireframe(phi_list[[i]],
           main=my_title)
 i <- i+1
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+B1 <- Bl 
+B2 <- Bm
+B3 <- grid$m/max(grid$m)*Bl
+B4 <- ((grid$m/max(grid$m))^2)*Bl
+B5 <- grid$l/max(grid$l)*Bm
+B6 <- ((grid$l/max(grid$l))^2)*Bm
+
+B <- cbind(as.vector(rep(1,nrow(Bl))),
+           B1,B2,B3,B4,B5,B6)
+U <- X %*% B
+
+
+
+
+clusterExport(cl,c("grid",
+                   "bsplbase",
+                   "fit_cholesky_PS",
+                   "Sigma",
+                   "N",
+                   "M",
+                   "y",
+                   "y_vec",
+                   "y_aug",
+                   "Bl",
+                   "Bm",
+                   "B.",
+                   "Pl",
+                   "Pm",
+                   "lambdas",
+                   "dl",
+                   "dm",
+                   "U.",
+                   "Pl",
+                   "Pm"))
+
+lambdas <- expand.grid(lam_l1=exp(seq(-2,2,length.out=10)),
+                       lam_m1=exp(seq(-2,2,length.out=10)),
+                       lam_l2=exp(seq(-2,2,length.out=10)),
+                       lam_m2=exp(seq(-2,2,length.out=10)))
+fit_list <- foreach(lambda_pair=iter(lambdas,by="row")) %dopar% {
+  
+  Pen <- rbind(## P1 ####################################################
+               cbind(rep(0,nrow(Dl)),
+                     lambda_pair$lam_l1*Dl,
+                     matrix(data=0,nrow=nrow(Dl),
+                            ncol=((2*ncol(Dm))+ncol(Dl)))),
+               ## P2 ####################################################
+               cbind(rep(0,nrow(Dl)),
+                     matrix(data=0,nrow=nrow(Dm),
+                            ncol=ncol(Dl)),
+                     lambda_pair$lam_m1*Dm,
+                     matrix(data=0,nrow=nrow(Dm),ncol=ncol(Dl)+ncol(Dm))),
+               ## P3 ####################################################
+               cbind(rep(0,nrow(Dl)),
+                     matrix(data=0,nrow=nrow(Dm),
+                            ncol=ncol(Dl)+ncol(Dm)),
+                     lambda_pair$lam_l2*Dl,
+                     matrix(data=0,nrow=nrow(Dm),ncol=ncol(Dm))),
+               ## P4 ####################################################
+               cbind(rep(0,nrow(Dl)),
+                     matrix(data=0,nrow=nrow(Dm),
+                            ncol=((2*ncol(Dl))+ncol(Dm))),
+                     lambda_pair$lam_m2*Dm))
+  
+  
+  Pen <- rbind(Pen,
+               ridge.adj*cbind(rep(0,2*(nl+nm)),diag(2*(nl+nm))))
+  
+  nix <- as.vector(rep(0,nrow(Pen)))
+  w_aug <- as.vector(c(1/diag(D),rep(1,nrow(Pen))))
+  y_aug <-  as.vector(c(as.vector(t(y[,-1])),rep(0,nrow(Pen)))) 
+  
+  fit <- lsfit(rbind(U,Pen), y_aug,
+               wt = w_aug, intercept = F)
+  fit
+}
+
+
+
+
+
+
+phi_list <- lapply(fit_list,function(l) {
+  phi <- diag(M)
+  phi[lower.tri(phi)] <- B %*% l$coefficients
+  phi
+})
+i <- 1
+
+
+laml1 <- round(lambdas$lam_l1[i],2)
+lamm1 <- round(lambdas$lam_m1[i],2)
+laml2 <- round(lambdas$lam_l2[i],2)
+lamm2 <- round(lambdas$lam_m2[i],2)
+my_title <- c(as.expression(bquote(lambda[l1] == .(laml1))),
+              as.expression(bquote(lambda[m1] == .(lamm1))),
+              as.expression(bquote(lambda[l2] == .(laml2))),
+              as.expression(bquote(lambda[m2] == .(lamm2))))
+wireframe(phi_list[[i]],
+          scales = list(arrows = FALSE),
+          xlab="",
+          ylab="",
+          bty="n",
+          zlab=expression(phi),
+          main=my_title)
+i <- i+1
 
