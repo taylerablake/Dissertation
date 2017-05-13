@@ -9,6 +9,7 @@ build_grid <- function(m) {
      subset(.,t>s) %>%
      transform(.,l=t-s,
                m=0.5*(t+s))
+   obs_grid
 }
 
 
