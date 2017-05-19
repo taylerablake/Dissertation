@@ -121,12 +121,26 @@ build_bd_pen <- function (lambda_list,
     }
   }  
   
-  cumsum(unlist(lapply(Pen_list,ncol)))[-1]
+  ncol_blkdiag_Pen <- lapply(B_list,ncol) %>% unlist %>% sum %>% add(1)
+  col_to_skip <- c(0,cumsum(unlist(lapply(Pen_list,ncol))))
   
-  P1 <- cbind(lambda1*D1, matrix(data=0, 
-                                 nrow=nrow(D1),
-                                 ncol=))
-  Pen <- rbind(## P1 ####################################################
+  big_Pen <- NULL
+  for(blk in 1:length(Pen_list)) {
+    if (!is.list(Pen_list[[i]])){
+      big_Pen <- rbind(big_Pen,
+                       cbind(matrix(data=0,
+                                    nrow=nrow(Pen_list[[i]]),
+                                    ncol=ncol_blkdiag_Pen-col_to_skip[i]-ncol(Pen_list[[i]])),
+                             Pen_list[[i]],
+                             matrix(data=0,
+                                    nrow=nrow(Pen_list[[i]]),
+                                    ncol=ncol_blkdiag_Pen-col_to_skip[i]-ncol(Pen_list[[i]]))))  
+    }
+  }
+  big_Pen <- cbind(rep(0,nrow(big_Pen)),big_Pen)
+
+  
+    Pen <- rbind(## P1 ####################################################
                cbind(rep(0,nrow(Dl)),
                      lambda_pair$lam_l1*Dl,
                      matrix(data=0,nrow=nrow(Dl),
