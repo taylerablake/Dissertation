@@ -179,9 +179,9 @@ D1 <- diff(diag(ncol(Bl)),
 D2 <- diff(diag(ncol(Bm)),
            differences=dm)
 lambda_l <- 8
-lambda_m <- 9
-lambda_l2 <- 9
-lambda_m2 <- 9
+lambda_m <- 8
+lambda_l2 <- 8
+lambda_m2 <- 8
 Pen <- NULL
 Pen <- rbind(Pen,cbind(lambda_l*D1,
                        matrix(data=0,
@@ -223,8 +223,24 @@ wireframe(phi,
           ylab="",
           zlab=expression(phi),
           main=my_title,
+          zlim=c(-0.3,1),
+          screen = list(x = 90, y = -70))
+
+
+wireframe(t(phi),
+          scales = list(arrows = FALSE),
+          xlab="",
+          ylab="",
+          zlab=expression(phi),
+          main=my_title,
           zlim=c(-0.3,1))
 
 
 
+
+
+Bl <- bsplbase(as.vector(grid$l)/max(grid$l),
+               bPars[1,],outer.okay = TRUE)$base
+Bm <- bsplbase(grid$m/max(grid$m),
+               bPars[2,],outer.okay = TRUE)$base
 
